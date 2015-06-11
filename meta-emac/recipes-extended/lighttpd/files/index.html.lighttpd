@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<script>
+	var version = "5.0";
+
+</script>
+<style>
+
+body 
+{
+  	margin: 0 auto;
+  	width: 940px;
+  	position: relative;
+   	background-color: #D8D8D8
+}
+
+#NavBar
+{
+	display: inline-block;
+    text-align: center;
+    list-style-type: none;
+    margin: 0 auto;
+    width: 940px;
+    position: relative;
+    padding: 0;
+
+}
+
+#NavBar ul 
+{
+    display: inline-block;
+    text-align: center;
+    list-style-type: none;
+    margin: 0 auto;
+    width: 940px;
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+}
+
+li 
+{
+    display: inline-block;
+    text-align: center;
+    float: center;
+    padding: 0;
+}
+
+#NavBar a:link, #NavBar a:visited 
+{
+    display: block;
+    width: 224px;
+    font-weight: bold;
+    color: #FFFFFF;
+    background-color: #44661f;
+    text-align: center;
+    padding: 4px;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+#NavBar a:hover, #NavBar a:active 
+{
+    background-color: #7A991A;
+}
+
+table,th,td
+{
+	border: 1px solid green;
+}
+
+th
+{
+	text-align: center;
+	background-color: green;
+	color: white;
+}
+
+.Left 
+{
+	text-align: left;
+}
+
+.Center
+{
+	text-align: center;
+}
+
+.Font
+{
+	font-family: arial;
+	font-size: 20px;
+	color: black;
+}
+
+._Font
+{
+	font-family: arial;
+	font-size: 16px;
+	color: black;
+}
+
+
+.Header
+{
+	font-family: arial;
+	color: #44661f;
+}
+
+.Link
+{
+	text-decoration: none;
+}
+
+.Footer
+{
+	text-align: right; 
+	color: black; 
+	position: fixed; 
+	bottom: 0px; 
+	height: 30px; 
+	width: 940px;
+}
+
+.Caption
+{
+  font-family: arial;
+  color: black;
+}
+
+h1 { text-align: center; color: #44661f;}
+h2 { text-align: left; color: #44661f;}
+</style>
+
+<title>Welcome to EMAC Embedded Linux 5.0</title>
+</head>
+
+<body link="blue" alink="#44661f" vlink="#1f1e80">
+
+<h1 class="Center Header">Welcome to EMAC Embedded Linux 5.0</h1>
+
+<img src="images/EMAC_LOGO.png" alt="EMAC Logo">
+
+<ul id="NavBar">
+  <li><a href="index.html">Home</a></li>
+  <li><a href="arm.html">ARM Boards</a></li>
+  <li><a href="x86.html">x86 Boards</a></li>
+  <li><a href="about.html">About</a></li>
+</ul>
+
+<hr>
+
+<table align=center class="Center" style="width:300px">
+<caption class="Caption"><b>Default Login Credentials</b></caption>
+<tr>
+  <th>Username</th>
+  <th>Password</th>   
+</tr>
+<tr>
+  <td>root</td>
+  <td>emac_inc</td>   
+</tr>
+</table>
+
+<h2 class="Header">Getting Started</h2>
+
+<p class="Left _Font">Serial Connection: <a href="http://wiki.emacinc.com/wiki/Serial_Connections" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">System Log In: <a href="http://wiki.emacinc.com/wiki/System_Log_In" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">Network Connection: <a href="http://wiki.emacinc.com/wiki/Network_Connections" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">Network Configuration: <a href="http://wiki.emacinc.com/wiki/Network_Configuration" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">Linux Filesystem Organization: <a href="http://wiki.emacinc.com/wiki/Linux_Filesystem_Organization" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">Linux FAQ: <a href="http://wiki.emacinc.com/wiki/Linux_FAQ" class="Link" target="_blank"> Link</a></p>
+
+<h2 class="Header">Guiding Information</h2>
+
+<p class="Left _Font">EMAC recommends you change the root password after your first login: <a href="http://wiki.emacinc.com/wiki/User_Account_Configuration" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">This guide provides some background information, and even some history of Linux: <a href="http://wiki.emacinc.com/wiki/Getting_Started_with_Linux" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">Getting familiar with EMAC Embedded Linux Development: <a href="http://wiki.emacinc.com/wiki/Getting_Started_with_EMAC_Embedded_Linux_Development" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">This page is a quick reference for working with EMAC OE Linux: <a href="http://wiki.emacinc.com/wiki/Quick_Reference" class="Link" target="_blank"> Link</a></p>
+
+<h2 class="Header">Further Information</h2>
+
+<p class="Left _Font">EMAC, Inc. Wiki Page: <a href="http://wiki.emacinc.com/wiki/Main_Page" class="Link" target="_blank"> Link</a></p>
+
+<p class="Left _Font">General contact information for EMAC, Inc: <a href="http://www.emacinc.com/contact-info" class="Link" target="_blank"> Link</a></p>
+
+<footer class="Footer">Copyright 2014, &copy EMAC, Inc. All rights reserved</footer>
+
+</body>
+</html>

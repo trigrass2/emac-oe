@@ -1,0 +1,56 @@
+# /etc/profile: system-wide .profile file for the Bourne shell (sh(1))
+# and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+
+PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+EDITOR="/bin/vi"			# needed for packages like cron
+TERM="linux"
+
+if [ ! -e /etc/localtime ]; then
+	TZ="UTC"		# Time Zone. Look at http://theory.uwinnipeg.ca/gnu/glibc/libc_303.html 
+				# for an explanation of how to set this to your local timezone.
+	export TZ
+fi
+
+if [ "$PS1" ]; then
+
+   if [ $UID = '0' ]
+   then
+	   PS1='\[\e[00;31m\]\u\[\e[01;37m\]@\[\e[0m\e[00;36m\]\h\[\e[01;24;37m\]:\[\e[01;36m\]\w\[\e[01;33m\]\$\[\e[0m\] '
+   else
+	   PS1='\[\e[01;34m\]\u\[\e[01;37m\]@\[\e[0m\e[00;36m\]\h\[\e[01;24;37m\]:\[\e[01;36m\]\w\[\e[01;33m\]\$\[\e[0m\] '
+   fi
+
+fi
+
+if [ -d /etc/profile.d ]; then
+  for i in /etc/profile.d/* ; do
+    . $i
+  done
+  unset i
+fi
+
+export PATH PS1 OPIEDIR QPEDIR QTDIR EDITOR TERM
+
+umask 022
+
+TERMINAL=$(tty)
+if [ ${TERMINAL:5:3} == pts ]
+then
+        cat /etc/issue.net      
+fi
+
+if [ ${TERMINAL:5:4} == ttyS ] || [ ${TERMINAL:5:4} == ttyO ]
+then
+        resize > /dev/null
+fi
+
+alias minicom='minicom -con'
+
+if [[ ! ${TERMINAL:8:1} == [1-9] ]]
+then
+	alias nano='TERM=vt102 nano'
+	alias rnano='TERM=vt102 rnano'
+	alias htop='TERM=xterm htop'
+	alias vi='TERM=xterm vi'
+	alias vim='TERM=xterm vim'
+fi

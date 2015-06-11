@@ -1,0 +1,21 @@
+boot=/dev/sdd
+map=/boot/map
+
+lba32
+disk=/dev/sdd
+bios=0x80
+read-only
+prompt
+timeout=25
+vga=normal
+install=text
+compact
+#This is for lilo serial console (ttyS0,9600,8,n,1):
+#serial=0,9600n8
+
+image=/boot/bzImage
+	root=/dev/sda1
+	label=emac-oe
+	#This is for boot message serial console (ttyS0):
+	append="console=ttyS0,115200 quiet splash=silent"
+

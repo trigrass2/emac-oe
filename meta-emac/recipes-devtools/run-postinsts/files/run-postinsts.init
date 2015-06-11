@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ ! -w / ]; then
+    mount -o remount,rw /
+    TS_REMOUNT=true
+fi
+
+run-postinsts
+rm /etc/rcS.d/S99postinsts
+
+if [ "$TS_REMOUNT" = true ]; then 
+    mount -o remount,ro / 
+fi

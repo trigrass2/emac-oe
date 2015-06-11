@@ -1,0 +1,62 @@
+diff --git a/src/modules/illume-softkey/e_mod_sft_win.c b/src/modules/illume-softkey/e_mod_sft_win.c
+index 5937d59..d00b4ae 100644
+--- a/src/modules/illume-softkey/e_mod_sft_win.c
++++ b/src/modules/illume-softkey/e_mod_sft_win.c
+@@ -84,7 +84,7 @@ e_mod_sft_win_new(E_Zone *zone)
+    _e_mod_sft_win_create_default_buttons(swin);
+ 
+    /* create default buttons */
+-   _e_mod_sft_win_create_extra_buttons(swin);
++  /* _e_mod_sft_win_create_extra_buttons(swin); */
+ 
+    edje_object_size_min_calc(swin->o_base, &mw, &mh);
+ 
+@@ -270,11 +270,11 @@ _e_mod_sft_win_create_default_buttons(Sft_Win *swin)
+    Evas_Object *btn;
+    int mw, mh;
+ 
+-   /* create back button */
+-   btn = e_widget_button_add(swin->win->evas, _("Back"), "go-previous", 
+-                             _e_mod_sft_win_cb_back, swin, NULL);
++   /* create close button */
++   btn = e_widget_button_add(swin->win->evas, _("Close"), "application-exit", 
++                             _e_mod_sft_win_cb_close, swin, NULL);
+    e_widget_size_min_get(btn, &mw, &mh);
+-   evas_object_size_hint_min_set(btn, (mw * e_scale), (mh * e_scale));
++   evas_object_size_hint_min_set(btn, (mw * e_scale * 1.3), (mh * e_scale * 1.3));
+ 
+    /* NB: this show is required when packing e_widgets into an edje box else
+     * the widgets do not receive any events */
+@@ -286,11 +286,11 @@ _e_mod_sft_win_create_default_buttons(Sft_Win *swin)
+    /* add button to our list */
+    swin->btns = eina_list_append(swin->btns, btn);
+ 
+-   /* create forward button */
+-   btn = e_widget_button_add(swin->win->evas, _("Forward"), "go-next", 
+-                             _e_mod_sft_win_cb_forward, swin, NULL);
++   /* create back button */
++   btn = e_widget_button_add(swin->win->evas, _("Back"), "go-previous", 
++                             _e_mod_sft_win_cb_back, swin, NULL);
+    e_widget_size_min_get(btn, &mw, &mh);
+-   evas_object_size_hint_min_set(btn, (mw * e_scale), (mh * e_scale));
++   evas_object_size_hint_min_set(btn, (mw * e_scale * 1.3), (mh * e_scale * 1.3));
+ 
+    /* NB: this show is required when packing e_widgets into an edje box else
+     * the widgets do not receive any events */
+@@ -301,11 +301,12 @@ _e_mod_sft_win_create_default_buttons(Sft_Win *swin)
+ 
+    /* add button to our list */
+    swin->btns = eina_list_append(swin->btns, btn);
+-   /* create close button */
+-   btn = e_widget_button_add(swin->win->evas, _("Close"), "application-exit", 
+-                             _e_mod_sft_win_cb_close, swin, NULL);
++
++   /* create forward button */
++   btn = e_widget_button_add(swin->win->evas, _("Forward"), "go-next", 
++                             _e_mod_sft_win_cb_forward, swin, NULL);
+    e_widget_size_min_get(btn, &mw, &mh);
+-   evas_object_size_hint_min_set(btn, (mw * e_scale), (mh * e_scale));
++   evas_object_size_hint_min_set(btn, (mw * e_scale * 1.3), (mh * e_scale * 1.3));
+ 
+    /* NB: this show is required when packing e_widgets into an edje box else
+     * the widgets do not receive any events */

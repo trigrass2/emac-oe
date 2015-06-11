@@ -1,0 +1,51 @@
+OpenEmbedded/Yocto BSP layer for EMAC Inc.
+===================================================
+
+This layer provides support for standard EMAC Inc. Products for use
+with OpenEmbedded/Yocto.
+
+This layer depends on:
+
+URI: git://git.yoctoproject.org/poky
+layers: meta
+branch: master
+
+
+URI: git://git.openembedded.org/meta-openembedded
+layers: meta-oe meta-networking meta-python meta-efl meta-multimedia meta-gnome 
+branch: master
+
+
+===== EMAC OE Workflow =====
+
+To build an EMAC OE filesystem, there are three basic steps:
+  
+  - Prepare the build environment
+    create a subdirectory called recipes and change into it
+  $ mkdir recipes && cd recipes
+
+  - Download the openembedded-core,meta-openembedded and EMAC meta data:
+  recipes/$ git clone git://git.yoctoproject.org/poky
+  recipes/$ git clone git://git.openembedded.org/meta-openembedded
+  recipes/$ git clone git://git.emacinc.com/projects/OE/emac-oe
+
+  - Copy the oe-init-build-env script from the emac directory to one level above recipes/:
+  recipes/$ cp emac/oe-init-build-env ../ && cd ../
+
+  - Initialize the build environment using the oe-init-build-env script, then select a machine to build for. The example below assumes that a standard EMAC image is to be built: 
+  $ source ./oe-init-build-env
+  $ bitbake emac-image
+ 
+For more information, visit our wiki at http://wiki.emacinc.com/
+
+===== Overview of EMAC OE Layers =====
+
+====== meta-emac ======
+
+This is the location for EMAC's customization of the Yocto OpenEmbedded distribution. 
+
+It contains the distro layer that extends recipes found in other distribution layers such as yocto (aka: poky).
+
+==== meta-emac-bsp ====
+
+This layer will define EMAC's "board support package" layers which will provide SoM-specific functionality.

@@ -1,0 +1,2 @@
+#Enable alsa
+PACKAGECONFIG = "alsa"

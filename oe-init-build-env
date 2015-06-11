@@ -1,0 +1,209 @@
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# This script is essentially a modified version of poky's script by the same
+# name.
+#
+
+if [ -z "$ZSH_NAME" ] && [ "x$0" = "x./oe-init-build-env" ]; then
+	echo "Error: This script needs to be sourced. Please run as '. ./oe-init-build-env'"
+	exit 0
+fi
+
+#Set where everything is
+OE="`pwd`"
+BUILDDIR="$OE/build"
+BBROOT="$OE/recipes/poky"
+TEMPLATECONF="recipes/emac-oe/meta-emac/conf"
+MACHINECONF="recipes/emac-oe/meta-emac-bsp/conf/machine"
+CUSTOMMACHINECONF="recipes/emac-custom/*/conf/machine"
+PATH="$BBROOT/scripts:$BBROOT/bitbake/bin/:$PATH"
+
+export PATH
+
+# get the list of machines and wait for a selection
+getlist() {
+
+    if [ -z $1 ]
+    then
+        list=$(ls -I carriers --ignore="*.conf" $MACHINECONF)
+        if  [[ $(find $CUSTOMMACHINECONF/*.conf 2>/dev/null) > 0 ]]
+        then
+            list="$list custom"
+        fi
+    else
+        if [ -d $MACHINECONF/$1 ] && [[ $(ls $MACHINECONF/$1/*.conf 2>/dev/null) ]]
+        then
+            list=$(ls $MACHINECONF/$1/*.conf)
+            custom=0
+        elif [[ $(find $CUSTOMMACHINECONF/*.conf 2>/dev/null) > 0 ]]
+        then
+            list=$(find $CUSTOMMACHINECONF/*.conf)
+            custom=1
+        else
+            echo "Directory or .conf file does not exist!"
+            kill -INT $$
+        fi
+    fi
+
+    echo -en "\nEnter a $1 machine number: "
+    echo
+
+    i=1
+    unset mach_type
+    nochoice=true
+    while [ "$nochoice" = "true" ]
+    do
+        for file in $list
+        do
+            newfile="${file/.*}"
+            mach_type[$i]="${newfile##*/}"
+            echo -ne "\t$i: ${mach_type[$i]}"
+            if [ ! -z $1 ] && [ $custom -eq 1 ]
+            then
+                desc=`grep "#@NAME:" $file | cut -d ':' -f2 | xargs`
+                echo -n " ($desc)"
+            fi
+            echo
+            let "i += 1"
+        done
+
+        read selection
+
+        if [ "${mach_type[$selection]}" = "" ]
+        then
+            echo "Your choice was not in the list."
+            echo "Please pick a different selection or press Ctrl-C to exit."
+            echo
+            nochoice=true
+            i=1
+        else
+            nochoice=false
+        fi
+    done
+
+    machine=${mach_type[$selection]}
+}
+
+# Check out the machine type conf files in $MACHINECONF to get a list of 
+# possible machines to build for
+
+getlist
+machdir=$machine
+getlist $machdir
+
+mkdir -p build/conf
+
+if [ $custom -eq 1 ] 
+then
+    fullpath=$(find $CUSTOMMACHINECONF -name $machine.conf)
+    layerdir=$(dirname $(dirname $(dirname $fullpath)))
+    carriers=$(grep "#@CARRIERS:" $fullpath | cut -d ':' -f2 | xargs)
+else
+    fullpath=$MACHINECONF
+    layerdir=$(dirname $(dirname $fullpath))
+    [ ! -h $fullpath/$machine.conf ] && ln -s $machdir/$machine.conf $fullpath/$machine.conf
+    carriers=$(grep "#@CARRIERS:" $fullpath/$machine.conf | cut -d ':' -f2 | xargs)
+fi
+
+#Gather a list of possible carriers from the machine conf
+i=1
+if [ "$carriers" ]
+then
+	nochoice=true
+	while [ "$nochoice" = "true" ]
+	do
+		echo "Enter a carrier:"
+		for car in $carriers
+		do
+			echo -e "\t$i: $car"
+			let "i += 1"
+		done
+
+	        read selection
+
+		if [ "$selection" -ge 1 -a "$selection" -lt "$i" ]
+		then
+			nochoice=false
+			selectedCar=$(echo $carriers | cut -d ' ' -f"$selection")
+		else
+			echo "Your choice was not in the list."
+			echo "Please pick a different selection or press Ctrl-C to exit."
+			echo
+			nochoice=true
+			i=1
+		fi
+	done
+
+	carFile="$fullpath/carriers/$selectedCar.conf"
+	while read line
+	do
+		var=$(echo $line | cut -d ' ' -f1)
+		sed -i -e "s|^$var.*|$line|" $fullpath/$machdir/$machine.conf
+	done < "$carFile"
+fi
+
+
+# Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
+
+OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
+sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
+
+OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
+sed "s|##OEROOT##|$OE|g" $OECORELOCALCONF > $BUILDDIR/conf/local.conf
+echo -e "MACHINE =" \"$machine\" >> $BUILDDIR/conf/local.conf
+[ "$selectedCar" ] && echo -e "CARRIER =" \"$selectedCar\" >> $BUILDDIR/conf/local.conf
+
+echo " "
+
+cat <<EOM
+
+### Shell environment set up for builds. ###
+
+You can now run 'bitbake <target>'
+
+EOM
+
+CUSTOMLAYER="  $OE/$layerdir \\\ "
+sed -i -e 's|^\\|'"${CUSTOMLAYER}"'|' $BUILDDIR/conf/bblayers.conf
+
+OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
+
+if [ $custom -eq 1 ] 
+then
+    echo "Custom images for machine:"
+    images=`find "$layerdir/recipes-core/images" -name *.bb | rev | cut -d '/' -f1 | rev | cut -d '.' -f1`
+    for image in $images
+    do
+        echo -e "\t$image"
+    done
+    echo
+else
+    [ ! -r "$OECORENOTESCONF" ] || cat $OECORENOTESCONF
+fi
+
+grep ^MACHINE $BUILDDIR/conf/local.conf
+grep ^CARRIER $BUILDDIR/conf/local.conf
+
+unset OECORELAYERCONF
+unset OECORELOCALCONF
+unset OEROOT
+unset OE
+unset TEMPLATECONF
+unset MACHINECONF
+unset CUSTOMMACHINECONF
+unset OECORENOTESCONF
+unset custom
+unset selectedCar
+unset machine
+unset fullpath
+
+cd $BUILDDIR

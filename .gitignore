@@ -1,0 +1,2 @@
+*.old
+meta-emac-bsp/conf/machine/*.conf

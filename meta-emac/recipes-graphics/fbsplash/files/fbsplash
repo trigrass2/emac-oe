@@ -1,0 +1,86 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:             fbsplash
+# Required-Start:
+# Required-Stop:
+# Default-Start:        S
+# Default-Stop:
+### END INIT INFO
+
+# EMAC, Inc. Copyright (c) 2014
+# License: GPL
+
+# It is recommended that EMAC customers name their splash image 
+# "splash_image.ppm". 
+# EMAC customers can modify the CUSTOMER_IMAGE variable if they wish to use
+# a file name other than "splash_image.ppm"; note, however, that it must still
+# be a *.ppm image
+
+DAEMON="/sbin/fbsplash"
+NAME="fbsplash"
+IMAGE_BASE="/etc/splash"
+IMAGE="splash_image.ppm"
+CONF_FILE="$IMAGE_BASE/splash.conf"
+TMPDIR="/mnt/.psplash"
+FIFO="$TMPDIR/psplash_fifo"
+CUSTOMER_IMAGE=
+ARGS="-c"
+
+test -f $DAEMON || exit 0
+
+set_image() {
+
+        if [ "$CUSTOMER_IMAGE" != "" ] && [ -f $CUSTOMER_IMAGE ] ;then
+                IMAGE=" -s $CUSTOMER_IMAGE "
+                return 0
+        fi
+
+        IMAGE="$IMAGE_BASE/$IMAGE"
+
+        if [ -f $IMAGE ] ;then
+                IMAGE=" -s $IMAGE "
+                return 0
+        else
+                echo -e "No bootsplash image could be found in $IMAGE "
+                return 1
+        fi
+        return 0
+}
+
+do_start() {
+
+        # turn off the cursor
+        chvt 1
+        echo -e "\033[?25l" >/dev/tty1
+
+        mkdir -p $TMPDIR
+        mount tmpfs -t tmpfs $TMPDIR -o,size=40k
+
+        mkfifo $TMPDIR/psplash_fifo
+
+        if [ -p $FIFO ] && [ -f $CONF_FILE ] ; then
+                ARGS="$ARGS -f $FIFO -i $CONF_FILE"
+        fi
+
+        $DAEMON $ARGS $IMAGE &
+}
+
+[ ! -c /dev/fb0 ] && exit 0
+
+read CMDLINE < /proc/cmdline
+for x in $CMDLINE; do
+        case $x in
+        splash=false)
+                echo "Boot splashscreen disabled" 
+                exit 0;
+                ;;
+        esac
+done
+
+if set_image ;then
+        do_start
+else
+        echo "Failed to load the boot splash image."
+        exit 1
+fi
+

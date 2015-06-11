@@ -1,0 +1,13 @@
+diff --git a/libopkg/opkg_cmd.c b/libopkg/opkg_cmd.c
+index 567dfb1..df69f1c 100644
+--- a/libopkg/opkg_cmd.c
++++ b/libopkg/opkg_cmd.c
+@@ -189,6 +189,8 @@ opkg_update_cmd(int argc, char **argv)
+ 	      err = opkg_download(url, list_file_name, NULL, NULL, 0);
+ 	  if (err) {
+ 	       failures++;
++	       opkg_msg(ERROR, "Not able to update list of packages in %s.\n",
++			    list_file_name);
+ 	  } else {
+ 	       opkg_msg(NOTICE, "Updated list of available packages in %s.\n",
+ 			    list_file_name);
