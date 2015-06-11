@@ -6,7 +6,7 @@ BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 BBLAYERS ?= " \
-  ##OEROOT##/recipes/emac/meta-emac \
+  ##OEROOT##/recipes/emac-oe/meta-emac \
 \
   ##OEROOT##/recipes/poky/meta \
   ##OEROOT##/recipes/meta-openembedded/meta-oe \
