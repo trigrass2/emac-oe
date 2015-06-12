@@ -114,6 +114,15 @@ else
     carriers=$(grep "#@CARRIERS:" $fullpath/$machine.conf | cut -d ':' -f2 | xargs)
 fi
 
+# Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
+
+OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
+sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
+
+OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
+sed "s|##OEROOT##|$OE|g" $OECORELOCALCONF > $BUILDDIR/conf/local.conf
+echo -e "MACHINE =" \"$machine\" >> $BUILDDIR/conf/local.conf
+
 #Gather a list of possible carriers from the machine conf
 i=1
 if [ "$carriers" ]
@@ -144,23 +153,18 @@ then
 	done
 
 	carFile="$fullpath/carriers/$selectedCar.conf"
+	echo -e "CARRIER =" \"$selectedCar\" >> $BUILDDIR/conf/local.conf
 	while read line
 	do
-		var=$(echo $line | cut -d ' ' -f1)
-		sed -i -e "s|^$var.*|$line|" $fullpath/$machdir/$machine.conf
+		#var=$(echo $line | cut -d ' ' -f1)
+		#sed -i -e "s|^$var.*|$line|" $fullpath/$machdir/$machine.conf
+		echo -e $line >> $BUILDDIR/conf/local.conf
 	done < "$carFile"
 fi
 
 
-# Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
 
-OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
-sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
 
-OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
-sed "s|##OEROOT##|$OE|g" $OECORELOCALCONF > $BUILDDIR/conf/local.conf
-echo -e "MACHINE =" \"$machine\" >> $BUILDDIR/conf/local.conf
-[ "$selectedCar" ] && echo -e "CARRIER =" \"$selectedCar\" >> $BUILDDIR/conf/local.conf
 
 echo " "
 
@@ -190,8 +194,8 @@ else
     [ ! -r "$OECORENOTESCONF" ] || cat $OECORENOTESCONF
 fi
 
-grep ^MACHINE $BUILDDIR/conf/local.conf
-grep ^CARRIER $BUILDDIR/conf/local.conf
+grep "^MACHINE " $BUILDDIR/conf/local.conf
+grep "^CARRIER" $BUILDDIR/conf/local.conf
 
 unset OECORELAYERCONF
 unset OECORELOCALCONF
