@@ -19,7 +19,7 @@ def get_layer_version(layer_subdir=None, repo_type="git"):
 
     try:
         from git import (Repo, InvalidGitRepositoryError)
-        repo = Repo(layer_subdir)
+        repo = Repo(layer_subdir,search_parent_directories=True)
         layer_version = repo.commit().hexsha
         for tag in repo.tags:
 	    if tag.commit.hexsha == layer_version:
@@ -45,18 +45,18 @@ fix_rootfs() {
 	echo "version_major=${MAJOR_DISTRO_VERSION}" >> ${VERSION_FILE}
 	echo "version_minor=${MINOR_DISTRO_VERSION}" >> ${VERSION_FILE}
 	echo "version_patch=${PATCH_DISTRO_VERSION}" >> ${VERSION_FILE}
-	echo "version_release=${DISTRO_RELEASE}" >> ${VERSION_FILE}
+	echo "version_release=\"${DISTRO_RELEASE}\"" >> ${VERSION_FILE}
 	echo "version_name=\"${DISTRO_NAME} ${DISTRO_VERSION}\"" >> ${VERSION_FILE}
 	echo  >> ${VERSION_FILE}
-	echo "repository_version=${LAYER_VERSION}" >> ${VERSION_FILE}
+	echo "repository_version=\"${LAYER_VERSION}\"" >> ${VERSION_FILE}
 	echo  >> ${VERSION_FILE}
 	echo "part_number=\"${PART_NUMBER}\"" >> ${VERSION_FILE}
 	echo "extra_pkgs=\"${EXTRA_PKGS}\"" >> ${VERSION_FILE}
-	[ -n ${CARRIER} ] && echo "carrier=\"${CARRIER}\"" >> ${VERSION_FILE}
+	[ -n "${CARRIER}" ] && echo "carrier=\"${CARRIER}\"" >> ${VERSION_FILE}
 
 	sed -i -e "s|^root:.*$|root:4fkNNeH5j4zNk::0:99999:7:::|" ${IMAGE_ROOTFS}${sysconfdir}/shadow
 
-	echo "${DISTRO_NAME} - ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue
+	echo "${DISTRO_NAME} ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue
 	echo "${DISTRO_NAME} - ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue.net
 
 	echo "Copyright (C) "`date +"%Y"`", EMAC Inc.  All rights reserved." >> ${IMAGE_ROOTFS}${sysconfdir}/issue
