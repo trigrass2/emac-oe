@@ -50,7 +50,7 @@ SDKMACHINE ?= "x86_64"
 # We default to enabling the debugging tweaks.
 #EXTRA_IMAGE_FEATURES = "tools-debug tools-testapps"
 
-NO_RECOMMENDATIONS = "1"
+#NO_RECOMMENDATIONS = "1"
 
 # Additional image features
 
