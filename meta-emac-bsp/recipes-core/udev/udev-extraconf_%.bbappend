@@ -2,6 +2,7 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
 SRC_URI_append_som9x25 = "file://keypad.rules"
 SRC_URI_append_somA5D35 = "file://keypad.rules"
+SRC_URI_append_som9g25 = "file://keypad.rules"
 
 do_install_append_som9x25 () {
     install -d ${D}${sysconfdir}/udev/rules.d
