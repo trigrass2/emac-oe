@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
 SECTION = "bootloader"
 DEPENDS = "mtd-utils"
 
-SRCREV = "bb0e2d25d421a96076ebb906a180efaa30e5e44c"
+SRCREV = "91fbeacdf3127422129885eb839c60ab364921a5"
 PV = "v2014.07+git${SRCPV}"
 
 SRC_URI = "git://gitlab.emacinc.com/bootloader/u-boot-at91.git;protocol=http"
