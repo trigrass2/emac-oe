@@ -2,7 +2,11 @@ require emac.inc
 
 DESCRIPTION = "Headless base image from which other EMAC images will be extended."
 
-IMAGE_INSTALL += " \
+IMAGE_INSTALL_append = " \
 	packagegroup-core-boot \
 	packagegroup-emac-core \
+    "
+
+IMAGE_INSTALL_append_arm = " \
+	serial-control \
     "
