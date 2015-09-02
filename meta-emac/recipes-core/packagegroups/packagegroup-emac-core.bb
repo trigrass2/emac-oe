@@ -79,6 +79,7 @@ RDEPENDS_packagegroup-emac-core-sound = "\
     alsa-utils-speakertest \
     alsa-utils-alsaloop \
     alsa-utils-alsactl \
+    alsa-state \
     mpg123 \
     libltdl \
     ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "audio-demos", "", d)} \
