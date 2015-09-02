@@ -64,6 +64,7 @@ RDEPENDS_${PN}-util-debug = "\
     sshpass \
     procps \
     nano \
+    md5deep \
     "
 
 SUMMARY_${PN}-timezone = "EMAC OE TimeZone Files"
