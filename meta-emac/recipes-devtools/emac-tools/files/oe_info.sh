@@ -12,11 +12,11 @@ oeVers=$(cat /etc/version | grep -m1 "version=" | cut -d '"' -f2)
 
 kernVers=$(uname -r | cut -d '_' -f1)
 kernPart=$(uname -r | cut -d '_' -f2 )
-mtdNum=$(cat /proc/mtd | grep spi | cut -d ':' -f1)
 
 if [ -x /usr/sbin/lilo ]; then
         bootVers=$(lilo -V)
 else
+	mtdNum=$(cat /proc/mtd | grep spi | cut -d ':' -f1)
         boot=$(strings /dev/$mtdNum | grep 'U-Boot [0-9]' -m1 | cut -d '(' -f1)
         bootVers=$(echo $boot | cut -d '_' -f1)
         bootPart=$(echo $boot | cut -d '_' -f2)
