@@ -1,6 +1,7 @@
 PREFERRED_PROVIDER_virtual/kernel = "linux-emac-omap"
 PREFERRED_VERSION_linux-emac-omap ?= "4.0%"
-PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
+PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac-omap"
+
 
 PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
 XSERVER = "xserver-xorg \
@@ -18,13 +19,13 @@ XSERVER = "xserver-xorg \
 
 MACHINE_FEATURES += "screen usbhost apm sound serial touch usbgadget can"
 MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
-EXTRA_IMAGEDEPENDS += "u-boot"
+EXTRA_IMAGEDEPENDS += "u-boot-emac-omap"
 
 SERIAL_CONSOLE ?= "115200 ttyO0"
 
 KERNEL_IMAGETYPE ?= "zImage"
 
-UBOOT_ENTRYPOINT ?= "0x82000000"
+UBOOT_ENTRYPOINT ?= "0x80008000"
 UBOOT_MACHINE ?= "am3517_evm_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
