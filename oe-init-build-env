@@ -184,7 +184,7 @@ OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
 if [ $custom -eq 1 ] 
 then
     echo "Custom images for machine:"
-    images=`find "$layerdir/recipes-core/images" -name *.bb | rev | cut -d '/' -f1 | rev | cut -d '.' -f1`
+    images=`ls ${OE}/${layerdir}/recipes-core/images/*.bb | rev | cut -d '/' -f1 | rev | cut -d '.' -f1`
     for image in $images
     do
         echo -e "\t$image"
@@ -195,7 +195,7 @@ else
 fi
 
 grep "^MACHINE " $BUILDDIR/conf/local.conf
-grep "^CARRIER" $BUILDDIR/conf/local.conf
+grep "^CARRIER " $BUILDDIR/conf/local.conf
 
 unset OECORELAYERCONF
 unset OECORELOCALCONF
