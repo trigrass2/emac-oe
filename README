@@ -10,7 +10,6 @@ URI: git://git.yoctoproject.org/poky
 layers: meta
 branch: master
 
-
 URI: git://git.openembedded.org/meta-openembedded
 layers: meta-oe meta-networking meta-python meta-efl meta-multimedia meta-gnome 
 branch: master
@@ -29,12 +28,26 @@ To build an EMAC OE filesystem, there are three basic steps:
   recipes/$ git clone git://git.openembedded.org/meta-openembedded
   recipes/$ git clone git://git.emacinc.com/projects/OE/emac-oe
 
+  - Checkout the appropriate branches of the repositories.
+
+	****EMAC OE 5.0 is based on OpenEmbedded/Yocto fido branch****
+  $ cd poky && git checkout fido && cd ..
+  $ cd meta-openembedded && git checkout fido && cd ..
+  $ cd emac-oe && git checkout 5.0 && cd ..
+
+  - Apply any poky or mete-openembedded patches. Patches to the upstream repositories are located in the emac-oe/patches directory and include instructions on applying.
+
   - Copy the oe-init-build-env script from the emac directory to one level above recipes/:
-  recipes/$ cp emac/oe-init-build-env ../ && cd ../
+  recipes/$ cp emac-oe/oe-init-build-env ../ && cd ../
 
   - Initialize the build environment using the oe-init-build-env script, then select a machine to build for. The example below assumes that a standard EMAC image is to be built: 
   $ source ./oe-init-build-env
-  $ bitbake emac-image
+	Select the target machine category, then select the target machine. Also select the target machine carrier board if required.
+  build/$ bitbake emac-image
+
+	To build a standalone toolchain, select 'sdk' as the target machine category and select either 586 or arm
+  build/$ bitbake meta-toolchain-emac
+
  
 For more information, visit our wiki at http://wiki.emacinc.com/
 
