@@ -27,5 +27,4 @@ UBOOT_ENTRYPOINT ?= "0x70008000"
 UBOOT_MACHINE ?= "som9x25_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
-EXTRA_IMAGECMD_jffs2 ?= "--little-endian --eraseblock=${JFFS2_ERASEBLOCK} --no-cleanmarkers"
 
