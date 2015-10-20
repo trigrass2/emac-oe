@@ -53,6 +53,11 @@ fix_rootfs() {
 	echo "part_number=\"${PART_NUMBER}\"" >> ${VERSION_FILE}
 	echo "extra_pkgs=\"${EXTRA_PKGS}\"" >> ${VERSION_FILE}
 	[ -n "${CARRIER}" ] && echo "carrier=\"${CARRIER}\"" >> ${VERSION_FILE}
+	echo  >> ${VERSION_FILE}
+
+	cat  >> ${VERSION_FILE} <<END
+${@buildhistory_get_metadata_revs(d)}
+END
 
 	sed -i -e "s|^root:.*$|root:4fkNNeH5j4zNk::0:99999:7:::|" ${IMAGE_ROOTFS}${sysconfdir}/shadow
 
