@@ -129,6 +129,9 @@ CONF_VERSION = "1"
 INHERIT += "buildhistory"
 BUILDHISTORY_COMMIT = "1"
 
+#Copy license text to image
+COPY_LIC_MANIFEST = "1"
+
 # This is a list of packages that require a commercial license to ship
 # product. If shipped as part of an image these packages may have
 # implications so they are disabled by default.  To enable them,
