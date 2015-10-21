@@ -9,4 +9,5 @@ RDEPENDS_${PN} += " \
     linux-libc-headers-dev \
     libusb1-dev \
     confuse-dev \
+    xenomai-3-dev \
 "
