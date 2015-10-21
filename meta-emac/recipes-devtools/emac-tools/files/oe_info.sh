@@ -9,17 +9,22 @@ echo
 
 fsPN=$(cat /etc/version | grep "part_number" | cut -d '"' -f2)
 oeVers=$(cat /etc/version | grep -m1 "version=" | cut -d '"' -f2)
+fsRev=$(cat /etc/version | grep "repository" | cut -d '"' -f2)
+fsRev=${fsRev:0:10}
 
 kernVers=$(uname -r | cut -d '_' -f1)
-kernPart=$(uname -r | cut -d '_' -f2 )
+kernPart=$(uname -r | cut -d '_' -f2 | cut -d '+' -f1 )
+kernRev=$(uname -r | cut -d '_' -f2 | cut -d '+' -f2 )
 
 if [ -x /usr/sbin/lilo ]; then
         bootVers=$(lilo -V)
 else
 	mtdNum=$(cat /proc/mtd | grep spi | cut -d ':' -f1)
         boot=$(strings /dev/$mtdNum | grep 'U-Boot [0-9]' -m1 | cut -d '(' -f1)
+	boot=$(fw_printenv ver | cut -d '=' -f2)
         bootVers=$(echo $boot | cut -d '_' -f1)
-        bootPart=$(echo $boot | cut -d '_' -f2)
+        bootPart=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f1)
+	bootRev=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
         bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -A1 -m1 | cut -d '(' -f1)
         serialNum=$(fw_printenv serial#)
 fi
@@ -31,12 +36,15 @@ echo >> /tmp/oe_info
 echo >> /tmp/oe_info
 echo "Bootloader Part# "$bootPart >> /tmp/oe_info
 echo "Bootloader Ver#: "$bootVers >> /tmp/oe_info
+echo "Bootloader Rev: "$bootRev >> /tmp/oe_info
 echo >> /tmp/oe_info
 echo "Kernel Part#: "$kernPart >> /tmp/oe_info
 echo "Kernel Ver#: "$kernVers >> /tmp/oe_info
+echo "Kernel Rev: "$kernRev >> /tmp/oe_info
 echo >> /tmp/oe_info
 echo "Filesystem Part#: "$fsPN >> /tmp/oe_info
 echo "Filesystem Ver#: "$oeVers >> /tmp/oe_info
+echo "Filesystem Rev: "$fsRev >> /tmp/oe_info
 
 cat /tmp/oe_info
 echo
@@ -48,4 +56,3 @@ if [ -w / ]; then
 fi
 
 echo
-
