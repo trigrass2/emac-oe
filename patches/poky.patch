@@ -1,0 +1,79 @@
+diff --git a/meta/classes/rootfs_ipk.bbclass b/meta/classes/rootfs_ipk.bbclass
+index dd144e4..6a1a31f 100644
+--- a/meta/classes/rootfs_ipk.bbclass
++++ b/meta/classes/rootfs_ipk.bbclass
+@@ -23,6 +23,7 @@ OPKG_PREPROCESS_COMMANDS = ""
+ OPKG_POSTPROCESS_COMMANDS = ""
+ 
+ OPKGLIBDIR = "${localstatedir}/lib"
++OPKGLOCKDIR = "${localstatedir}/lock/opkg"
+ 
+ MULTILIBRE_ALLOW_REP = "${OPKGLIBDIR}/opkg|/usr/lib/opkg"
+ 
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index ed0c9a7..f9bc3ec 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1229,12 +1229,20 @@ class OpkgPM(PackageManager):
+         self.opkg_args += self.d.getVar("OPKG_ARGS", True)
+ 
+         opkg_lib_dir = self.d.getVar('OPKGLIBDIR', True)
++	opkg_lock_dir = self.d.getVar('OPKGLOCKDIR', True)
++
+         if opkg_lib_dir[0] == "/":
+             opkg_lib_dir = opkg_lib_dir[1:]
+ 
++        if opkg_lock_dir[0] == "/":
++            opkg_lock_dir = opkg_lock_dir[1:]
++
++
+         self.opkg_dir = os.path.join(target_rootfs, opkg_lib_dir, "opkg")
++	self.opkg_lockdir = os.path.join(target_rootfs, opkg_lock_dir)
+ 
+         bb.utils.mkdirhier(self.opkg_dir)
++	bb.utils.mkdirhier(self.opkg_lockdir)
+ 
+         self.saved_opkg_dir = self.d.expand('${T}/saved/%s' % self.task_name)
+         if not os.path.exists(self.d.expand('${T}/saved')):
+@@ -1419,7 +1427,7 @@ class OpkgPM(PackageManager):
+     def remove_packaging_data(self):
+         bb.utils.remove(self.opkg_dir, True)
+         # create the directory back, it's needed by PM lock
+-        bb.utils.mkdirhier(self.opkg_dir)
++#        bb.utils.mkdirhier(self.opkg_dir)
+ 
+     def list_installed(self, format=None):
+         return OpkgPkgsList(self.d, self.target_rootfs, self.config_file).list(format)
+@@ -1473,7 +1481,7 @@ class OpkgPM(PackageManager):
+         # Create an temp dir as opkg root for dummy installation
+         temp_rootfs = self.d.expand('${T}/opkg')
+         temp_opkg_dir = os.path.join(temp_rootfs, 'var/lib/opkg')
+-        bb.utils.mkdirhier(temp_opkg_dir)
++#        bb.utils.mkdirhier(temp_opkg_dir)
+ 
+         opkg_args = "-f %s -o %s " % (self.config_file, temp_rootfs)
+         opkg_args += self.d.getVar("OPKG_ARGS", True)
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index e16fe72..f082483 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -107,7 +107,6 @@ do_install () {
+ 	done
+ 
+ 	ln -snf ../run ${D}${localstatedir}/run
+-	ln -snf ../run/lock ${D}${localstatedir}/lock
+ 
+ 	${BASEFILESISSUEINSTALL}
+ 
+diff --git a/meta/recipes-qt/meta/meta-toolchain-qt.inc b/meta/recipes-qt/meta/meta-toolchain-qt.inc
+index 7e75d93..4eb4103 100644
+--- a/meta/recipes-qt/meta/meta-toolchain-qt.inc
++++ b/meta/recipes-qt/meta/meta-toolchain-qt.inc
+@@ -1,6 +1,6 @@
+ TOOLCHAIN_HOST_TASK = "nativesdk-packagegroup-${QTNAME}-toolchain-host packagegroup-cross-canadian-${MACHINE}"
+ TOOLCHAIN_TARGET_TASK = "packagegroup-${QTNAME}-toolchain-target"
+-TOOLCHAIN_OUTPUTNAME = "${SDK_NAME}-toolchain-${QTNAME}-${DISTRO_VERSION}"
++TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${QTNAME}-${DISTRO_VERSION}"
+ 
+ require recipes-core/meta/meta-toolchain.bb
+ 
