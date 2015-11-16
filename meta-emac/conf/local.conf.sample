@@ -129,6 +129,9 @@ CONF_VERSION = "1"
 INHERIT += "buildhistory"
 BUILDHISTORY_COMMIT = "1"
 
+# Enable build info
+INHERIT += "image-buildinfo"
+
 #Copy license text to image
 COPY_LIC_MANIFEST = "1"
 
