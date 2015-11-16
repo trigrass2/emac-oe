@@ -1,0 +1,30 @@
+diff --git a/driver/dataflash.c b/driver/dataflash.c
+index 6fc3c30..e487684 100644
+--- a/driver/dataflash.c
++++ b/driver/dataflash.c
+@@ -542,8 +542,11 @@ static int df_desc_init(struct dataflash_descriptor *df_desc,
+ 		if (ret)
+ 			return ret;
+ 	} else {
+-		dbg_info("SF: Unsupported SerialFlash family %d\n", family);
+-		return -1;
++                df_desc->family = DF_FAMILY_AT26F;
++
++                ret = df_at25_desc_init(df_desc);
++                if (ret)
++                        return ret;
+ 	}
+ 
+ 	return 0;
+@@ -571,9 +574,8 @@ static int dataflash_probe_atmel(struct dataflash_descriptor *df_desc)
+ #endif
+ 
+ 	if (dev_id[0] != MANUFACTURER_ID_ATMEL) {
+-		dbg_info("Not supported spi flash Manufactorer ID: %d\n",
+-				dev_id[0]);
+-		return -1;
++                dev_id[0] = DF_FAMILY_AT26DF;
++
+ 	}
+ 
+ 	ret = df_desc_init(df_desc, (dev_id[1] & 0xe0));
