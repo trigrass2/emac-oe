@@ -112,6 +112,7 @@ do_install() {
         install -m 0644 ${WORKDIR}/${PN}/runtime/syntax/javascript.vim ${D}/${datadir}/${PN}/vim74/syntax/javascript.vim
         install -m 0644 ${WORKDIR}/${PN}/runtime/syntax/css.vim ${D}/${datadir}/${PN}/vim74/syntax/css.vim
         install -m 0644 ${WORKDIR}/${PN}/runtime/syntax/vb.vim ${D}/${datadir}/${PN}/vim74/syntax/vb.vim
+        install -m 0644 ${WORKDIR}/${PN}/runtime/syntax/sql.vim ${D}/${datadir}/${PN}/vim74/syntax/sql.vim
         install -m 0644 ${WORKDIR}/${PN}/runtime/doc/tags ${D}/${datadir}/${PN}/vim74/doc/tags
         install -m 0644 ${WORKDIR}/${PN}/runtime/doc/help.txt ${D}/${datadir}/${PN}/vim74/doc/help.txt
 }
