@@ -1,7 +1,7 @@
 require recipes-kernel/linux/linux-yocto.inc
 
 KBRANCH = "linux-3.10-at91"
-SRCREV_machine = "99354532db3c597941d64adf1be8d8604b01ea0e"
+SRCREV_machine = "865c10bfeed959d2d24cd5d2da322c004778a658"
 
 SRC_URI = "git://gitlab.emacinc.com/linux-kernel/linux-at91.git;bareclone=1;branch=${KBRANCH};name=machine;protocol=http"
 
