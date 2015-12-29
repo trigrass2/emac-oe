@@ -50,7 +50,7 @@ li
 #NavBar a:link, #NavBar a:visited 
 {
     display: block;
-    width: 224px;
+    width: 176px;
     font-weight: bold;
     color: #FFFFFF;
     background-color: #44661f;
@@ -66,7 +66,7 @@ li
 }
 
 table,th,td
-{
+{meta-emac/recipes-extended/lighttpd/files/index.html.lighttpd
 	border: 1px solid green;
 }
 
@@ -147,6 +147,7 @@ h2 { text-align: left; color: #44661f;}
   <li><a href="arm.html">ARM Boards</a></li>
   <li><a href="x86.html">x86 Boards</a></li>
   <li><a href="about.html">About</a></li>
+  <li><a href="oe_info.html">OE_INFO</a></li>
 </ul>
 
 <hr>
@@ -193,7 +194,7 @@ h2 { text-align: left; color: #44661f;}
 
 <p class="Left _Font">General contact information for EMAC, Inc: <a href="http://www.emacinc.com/contact-info" class="Link" target="_blank"> Link</a></p>
 
-<footer class="Footer">Copyright 2014, &copy EMAC, Inc. All rights reserved</footer>
+<footer class="Footer">Copyright 2015, &copy EMAC, Inc. All rights reserved</footer>
 
 </body>
 </html>

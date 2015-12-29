@@ -6,6 +6,7 @@ SRC_URI += " \
 		file://arm.html \
 		file://x86.html \
 		file://EMAC_LOGO.png \
+		file://webwriter.sh \
 	"
 
 do_install_append () {
@@ -14,5 +15,7 @@ do_install_append () {
 	install -m 0644 ${WORKDIR}/arm.html ${D}/www/pages/arm.html
 	install -m 0644 ${WORKDIR}/x86.html ${D}/www/pages/x86.html
 	install -m 0644 ${WORKDIR}/EMAC_LOGO.png ${D}/www/pages/images/EMAC_LOGO.png
+	install -d ${D}${bindir}
+	install -m 0755 ${WORKDIR}/webwriter.sh ${D}${bindir}/
 	rmdir ${D}/www/pages/dav
 }
