@@ -1,5 +1,168 @@
 #!/bin/sh
 
+usage()
+{
+	echo
+	echo "USAGE:"
+	echo -e "\toe_info.sh [option]"
+	echo
+	echo "OPTIONS:"
+	echo -e "\t-c show cpu info"
+	echo -e "\t   Display number of CPUs, BogoMIPS, chip arhitecture, CPU utilization, and CPU clock speed"
+	echo -e "\t-f flash info"
+	echo -e "\t   Shows how much space is used and available on the filesystem and provides a list of \n\t   partitions found int /proc/partitions"
+	echo -e "\t-m show memory info"
+	echo -e "\t   Display space used and available in main memory"
+	echo -e "\t-n network info"
+	echo -e "\t-v invoke all options above"
+	echo
+	echo -e "\t-h display usage and options list"
+	echo
+}
+
+c_opt()
+{
+	echo "CPU info"
+	echo
+	echo $(cat /proc/cpuinfo | grep -i bogomips | head -n1)
+
+	# Determine Architecture
+	# This one is rather complicated.
+	#
+	# If cpuinfo has a segment for hardware,
+	# assume ARM architecure and display the
+	# hardware line.
+	#
+	# Else, assume x86. It will either have
+	# arhitecture info on vendor id or model
+	# name. But both of them have those desriptors...
+
+	ARC=$(cat /proc/cpuinfo | grep -i hardware)
+	ARM=$?
+	if [[ $ARM = 0 ]]; then
+		echo "Architecture: ARM,$(echo $ARC | cut -d ':' -f2 )"
+	else
+		# x86 architecure, model names located
+		# at different locations in /proc/cpuinfo
+		VEND=$(cat /proc/cpuinfo | grep -i vendor_id | head -n1 | cut -d ':' -f2)
+		if [[ "$(echo $VEND | cut -d ' ' -f1)" = "Vortex86" ]]; then
+			echo "Architecture: x86,$VEND"
+		else
+			echo "Architecture: x86," $(cat /proc/cpuinfo | grep -i "model name" | head -n1 | cut -d ':' -f2)
+		fi
+	fi
+
+	THREADS=$(cat /proc/cpuinfo | grep -i "cpu cores" | wc -l)
+	if [[ $THREADS = 0 ]]; then
+		echo "Number of CPUs: "$(cat /proc/cpuinfo | grep "model name" | wc -l) "core(s)"
+	else
+		echo "Number of CPUs: $(cat /proc/cpuinfo | grep -i "cpu cores" | head -n1 | cut -d ':' -f2) core(s), $THREADS thread(s)"
+	fi
+
+	echo "CPU Utilization: " $( top -b -n1 | grep Cpu | awk '{print $2}' | cat ) "%"
+
+	MHZ=$( cat /proc/cpuinfo | grep MHz | head -n1 | awk '{print $4}' | cut -d "." -f1 )
+	if [[ -e MHZ ]]; then
+		echo "Clock speed: "$MHZ "MHz"
+	else
+		MHZ=$(dmesg | grep Clocks | awk '{print $3}')
+		if [[ -e MHZ ]]; then
+			echo "Clock speed: "$MHZ "MHz"
+		else
+			echo "Clock speed: error reading cpuinfo and dmesg for clock speed"
+		fi
+	fi
+}
+
+f_opt()
+{
+	echo "Flash Info:"
+	echo
+	df -h
+	echo
+	echo "Partitions:"
+	cat /proc/partitions
+}
+
+m_opt()
+{
+	echo "Memory Info: "
+	echo
+	MEM=$(free -h | grep Mem)
+	echo "Total: "$(echo $MEM | awk '{print $2}')
+	echo "Used:  "$(echo $MEM | awk '{print $3}')
+	echo "Free:  "$(echo $MEM | awk '{print $4}')
+}
+
+n_opt()
+{
+	CONNECTED=$(ip address | grep "state UP" | awk '{print $2}' | cut -d ":" -f1)
+	echo "Network Info:"
+	if [[ $CONNECTED ]]; then
+		for SITES in $CONNECTED;
+		do
+			echo
+			echo "Connection at "$SITES
+			INFO=$(ifconfig $SITES | grep "inet addr")
+			echo "IP address:  "$(echo $INFO | awk '{print $2}' | cut -d ":" -f2)
+			echo "Netmask:     "$(echo $INFO | awk '{print $4}' | cut -d ":" -f2)
+			echo "Gateway:     "$(route -n | grep UG | awk '{print $2}')
+			echo "Hostname:    "$(hostname)
+			echo "MAC address: "$(ifconfig $SITES | head -n1 | awk '{print $5}')
+		done
+	else
+	echo "System is not connection to a network."
+fi
+}
+
+
+if [[ $# > 0 ]]; then
+	while getopts nfmvch OPT; do
+		case $OPT in
+			c)
+				c_opt
+				break
+				;;
+			f)
+				f_opt
+				break
+				;;
+			h)
+				usage
+				break
+				;;
+			m)
+				m_opt
+				break
+				;;
+			n)
+				n_opt
+				break
+				;;
+			v)
+				c_opt
+				echo
+				f_opt
+				echo
+				m_opt
+				echo
+				n_opt
+				break
+				;;
+			\?)
+				echo "See usage and option list below:"
+				usage
+				break
+				;;
+		esac
+	done
+	exit 0
+fi
+
+############################################################
+################ Default, no options given #################
+############################################################
+
 echo
 echo "####################################################"
 echo "####################################################"
@@ -25,7 +188,7 @@ else
         bootVers=$(echo $boot | cut -d '_' -f1)
         bootPart=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f1)
 	bootRev=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
-        bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -A1 -m1 | cut -d '(' -f1)
+        bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -m1 | cut -d '(' -f1)
         serialNum=$(fw_printenv serial#)
 fi
 
@@ -56,3 +219,7 @@ if [ -w / ]; then
 fi
 
 echo
+
+if [ -w / ]; then
+	/www/pages/webwriter.sh
+fi
