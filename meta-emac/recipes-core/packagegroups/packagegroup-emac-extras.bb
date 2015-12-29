@@ -20,7 +20,7 @@ PACKAGES = "\
     ${PN}-timezone \
     "
 
-RDEPENDS_${PN} = "\
+RRECOMMENDS_${PN} = "\
     ${PN}-util-base \
     ${PN}-util-networking \
     ${PN}-util-debug \
@@ -28,7 +28,7 @@ RDEPENDS_${PN} = "\
     "
 
 SUMMARY_${PN}-util-base = "EMAC OE Extra Utilities"
-RDEPENDS_${PN}-util-base = "\
+RRECOMMENDS_${PN}-util-base = "\
     tftp-hpa \
     wget \
     lighttpd \
@@ -39,7 +39,7 @@ RDEPENDS_${PN}-util-base = "\
     "
 
 SUMMARY_${PN}-util-networking = "EMAC OE Extra Utilities"
-RDEPENDS_${PN}-util-networking = "\
+RRECOMMENDS_${PN}-util-networking = "\
     iptables \
     tcpdump \
     bind-utils \
@@ -49,7 +49,7 @@ RDEPENDS_${PN}-util-networking = "\
     "
 
 SUMMARY_${PN}-util-debug = "EMAC OE Extra Utilities"
-RDEPENDS_${PN}-util-debug = "\
+RRECOMMENDS_${PN}-util-debug = "\
     gdbserver \
     strace \
     memtester \
@@ -68,7 +68,7 @@ RDEPENDS_${PN}-util-debug = "\
     "
 
 SUMMARY_${PN}-timezone = "EMAC OE TimeZone Files"
-RDEPENDS_${PN}-timezone = "\
+RRECOMMENDS_${PN}-timezone = "\
     tzdata \
     tzdata-africa \
     tzdata-americas \
