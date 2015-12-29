@@ -1,0 +1,29 @@
+diff --git a/grub-core/kern/main.c b/grub-core/kern/main.c
+index 3262444..4d892f0 100644
+--- a/grub-core/kern/main.c
++++ b/grub-core/kern/main.c
+@@ -211,9 +211,9 @@ grub_main (void)
+   grub_machine_init ();
+ 
+   /* Hello.  */
+-  grub_setcolorstate (GRUB_TERM_COLOR_HIGHLIGHT);
++/*  grub_setcolorstate (GRUB_TERM_COLOR_HIGHLIGHT);
+   grub_printf ("Welcome to GRUB!\n\n");
+-  grub_setcolorstate (GRUB_TERM_COLOR_STANDARD);
++  grub_setcolorstate (GRUB_TERM_COLOR_STANDARD);*/
+ 
+   /* Load pre-loaded modules and free the space.  */
+   grub_register_exported_symbols ();
+diff --git a/grub-core/normal/menu.c b/grub-core/normal/menu.c
+index 7e0a158..e01c7bd 100644
+--- a/grub-core/normal/menu.c
++++ b/grub-core/normal/menu.c
+@@ -287,7 +287,7 @@ grub_menu_execute_with_fallback (grub_menu_t menu,
+ {
+   int fallback_entry;
+ 
+-  callback->notify_booting (entry, callback_data);
++  /*callback->notify_booting (entry, callback_data);*/
+ 
+   grub_menu_execute_entry (entry, 1);
+ 
