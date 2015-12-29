@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.23.1
-# Tue Jun 23 10:41:14 2015
+# Wed Dec 16 10:48:08 2015
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -613,7 +613,7 @@ CONFIG_RDATE=y
 # CONFIG_RDEV is not set
 # CONFIG_READPROFILE is not set
 CONFIG_RTCWAKE=y
-# CONFIG_SCRIPT is not set
+CONFIG_SCRIPT=y
 CONFIG_SCRIPTREPLAY=y
 # CONFIG_SETARCH is not set
 CONFIG_SWAPONOFF=y
