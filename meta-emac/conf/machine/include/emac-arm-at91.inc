@@ -17,7 +17,7 @@ XSERVER ?= "xserver-xorg \
 
 MACHINE_FEATURES += "usbhost apm serial usbgadget"
 MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
-EXTRA_IMAGEDEPENDS += "u-boot-emac-at91"
+EXTRA_IMAGEDEPENDS += "u-boot-emac-at91 at91bootstrap"
 
 SERIAL_CONSOLE ?= "115200 ttyS0"
 
