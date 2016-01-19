@@ -39,25 +39,27 @@ FILES_${PN}-dbg += "/usr/bin/.debug/* /usr/sbin/.debug/* \
 		 /usr/demo/.debug/* \
 		"
 
-S = "${TMPDIR}/work-shared/xenomai-${PV}/${PV}"
-B = "${WORKDIR}/xenomai-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+#S = "${TMPDIR}/work-shared/xenomai-${PV}/${PV}"
+#B = "${WORKDIR}/xenomai-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+
+S = "${WORKDIR}/git"
 
 # SS means Shared Stamps directory
-SS = "${TMPDIR}/stamps/work-shared/xenomai-${PV}-${PR}"
-do_fetch[stamp-base] = "${SS}"
-do_unpack[stamp-base] = "${SS}"
-do_patch[stamp-base] = "${SS}"
-SSCLEAN = "${TMPDIR}/stamps/work-shared/xenomai-git*-*"
-do_fetch[stamp-base-clean] = "${SSCLEAN}"
-do_unpack[stamp-base-clean] = "${SSCLEAN}"
-do_unpack[umask] = "022"
-do_patch[stamp-base-clean] = "${SSCLEAN}"
+#SS = "${TMPDIR}/stamps/work-shared/xenomai-${PV}-${PR}"
+#do_fetch[stamp-base] = "${SS}"
+#do_unpack[stamp-base] = "${SS}"
+#do_patch[stamp-base] = "${SS}"
+#SSCLEAN = "${TMPDIR}/stamps/work-shared/xenomai-git*-*"
+#do_fetch[stamp-base-clean] = "${SSCLEAN}"
+#do_unpack[stamp-base-clean] = "${SSCLEAN}"
+#do_unpack[umask] = "022"
+#do_patch[stamp-base-clean] = "${SSCLEAN}"
 
 # SW means Shared Work directory
-SW = "${TMPDIR}/work-shared/xenomai-${PV}"
-SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
-WORKDIR_task-unpack = "${SW}"
-WORKDIR_task-patch = "${SW}"
+#SW = "${TMPDIR}/work-shared/xenomai-${PV}"
+#SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
+#WORKDIR_task-unpack = "${SW}"
+#WORKDIR_task-patch = "${SW}"
 
 CFLAGS_arm := "-march=armv5e"
 CFLAGS_x86 := "-m32"
