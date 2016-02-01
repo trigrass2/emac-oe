@@ -7,44 +7,88 @@
 # Default-Stop:
 ### END INIT INFO
 
-# EMAC, Inc. Copyright (c) 2014
+# EMAC, Inc. Copyright (c) 2016
 # License: GPL
 
-# It is recommended that EMAC customers name their splash image 
-# "splash_image.ppm". 
-# EMAC customers can modify the CUSTOMER_IMAGE variable if they wish to use
-# a file name other than "splash_image.ppm"; note, however, that it must still
-# be a *.ppm image
+# All .ppm images will be searched in the IMAGE_BASE directory
+# for a suitable match to the framebuffer settings.
+# A preferred image can be set by setting the PREFERRED_IMAGE variable to 
+# the full path of a valid .ppm image.
 
 DAEMON="/sbin/fbsplash"
 NAME="fbsplash"
 IMAGE_BASE="/etc/splash"
-IMAGE="splash_image.ppm"
-CONF_FILE="$IMAGE_BASE/splash.conf"
+CONF_FILE=""
 TMPDIR="/mnt/.psplash"
 FIFO="$TMPDIR/psplash_fifo"
-CUSTOMER_IMAGE=
+PREFERRED_IMAGE=""
 ARGS="-c"
 
 test -f $DAEMON || exit 0
 
-set_image() {
+check_res() {
 
-        if [ "$CUSTOMER_IMAGE" != "" ] && [ -f $CUSTOMER_IMAGE ] ;then
-                IMAGE=" -s $CUSTOMER_IMAGE "
-                return 0
-        fi
-
-        IMAGE="$IMAGE_BASE/$IMAGE"
-
-        if [ -f $IMAGE ] ;then
-                IMAGE=" -s $IMAGE "
-                return 0
-        else
-                echo -e "No bootsplash image could be found in $IMAGE "
+        magic=$(head -n1 $1 | cut -d ' ' -f1)
+        if [ ! $magic = 'P6' ] && [ ! $magic = 'P3' ]; then
                 return 1
         fi
-        return 0
+
+        res=$(head -n2 $1 | tail -1)
+        if [ ${res:0:1} = '#' ]; then
+                res=$(head -n3 $1 | tail -1)
+        fi
+
+        imgresH=$(echo $res | cut -d ' ' -f1)
+        imgresV=$(echo $res | cut -d ' ' -f2)
+
+        if [ $fbresH = $imgresH ] && [ $fbresV = $imgresV ]; then
+               return 0
+        fi
+        return 1
+}
+
+set_image() {
+
+        fbresH=$(fbset | grep geometry | cut -d " " -f6)
+        fbresV=$(fbset | grep geometry | cut -d " " -f7)
+
+        if [ "$PREFERRED_IMAGE" != "" ] && [ -f "$PREFERRED_IMAGE" ] ;then
+                if check_res $PREFERRED_IMAGE; then
+                        IMAGE=" -s $PREFERRED_IMAGE"
+                        return 0
+                fi
+        fi
+
+        for image in $(ls "$IMAGE_BASE"/*.ppm)
+        do
+                if check_res $image; then
+                        IMAGE="-s $image"
+                        return 0
+                fi
+        done
+
+        return 1
+}
+
+set_conf() {
+
+        CONF_FILE="$IMAGE_BASE/""$fbresH"'x'"$fbresV""_splash.conf"
+        re='^[1-9][0-9]*$'
+
+        [ -f $CONF_FILE ] && . $CONF_FILE || return 1
+
+	#make sure the variables contain a number and it is not zero
+        if ! [[ $BAR_TOP =~ $re ]] || ! [[ $BAR_HEIGHT =~ $re ]] || ! [[ $BAR_LEFT =~ $re ]] || ! [[ $BAR_WIDTH =~ $re ]]; then
+                return 1
+        fi
+
+        if [ "$((BAR_TOP + BAR_HEIGHT))" -ge "$fbresV" ] || [ "$BAR_TOP" -ge "$fbresV" ]; then
+                return 1
+        elif [ "$((BAR_LEFT + BAR_WIDTH))" -ge "$fbresH" ] || [ "$BAR_LEFT" -ge "$fbresH" ]; then
+                return 1
+        else
+                return 0
+        fi
 }
 
 do_start() {
@@ -58,8 +102,8 @@ do_start() {
 
         mkfifo $TMPDIR/psplash_fifo
 
-        if [ -p $FIFO ] && [ -f $CONF_FILE ] ; then
-                ARGS="$ARGS -f $FIFO -i $CONF_FILE"
+        if [ -p $FIFO ]; then
+                ARGS="$ARGS -f $FIFO"
         fi
 
         $DAEMON $ARGS $IMAGE &
@@ -71,16 +115,17 @@ read CMDLINE < /proc/cmdline
 for x in $CMDLINE; do
         case $x in
         splash=false)
-                echo "Boot splashscreen disabled" 
+                echo "Boot splashscreen disabled"
                 exit 0;
                 ;;
         esac
 done
-
 if set_image ;then
+    if set_conf; then
+        ARGS="$ARGS -i $CONF_FILE"
         do_start
+    fi
 else
-        echo "Failed to load the boot splash image."
+        echo -e "No bootsplash image could be found in $IMAGE_BASE"
         exit 1
 fi
-

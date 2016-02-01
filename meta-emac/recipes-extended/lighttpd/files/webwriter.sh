@@ -2,7 +2,7 @@
 
 # First checks to see if the filesystem is writable
 # Exits if it is not
-if [[ ! -w /www/pages/oe_info.html ]]; then
+if [[ ! -w /www/pages/ ]]; then
 	# Exit with 1 since it wasn't able to write a new
 	# html document.
 	exit 1

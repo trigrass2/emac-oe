@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2014  EMAC Inc, All rights reserved
+# Copyright (C) 2016  EMAC Inc, All rights reserved
 #
 
 DESCRIPTION = "EMAC Core Package Groups"
@@ -22,12 +22,11 @@ PACKAGES = " \
     ${@bb.utils.contains("MACHINE_FEATURES", "mtd", "packagegroup-emac-core-mtd", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "screen", "packagegroup-emac-core-screen", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", "packagegroup-emac-core-can", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "usbhost", "packagegroup-emac-core-usb", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", "packagegroup-emac-core-pci", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-emac-core-apm", "", d)} \
     "
 
-RDEPENDS_packagegroup-emac-core = "\
+RRECOMMENDS_packagegroup-emac-core = "\
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "touch", "packagegroup-emac-core-touch", "", d)} \
@@ -36,27 +35,27 @@ RDEPENDS_packagegroup-emac-core = "\
     ${@bb.utils.contains("MACHINE_FEATURES", "mtd", "packagegroup-emac-core-mtd", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "screen", "packagegroup-emac-core-screen", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", "packagegroup-emac-core-can", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "usbhost", "packagegroup-emac-core-usb", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", "packagegroup-emac-core-pci", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-emac-core-apm", "", d)} \
     "
 
 SUMMARY_packagegroup-emac-core-util = "EMAC OE Core Utilities"
-RDEPENDS_packagegroup-emac-core-util = "\
+RRECOMMENDS_packagegroup-emac-core-util = "\
     bash \
     udev-extraconf \
     kernel-modules \   
     ifplugd \
     ntp \
     opkg \
-    busybox-syslog \
-    busybox-udhcpc \
     e2fsprogs \
+    usbutils \
     emac-feed-config \
+    sudo \
+    rsync \
     "	
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
-RDEPENDS_packagegroup-emac-core-touch = "\
+RRECOMMENDS_packagegroup-emac-core-touch = "\
     tslib-calibrate \
     tslib-conf \
     tslib-tests \
@@ -64,14 +63,14 @@ RDEPENDS_packagegroup-emac-core-touch = "\
     "
 
 SUMMARY_packagegroup-emac-core-wifi = "EMAC OE Wifi Utilities"
-RDEPENDS_packagegroup-emac-core-wifi = "\
+RRECOMMENDS_packagegroup-emac-core-wifi = "\
     iw \
     wpa-supplicant \
     wireless-tools \
     "
 
 SUMMARY_packagegroup-emac-core-sound = "EMAC OE ALSA Utilities"
-RDEPENDS_packagegroup-emac-core-sound = "\
+RRECOMMENDS_packagegroup-emac-core-sound = "\
     alsa-utils-alsamixer \
     alsa-utils-midi \
     alsa-utils-aplay \
@@ -86,18 +85,18 @@ RDEPENDS_packagegroup-emac-core-sound = "\
     "
 
 SUMMARY_packagegroup-emac-core-mtd = "EMAC OE MTD Utilities"
-RDEPENDS_packagegroup-emac-core-mtd = "\
+RRECOMMENDS_packagegroup-emac-core-mtd = "\
     mtd-utils \
     mtd-utils-jffs2 \
     "
 
 SUMMARY_packagegroup-emac-core-x86= "EMAC OE x86 Packages."
-RDEPENDS_packagegroup-emac-core-x86 = "\
+RRECOMMENDS_packagegroup-emac-core-x86 = "\
     lilo \
     "
 
 SUMMARY_packagegroup-emac-core-screen= "EMAC OE Screen Packages."
-RDEPENDS_packagegroup-emac-core-screen = "\
+RRECOMMENDS_packagegroup-emac-core-screen = "\
     fbsplash \
     fbset \
     fbida \
@@ -108,22 +107,17 @@ RDEPENDS_packagegroup-emac-core-screen = "\
     "
 
 SUMMARY_packagegroup-emac-core-can= "EMAC OE CAN Packages."
-RDEPENDS_packagegroup-emac-core-can = "\
+RRECOMMENDS_packagegroup-emac-core-can = "\
     canutils \
     "
 
-SUMMARY_packagegroup-emac-core-usb= "EMAC OE USB Packages."
-RDEPENDS_packagegroup-emac-core-usb = "\
-    usbutils \
-    "
-
 SUMMARY_packagegroup-emac-core-pci= "EMAC OE PCI Packages."
-RDEPENDS_packagegroup-emac-core-pci = "\
+RRECOMMENDS_packagegroup-emac-core-pci = "\
     pciutils \
     "
 
 SUMMARY_packagegroup-emac-core-apm= "EMAC OE APM Packages."
-RDEPENDS_packagegroup-emac-core-apm = "\
+RRECOMMENDS_packagegroup-emac-core-apm = "\
     apm \
     apmd \
     "

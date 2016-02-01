@@ -4,12 +4,12 @@ SECTION = "bootloaders"
 PROVIDES = "virtual/bootloader"
 
 LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 
-SRCREV = "7e0bb895fe252c336d115045ea96bc164132fa5f"
-PV = "v2014.07+git${SRCPV}"
+SRCREV = "9dda1d12a0a049bc7b05c78b7b5b6fa0e1316661"
+PV = "v2016.01+git${SRCPV}"
 
-SRC_URI = "git://gitlab.emacinc.com/bootloader/u-boot-at91.git;protocol=http"
+SRC_URI = "git://gitlab.emacinc.com/bootloader/u-boot-emac.git;protocol=http"
 
 S = "${WORKDIR}/git"
 
@@ -41,6 +41,11 @@ UBOOT_MAKE_TARGET ?= "all"
 SPL_BINARY ?= ""
 SPL_IMAGE ?= "${SPL_BINARY}-${MACHINE}-${PV}-${PR}"
 SPL_SYMLINK ?= "${SPL_BINARY}-${MACHINE}"
+
+SPL_BINARY_TWO ?= ""
+SPL_IMAGE_TWO ?= "${SPL_BINARY_TWO}-${MACHINE}-${PV}-${PR}"
+SPL_SYMLINK_TWO ?= "${SPL_BINARY_TWO}-${MACHINE}"
+
 
 # Additional environment variables or a script can be installed alongside
 # u-boot to be used automatically on boot.  This file, typically 'uEnv.txt'
@@ -112,6 +117,14 @@ do_deploy () {
         rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
         ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
         ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
+    fi
+
+    if [ "x${SPL_BINARY_TWO}" != "x" ]
+    then
+        install ${S}/spl/${SPL_BINARY_TWO} ${DEPLOYDIR}/${SPL_IMAGE_TWO}
+        rm -f ${DEPLOYDIR}/${SPL_BINARY_TWO} ${DEPLOYDIR}/${SPL_SYMLINK_TWO}
+        ln -sf ${SPL_IMAGE_TWO} ${DEPLOYDIR}/${SPL_BINARY_TWO}
+        ln -sf ${SPL_IMAGE_TWO} ${DEPLOYDIR}/${SPL_SYMLINK_TWO}
     fi
 
     if [ "x${UBOOT_ENV}" != "x" ]

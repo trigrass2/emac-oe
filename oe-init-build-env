@@ -34,7 +34,7 @@ getlist() {
 
     if [ -z $1 ]
     then
-        list=$(ls -I carriers --ignore="*.conf" $MACHINECONF)
+        list=$(ls --ignore="*.conf" $MACHINECONF)
         if  [[ $(find $CUSTOMMACHINECONF/*.conf 2>/dev/null) > 0 ]]
         then
             list="$list custom"
@@ -106,12 +106,10 @@ if [ $custom -eq 1 ]
 then
     fullpath=$(find $CUSTOMMACHINECONF -name $machine.conf)
     layerdir=$(dirname $(dirname $(dirname $fullpath)))
-    carriers=$(grep "#@CARRIERS:" $fullpath | cut -d ':' -f2 | xargs)
 else
     fullpath=$MACHINECONF
     layerdir=$(dirname $(dirname $fullpath))
     [ ! -h $fullpath/$machine.conf ] && ln -s $machdir/$machine.conf $fullpath/$machine.conf
-    carriers=$(grep "#@CARRIERS:" $fullpath/$machine.conf | cut -d ':' -f2 | xargs)
 fi
 
 # Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
@@ -122,51 +120,6 @@ sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
 OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
 sed "s|##OEROOT##|$OE|g" $OECORELOCALCONF > $BUILDDIR/conf/local.conf
 echo -e "MACHINE =" \"$machine\" >> $BUILDDIR/conf/local.conf
-
-#Gather a list of possible carriers from the machine conf
-i=1
-if [ "$carriers" ]
-then
-	nochoice=true
-	while [ "$nochoice" = "true" ]
-	do
-		echo "Enter a carrier:"
-		for car in $carriers
-		do
-			echo -e "\t$i: $car"
-			let "i += 1"
-		done
-
-	        read selection
-
-		if [ "$selection" -ge 1 -a "$selection" -lt "$i" ]
-		then
-			nochoice=false
-			selectedCar=$(echo $carriers | cut -d ' ' -f"$selection")
-		else
-			echo "Your choice was not in the list."
-			echo "Please pick a different selection or press Ctrl-C to exit."
-			echo
-			nochoice=true
-			i=1
-		fi
-	done
-
-	carFile="$fullpath/carriers/$selectedCar.conf"
-	echo -e "CARRIER =" \"$selectedCar\" >> $BUILDDIR/conf/local.conf
-	while read line
-	do
-		#var=$(echo $line | cut -d ' ' -f1)
-		#sed -i -e "s|^$var.*|$line|" $fullpath/$machdir/$machine.conf
-		echo -e $line >> $BUILDDIR/conf/local.conf
-	done < "$carFile"
-fi
-
-
-
-
-
-echo " "
 
 cat <<EOM
 
@@ -195,7 +148,6 @@ else
 fi
 
 grep "^MACHINE " $BUILDDIR/conf/local.conf
-grep "^CARRIER " $BUILDDIR/conf/local.conf
 
 unset OECORELAYERCONF
 unset OECORELOCALCONF
