@@ -1,6 +1,6 @@
 PREFERRED_PROVIDER_virtual/kernel = "linux-emac-imx6"
 PREFERRED_VERSION_linux-emac-imx6 ?= "4.4%"
-PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac-imx6"
+PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
 
 
 PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
@@ -19,7 +19,7 @@ XSERVER = "xserver-xorg \
 
 MACHINE_FEATURES += "screen pci usbhost apm sound serial touch usbgadget can"
 MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
-EXTRA_IMAGEDEPENDS += "u-boot-emac-imx6"
+EXTRA_IMAGEDEPENDS += "u-boot-emac"
 
 SERIAL_CONSOLE ?= "115200 ttymxc1"
 
