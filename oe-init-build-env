@@ -102,10 +102,13 @@ getlist $machdir
 
 mkdir -p build/conf
 
+OECORELAYERCONF="$TEMPLATECONF"/bblayers.conf.sample
+
 if [ $custom -eq 1 ] 
 then
     fullpath=$(find $CUSTOMMACHINECONF -name $machine.conf)
     layerdir=$(dirname $(dirname $(dirname $fullpath)))
+    [ -r "$layerdir/conf/bblayers.conf.sample" ] && OECORELAYERCONF="$layerdir/conf/bblayers.conf.sample"
 else
     fullpath=$MACHINECONF
     layerdir=$(dirname $(dirname $fullpath))
@@ -113,8 +116,6 @@ else
 fi
 
 # Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
-
-OECORELAYERCONF="$TEMPLATECONF/bblayers.conf.sample"
 sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
 
 OECORELOCALCONF="$TEMPLATECONF/local.conf.sample"
