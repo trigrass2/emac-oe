@@ -22,7 +22,7 @@ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHA
 # Allow setting an additional version string that will be picked up by the
 # u-boot build system and appended to the u-boot version.  If the .scmversion
 # file already exists it will not be overwritten.
-EMAC_UBOOT_LOCALVERSION ?= "_emac-standard"
+EMAC_UBOOT_VERSION = "SL147-ABN"
 FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
 UBOOT_LOCALVERSION = "${EMAC_UBOOT_LOCALVERSION}+${FIRST_SRCREV}"
 

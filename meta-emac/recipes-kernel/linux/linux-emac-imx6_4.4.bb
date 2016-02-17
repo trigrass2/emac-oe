@@ -7,6 +7,6 @@ SRC_URI = "git://gitlab.emacinc.com/linux-kernel/linux-emac.git;bareclone=1;bran
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
 LINUX_VERSION = "4.4.0"
-EMAC_LINUX_VERSION_EXTENSION ?= "_emac-standard"
+EMAC_LINUX_VERSION = "SL404-AKN"
 FIRST_SRCREV = "${@'${SRCREV_machine}'[:10]}"
 LINUX_VERSION_EXTENSION = "${EMAC_LINUX_VERSION_EXTENSION}+${FIRST_SRCREV}"
