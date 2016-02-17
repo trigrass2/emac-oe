@@ -5,7 +5,7 @@ LICENSE = "GPLv2"
 IMAGE_TYPE ?= "Headless"
 BUILD_TYPE ?= "headless"
 EXTRA_PKGS ?= ""
-PART_NUMBER ?= "Standard image"
+FS_NUMBER ?= "0"
 
 inherit core-image syslinux distro_features_check
 
