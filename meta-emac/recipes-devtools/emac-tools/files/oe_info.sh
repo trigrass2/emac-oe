@@ -221,5 +221,5 @@ fi
 echo
 
 if [ -w / ]; then
-	/www/pages/webwriter.sh
+	/usr/bin/webwriter.sh
 fi
