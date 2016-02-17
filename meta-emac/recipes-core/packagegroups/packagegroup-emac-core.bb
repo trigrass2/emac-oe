@@ -48,6 +48,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     ntp \
     opkg \
     e2fsprogs \
+    e2fsprogs-tune2fs \
     usbutils \
     emac-feed-config \
     sudo \
