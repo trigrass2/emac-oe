@@ -7,6 +7,6 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.19.git;bareclone=1;branch=${
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
 LINUX_VERSION = "3.19.5"
-EMAC_LINUX_VERSION = "SL310-XKN"
+EMAC_LINUX_VERSION = "SL319-XKN"
 FIRST_SRCREV = "${@'${SRCREV_machine}'[:10]}"
 LINUX_VERSION_EXTENSION = "${EMAC_LINUX_VERSION_EXTENSION}+${FIRST_SRCREV}"
