@@ -1,0 +1,747 @@
+diff --git a/demo/alchemy/cobalt/cross-link.c b/demo/alchemy/cobalt/cross-link.c
+index 8c0f53f..0dbd415 100644
+--- a/demo/alchemy/cobalt/cross-link.c
++++ b/demo/alchemy/cobalt/cross-link.c
+@@ -78,6 +78,7 @@ static int close_file( int fd, char *name)
+ 	do {
+ 		i++;
+ 		err = close(fd);
++		err = err < 0 ? -errno : 0;
+ 		switch (err) {
+ 		case -EAGAIN:
+ 			printf(MAIN_PREFIX "%s -> EAGAIN (%d times)\n",
+@@ -158,7 +159,7 @@ static void write_task_proc(void *arg)
+ 		written = write(write_fd, &write_time, sz);
+ 		if (written < 0 ) {
+ 			printf(WTASK_PREFIX "error on write, %s\n",
+-			       strerror(-err));
++			       strerror(errno));
+ 			break;
+ 		} else if (written != sz) {
+ 			printf(WTASK_PREFIX "only %d / %zd byte transmitted\n",
+@@ -199,6 +200,7 @@ static void read_task_proc(void *arg)
+ 		/* waiting for event */
+ 		err = ioctl(read_fd, RTSER_RTIOC_WAIT_EVENT, &rx_event);
+ 		if (err) {
++			err = -errno;
+ 			printf(RTASK_PREFIX
+ 			       "error on RTSER_RTIOC_WAIT_EVENT, %s\n",
+ 			       strerror(-err));
+@@ -218,7 +220,7 @@ static void read_task_proc(void *arg)
+ 			nr++;
+ 		} else if (rd < 0 ) {
+ 			printf(RTASK_PREFIX "error on read, code %s\n",
+-			       strerror(-err));
++			       strerror(errno));
+ 			break;
+ 		} else {
+ 			printf(RTASK_PREFIX "only %d / %zd byte received \n",
+@@ -244,8 +246,9 @@ int main(int argc, char* argv[])
+ 	/* open rtser0 */
+ 	write_fd = open( WRITE_FILE, 0);
+ 	if (write_fd < 0) {
++		err = -errno;
+ 		printf(MAIN_PREFIX "can't open %s (write), %s\n", WRITE_FILE,
+-		       strerror(-write_fd));
++		       strerror(-err));
+ 		goto error;
+ 	}
+ 	write_state |= STATE_FILE_OPENED;
+@@ -254,6 +257,7 @@ int main(int argc, char* argv[])
+ 	/* writing write-config */
+ 	err = ioctl(write_fd, RTSER_RTIOC_SET_CONFIG, &write_config);
+ 	if (err) {
++		err = -errno;
+ 		printf(MAIN_PREFIX "error while RTSER_RTIOC_SET_CONFIG, %s\n",
+ 		       strerror(-err));
+ 		goto error;
+@@ -263,8 +267,9 @@ int main(int argc, char* argv[])
+ 	/* open rtser1 */
+ 	read_fd = open( READ_FILE, 0 );
+ 	if (read_fd < 0) {
++		err = -errno;
+ 		printf(MAIN_PREFIX "can't open %s (read), %s\n", READ_FILE,
+-		       strerror(-read_fd));
++		       strerror(-err));
+ 		goto error;
+ 	}
+ 	read_state |= STATE_FILE_OPENED;
+@@ -273,6 +278,7 @@ int main(int argc, char* argv[])
+ 	/* writing read-config */
+ 	err = ioctl(read_fd, RTSER_RTIOC_SET_CONFIG, &read_config);
+ 	if (err) {
++		err = -errno;
+ 		printf(MAIN_PREFIX "error while ioctl, %s\n",
+ 		       strerror(-err));
+ 		goto error;
+diff --git a/kernel/cobalt/arch/arm/patches/ipipe-core-3.18.20-arm-6.patch b/kernel/cobalt/arch/arm/patches/ipipe-core-3.18.20-arm-6.patch
+index 073b2a7..d5f9a8d 100644
+--- a/kernel/cobalt/arch/arm/patches/ipipe-core-3.18.20-arm-6.patch
++++ b/kernel/cobalt/arch/arm/patches/ipipe-core-3.18.20-arm-6.patch
+@@ -159,7 +159,7 @@ index 38c89ca..7c954bc 100644
+  
+  # Keep at91 dtb files sorted alphabetically for each SoC
+ diff --git a/arch/arm/boot/dts/imx6qdl.dtsi b/arch/arm/boot/dts/imx6qdl.dtsi
+-index 9596ed5..8957633e 100644
++index 9596ed5..8957633 100644
+ --- a/arch/arm/boot/dts/imx6qdl.dtsi
+ +++ b/arch/arm/boot/dts/imx6qdl.dtsi
+ @@ -125,6 +125,13 @@
+@@ -3416,7 +3416,7 @@ index 2f5555d..a0cd9ce 100644
+  	.if	(. - \sym) & 3
+  	.rept	4 - (. - \sym) & 3
+ diff --git a/arch/arm/kernel/entry-common.S b/arch/arm/kernel/entry-common.S
+-index eb6f1927..7bef831 100644
++index eb6f192..7bef831 100644
+ --- a/arch/arm/kernel/entry-common.S
+ +++ b/arch/arm/kernel/entry-common.S
+ @@ -2,6 +2,7 @@
+@@ -3734,10 +3734,10 @@ index cfb354f..d11d476 100644
+  
+ diff --git a/arch/arm/kernel/ipipe.c b/arch/arm/kernel/ipipe.c
+ new file mode 100644
+-index 0000000..9577fbb
++index 0000000..8024a79
+ --- /dev/null
+ +++ b/arch/arm/kernel/ipipe.c
+-@@ -0,0 +1,560 @@
++@@ -0,0 +1,561 @@
+ +/* -*- linux-c -*-
+ + * linux/arch/arm/kernel/ipipe.c
+ + *
+@@ -3948,6 +3948,7 @@ index 0000000..9577fbb
+ +
+ +#ifdef CONFIG_SMP_ON_UP
+ +struct static_key __ipipe_smp_key = STATIC_KEY_INIT_TRUE;
+++EXPORT_SYMBOL_GPL(__ipipe_smp_key);
+ +
+ +unsigned notrace __ipipe_processor_id(void)
+ +{
+@@ -6902,7 +6903,7 @@ index 59c0c85..8f5ad8f 100644
+  	return 0;
+  }
+ diff --git a/arch/arm/mach-imx/clk-imx27.c b/arch/arm/mach-imx/clk-imx27.c
+-index ab6349e..8e50aa90 100644
++index ab6349e..8e50aa9 100644
+ --- a/arch/arm/mach-imx/clk-imx27.c
+ +++ b/arch/arm/mach-imx/clk-imx27.c
+ @@ -229,7 +229,8 @@ int __init mx27_clocks_init(unsigned long fref)
+@@ -6916,7 +6917,7 @@ index ab6349e..8e50aa90 100644
+  	return 0;
+  }
+ diff --git a/arch/arm/mach-imx/clk-imx31.c b/arch/arm/mach-imx/clk-imx31.c
+-index 286ef422..4d5927c 100644
++index 286ef42..4d5927c 100644
+ --- a/arch/arm/mach-imx/clk-imx31.c
+ +++ b/arch/arm/mach-imx/clk-imx31.c
+ @@ -182,7 +182,8 @@ int __init mx31_clocks_init(unsigned long fref)
+@@ -7797,7 +7798,7 @@ index 5fa3755..9574dd8 100644
+  	gpmc_write_reg(GPMC_IRQSTATUS, regval);
+  
+ diff --git a/arch/arm/mach-omap2/io.c b/arch/arm/mach-omap2/io.c
+-index 03cbb168..81ab99d 100644
++index 03cbb16..81ab99d 100644
+ --- a/arch/arm/mach-omap2/io.c
+ +++ b/arch/arm/mach-omap2/io.c
+ @@ -21,9 +21,11 @@
+@@ -9207,7 +9208,7 @@ index cb1b791..9b72630 100644
+  		}
+  	}
+ diff --git a/arch/arm/mach-sa1100/irq.c b/arch/arm/mach-sa1100/irq.c
+-index 2124f1fc..7be5cbe 100644
++index 2124f1f..7be5cbe 100644
+ --- a/arch/arm/mach-sa1100/irq.c
+ +++ b/arch/arm/mach-sa1100/irq.c
+ @@ -16,6 +16,7 @@
+@@ -9335,7 +9336,7 @@ index 1dea6cf..c399907 100644
+  					MIN_OSCR_DELTA * 2, 0x7fffffff);
+  }
+ diff --git a/arch/arm/mach-spear/Kconfig b/arch/arm/mach-spear/Kconfig
+-index b6f4bda2..80e77b2 100644
++index b6f4bda..80e77b2 100644
+ --- a/arch/arm/mach-spear/Kconfig
+ +++ b/arch/arm/mach-spear/Kconfig
+ @@ -7,6 +7,7 @@ menuconfig PLAT_SPEAR
+@@ -10897,7 +10898,7 @@ index 265b836..176ebd2 100644
+  	flush_ptrace_access(vma, page, uaddr, dst, len);
+  #ifdef CONFIG_SMP
+ diff --git a/arch/arm/mm/idmap.c b/arch/arm/mm/idmap.c
+-index e7a81ceb..c6ca62c 100644
++index e7a81ce..c6ca62c 100644
+ --- a/arch/arm/mm/idmap.c
+ +++ b/arch/arm/mm/idmap.c
+ @@ -122,7 +122,7 @@ early_initcall(init_static_idmap);
+@@ -12283,6 +12284,18 @@ index d528909..e3a3b12 100644
+  }
+  
+  static void __init at91sam926x_pit_dt_init(struct device_node *node)
++diff --git a/drivers/cpuidle/Kconfig b/drivers/cpuidle/Kconfig
++index c5029c1..2d68014 100644
++--- a/drivers/cpuidle/Kconfig
+++++ b/drivers/cpuidle/Kconfig
++@@ -3,6 +3,7 @@ menu "CPU Idle"
++ config CPU_IDLE
++ 	bool "CPU idle PM support"
++ 	default y if ACPI || PPC_PSERIES
+++	depends on !(ARCH_OMAP4 && IPIPE)
++ 	select CPU_IDLE_GOV_LADDER if (!NO_HZ && !NO_HZ_IDLE)
++ 	select CPU_IDLE_GOV_MENU if (NO_HZ || NO_HZ_IDLE)
++ 	help
+ diff --git a/drivers/gpio/gpio-davinci.c b/drivers/gpio/gpio-davinci.c
+ index 9f06825..1087ed1 100644
+ --- a/drivers/gpio/gpio-davinci.c
+@@ -13829,18 +13842,6 @@ index bbeb451..48db51f 100644
+  
+  config SENSORS_APDS990X
+  	 tristate "APDS990X combined als and proximity sensors"
+-diff --git a/drivers/cpuidle/Kconfig b/drivers/cpuidle/Kconfig
+-index c5029c1..2d68014 100644
+---- a/drivers/cpuidle/Kconfig
+-+++ b/drivers/cpuidle/Kconfig
+-@@ -3,6 +3,7 @@ menu "CPU Idle"
+- config CPU_IDLE
+- 	bool "CPU idle PM support"
+- 	default y if ACPI || PPC_PSERIES
+-+	depends on !(ARCH_OMAP4 && IPIPE)
+- 	select CPU_IDLE_GOV_LADDER if (!NO_HZ && !NO_HZ_IDLE)
+- 	select CPU_IDLE_GOV_MENU if (NO_HZ || NO_HZ_IDLE)
+- 	help
+ diff --git a/drivers/tty/serial/8250/8250_core.c b/drivers/tty/serial/8250/8250_core.c
+ index e5c31ea..8dce875 100644
+ --- a/drivers/tty/serial/8250/8250_core.c
+@@ -16363,7 +16364,7 @@ index 0000000..deb0a47
+ +
+ +#endif	/* !__LINUX_IPIPE_TRACE_H */
+ diff --git a/include/linux/irq.h b/include/linux/irq.h
+-index 03f48d9..2e14475ad 100644
++index 03f48d9..2e14475 100644
+ --- a/include/linux/irq.h
+ +++ b/include/linux/irq.h
+ @@ -337,6 +337,11 @@ struct irq_chip {
+@@ -16510,7 +16511,7 @@ index fdd5cc1..1310416 100644
+  
+  # define for_each_irq_desc(irq, desc)					\
+ diff --git a/include/linux/kernel.h b/include/linux/kernel.h
+-index 3d770f55..0b21f46 100644
++index 3d770f5..0b21f46 100644
+ --- a/include/linux/kernel.h
+ +++ b/include/linux/kernel.h
+ @@ -9,6 +9,7 @@
+@@ -17026,7 +17027,7 @@ index c6d10af..83cd38b 100644
+  
+  #endif /* _UAPI_ASM_GENERIC_RESOURCE_H */
+ diff --git a/include/uapi/linux/resource.h b/include/uapi/linux/resource.h
+-index 36fb3b5..3b5e2dc6 100644
++index 36fb3b5..3b5e2dc 100644
+ --- a/include/uapi/linux/resource.h
+ +++ b/include/uapi/linux/resource.h
+ @@ -59,12 +59,6 @@ struct rlimit64 {
+@@ -17108,7 +17109,7 @@ index 17ea6d4..38aa23b 100644
+  obj-$(CONFIG_TASK_DELAY_ACCT) += delayacct.o
+  obj-$(CONFIG_TASKSTATS) += taskstats.o tsacct.o
+ diff --git a/kernel/context_tracking.c b/kernel/context_tracking.c
+-index 937ecdf..1627e18b 100644
++index 937ecdf..1627e18 100644
+ --- a/kernel/context_tracking.c
+ +++ b/kernel/context_tracking.c
+ @@ -68,7 +68,7 @@ void context_tracking_user_enter(void)
+@@ -17304,7 +17305,7 @@ index 9b7d746..562489c 100644
+  	trace_task_newtask(p, clone_flags);
+ diff --git a/kernel/ipipe/Kconfig b/kernel/ipipe/Kconfig
+ new file mode 100644
+-index 0000000..218f51da
++index 0000000..218f51d
+ --- /dev/null
+ +++ b/kernel/ipipe/Kconfig
+ @@ -0,0 +1,65 @@
+@@ -20189,7 +20190,7 @@ index 0000000..354bf29
+ +#endif /* CONFIG_IPIPE_HAVE_HOSTRT */
+ diff --git a/kernel/ipipe/tracer.c b/kernel/ipipe/tracer.c
+ new file mode 100644
+-index 0000000..da272c50
++index 0000000..da272c5
+ --- /dev/null
+ +++ b/kernel/ipipe/tracer.c
+ @@ -0,0 +1,1468 @@
+@@ -23375,7 +23376,7 @@ index 4e35a5d..f40e14c 100644
+  	help
+  	 This feature enables lockdep extensions that check for correct
+ diff --git a/lib/atomic64.c b/lib/atomic64.c
+-index 1298c05e..6ef2528 100644
++index 1298c05..6ef2528 100644
+ --- a/lib/atomic64.c
+ +++ b/lib/atomic64.c
+ @@ -29,15 +29,15 @@
+@@ -23470,7 +23471,7 @@ index 1298c05e..6ef2528 100644
+  
+  	raw_spin_lock_irqsave(lock, flags);
+ diff --git a/lib/bust_spinlocks.c b/lib/bust_spinlocks.c
+-index f8e0e53..02175aa3 100644
++index f8e0e53..02175aa 100644
+ --- a/lib/bust_spinlocks.c
+ +++ b/lib/bust_spinlocks.c
+ @@ -14,6 +14,7 @@
+diff --git a/kernel/drivers/can/rtcan_flexcan.c b/kernel/drivers/can/rtcan_flexcan.c
+index ac88d07..efe27bb 100644
+--- a/kernel/drivers/can/rtcan_flexcan.c
++++ b/kernel/drivers/can/rtcan_flexcan.c
+@@ -1016,10 +1016,6 @@ static int flexcan_probe(struct platform_device *pdev)
+ 	u32 clock_freq = 0;
+ 	int err, irq;
+ 
+-	pinctrl = devm_pinctrl_get_select_default(&pdev->dev);
+-	if (IS_ERR(pinctrl))
+-		return PTR_ERR(pinctrl);
+-
+ 	if (pdev->dev.of_node) {
+ 		of_property_read_u32(pdev->dev.of_node,
+ 						"clock-frequency", &clock_freq);
+diff --git a/kernel/drivers/net/drivers/Kconfig b/kernel/drivers/net/drivers/Kconfig
+index 267396c..c4a0abf 100644
+--- a/kernel/drivers/net/drivers/Kconfig
++++ b/kernel/drivers/net/drivers/Kconfig
+@@ -129,6 +129,10 @@ config XENO_DRIVERS_NET_DRV_MACB
+     Driver for internal MAC-controller on AT91SAM926x microcontrollers.
+     Porting by Cristiano Mantovani and Stefano Banzi (Marposs SpA).
+ 
++config XENO_DRIVERS_NET_DRV_FEC
++    depends on XENO_DRIVERS_NET
++    tristate "IMX FEC Ethernet"
++
+ endif
+ 
+ source "drivers/xenomai/net/drivers/experimental/Kconfig"
+diff --git a/kernel/drivers/net/drivers/fec.c b/kernel/drivers/net/drivers/fec.c
+index 290b765..fc973e3 100644
+--- a/kernel/drivers/net/drivers/fec.c
++++ b/kernel/drivers/net/drivers/fec.c
+@@ -352,7 +352,7 @@ fec_enet_start_xmit(struct rtskb *skb, struct rtnet_device *ndev)
+ 		/* Ooops.  All transmit buffers are full.  Bail out.
+ 		 * This should not happen, since ndev->tbusy should be set.
+ 		 */
+-		printk("%s: tx queue full!.\n", ndev->name);
++		pr_err("%s: tx queue full!.\n", ndev->name);
+ 		rtdm_lock_put_irqrestore(&fep->hw_lock, context);
+ 		return 1;	/* RTnet: will call kfree_rtskb() */
+ 	}
+@@ -1047,7 +1047,7 @@ static int fec_enet_mii_probe(struct rtnet_device *ndev)
+ 
+ 	snprintf(phy_name, sizeof(phy_name), PHY_ID_FMT, mdio_bus_id, phy_id);
+ 	/* attach the mac to the phy using the dummy linux netdev */
+-	phy_dev = phy_connect(fep->netdev, phy_name, &fec_enet_adjust_link, 0,
++	phy_dev = phy_connect(fep->netdev, phy_name, &fec_enet_adjust_link,
+ 			      fep->phy_interface);
+ 	if (IS_ERR(phy_dev)) {
+ 		printk(KERN_ERR "%s: could not attach to PHY\n", ndev->name);
+@@ -1266,7 +1266,7 @@ static int fec_enet_alloc_buffers(struct rtnet_device *ndev)
+ 
+ 	bdp = fep->rx_bd_base;
+ 	for (i = 0; i < RX_RING_SIZE; i++) {
+-		skb = rtnetdev_alloc_rtskb(netdev, FEC_ENET_RX_FRSIZE); /* RTnet */
++		skb = rtnetdev_alloc_rtskb(ndev, FEC_ENET_RX_FRSIZE); /* RTnet */
+ 		if (!skb) {
+ 			fec_enet_free_buffers(ndev);
+ 			return -ENOMEM;
+diff --git a/kernel/drivers/net/drivers/loopback.c b/kernel/drivers/net/drivers/loopback.c
+index b404a64..ef5323a 100644
+--- a/kernel/drivers/net/drivers/loopback.c
++++ b/kernel/drivers/net/drivers/loopback.c
+@@ -95,7 +95,7 @@ static int __init loopback_init(void)
+ 
+     printk("initializing loopback...\n");
+ 
+-    if ((rtdev = rt_alloc_etherdev(0, 0)) == NULL)
++    if ((rtdev = rt_alloc_etherdev(0, 1)) == NULL)
+ 	return -ENODEV;
+ 
+     rt_rtdev_connect(rtdev, &RTDEV_manager);
+diff --git a/kernel/drivers/serial/rt_imx_uart.c b/kernel/drivers/serial/rt_imx_uart.c
+index 092cecc..9519f8b 100644
+--- a/kernel/drivers/serial/rt_imx_uart.c
++++ b/kernel/drivers/serial/rt_imx_uart.c
+@@ -36,8 +36,10 @@
+ #include <asm/irq.h>
+ #include <asm/dma.h>
+ #include <asm/div64.h>
+-#include <mach/hardware.h>
+-#include <mach/imx-uart.h>
++#include <linux/platform_data/serial-imx.h>
++#include <linux/slab.h>
++#include <linux/of.h>
++#include <linux/of_device.h>
+ 
+ #include <rtdm/serial.h>
+ #include <rtdm/driver.h>
+@@ -65,7 +67,9 @@ MODULE_LICENSE("GPL");
+ #define UBMR	0xa8 /* BRM Modulator Register */
+ #define UBRC	0xac /* Baud Rate Count Register */
+ #define MX2_ONEMS 0xb0 /* One Millisecond register */
+-#define UTS (cpu_is_mx1() ? 0xd0 : 0xb4) /* UART Test Register */
++#define IMX1_UTS 0xd0 /* UART Test Register on i.mx1 */
++#define IMX21_UTS 0xb4 /* UART Test Register on all other i.mx*/
++
+ 
+ /* UART Control Register Bit Fields.*/
+ #define URXD_CHARRDY	(1<<15)
+@@ -189,18 +193,32 @@ MODULE_LICENSE("GPL");
+ #define RT_IMX_UART_MAX		5
+ 
+ static int tx_fifo[RT_IMX_UART_MAX];
+-compat_module_param_array(tx_fifo, int, RT_IMX_UART_MAX, 0400);
++module_param_array(tx_fifo, int, NULL, 0400);
+ MODULE_PARM_DESC(tx_fifo, "Transmitter FIFO size");
+ 
++/* i.mx21 type uart runs on all i.mx except i.mx1 */
++enum imx_uart_type {
++        IMX1_UART,
++        IMX21_UART,
++        IMX6Q_UART,
++};
++
++/* device type dependent stuff */
++struct imx_uart_data {
++        unsigned uts_reg;
++        enum imx_uart_type devtype;
++};
++
+ struct rt_imx_uart_port {
+ 	unsigned char __iomem *membase;	/* read/write[bwl] */
+-	resource_size_t mapbase;	/* for ioremap */
+ 	unsigned int irq;		/* irq number */
+ 	int tx_fifo;			/* TX fifo size*/
+ 	unsigned int have_rtscts;
+ 	unsigned int use_dcedte;
+ 	unsigned int use_hwflow;
+-	struct clk *clk;		/* clock id for UART clock */
++	struct clk *clk_ipg;
++	struct clk *clk_per;
++	const struct imx_uart_data *devdata;
+ 	unsigned int uartclk;		/* base uart clock */
+ 	struct rtdm_device rtdm_dev;	/* RTDM device structure */
+ };
+@@ -344,6 +362,7 @@ static int rt_imx_uart_rx_chars(struct rt_imx_uart_ctx *ctx,
+ static void rt_imx_uart_tx_chars(struct rt_imx_uart_ctx *ctx)
+ {
+ 	int ch, count;
++	unsigned uts_reg = ctx->port->devdata->uts_reg;
+ 
+ 	for (count = ctx->port->tx_fifo;
+ 	     (count > 0) && (ctx->out_npend > 0);
+@@ -352,7 +371,7 @@ static void rt_imx_uart_tx_chars(struct rt_imx_uart_ctx *ctx)
+ 		writel(ch, ctx->port->membase + URTX0);
+ 		ctx->out_head &= (OUT_BUFFER_SIZE - 1);
+ 
+-		if (readl(ctx->port->membase + UTS) & UTS_TXFULL)
++		if (readl(ctx->port->membase + uts_reg) & UTS_TXFULL)
+ 			break;
+ 	}
+ }
+@@ -493,9 +512,10 @@ static unsigned int rt_imx_uart_get_msr(struct rt_imx_uart_ctx *ctx)
+ static void rt_imx_uart_set_mcr(struct rt_imx_uart_ctx *ctx,
+ 				unsigned int mcr)
+ {
++	unsigned uts_reg = ctx->port->devdata->uts_reg;
+ 	unsigned long ucr2 = readl(ctx->port->membase + UCR2);
+ 	unsigned long ucr3 = readl(ctx->port->membase + UCR3);
+-	unsigned long uts = readl(ctx->port->membase + UTS);
++	unsigned long uts = readl(ctx->port->membase + uts_reg);
+ 
+ 	if (mcr & RTSER_MCR_RTS) {
+ 		/*
+@@ -523,7 +543,7 @@ static void rt_imx_uart_set_mcr(struct rt_imx_uart_ctx *ctx,
+ 		uts |= UTS_LOOP;
+ 	else
+ 		uts &= ~UTS_LOOP;
+-	writel(uts, ctx->port->membase + UTS);
++	writel(uts, ctx->port->membase + uts_reg);
+ }
+ 
+ static void rt_imx_uart_break_ctl(struct rt_imx_uart_ctx *ctx,
+@@ -723,7 +743,7 @@ static int rt_imx_uart_setup_ufcr(struct rt_imx_uart_port *port)
+ 	 * RFDIV is set such way to satisfy requested uartclk value
+ 	 */
+ 	val = TXTL << 10 | RXTL;
+-	ufcr_rfdiv = (clk_get_rate(port->clk) + port->uartclk / 2) /
++	ufcr_rfdiv = (clk_get_rate(port->clk_per) + port->uartclk / 2) /
+ 		port->uartclk;
+ 
+ 	if (!ufcr_rfdiv)
+@@ -897,7 +917,7 @@ static int rt_imx_uart_ioctl(struct rtdm_fd *fd,
+ 		}
+ 
+ 		if ((config->config_mask & RTSER_SET_BAUD) &&
+-		    (config->baud_rate > clk_get_rate(ctx->port->clk) / 16 ||
++		    (config->baud_rate > clk_get_rate(ctx->port->clk_per) / 16 ||
+ 		     config->baud_rate <= 0))
+ 			/* invalid baudrate for this port */
+ 			return -EINVAL;
+@@ -1382,42 +1402,134 @@ static struct rtdm_driver imx_uart_driver = {
+ 	},
+ };
+ 
++static struct imx_uart_data imx_uart_devdata[] = {
++        [IMX1_UART] = {
++                .uts_reg = IMX1_UTS,
++                .devtype = IMX1_UART,
++        },
++        [IMX21_UART] = {
++                .uts_reg = IMX21_UTS,
++                .devtype = IMX21_UART,
++        },
++        [IMX6Q_UART] = {
++                .uts_reg = IMX21_UTS,
++                .devtype = IMX6Q_UART,
++        },
++};
++
++static struct platform_device_id rt_imx_uart_id_table[] = {
++        {
++                .name = "imx1-uart",
++                .driver_data = (kernel_ulong_t) &imx_uart_devdata[IMX1_UART],
++        }, {
++                .name = "imx21-uart",
++                .driver_data = (kernel_ulong_t) &imx_uart_devdata[IMX21_UART],
++        }, {
++                .name = "imx6q-uart",
++                .driver_data = (kernel_ulong_t) &imx_uart_devdata[IMX6Q_UART],
++        }, {
++                /* sentinel */
++        }
++};
++MODULE_DEVICE_TABLE(platform, rt_imx_uart_id_table);
++
++static struct of_device_id rt_imx_uart_dt_ids[] = {
++        { .compatible = "fsl,imx6q-uart", .data = &imx_uart_devdata[IMX6Q_UART], },
++        { .compatible = "fsl,imx1-uart", .data = &imx_uart_devdata[IMX1_UART], },
++        { .compatible = "fsl,imx21-uart", .data = &imx_uart_devdata[IMX21_UART], },
++        { /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, rt_imx_uart_dt_ids);
++
++#ifdef CONFIG_OF
++
++/*
++ * This function returns 1 iff pdev isn't a device instatiated by dt, 0 iff it
++ * could successfully get all information from dt or a negative errno.
++ */
++static int rt_imx_uart_probe_dt(struct rt_imx_uart_port *port,
++                struct platform_device *pdev)
++{
++        struct device_node *np = pdev->dev.of_node;
++        const struct of_device_id *of_id =
++                        of_match_device(rt_imx_uart_dt_ids, &pdev->dev);
++        int ret;
++
++        if (!np)
++                /* no device tree device */
++                return 1;
++
++        ret = of_alias_get_id(np, "serial");
++        if (ret < 0) {
++                dev_err(&pdev->dev, "failed to get alias id, errno %d\n", ret);
++                return ret;
++        }
++
++	pdev->id = ret;
++
++        if (of_get_property(np, "fsl,uart-has-rtscts", NULL))
++                port->have_rtscts = 1;
++
++        if (of_get_property(np, "fsl,irda-mode", NULL))
++                dev_warn(&pdev->dev, "IRDA not yet supported\n");
++
++        if (of_get_property(np, "fsl,dte-mode", NULL))
++		port->use_dcedte = 1;
++
++        port->devdata = of_id->data;
++
++        return 0;
++}
++#else
++static inline int rt_imx_uart_probe_dt(struct rt_imx_uart_port *port,
++                struct platform_device *pdev)
++{
++        return 1;
++}
++#endif
++
++static void rt_imx_uart_probe_pdata(struct rt_imx_uart_port *port,
++                struct platform_device *pdev)
++{
++        struct imxuart_platform_data *pdata = dev_get_platdata(&pdev->dev);
++
++        port->devdata = (struct imx_uart_data  *) pdev->id_entry->driver_data;
++
++        if (!pdata)
++                return;
++
++        if (pdata->flags & IMXUART_HAVE_RTSCTS)
++                port->have_rtscts = 1;
++}
++
+ static int rt_imx_uart_probe(struct platform_device *pdev)
+ {
+-	struct imxuart_platform_data *pdata;
+ 	struct rtdm_device *dev;
+ 	struct rt_imx_uart_port *port;
+ 	struct resource *res;
+-	int err;
++	int ret;
+ 
+-	port = kzalloc(sizeof(*port), GFP_KERNEL);
++	port = devm_kzalloc(&pdev->dev, sizeof(*port), GFP_KERNEL);
+ 	if (!port)
+ 		return -ENOMEM;
+ 
++        ret = rt_imx_uart_probe_dt(port, pdev);
++        if (ret > 0)
++                rt_imx_uart_probe_pdata(port, pdev);
++        else if (ret < 0)
++                return ret;
++
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+-	if (!res) {
+-		err = -ENODEV;
+-		goto kfree_out;
+-	}
+-	port->mapbase = res->start;
++	if (!res)
++		return -ENODEV;
+ 
+ 	port->irq = platform_get_irq(pdev, 0);
+-	if (port->irq <= 0) {
+-		err = -ENODEV;
+-		goto kfree_out;
+-	}
+-
+-	if (!request_mem_region(port->mapbase, PAGE_SIZE, DRIVER_NAME)) {
+-		err = -EBUSY;
+-		goto kfree_out;
+-	}
+-
+-	port->membase = ioremap(port->mapbase, PAGE_SIZE);
+-	if (!port->membase) {
+-		err = -ENOMEM;
+-		goto release_mem_region_out;
+-	}
++	if (port->irq <= 0)
++		return -ENODEV;
+ 
++	port->membase = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(port->membase))
++		return PTR_ERR(port->membase);
+ 
+ 	dev = &port->rtdm_dev;
+ 	dev->driver = &imx_uart_driver;
+@@ -1429,87 +1541,43 @@ static int rt_imx_uart_probe(struct platform_device *pdev)
+ 	else
+ 		port->tx_fifo = tx_fifo[pdev->id];
+ 
+-	port->clk = clk_get(&pdev->dev, "uart");
+-	if (IS_ERR(port->clk)) {
+-		err = PTR_ERR(port->clk);
+-		goto iounmap_out;
+-	}
+-	clk_enable(port->clk);
+-	port->uartclk = clk_get_rate(port->clk);
++	port->clk_ipg = devm_clk_get(&pdev->dev, "ipg");
++	if (IS_ERR(port->clk_ipg))
++		return PTR_ERR(port->clk_ipg);
+ 
+-	port->use_hwflow = 1;
++	port->clk_per = devm_clk_get(&pdev->dev, "per");
++	if (IS_ERR(port->clk_per))
++		return PTR_ERR(port->clk_per);
+ 
+-	pdata = pdev->dev.platform_data;
+-	if (pdata && (pdata->flags & IMXUART_HAVE_RTSCTS))
+-		port->have_rtscts = 1;
+-	if (pdata && (pdata->flags & IMXUART_USE_DCEDTE))
+-		port->use_dcedte = 1;
+-	if (pdata && pdata->init) {
+-		err = pdata->init(pdev);
+-		if (err)
+-			goto clk_disable_out;
+-	}
++	clk_enable(port->clk_ipg);
++	clk_enable(port->clk_per);
++	port->uartclk = clk_get_rate(port->clk_per);
++
++	port->use_hwflow = 1;
+ 
+-	err = rtdm_dev_register(dev);
+-	if (err)
+-		goto pdata_exit_out;
++	ret = rtdm_dev_register(dev);
++	if (ret)
++		return ret;
+ 
+ 	platform_set_drvdata(pdev, port);
+ 
+ 	printk(KERN_INFO
+-	       "%s on IMX UART%d: membase=0x%p mapbase=%#x irq=%d uartclk=%d\n",
+-	       dev->name, pdev->id, port->membase, (u32)port->mapbase,
+-	       port->irq, port->uartclk);
++	       "%s on IMX UART%d: membase=0x%p irq=%d uartclk=%d\n",
++	       dev->name, pdev->id, port->membase, port->irq, port->uartclk);
+ 
+ 	return 0;
+-
+-pdata_exit_out:
+-	if (pdata && pdata->exit)
+-		pdata->exit(pdev);
+-clk_disable_out:
+-	clk_put(port->clk);
+-	clk_disable(port->clk);
+-iounmap_out:
+-	iounmap(port->membase);
+-release_mem_region_out:
+-	release_mem_region(port->mapbase, SZ_4K);
+-kfree_out:
+-	kfree(port);
+-
+-	return err;
+ }
+ 
+ static int rt_imx_uart_remove(struct platform_device *pdev)
+ {
+-	struct imxuart_platform_data *pdata;
+ 	struct rt_imx_uart_port *port = platform_get_drvdata(pdev);
+ 	struct rtdm_device *dev = &port->rtdm_dev;
+ 
+-	pdata = pdev->dev.platform_data;
+-	platform_set_drvdata(pdev, NULL);
+-
+ 	rtdm_dev_unregister(dev);
+ 
+-	if (port->clk) {
+-		clk_put(port->clk);
+-		clk_disable(port->clk);
+-	}
+-
+-	if (pdata && pdata->exit)
+-		pdata->exit(pdev);
+-
+-	iounmap(port->membase);
+-	release_mem_region(port->mapbase, PAGE_SIZE);
+-	kfree(port);
+-
+ 	return 0;
+ }
+ 
+-static const struct platform_device_id rt_imx_uart_id_table[] = {
+-	{"imx-uart",},
+-	{},
+-};
+-
+ static struct platform_driver rt_imx_uart_driver = {
+ 	.probe = rt_imx_uart_probe,
+ 	.remove	= rt_imx_uart_remove,
+@@ -1517,6 +1585,7 @@ static struct platform_driver rt_imx_uart_driver = {
+ 	.driver = {
+ 		.name = DRIVER_NAME,
+ 		.owner = THIS_MODULE,
++                .of_match_table = rt_imx_uart_dt_ids,
+ 	},
+ };
+ 

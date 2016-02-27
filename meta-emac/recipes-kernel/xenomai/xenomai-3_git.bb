@@ -21,11 +21,10 @@ INSANE_SKIP_${PN}-dev += " libdir "
 INSANE_SKIP_${PN}-dbg += " libdir "
 INSANE_SKIP_${PN} += " libdir "
 
-XENOMAI_SRC_PATH = "/usr/src/xenomai"
+#Make it MACHINE specific
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 TARGET_CC_ARCH += "${LDFLAGS}"
-
-#prefix_x = "${prefix}"
 
 FILES_${PN} += "/usr/bin/* /usr/sbin/* \
 		/usr/lib/* /usr/lib/xenomai/* \
@@ -41,7 +40,7 @@ FILES_${PN}-dbg += "/usr/bin/.debug/* /usr/sbin/.debug/* \
 
 S = "${WORKDIR}/git"
 
-CFLAGS_arm := "-march=armv5e"
+CFLAGS_arm ?= "-march=armv5e"
 CFLAGS_x86 := "-m32"
 EXTRA_OECONF_x86 = "--enable-smp"
 
