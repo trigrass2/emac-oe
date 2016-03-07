@@ -30,8 +30,8 @@ FILES_${PN} += "/usr/bin/* /usr/sbin/* \
 		/usr/lib/* /usr/lib/xenomai/* \
 		/etc/* \
 		/usr/demo/* \"
-FILES_${PN}-doc += "/usr/xenomai/share/*"
-FILES_${PN}-dev += "/usr/xenomai/include/*"
+FILES_${PN}-doc += "/usr/share/*"
+FILES_${PN}-dev += "/usr/include/*"
 FILES_${PN}-staticdev += "/usr/lib/*.a"
 FILES_${PN}-dbg += "/usr/bin/.debug/* /usr/sbin/.debug/* \
 		 /usr/lib/.debug/* \
@@ -48,7 +48,7 @@ do_configure () {
 	cd ${S}
 
 	${S}/scripts/bootstrap
-        ${S}/configure --build=${BUILD_SYS} --host=${HOST_SYS} --target=${TARGET_SYS} --with-core=cobalt --enable-pshared ${EXTRA_OECONF} CFLAGS=${CFLAGS} LDFLAGS=${CFLAGS} --exec_prefix=/usr --includedir=/usr/include/xenomai
+        ${S}/configure --build=${BUILD_SYS} --host=${HOST_SYS} --target=${TARGET_SYS} --with-core=cobalt --enable-pshared ${EXTRA_OECONF} CFLAGS=${CFLAGS} LDFLAGS=${CFLAGS} --prefix= --exec_prefix=/usr --includedir=/usr/include/xenomai
 }
 
 do_compile () {
@@ -63,6 +63,5 @@ do_install () {
 	# remove /dev entry - it will be created later in image
 	rm -fR ${D}/dev
 	
-	mv ${D}/usr/xenomai/etc/ ${D}
-
+	mv ${D}/share ${D}/usr/share
 }
