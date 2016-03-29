@@ -15,6 +15,8 @@ SRCREV = "ce604a92b249e84d888f58327b34239330b063e5"
 
 SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH}"
 
+DEPENDS = "fuse"
+
 inherit autotools
 
 INSANE_SKIP_${PN}-dev += " libdir "
@@ -43,12 +45,13 @@ S = "${WORKDIR}/git"
 CFLAGS_arm ?= "-march=armv5e"
 CFLAGS_x86 := "-m32"
 EXTRA_OECONF_x86 = "--enable-smp"
+LDFLAGS = "`pkg-config fuse --cflags --libs`"
 
 do_configure () {
 	cd ${S}
 
 	${S}/scripts/bootstrap
-        ${S}/configure --build=${BUILD_SYS} --host=${HOST_SYS} --target=${TARGET_SYS} --with-core=cobalt --enable-pshared ${EXTRA_OECONF} CFLAGS=${CFLAGS} LDFLAGS=${CFLAGS} --prefix= --exec_prefix=/usr --includedir=/usr/include/xenomai
+        ${S}/configure --build=${BUILD_SYS} --host=${HOST_SYS} --target=${TARGET_SYS} --with-core=cobalt --enable-pshared ${EXTRA_OECONF} CFLAGS=${CFLAGS} LDFLAGS=${CFLAGS} --prefix=/usr --exec_prefix=/usr --includedir=/usr/include/xenomai --enable-registry
 }
 
 do_compile () {
@@ -63,5 +66,5 @@ do_install () {
 	# remove /dev entry - it will be created later in image
 	rm -fR ${D}/dev
 	
-	mv ${D}/share ${D}/usr/share
+	mv ${D}/usr/etc ${D}/etc
 }
