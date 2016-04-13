@@ -20,3 +20,5 @@ do_install () {
 
 CONFFILES_${PN} += "${sysconfdir}/lilo.conf \
                     ${sysconfdir}/lilo.conf.usb"
+
+PACKAGE_ARCH = "${MACHINE_ARCH}"

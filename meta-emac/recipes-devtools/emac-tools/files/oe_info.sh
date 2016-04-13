@@ -181,6 +181,9 @@ kernRev=$(uname -r | cut -d '_' -f2 | cut -d '+' -f2 )
 
 if [ -x /usr/sbin/lilo ]; then
         bootVers=$(lilo -V)
+elif [ -x /usr/sbin/grub-install ]; then
+        bootVers=$(grub-install -v | cut -d ' ' -f3)
+        bootVers="GRUB $bootVers"
 else
 	mtdNum=$(cat /proc/mtd | grep spi | cut -d ':' -f1)
         boot=$(strings /dev/$mtdNum | grep 'U-Boot [0-9]' -m1 | cut -d '(' -f1)
@@ -216,10 +219,7 @@ echo "####################################################"
 
 if [ -w / ]; then
         mv /tmp/oe_info /etc/oe_info
+	/usr/bin/webwriter.sh
 fi
 
 echo
-
-if [ -w / ]; then
-	/www/pages/webwriter.sh
-fi

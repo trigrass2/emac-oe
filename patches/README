@@ -1,7 +1,7 @@
 The poky.patch is required to fix the new location of the opkg lock directory. To apply, change into the "recipes" directory and type:
 
-	cd poky && git apply ../emac-oe/patches/poky.patch
+	cd poky && git apply ../emac-oe/patches/poky.patch && cd ../
 
 The meta-oe.patch is to fix the incorrect PACKAGECONFIG line in libao. This has been fixed upstream and will not be required in the next release (v2.0).
 
-	cd meta-openembedded && git apply ../emac-oe/patches/meta-oe.patch
+	cd meta-openembedded && git apply ../emac-oe/patches/meta-oe.patch && cd ../

@@ -39,7 +39,7 @@ then
         cat /etc/issue.net      
 fi
 
-if [ ${TERMINAL:5:4} == ttyS ] || [ ${TERMINAL:5:4} == ttyO ]
+if [ ${TERMINAL:5:4} == ttyS ] || [ ${TERMINAL:5:4} == ttyO ] || [ ${TERMINAL:5:6} == ttymxc ]
 then
         resize > /dev/null
 fi

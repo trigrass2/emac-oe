@@ -11,3 +11,19 @@ index 1a22604..04e8461 100644
  PACKAGECONFIG[esound] = "--enable-esd,--disable-esd,esound"
  PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
  PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
+diff --git a/meta-oe/recipes-devtools/php/php_5.5.21.bb b/meta-oe/recipes-devtools/php/php_5.5.21.bb
+index 6bdd1c5..c13cc48 100644
+--- a/meta-oe/recipes-devtools/php/php_5.5.21.bb
++++ b/meta-oe/recipes-devtools/php/php_5.5.21.bb
+@@ -128,6 +128,11 @@ do_install_append_class-native() {
+ do_install_prepend() {
+     cat aclocal-copy/libtool.m4 aclocal-copy/lt~obsolete.m4 aclocal-copy/ltoptions.m4 \
+         aclocal-copy/ltsugar.m4 aclocal-copy/ltversion.m4 > ${S}/build/libtool.m4
++    if ${@bb.utils.contains('PACKAGECONFIG', 'apache2', 'true', 'false', d)}; then
++        # Install dummy config file so apxs doesn't fail
++        install -d ${D}${sysconfdir}/
++        printf "\nLoadModule dummy_module modules/mod_dummy.so\n" > ${D}${sysconfdir}/httpd.conf
++    fi
+ }
+ 
+ do_install_prepend_class-target() {

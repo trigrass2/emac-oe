@@ -6,7 +6,7 @@ PROVIDES = "virtual/bootloader"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 
-SRCREV = "9dda1d12a0a049bc7b05c78b7b5b6fa0e1316661"
+SRCREV = "0a818101746cd462c8c54a876af05021a3278a5f"
 PV = "v2016.01+git${SRCPV}"
 
 SRC_URI = "git://gitlab.emacinc.com/bootloader/u-boot-emac.git;protocol=http"
@@ -22,7 +22,7 @@ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHA
 # Allow setting an additional version string that will be picked up by the
 # u-boot build system and appended to the u-boot version.  If the .scmversion
 # file already exists it will not be overwritten.
-EMAC_UBOOT_LOCALVERSION ?= "_emac-standard"
+EMAC_UBOOT_VERSION = "SL161-ABN"
 FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
 UBOOT_LOCALVERSION = "${EMAC_UBOOT_LOCALVERSION}+${FIRST_SRCREV}"
 

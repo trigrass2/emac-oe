@@ -7,8 +7,7 @@ PROVIDES += " virtual/kernel kernel-modules "
 
 FILES_kernel-dev += "${KERNEL_LINK_PATH}"
 
-XENOMAI_VER="git"
-XENOMAI_SRC_PATH = "${TMPDIR}/work-shared/xenomai-${XENOMAI_VER}/${XENOMAI_VER}"
+XENOMAI_SRC_PATH = "${TMPDIR}/work/${MULTIMACH_TARGET_SYS}/xenomai-3/git-${PR}/git"
 XENOMAI_DEST_SRC_PATH = "../xenomai"
 
 DEPENDS_append = " xenomai-3"

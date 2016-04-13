@@ -1,18 +1,18 @@
 SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
 LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 SECTION = "bootloader"
 DEPENDS = "mtd-utils"
 
-SRCREV = "5feae908fd7c50f84b7accd769028c8aefd3c56c"
-PV = "v2015.04+git${SRCPV}"
+SRCREV = "fa85e826c16b9ce1ad302a57e9c4b24db0d8b930"
+PV = "v2016.01+git${SRCPV}"
 
 SRC_URI = "git://gitlab.emacinc.com/bootloader/u-boot-emac.git;protocol=http"
 
 S = "${WORKDIR}/git"
 
 INSANE_SKIP_${PN} = "already-stripped"
-EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
+EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS}" V=1'
 EXTRA_OEMAKE_class-cross = 'ARCH=${TARGET_ARCH} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
 
 inherit uboot-config

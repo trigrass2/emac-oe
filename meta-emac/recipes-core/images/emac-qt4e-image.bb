@@ -10,4 +10,4 @@ PACKAGE_EXCLUDE = "qt4-embedded-demos-doc qt4-embedded-assistant qt4-embedded-ex
 
 IMAGE_TYPE = "Qt 4 Embedded"
 BUILD_TYPE = "qt4e"
-PART_NUMBER ?= "Standard QT"
+FS_NUMBER = "1"
