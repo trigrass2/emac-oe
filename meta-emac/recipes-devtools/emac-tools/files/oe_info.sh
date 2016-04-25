@@ -179,6 +179,44 @@ kernVers=$(uname -r | cut -d '_' -f1)
 kernPart=$(uname -r | cut -d '_' -f2 | cut -d '+' -f1 )
 kernRev=$(uname -r | cut -d '_' -f2 | cut -d '+' -f2 )
 
+#Get carrier model number and look up part number component#
+carrier=$(cat /proc/device-tree/model | awk -F ' ' '{print($NF)}')
+if [ -z "$carrier" ]; then
+	carrier=""
+fi
+
+carrierNumber=0;
+case ${carrier:4:3} in
+	150)
+		carrierNumber=1;
+		;;
+	200)
+		carrierNumber=2;
+		;;
+	210)
+		carrierNumber=3;
+		;;
+	212)
+		carrierNumber=4;
+		;;
+	250)
+		carrierNumber=5;
+		;;
+	300)
+		carrierNumber=6;
+		;;
+	320)
+		carrierNumber=7;
+		;;
+	350)
+		carrierNumber=8;
+		;;
+esac
+kernPart=${kernPart:0:11}${carrierNumber}${kernPart:12}
+
+#Get info on CPLD for the 150 and 200 carriers
+CPLD=$(dmesg | grep 'EMAC core')
+
 if [ -x /usr/sbin/lilo ]; then
         bootVers=$(lilo -V)
 elif [ -x /usr/sbin/grub-install ]; then
@@ -196,6 +234,7 @@ else
 fi
 
 echo "Product: "$(hostname) > /tmp/oe_info
+[ -n "$carrier" ] && echo "Carrier:" $carrier >> /tmp/oe_info
 [ -n "$serialNum" ] && echo "Serial Number: "${serialNum:8} >> /tmp/oe_info
 echo >> /tmp/oe_info
 [ -n "$bootStrap" ] && echo "Bootstrap: "$bootStrap >> /tmp/oe_info
@@ -211,6 +250,10 @@ echo >> /tmp/oe_info
 echo "Filesystem Part#: "$fsPN >> /tmp/oe_info
 echo "Filesystem Ver#: "$oeVers >> /tmp/oe_info
 echo "Filesystem Rev: "$fsRev >> /tmp/oe_info
+if [ ! -z "$CPLD" ]; then
+	echo >> /tmp/oe_info
+	echo "CPLD: "$CPLD >> /tmp/oe_info
+fi
 
 cat /tmp/oe_info
 echo
