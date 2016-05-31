@@ -65,6 +65,7 @@ RRECOMMENDS_${PN}-util-debug = "\
     procps \
     nano \
     md5deep \
+    ldd \
     "
 
 SUMMARY_${PN}-timezone = "EMAC OE TimeZone Files"
