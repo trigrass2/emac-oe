@@ -6,7 +6,7 @@ PROVIDES = "virtual/bootloader"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
 
-SRCREV = "7e0bb895fe252c336d115045ea96bc164132fa5f"
+SRCREV = "ef7094330484be06148b3ccea17f24eb4c637cf8"
 PV = "v2014.07+git${SRCPV}"
 
 SRC_URI = "git://gitlab.emacinc.com/bootloader/u-boot-at91.git;protocol=http"
