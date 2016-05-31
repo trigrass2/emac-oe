@@ -11,4 +11,5 @@ RDEPENDS_${PN} += " \
     confuse-dev \
     xenomai-3-dev \
     xmlrpc-c-dev \
+    susi-utils-dev \
 "
