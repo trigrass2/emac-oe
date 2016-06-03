@@ -3,7 +3,7 @@ AUTHOR = "EMAC Inc."
 HOMEPAGE = "http://www.emacinc.com/"
 LICENSE = "CLOSED"
 
-SRCREV = "c34fc8cb1d83406805539b87a43903a801dc188a"
+SRCREV = "55329de93e625ece750d6b771aae0cbea532c496"
 
 SRC_URI = " \
             git://gitlab.emacinc.com/oe/serial-mode-tool.git;protocol=http \
