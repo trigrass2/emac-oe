@@ -27,31 +27,37 @@ swap_on_md=no
 devfs=
 while read fs mnt type opts dump pass junk <&9
 do
-	case "$fs" in
-		""|\#*)
-			continue;
-			;;
-		/dev/md*)
-			# Swap on md device.
-			test "$type" = swap && swap_on_md=yes
-			;;
-		/dev/*)
-			;;
-		*)
-			# Might be a swapfile.
-			test "$type" = swap && swap_on_md=yes
-			;;
-	esac
-	test "$type" = devfs && devfs="$fs"
-	test "$mnt" != / && continue
-	rootopts="$opts"
-	test "$pass" = 0 -o "$pass" = "" && rootcheck=no
-	case "$opts" in
-		ro|ro,*|*,ro|*,ro,*)
-			rootmode=ro
-			;;
-	esac
+        test "$mnt" != /  && continue
+        case "$fs" in
+                ""|\#*)
+                        continue;
+                        ;;
+                /dev/md*)
+                        # Swap on md device.
+                        test "$type" = swap && swap_on_md=yes
+                        ;;
+                /dev/*)
+                        ;;
+                *)
+                        # Might be a swapfile.
+                        test "$type" = swap && swap_on_md=yes
+                        ;;
+        esac
+        test "$type" = devfs && devfs="$fs"
+        rootopts="$opts"
+        test "$pass" = 0 -o "$pass" = "" && rootcheck=no
+        case "$opts" in
+                ro|ro,*|*,ro|*,ro,*)
+                        rootmode=ro
+                        ;;
+        esac
+        break
 done
+
+    # Get the filesystem type
+    rootfstype=$(df -T  | grep -w '/' | awk '{print $2}')
+    [[ ! "ext4" =~ "ext"[2,3,4] ]] && rootcheck=no
+
 exec 0>&9 9>&-
 
 # Check for conflicting configurations
@@ -100,9 +106,19 @@ else
     case "$TERM" in
         dumb|network|unknown|"") spinner="" ;;
     esac
-    test `uname -m` = s390 && spinner="" # This should go away
+
+    # Find the root device
+    read CMDLINE < /proc/cmdline
+    for x in $CMDLINE
+    do
+        case $x in
+            root=*)
+                    eval $x
+        esac
+    done
+
     test "$VERBOSE" != no && echo "Checking root filesystem..."
-    fsck $spinner $force $fix /
+    fsck.$rootfstype $force $fix $root
     #
     # If there was a failure, drop into single-user mode.
     #
