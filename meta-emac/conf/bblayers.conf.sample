@@ -14,4 +14,5 @@ BBLAYERS ?= " \
   ##OEROOT##/recipes/meta-openembedded/meta-python \
   ##OEROOT##/recipes/meta-openembedded/meta-efl \
   ##OEROOT##/recipes/meta-openembedded/meta-multimedia \
+  ##OEROOT##/recipes/meta-openembedded/meta-filesystems \
   "
