@@ -7,6 +7,8 @@ SRC_URI = "file://fbsplash \
 	   ${SPLASH_IMAGES} \
           "
 
+SPLASH_IMAGES = ""
+
 inherit update-rc.d
 
 INITSCRIPT_NAME = "fbsplash"
