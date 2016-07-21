@@ -9,9 +9,9 @@ SECTION = "tools/realtime"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-# V3.0.2
+# V3.0.2+
 XBRANCH = "stable-3.0.x"
-SRCREV = "7fa3633957cee1a7d1cc8b2704858992e9c49821"
+SRCREV = "ac1d5182b0d6149e4797a238ecff5f01e7af3b0f"
 
 SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH}"
 
@@ -42,7 +42,7 @@ FILES_${PN}-dbg += "/usr/bin/.debug/* /usr/sbin/.debug/* \
 
 S = "${WORKDIR}/git"
 
-CFLAGS_arm ?= "-march=armv5e"
+#CFLAGS_arm ?= "-march=armv5e"
 CFLAGS_x86 := "-m32"
 EXTRA_OECONF_x86 = "--enable-smp"
 LDFLAGS = "`pkg-config fuse --cflags --libs`"
