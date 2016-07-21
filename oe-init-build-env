@@ -20,7 +20,6 @@ fi
 
 #Set where everything is
 OE="`pwd`"
-BUILDDIR="$OE/build"
 BBROOT="$OE/recipes/poky"
 TEMPLATECONF="recipes/emac-oe/meta-emac/conf"
 MACHINECONF="recipes/emac-oe/meta-emac-bsp/conf/machine"
@@ -100,7 +99,9 @@ getlist
 machdir=$machine
 getlist $machdir
 
-mkdir -p build/conf
+
+
+
 
 OECORELAYERCONF="$TEMPLATECONF"/bblayers.conf.sample
 
@@ -109,12 +110,16 @@ then
     fullpath=$(find $CUSTOMMACHINECONF -name $machine.conf)
     layerdir=$(dirname $(dirname $(dirname $fullpath)))
     [ -r "$layerdir/conf/bblayers.conf.sample" ] && OECORELAYERCONF="$layerdir/conf/bblayers.conf.sample"
+    BRANCH=$machine
 else
     fullpath=$MACHINECONF
     layerdir=$(dirname $(dirname $fullpath))
     [ ! -h $fullpath/$machine.conf ] && ln -s $machdir/$machine.conf $fullpath/$machine.conf
+    BRANCH=$(git --work-tree=recipes/emac-oe --git-dir=recipes/emac-oe/.git rev-parse --abbrev-ref HEAD)
 fi
 
+BUILDDIR="$OE/build_$BRANCH"
+mkdir -p "$BUILDDIR/conf"
 # Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
 sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
 
