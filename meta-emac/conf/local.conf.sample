@@ -5,7 +5,7 @@ IMAGE_FEATURES = "ssh-server-openssh package-management"
 DL_DIR ?= "##OEROOT##/downloads"
 
 # Where to place shared-state files
-SSTATE_DIR = "##OEROOT##/build/sstate-cache"
+SSTATE_DIR = "${TOPDIR}/sstate-cache"
 
 # Where to place the build output
 TMPDIR ?= "${TOPDIR}/tmp"
