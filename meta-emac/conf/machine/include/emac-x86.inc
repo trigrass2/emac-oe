@@ -3,7 +3,7 @@
 #
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac-x86"
-PREFERRED_VERSION_linux-emac-x86 ?= "3.19%"
+PREFERRED_VERSION_linux-emac-x86 ?= "4.6%"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 XSERVER ?= "${XSERVER_X86_BASE} \
