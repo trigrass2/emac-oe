@@ -10,7 +10,6 @@ TOOLCHAIN_HOST_TASK_append = " \
     nativesdk-python-sqlite3 \
     nativesdk-python-pickle \
     nativesdk-python-logging \
-    nativesdk-python-elementtree \
     nativesdk-python-curses \
     nativesdk-python-compile \
     nativesdk-python-compiler \
@@ -33,4 +32,4 @@ TOOLCHAIN_HOST_TASK_append = " \
     nativesdk-python-pkgutil \
 "
 
-require recipes-qt/meta/meta-toolchain-qt.inc
+require recipes-qt4/meta/meta-toolchain-qt.inc
