@@ -93,7 +93,7 @@ RRECOMMENDS_packagegroup-emac-core-mtd = "\
 
 SUMMARY_packagegroup-emac-core-x86= "EMAC OE x86 Packages."
 RRECOMMENDS_packagegroup-emac-core-x86 = "\
-    lilo \
+    grub \
     "
 
 SUMMARY_packagegroup-emac-core-screen= "EMAC OE Screen Packages."
