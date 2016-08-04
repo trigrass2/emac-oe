@@ -180,7 +180,7 @@ kernPart=$(uname -r | cut -d '_' -f2 | cut -d '+' -f1 )
 kernRev=$(uname -r | cut -d '_' -f2 | cut -d '+' -f2 )
 
 #Get carrier model number and look up part number component#
-carrier=$(cat /proc/device-tree/model | awk -F ' ' '{print($NF)}')
+[ -f /proc/device-tree/model ] && carrier=$(cat /proc/device-tree/model | awk -F ' ' '{print($NF)}')
 if [ -z "$carrier" ]; then
 	carrier=""
 fi
