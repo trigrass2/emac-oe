@@ -1,13 +1,12 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 
-COMPATIBLE_MACHINE_append = "PMX-057T|PMX-090T|VOX-150|FT10270|FT8270|PCM-3356|586|PCM-9362D|PPC-150T|PCM-9389|HMI-043T|IBX-210-2600|AIMB-214|VMXP-6427|GENE-LN05|Vortex-SIB|"
+COMPATIBLE_MACHINE_append = "PMX|VOX-150|FT10270|FT8270|PCM-3356|586|PCM-9362D|PPC-150T|PCM-9389|HMI-043T|IBX-210-2600|AIMB-214|VMXP-6427|GENE-LN05|Vortex-SIB|"
 
 SRC_URI += " \
 		file://defconfig \
 	"
 
-SRC_URI_append_PMX-090T = "file://0001-rdc.patch"
-SRC_URI_append_PMX-057T = "file://0001-rdc.patch"
+SRC_URI_append_PMX = "file://0001-rdc.patch"
 SRC_URI_append_HMI-043T = "file://0001-rdc.patch"
 SRC_URI_append_VMXP-6427 = "file://0001-rdc.patch"
 SRC_URI_append_Vortex-SIB = "file://0001-rdc.patch"
