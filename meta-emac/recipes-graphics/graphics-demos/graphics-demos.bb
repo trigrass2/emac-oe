@@ -3,9 +3,36 @@ LICENSE="CLOSED"
 
 RESOLUTION ?= "480x272"
 
-SRC_URI = "file://${RESOLUTION}_ppm.tar.gz;unpack=false"
+SRC_URI = "${IMAGES_SRC}"
+
+IMAGES_SRC = ""
+SPLASH_IMAGES = ""
+
+python __anonymous() {
+    splashfiles = d.getVar('RESOLUTION', True).split()
+    strfile="file://"
+    strsplash="_ppm.tar.gz"
+    strunpack=";unpack=false "
+    pkgs = []
+
+    for res in splashfiles:
+        imgfull = strfile + res + strsplash + strunpack
+        pkgs.append(imgfull)
+
+    d.setVar("IMAGES_SRC", " ".join(pkgs))
+
+    pkgs = []
+    for res in splashfiles:
+        img = res + strsplash + " "
+        pkgs.append(img)
+
+    d.setVar("SPLASH_IMAGES", " ".join(pkgs))
+
+}
 
 do_install() {
 	install -d ${D}${sysconfdir}/emac/demos
-	install -m 0755 ${WORKDIR}/${RESOLUTION}_ppm.tar.gz ${D}${sysconfdir}/emac/demos/graphics_ppm.tar.gz
+	for i in ${SPLASH_IMAGES}; do
+		install -m 0755 ${WORKDIR}/${i} ${D}${sysconfdir}/emac/demos/${i}
+	done
 }
