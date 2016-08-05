@@ -26,23 +26,20 @@ INSANE_SKIP_${PN} += " libdir "
 #Make it MACHINE specific
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-TARGET_CC_ARCH += "${LDFLAGS}"
-
 FILES_${PN} += "/usr/bin/* /usr/sbin/* \
 		/usr/lib/* /usr/lib/xenomai/* \
 		/etc/* \
-		/usr/demo/* \"
-FILES_${PN}-doc += "/usr/share/*"
+		/usr/demo/* \
+		/usr/share/xeno-src/*"
+FILES_${PN}-doc += "/usr/share/man/* /usr/share/doc/*"
 FILES_${PN}-dev += "/usr/include/*"
 FILES_${PN}-staticdev += "/usr/lib/*.a"
 FILES_${PN}-dbg += "/usr/bin/.debug/* /usr/sbin/.debug/* \
 		 /usr/lib/.debug/* \
 		 /usr/demo/.debug/* \
 		"
-
 S = "${WORKDIR}/git"
 
-#CFLAGS_arm ?= "-march=armv5e"
 CFLAGS_x86 := "-m32"
 EXTRA_OECONF_x86 = "--enable-smp"
 LDFLAGS = "`pkg-config fuse --cflags --libs`"
@@ -51,17 +48,18 @@ do_configure () {
 	cd ${S}
 
 	${S}/scripts/bootstrap
-        ${S}/configure --build=${BUILD_SYS} --host=${HOST_SYS} --target=${TARGET_SYS} --with-core=cobalt --enable-pshared ${EXTRA_OECONF} CFLAGS=${CFLAGS} LDFLAGS=${CFLAGS} --prefix=/usr --exec_prefix=/usr --includedir=/usr/include/xenomai --enable-registry
-}
-
-do_compile () {
-	cd ${S}
-	make
+        ${S}/configure --build=${BUILD_SYS} --host=${HOST_SYS} --target=${TARGET_SYS} --with-core=cobalt --enable-pshared ${EXTRA_OECONF} --prefix=/usr --exec_prefix=/usr --includedir=/usr/include/xenomai --enable-registry
 }
 
 do_install () {
 	cd ${S}
 	make DESTDIR=${D} install
+
+	mkdir -p ${D}/usr/share/xeno-src
+	cd ${S}/demo
+	find . -name *.c | cpio -pdm ${D}/usr/share/xeno-src
+	find . -name *.h | cpio -pdm ${D}/usr/share/xeno-src
+	find . -name "Makefile.*" | cpio -pdm ${D}/usr/share/xeno-src
 	
 	# remove /dev entry - it will be created later in image
 	rm -fR ${D}/dev
