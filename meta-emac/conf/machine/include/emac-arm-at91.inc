@@ -1,6 +1,6 @@
-PREFERRED_PROVIDER_virtual/kernel = "linux-emac-at91"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac-at91"
 PREFERRED_VERSION_linux-emac-at91 ?= "3.10%"
-PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac-at91"
+PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-emac-at91"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 XSERVER ?= "xserver-xorg \
