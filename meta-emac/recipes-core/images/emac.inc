@@ -75,8 +75,6 @@ fix_rootfs() {
 	echo >> ${IMAGE_ROOTFS}${sysconfdir}/issue
 	echo >> ${IMAGE_ROOTFS}${sysconfdir}/issue.net
 
-	[ -n "${RESOLUTION}" ] && echo "${RESOLUTION}" > ${IMAGE_ROOTFS}${sysconfdir}/resolution
-
 	# Run populate-volatile.sh at rootfs time to set up basic files
 	# and directories to support read-only rootfs.
 	if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
