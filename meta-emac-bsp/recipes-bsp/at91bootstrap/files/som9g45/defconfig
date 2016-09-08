@@ -1,6 +1,6 @@
 #
 # Automatically generated make config: don't edit
-# Wed Jul 13 14:24:27 2016
+# Wed Sep  7 19:17:48 2016
 #
 HAVE_DOT_CONFIG=y
 # CONFIG_AT91SAM9260EK is not set
@@ -114,7 +114,7 @@ CONFIG_MEMORY="dataflash"
 #
 # SPI configuration
 #
-CONFIG_SPI_CLK=33000000
+CONFIG_SPI_CLK=15000000
 CONFIG_SMALL_DATAFLASH=y
 # CONFIG_DATAFLASH_RECOVERY is not set
 ALLOW_DATAFLASH_RECOVERY=y
