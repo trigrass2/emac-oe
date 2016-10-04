@@ -30,10 +30,10 @@ To build an EMAC OE filesystem, there are three basic steps:
 
   - Checkout the appropriate branches of the repositories.
 
-	****EMAC OE 5.0 is based on OpenEmbedded/Yocto fido branch****
-  $ cd poky && git checkout fido && cd ..
-  $ cd meta-openembedded && git checkout fido && cd ..
-  $ cd emac-oe && git checkout 5.0 && cd ..
+	****EMAC OE 5.1 is based on OpenEmbedded/Yocto krogoth branch****
+  $ cd poky && git checkout krogoth && cd ..
+  $ cd meta-openembedded && git checkout krogoth && cd ..
+  $ cd emac-oe && git checkout 5.1 && cd ..
 
   - Apply any poky or mete-openembedded patches. Patches to the upstream repositories are located in the emac-oe/patches directory and include instructions on applying.
 
