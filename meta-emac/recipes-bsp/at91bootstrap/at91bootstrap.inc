@@ -24,6 +24,10 @@ AT91BOOTSTRAP_SYMLINK ?= "at91bootstrap-${AT91BOOTSTRAP_MACHINE}.${AT91BOOTSTRAP
 
 EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
 
+EMAC_BOOTSTRAP_VERSION = "SL372-ALN"
+FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
+BOOTSTRAP_LOCALVERSION = "${EMAC_BOOTSTRAP_LOCALVERSION}+${FIRST_SRCREV}"
+
 do_configure() {
 	# Copy defconfig to .config if .config does not exist. This allows
 	# recipes to manage the .config themselves in do_configure_prepend()
@@ -43,6 +47,9 @@ do_compile() {
 	if [ "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
 		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/Makefile
 	fi
+
+	echo ${BOOTSTRAP_LOCALVERSION} > ${B}/.scmversion
+	echo ${BOOTSTRAP_LOCALVERSION} > ${S}/.scmversion
 
 	unset CFLAGS CPPFLAGS LDFLAGS
 	oe_runmake
