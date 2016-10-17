@@ -224,12 +224,14 @@ elif [ -x /usr/sbin/grub-install ]; then
         bootVers="GRUB $bootVers"
 else
 	mtdNum=$(cat /proc/mtd | grep spi | cut -d ':' -f1)
-        boot=$(strings /dev/$mtdNum | grep 'U-Boot [0-9]' -m1 | cut -d '(' -f1)
 	boot=$(fw_printenv ver | cut -d '=' -f2)
         bootVers=$(echo $boot | cut -d '_' -f1)
         bootPart=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f1)
 	bootRev=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
         bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -m1 | cut -d '(' -f1)
+	bootStrapVers=$(echo $bootStrap | cut -d '_' -f1)
+	bootStrapPart=$(echo $bootStrap | cut -d '_' -f2 | cut -d '+' -f1)
+	bootStrapRev=$(echo $bootStrap | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
         serialNum=$(fw_printenv serial#)
 fi
 
@@ -237,7 +239,11 @@ echo "Product: "$(hostname) > /tmp/oe_info
 [ -n "$carrier" ] && echo "Carrier:" $carrier >> /tmp/oe_info
 [ -n "$serialNum" ] && echo "Serial Number: "${serialNum:8} >> /tmp/oe_info
 echo >> /tmp/oe_info
-[ -n "$bootStrap" ] && echo "Bootstrap: "$bootStrap >> /tmp/oe_info
+if [ -n "$bootStrap" ];then
+	echo "Bootstrap Part#: "$bootStrapPart >> /tmp/oe_info
+	echo "Bootstrap Ver#: "$bootStrapVers >> /tmp/oe_info
+	echo "Bootstrap Rev#: "$bootStrapRev >> /tmp/oe_info
+fi
 echo >> /tmp/oe_info
 echo "Bootloader Part# "$bootPart >> /tmp/oe_info
 echo "Bootloader Ver#: "$bootVers >> /tmp/oe_info
