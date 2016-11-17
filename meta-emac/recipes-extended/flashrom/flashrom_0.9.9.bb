@@ -7,8 +7,8 @@ DEPENDS = "pciutils"
 
 SRC_URI = "http://download.flashrom.org/releases/flashrom-${PV}.tar.bz2"
 
-SRC_URI[md5sum] = "ac513076b63ab7eb411a7694bb8f6fda"
-SRC_URI[sha256sum] = "13dc7c895e583111ecca370363a3527d237d178a134a94b20db7df177c05f934"
+SRC_URI[md5sum] = "aab9c98925d9cfb5ffb28b67a6112530"
+SRC_URI[sha256sum] = "cb3156b0f63eb192024b76c0814135930297aac41f80761a5d293de769783c45"
 
 do_install() {
     oe_runmake PREFIX=${prefix} DESTDIR=${D} install
