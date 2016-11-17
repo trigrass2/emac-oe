@@ -1,6 +1,6 @@
 #
 # Automatically generated make config: don't edit
-# Wed Sep 16 16:09:02 2015
+# Mon Jun 29 11:04:51 2015
 #
 HAVE_DOT_CONFIG=y
 # CONFIG_AT91SAM9260EK is not set
@@ -100,8 +100,8 @@ ALLOW_HSMCI=y
 # RAM Configuration
 #
 # CONFIG_RAM_32MB is not set
-CONFIG_RAM_64MB=y
-# CONFIG_RAM_128MB is not set
+# CONFIG_RAM_64MB is not set
+CONFIG_RAM_128MB=y
 # CONFIG_RAM_256MB is not set
 # CONFIG_RAM_512MB is not set
 # CONFIG_LPDDR2 is not set
