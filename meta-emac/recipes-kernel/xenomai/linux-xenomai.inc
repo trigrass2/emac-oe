@@ -10,7 +10,7 @@ FILES_kernel-dev += "${KERNEL_LINK_PATH}"
 XENOMAI_SRC_PATH = "${TMPDIR}/work/${MULTIMACH_TARGET_SYS}/xenomai-3/git-${PR}/git"
 XENOMAI_DEST_SRC_PATH = "../xenomai"
 
-DEPENDS_append = " xenomai-3"
+DEPENDS_append = " xenomai-3 "
 
 S="${WORKDIR}/git"
 
@@ -29,5 +29,6 @@ do_configure_prepend() {
 	# defconfig is copied in before prepare-kernel, so XENO options are lost
 	if [ -e ${WORKDIR}/defconfig ]; then
 		cp ${WORKDIR}/defconfig ${B}/.config
+		echo "CONFIG_LOCALVERSION="\"${LINUX_VERSION_EXTENSION}\" >> ${B}/.config
 	fi
 }
