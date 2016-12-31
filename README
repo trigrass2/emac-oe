@@ -26,16 +26,17 @@ To build an EMAC OE filesystem, there are three basic steps:
   - Download the openembedded-core,meta-openembedded and EMAC meta data:
   recipes/$ git clone git://git.yoctoproject.org/poky
   recipes/$ git clone git://git.openembedded.org/meta-openembedded
-  recipes/$ git clone git://git.emacinc.com/projects/OE/emac-oe
+  recipes/$ git clone http://git.emacinc.com/OE/emac-oe.git
 
   - Checkout the appropriate branches of the repositories.
 
 	****EMAC OE 5.1 is based on OpenEmbedded/Yocto krogoth branch****
-  $ cd poky && git checkout krogoth && cd ..
-  $ cd meta-openembedded && git checkout krogoth && cd ..
-  $ cd emac-oe && git checkout 5.1 && cd ..
+  recipes/$ cd poky && git checkout krogoth && cd ..
+  recipes/$ cd meta-openembedded && git checkout krogoth && cd ..
+  recipes/$ cd emac-oe && git checkout 5.1 && cd ..
 
   - Apply any poky or mete-openembedded patches. Patches to the upstream repositories are located in the emac-oe/patches directory and include instructions on applying.
+	None needed for EMAC OE 5.1
 
   - Copy the oe-init-build-env script from the emac directory to one level above recipes/:
   recipes/$ cp emac-oe/oe-init-build-env ../ && cd ../
@@ -43,9 +44,10 @@ To build an EMAC OE filesystem, there are three basic steps:
   - Initialize the build environment using the oe-init-build-env script, then select a machine to build for. The example below assumes that a standard EMAC image is to be built: 
   $ source ./oe-init-build-env
 	Select the target machine category, then select the target machine. Also select the target machine carrier board if required.
+
   build/$ bitbake emac-image
 
-	To build a standalone toolchain, select 'sdk' as the target machine category and select either 586 or arm
+	To build a standalone toolchain, select 'sdk' as the target machine category and select either x86 or arm
   build/$ bitbake meta-toolchain-emac
 
  
@@ -55,10 +57,10 @@ For more information, visit our wiki at http://wiki.emacinc.com/
 
 ====== meta-emac ======
 
-This is the location for EMAC's customization of the Yocto OpenEmbedded distribution. 
+This is the location for EMAC's customization of Yocto/OpenEmbedded. 
 
-It contains the distro layer that extends recipes found in other distribution layers such as yocto (aka: poky).
+It contains the EMAC distro layer that extends the core recipes.
 
 ==== meta-emac-bsp ====
 
-This layer will define EMAC's "board support package" layers which will provide SoM-specific functionality.
+This layer will define EMAC's "board support package" layers which will provide board specific functionality.
