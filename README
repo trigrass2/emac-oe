@@ -14,6 +14,9 @@ URI: git://git.openembedded.org/meta-openembedded
 layers: meta-oe meta-networking meta-python meta-efl meta-multimedia meta-gnome 
 branch: master
 
+URI: git://git.yoctoproject.org/meta-qt4
+layers: meta
+branch: master
 
 ===== EMAC OE Workflow =====
 
@@ -26,6 +29,7 @@ To build an EMAC OE filesystem, there are three basic steps:
   - Download the openembedded-core,meta-openembedded and EMAC meta data:
   recipes/$ git clone git://git.yoctoproject.org/poky
   recipes/$ git clone git://git.openembedded.org/meta-openembedded
+  recipes/$ git clone git://git.yoctoproject.org/meta-qt4
   recipes/$ git clone http://git.emacinc.com/OE/emac-oe.git
 
   - Checkout the appropriate branches of the repositories.
@@ -33,6 +37,7 @@ To build an EMAC OE filesystem, there are three basic steps:
 	****EMAC OE 5.1 is based on OpenEmbedded/Yocto krogoth branch****
   recipes/$ cd poky && git checkout krogoth && cd ..
   recipes/$ cd meta-openembedded && git checkout krogoth && cd ..
+  recipes/$ cd meta-qt4 && git checkout krogoth && cd ..
   recipes/$ cd emac-oe && git checkout 5.1 && cd ..
 
   - Apply any poky or mete-openembedded patches. Patches to the upstream repositories are located in the emac-oe/patches directory and include instructions on applying.
