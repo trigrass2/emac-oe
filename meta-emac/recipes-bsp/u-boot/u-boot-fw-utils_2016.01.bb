@@ -7,7 +7,7 @@ DEPENDS = "mtd-utils"
 SRCREV = "fa85e826c16b9ce1ad302a57e9c4b24db0d8b930"
 PV = "v2016.01+git${SRCPV}"
 
-SRC_URI = "git://gitlab.emacinc.com/bootloader/u-boot-emac.git;protocol=http"
+SRC_URI = "git://git.emacinc.com/bootloader/u-boot-emac.git;protocol=http"
 
 S = "${WORKDIR}/git"
 

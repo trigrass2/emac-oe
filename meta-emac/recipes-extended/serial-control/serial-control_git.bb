@@ -6,7 +6,7 @@ LICENSE = "CLOSED"
 SRCREV = "3f566e8ad31c1eb062424e09ce6c350a054dcb0a"
 
 SRC_URI = " \
-            git://gitlab.emacinc.com/oe/serial-mode-tool.git;protocol=http \
+            git://git.emacinc.com/oe/serial-mode-tool.git;protocol=http \
 "
 
 S = "${WORKDIR}/git/"

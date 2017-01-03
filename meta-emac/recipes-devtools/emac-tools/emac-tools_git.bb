@@ -6,7 +6,7 @@ LICENSE = "CLOSED"
 SRCREV = "94e360fd5f4a96f610f63d64284f1e5701607c8c"
 
 SRC_URI = " \
-            git://gitlab.emacinc.com/oe/automation-tools.git;protocol=http \
+            git://git.emacinc.com/oe/automation-tools.git;protocol=http \
             file://oe_info.sh \
 "
 
