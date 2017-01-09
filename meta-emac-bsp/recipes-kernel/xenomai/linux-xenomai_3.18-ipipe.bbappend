@@ -6,4 +6,4 @@ SRC_URI_append = " \
 		file://defconfig \
 	"
 
-SRC_URI_append_VDX-632x-xenomai = "file://0001-rdc.patch"
+SRC_URI_append_VDX-632x-xenomai = "file://0001-rdc.patch file://0002-vortex86-gpio.patch"
