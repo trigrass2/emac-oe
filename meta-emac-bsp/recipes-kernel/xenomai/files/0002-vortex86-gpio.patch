@@ -333,6 +333,7 @@ diff -Nuar linux-3.18.20/drivers/gpio/gpio-vortex86.c linux-3.18.20-new/drivers/
 +
 +static const struct pci_device_id vortex86_gpio_table[] = {
 +	{ PCI_DEVICE(PCI_VENDOR_ID_RDC, 0x6031) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_RDC, 0x6036) },
 +	{}
 +};
 +MODULE_DEVICE_TABLE(pci, vortex86_gpio_table);
