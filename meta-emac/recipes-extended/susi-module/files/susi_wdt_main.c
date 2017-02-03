@@ -161,7 +161,7 @@ static int __init susi_wdt_init( void )
 #elif LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 39)
 		ret = request_irq(irq, wdt_isr, IRQ_DISABLED, "wdt", NULL);		
 #else
-		ret = request_irq(irq, wdt_isr, IRQF_DISABLED, "wdt", NULL);
+		ret = request_irq(irq, wdt_isr, 0, "wdt", NULL);
 #endif
 		if ( ret ) {
 			printk( KERN_INFO "Watchdog: cann't get irq %d\n", irq);
