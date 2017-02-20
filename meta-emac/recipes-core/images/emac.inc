@@ -22,8 +22,8 @@ def get_layer_version(layer_subdir=None, repo_type="git"):
         repo = Repo(layer_subdir,search_parent_directories=True)
         layer_version = repo.commit().hexsha
         for tag in repo.tags:
-	    if tag.commit.hexsha == layer_version:
-	        layer_version = tag.name
+            if tag.commit.hexsha == layer_version:
+                layer_version = tag.name
                 break
         if repo.is_dirty():
             layer_version = layer_version + "+"
