@@ -5,6 +5,7 @@ DESCRIPTION = "SDK Image extends emac-qt4-image with SDK packages"
 IMAGE_FEATURES_append = "dev-pkgs"
 
 IMAGE_INSTALL_append = " \
+	packagegroup-qte-toolchain-target \
 	xenomai-3 \
 	"
 
