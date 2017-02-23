@@ -1,0 +1,42 @@
+ <data>
+  <variable>Profile.insert_num</variable>
+  <valuemap type="QVariantMap">
+   <value type="bool" key="PE.Profile.AutoDetected">false</value>
+   <value type="QString" key="PE.Profile.AutoDetectionSource"></value>
+   <valuemap type="QVariantMap" key="PE.Profile.Data">
+    <value type="QString" key="Android.GdbServer.Information"></value>
+    <valuelist type="QVariantList" key="CMake.ConfigurationKitInformation">
+     <value type="QString">QT_QMAKE_EXECUTABLE:STRING=%{Qt:qmakeExecutable}</value>
+     <value type="QString">CMAKE_PREFIX_PATH:STRING=%{Qt:QT_INSTALL_PREFIX}</value>
+     <value type="QString">CMAKE_C_COMPILER:STRING=%{Compiler:Executable:C}</value>
+     <value type="QString">CMAKE_CXX_COMPILER:STRING=%{Compiler:Executable:Cxx}</value>
+    </valuelist>
+    <valuemap type="QVariantMap" key="CMake.GeneratorKitInformation">
+     <value type="QString" key="ExtraGenerator">CodeBlocks</value>
+     <value type="QString" key="Generator">Unix Makefiles</value>
+     <value type="QString" key="Platform"></value>
+     <value type="QString" key="Toolset"></value>
+    </valuemap>
+    <value type="QString" key="CMakeProjectManager.CMakeKitInformation">{a0bef735-703a-4949-82e5-5d2afa8d041f}</value>
+    <value type="QString" key="Debugger.Information">{f8c004b5-8345-4310-a3fe-742cb5c2ded7}</value>
+    <value type="QString" key="PE.Profile.Device"></value>
+    <value type="QString" key="PE.Profile.DeviceType">GenericLinuxOsType</value>
+    <valuelist type="QVariantList" key="PE.Profile.Environment">
+     <value type="QString">ARCH=arm</value>
+    </valuelist>
+    <value type="QString" key="PE.Profile.SysRoot">home_dir/EMAC-SDK/sysroots/target_sysroot</value>
+    <valuemap type="QVariantMap" key="PE.Profile.ToolChains">
+     <value type="QByteArray" key="C">{02f6b047-b147-4e58-a50b-16cf34c26e01}</value>
+     <value type="QByteArray" key="Cxx">{1dfb103b-9060-42fc-9438-beef0dd906b1}</value>
+    </valuemap>
+    <value type="QString" key="QtPM4.mkSpecInformation">armv5te-emac-linux-gnueabi-g++</value>
+    <value type="int" key="QtSupport.QtInformation">5</value>
+   </valuemap>
+   <value type="QString" key="PE.Profile.Icon"></value>
+   <value type="QString" key="PE.Profile.Id">{8aa0b197-55fb-4cf5-a56a-f15fa35b281c}</value>
+   <valuelist type="QVariantList" key="PE.Profile.MutableInfo"/>
+   <value type="QString" key="PE.Profile.Name">Arm</value>
+   <value type="bool" key="PE.Profile.SDK">false</value>
+   <valuelist type="QVariantList" key="PE.Profile.StickyInfo"/>
+  </valuemap>
+ </data>
