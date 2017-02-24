@@ -34,7 +34,7 @@ INHIBIT_DEFAULT_DEPS = "1"
 PR = "r11"
 
 ADT_DEPLOY = "${DEPLOY_DIR}/sdk/"
-ADT_DIR = "${WORKDIR}/adt-installer/"
+ADT_DIR = "${WORKDIR}/adt_installer/"
 S = "${WORKDIR}/opkg-${PV}"
 
 PV = "0.3.0"
@@ -46,6 +46,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
            file://scripts/data_define \
            file://scripts/extract_rootfs \
            file://adt_installer.conf \
+		   file://decompress \
            file://opkg/conf/opkg-sdk-x86_64.conf \
            file://opkg/conf/opkg-sdk-i686.conf \
 	  "
@@ -62,8 +63,9 @@ do_populate_adt[umask] = "022"
 
 fakeroot do_populate_adt () {
 	cd ${WORKDIR}
+	mkdir payload
 	mkdir -p ${ADT_DEPLOY}
-	rm -f ${ADT_DEPLOY}/adt_installer.tar.bz2
+	rm -f ${ADT_DEPLOY}/emac_adt_installer
 	rm -rf ${ADT_DIR}
 	mkdir -p ${ADT_DIR}/opkg/build
 	cp -r opkg ${ADT_DIR}/
@@ -78,8 +80,32 @@ fakeroot do_populate_adt () {
 	echo 'SDK_VENDOR=${SDK_VENDOR}' >> ${ADT_DIR}/scripts/data_define
 	echo 'DEFAULT_INSTALL_FOLDER=${SDKPATH}' >> ${ADT_DIR}/scripts/data_define
 	cp ${COREBASE}/scripts/relocate_sdk.py ${ADT_DIR}/scripts/
-	tar cfj adt_installer.tar.bz2 adt-installer
-	cp ${WORKDIR}/adt_installer.tar.bz2 ${ADT_DEPLOY}
+	tar -czf adt_installer.tar.gz adt_installer
+	mv adt_installer.tar.gz payload/
+	#begin self extracting tarball code
+	OUTFILE=emac_adt_installer
+	cd payload
+	tar cf ../payload.tar ./* 
+	cd ..
+
+	if [ -e "payload.tar" ]; then
+    	gzip payload.tar
+
+    if [ -e "payload.tar.gz" ]; then
+        cat decompress payload.tar.gz > $OUTFILE
+        chmod +x $OUTFILE
+    else
+        echo "payload.tar.gz does not exist"
+        exit 1
+    fi  
+	else
+    	echo "payload.tar does not exist"
+    	exit 1
+	fi
+	echo "$OUTFILE was created"
+	#end self extracting tarball code
+	cp ${WORKDIR}/emac_adt_installer ${ADT_DEPLOY}
+
 }
 
 do_configure[noexec] = "1"
