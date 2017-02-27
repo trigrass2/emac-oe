@@ -1,0 +1,24 @@
+#!/bin/bash
+OUTFILE=emac_adt_installer
+
+cd payload
+tar cf ../payload.tar ./*
+cd ..
+
+if [ -e "payload.tar" ]; then
+    gzip payload.tar
+
+    if [ -e "payload.tar.gz" ]; then
+        cat decompress payload.tar.gz > $OUTFILE
+		chmod +x $OUTFILE
+    else
+        echo "payload.tar.gz does not exist"
+        exit 1
+    fi
+else
+    echo "payload.tar does not exist"
+    exit 1
+fi
+
+echo "$OUTFILE was created"
+exit 0
