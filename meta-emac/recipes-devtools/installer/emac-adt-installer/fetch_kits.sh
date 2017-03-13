@@ -1,6 +1,7 @@
 #!/bin/bash
 
 user=$(whoami)
+REPO=ftp://oe50opkg:opkgoe50123@ftp.emacinc.com
 config_dir=$HOME/.config/QtProject/qtcreator/
 identifier="<!-- This comment is for the EMAC ADT parsing script -->"
 
@@ -20,7 +21,7 @@ esac
 if [[ ! -d "$config_dir" ]]
 	then
 	mkdir -p $config_dir
-	wget ftp://10.0.5.202/emac_Qt_build/kit.tar.gz
+	wget $REPO/emac_Qt_build/kit.tar.gz
 	tar -xzf kit.tar.gz
 	python insert.py
 	sed -i "s|home_dir|/home/${user}|" kit/qtversion.xml kit/profiles.xml
@@ -33,7 +34,7 @@ else
 		sed -i "s|home_dir|/home/${user}|" profiles.xml
 		sed -i "s|target_sysroot|${target_sysroot}|"
 	else
-		wget ftp://10.0.5.202/emac_Qt_build/kit.tar.gz
+		wget $REPO/emac_Qt_build/kit.tar.gz
 		tar -xzf kit.tar.gz
 		python insert.py kit/profiles.xml
 		sed -i "s|home_dir|/home/${user}|" kit/profiles.xml

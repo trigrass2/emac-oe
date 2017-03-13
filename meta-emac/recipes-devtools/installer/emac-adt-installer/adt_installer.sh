@@ -363,7 +363,7 @@ fetch_kit()
 	if [[ ! -d "$config_dir" ]]
 		then
 		mkdir -p $config_dir
-		wget ftp://10.0.5.202/emac_Qt_build/kit.tar.gz
+		wget $YOCTOADT_REPO/emac_Qt_build/kit.tar.gz
 		tar -xzf kit.tar.gz
 		rm kit.tar.gz
 		mv kit/* .
@@ -419,7 +419,7 @@ fetch_examples()
 			case $PROMPT in 
 				y|Y)
 					QtBuild="emac-QtCreator"
-					wget ftp://10.0.5.202/emac_Qt_build/$QtBuild.tar.gz
+					wget $YOCTOADT_REPO/emac_Qt_build/$QtBuild.tar.gz
 					tar -xzf $QtBuild.tar.gz
 					rm $QtBuild.tar.gz
 					mv $QtBuild/ ~/EMAC-SDK/
@@ -444,7 +444,7 @@ fetch_examples()
 		case $PROMPT in
 			y|Y)
 				user=$(whoami)
-				wget ftp://10.0.5.202/emac_Qt_build/emacqt.desktop
+				wget $YOCTOADT_REPO/emac_Qt_build/emacqt.desktop
 		    	sed -i "s|USERNAME|${user}|" emacqt.desktop
 		    	mv emacqt.desktop ~/.local/share/applications/
 		    	chmod +x ~/.local/share/applications/emacqt.desktop
