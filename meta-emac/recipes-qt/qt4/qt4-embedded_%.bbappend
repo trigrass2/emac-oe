@@ -10,7 +10,7 @@ SRC_URI += " file://armv5e_qmake.conf \
 
 do_install_append() {
     install -d ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv5e-emac-linux-gnueabi-g++
-    install -m 644 ${WORKDIR}/armv5te_qmake.conf ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv5e-emac-linux-gnueabi-g++/qmake.conf
+    install -m 644 ${WORKDIR}/armv5e_qmake.conf ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv5e-emac-linux-gnueabi-g++/qmake.conf
     install -m 644 ${WORKDIR}/qplatformdefs.h ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv5e-emac-linux-gnueabi-g++/
 
     install -d ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv7a-emac-linux-gnueabi-g++
