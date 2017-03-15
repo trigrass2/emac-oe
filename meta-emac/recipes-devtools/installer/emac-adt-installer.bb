@@ -58,8 +58,6 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
 SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
 SRC_URI[sha256sum] = "7f735d1cdb8ef3718fb0f9fba44ca0d9a5c90d3a7f014f37a6d2f9474f54988f"
 
-ADTREPO ?= "ftp://10.0.5.202"
-
 # This recipe makes no sense as a multilib
 MULTILIBS = ""
 
@@ -73,7 +71,6 @@ fakeroot do_populate_adt () {
 	mkdir -p ${ADT_DIR}/opkg/build
 	mkdir -p ${WORKDIR}/payload
 	cp -r opkg ${ADT_DIR}/
-	sed -i -e 's#ADTREPO_URL#${ADTREPO}#' ${ADT_DIR}/opkg/conf/*.conf
 	cp -r opkg-${PV} ${ADT_DIR}/opkg/build/
 	mv ${ADT_DIR}/opkg/build/opkg-${PV} ${ADT_DIR}/opkg/build/opkg-svn
 	rm -rf ${ADT_DIR}/opkg/build/opkg-svn/patches ${ADT_DIR}/opkg/build/opkg-svn/.pc
@@ -84,7 +81,7 @@ fakeroot do_populate_adt () {
 	cp x86template.txt ${ADT_DIR}
 	cp fetch_kits.sh ${ADT_DIR}
 	cp insert.py ${ADT_DIR}
-	sed -i -e 's#ADTREPO#${ADTREPO}#' ${ADT_DIR}/adt_installer.conf
+
 	echo 'SDK_VENDOR=${SDK_VENDOR}' >> ${ADT_DIR}/scripts/data_define
 	echo 'DEFAULT_INSTALL_FOLDER=${SDKPATH}' >> ${ADT_DIR}/scripts/data_define
 	cp ${COREBASE}/scripts/relocate_sdk.py ${ADT_DIR}/scripts/
