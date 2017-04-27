@@ -1,5 +1,5 @@
-PREFERRED_PROVIDER_virtual/kernel = "linux-emac-imx6"
-PREFERRED_VERSION_linux-emac-imx6 ?= "4.4%"
+PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
+PREFERRED_VERSION_linux-emac-imx6 ?= "4.9%"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
