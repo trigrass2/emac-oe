@@ -6,10 +6,11 @@ PROVIDES = "virtual/bootloader"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 
-SRCREV = "1c2c79b5afe72684852ea520b5b5ab6884066c3b"
+SRCREV = "6a3141dd59d649ff527e5fb8f447ab0ee89cee7d"
 PV = "v2016.01+git${SRCPV}"
 
-SRC_URI = "git://git.emacinc.com/bootloader/u-boot-emac.git;protocol=http"
+UBRANCH = "emac-2016.01"
+SRC_URI = "git://git.emacinc.com/bootloader/u-boot-emac.git;branch=${UBRANCH};protocol=http"
 
 S = "${WORKDIR}/git"
 
