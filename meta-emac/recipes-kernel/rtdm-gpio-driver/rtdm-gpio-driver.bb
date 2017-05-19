@@ -4,10 +4,10 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
 
 inherit module
 
-SRCREV = "b2f93cdf7437f1ea614ae2fd7a24f082d4be0a68"
+SRCREV = "866e3ccbd6d3c01f38ba4673ea2103ed74bd6a10"
 
 SRC_URI = "git://git.emacinc.com/xenomai/rtdm-gpio-driver.git;protocol=http"
 
 S = "${WORKDIR}/git"
 
-COMPATIBLE_MACHINE = "(VDX-632x-xenomai)"
+#COMPATIBLE_MACHINE = "(VDX-632x-xenomai)"
