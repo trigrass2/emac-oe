@@ -9,5 +9,3 @@ SRCREV = "866e3ccbd6d3c01f38ba4673ea2103ed74bd6a10"
 SRC_URI = "git://git.emacinc.com/xenomai/rtdm-gpio-driver.git;protocol=http"
 
 S = "${WORKDIR}/git"
-
-#COMPATIBLE_MACHINE = "(VDX-632x-xenomai)"
