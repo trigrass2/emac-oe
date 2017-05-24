@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 
 # V3.0.3+
 XBRANCH = "stable-3.0.x"
-SRCREV = "3e8a9fd398b98482e989b97d4fd721fbff868ecd"
+SRCREV = "8c0f8161373d483ca827d22056b8fe53e16cf847"
 
 SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH}"
 
