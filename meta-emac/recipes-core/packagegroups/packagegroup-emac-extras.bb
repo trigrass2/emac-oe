@@ -4,7 +4,6 @@
 
 DESCRIPTION = "EMAC Extra Package Groups"
 LICENSE = "GPLv2"
-PR = "r0"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
