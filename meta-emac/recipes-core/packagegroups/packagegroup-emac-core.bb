@@ -23,7 +23,6 @@ PACKAGES = " \
     ${@bb.utils.contains("MACHINE_FEATURES", "screen", "packagegroup-emac-core-screen", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", "packagegroup-emac-core-can", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", "packagegroup-emac-core-pci", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-emac-core-apm", "", d)} \
     "
 
 RRECOMMENDS_packagegroup-emac-core = "\
@@ -36,7 +35,6 @@ RRECOMMENDS_packagegroup-emac-core = "\
     ${@bb.utils.contains("MACHINE_FEATURES", "screen", "packagegroup-emac-core-screen", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", "packagegroup-emac-core-can", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", "packagegroup-emac-core-pci", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-emac-core-apm", "", d)} \
     "
 
 SUMMARY_packagegroup-emac-core-util = "EMAC OE Core Utilities"
@@ -116,10 +114,4 @@ RRECOMMENDS_packagegroup-emac-core-can = "\
 SUMMARY_packagegroup-emac-core-pci= "EMAC OE PCI Packages."
 RRECOMMENDS_packagegroup-emac-core-pci = "\
     pciutils \
-    "
-
-SUMMARY_packagegroup-emac-core-apm= "EMAC OE APM Packages."
-RRECOMMENDS_packagegroup-emac-core-apm = "\
-    apm \
-    apmd \
     "

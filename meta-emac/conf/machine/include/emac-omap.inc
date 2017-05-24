@@ -17,7 +17,7 @@ XSERVER = "xserver-xorg \
            xf86-input-tslib \
 "
 
-MACHINE_FEATURES += "screen usbhost apm sound serial touch usbgadget can"
+MACHINE_FEATURES += "screen usbhost sound serial touch usbgadget can"
 MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
 EXTRA_IMAGEDEPENDS += "u-boot-emac"
 
