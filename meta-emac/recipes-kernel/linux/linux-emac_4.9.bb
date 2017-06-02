@@ -1,7 +1,7 @@
 require recipes-kernel/linux/linux-yocto.inc
 
 KBRANCH = "emac-4.9-stable"
-SRCREV_machine = "7fd50b11b9c810b77443fb4a9c3054f92baddd11"
+SRCREV_machine = "215e549f114d00faff2a161560e4fc9a489ee56a"
 
 SRC_URI = "git://git.emacinc.com/linux-kernel/linux-emac.git;bareclone=1;branch=${KBRANCH};name=machine;protocol=http"
 
