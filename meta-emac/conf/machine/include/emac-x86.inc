@@ -2,7 +2,7 @@
 # Base machine settings for X86 architecture BSPs
 #
 
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac-x86"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
 PREFERRED_VERSION_linux-emac-x86 ?= "4.9%"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
