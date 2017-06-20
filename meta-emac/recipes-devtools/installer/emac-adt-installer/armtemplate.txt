@@ -29,7 +29,7 @@
      <value type="QByteArray" key="C">{02f6b047-b147-4e58-a50b-16cf34c26e01}</value>
      <value type="QByteArray" key="Cxx">{1dfb103b-9060-42fc-9438-beef0dd906b1}</value>
     </valuemap>
-    <value type="QString" key="QtPM4.mkSpecInformation">armv5te-emac-linux-gnueabi-g++</value>
+    <value type="QString" key="QtPM4.mkSpecInformation">armv5e-emac-linux-gnueabi-g++</value>
     <value type="int" key="QtSupport.QtInformation">5</value>
    </valuemap>
    <value type="QString" key="PE.Profile.Icon"></value>
