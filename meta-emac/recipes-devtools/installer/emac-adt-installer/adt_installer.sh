@@ -319,18 +319,19 @@ install_deps()
 	echo "       Installing dependencies for detected distrobution: $DISTRO"
 	echo "##########################################################################"
 	echo
+	echo "WARNING: Sudo must be installed and user must be in Sudo group to continue"
 
     case $DISTRO in
         #documentation for all distros can be found at:
         #http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#required-packages-for-the-host-development-system
-        *Ubuntu*)
-        	sudo apt-get install cmake gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat autoconf automake libtool libglib2.0-dev libarchive-dev;;
+        *Ubuntu* | *Debian*)
+	sudo apt-get install cmake gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat autoconf automake libtool libglib2.0-dev libarchive-dev sshpass;;
         Fedora)
-            sudo dnf install cmake gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue socat findutils which autoconf automake libtool glib2-devel libarchive-devel;;
+            sudo dnf install cmake gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue socat findutils which autoconf automake libtool glib2-devel libarchive-devel sshpass;;
         *openSUSE*)
-            sudo zypper install cmake python gcc gcc-c++ git chrpath make wget python-xml diffstat makeinfo python-curses patch socat autoconf automake libtool glib2-devel libarchive-devel;;
+            sudo zypper install cmake python gcc gcc-c++ git chrpath make wget python-xml diffstat makeinfo python-curses patch socat autoconf automake libtool glib2-devel libarchive-devel sshpass;;
         *CentOS*)
-            sudo yum install cmake gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue autoconf automake libtool glib2-devel libarchive-devel;;
+            sudo yum install cmake gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath socat perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue autoconf automake libtool glib2-devel libarchive-devel sshpass;;
 
         *)
                 	echo "Distrobution not supported.";;
@@ -347,16 +348,7 @@ fetch_kit()
 			target_sysroot=armv5e
 			pass_arch=arm;;
 		2)
-			target_sysroot=armv7a-neon
-			pass_arch=arm;;
-		3)
-			target_sysroot=cortexa5-vfp
-			pass_arch=arm;;
-		4)
 			target_sysroot=i586
-			pass_arch=i586;;
-		5)
-			target_sysroot=core2-32
 			pass_arch=i586;;
 	esac
 
@@ -547,12 +539,9 @@ if [ -n "$(echo $INSTALL_FOLDER|grep ' ')" ]; then
        exit 1
 fi
 
-echo "Please enter the number for the board needed."
-echo "1. 9x25, 9g25, 9g45"
-echo "2. 3354, 3517, imx6"
-echo "3. a5d35, ad5d36"
-echo "4. Vortex-SIB, PMX"
-echo "5. Atom-SIB"
+echo "Please enter the target architecture."
+echo "1. Arm"
+echo "2. x86"
 echo -n "board: "
 read IMAGE_NUMBER
 
@@ -564,17 +553,7 @@ case $IMAGE_NUMBER in
 		YOCTOADT_TARGETS="armv5e"
 		;;
 	'2')
-		YOCTOADT_TARGETS="armv7a"
-		;;
-	'3')
-        YOCTOADT_TARGETS="cortexa5"
-        ;;
-	#x86
-	'4')
-        YOCTOADT_TARGETS="i586"
-        ;;
-	'5')
-        YOCTOADT_TARGETS="core2"
+		YOCTOADT_TARGETS="i586"
 		;;
 esac
 
