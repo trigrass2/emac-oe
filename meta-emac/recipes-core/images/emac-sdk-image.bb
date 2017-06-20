@@ -7,6 +7,11 @@ IMAGE_FEATURES_append = "dev-pkgs"
 IMAGE_INSTALL_append = " \
 	packagegroup-qte-toolchain-target \
 	xenomai-3 \
+	libusb1 \
+	confuse \
+	xmlrpc-c \
+	libmodbus \
+	boost \
 	"
 
 IMAGE_TYPE = "SDK"
