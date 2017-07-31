@@ -642,7 +642,6 @@ CONFIG_CMA_AREAS=7
 # CONFIG_ZSMALLOC is not set
 CONFIG_GENERIC_EARLY_IOREMAP=y
 # CONFIG_IDLE_PAGE_TRACKING is not set
-CONFIG_FRAME_VECTOR=y
 CONFIG_FORCE_MAX_ZONEORDER=11
 CONFIG_ALIGNMENT_TRAP=y
 # CONFIG_UACCESS_WITH_MEMCPY is not set
@@ -1902,7 +1901,6 @@ CONFIG_TOUCHSCREEN_TSC2007=y
 # CONFIG_TOUCHSCREEN_SIS_I2C is not set
 # CONFIG_TOUCHSCREEN_ST1232 is not set
 CONFIG_TOUCHSCREEN_STMPE=y
-# CONFIG_TOUCHSCREEN_SUR40 is not set
 # CONFIG_TOUCHSCREEN_SURFACE3_SPI is not set
 CONFIG_TOUCHSCREEN_SX8654=y
 # CONFIG_TOUCHSCREEN_TPS6507X is not set
@@ -1968,7 +1966,8 @@ CONFIG_VT_CONSOLE_SLEEP=y
 CONFIG_HW_CONSOLE=y
 CONFIG_VT_HW_CONSOLE_BINDING=y
 CONFIG_UNIX98_PTYS=y
-# CONFIG_LEGACY_PTYS is not set
+CONFIG_LEGACY_PTYS=y
+CONFIG_LEGACY_PTY_COUNT=4
 # CONFIG_SERIAL_NONSTANDARD is not set
 # CONFIG_NOZOMI is not set
 # CONFIG_N_GSM is not set
@@ -2201,6 +2200,7 @@ CONFIG_GPIO_GENERIC=y
 # CONFIG_GPIO_ALTERA is not set
 # CONFIG_GPIO_DWAPB is not set
 # CONFIG_GPIO_EM is not set
+# CONFIG_GPIO_EMAC_CPLD is not set
 CONFIG_GPIO_GENERIC_PLATFORM=y
 # CONFIG_GPIO_GRGPIO is not set
 # CONFIG_GPIO_MOCKUP is not set
@@ -2243,6 +2243,7 @@ CONFIG_GPIO_STMPE=y
 # CONFIG_GPIO_BT8XX is not set
 # CONFIG_GPIO_ML_IOH is not set
 # CONFIG_GPIO_RDC321X is not set
+# CONFIG_GPIO_VORTEX86 is not set
 
 #
 # SPI GPIO expanders
@@ -2657,215 +2658,7 @@ CONFIG_REGULATOR_PFUZE100=y
 # CONFIG_REGULATOR_TPS65023 is not set
 # CONFIG_REGULATOR_TPS6507X is not set
 # CONFIG_REGULATOR_TPS6524X is not set
-CONFIG_MEDIA_SUPPORT=y
-
-#
-# Multimedia core support
-#
-CONFIG_MEDIA_CAMERA_SUPPORT=y
-# CONFIG_MEDIA_ANALOG_TV_SUPPORT is not set
-# CONFIG_MEDIA_DIGITAL_TV_SUPPORT is not set
-# CONFIG_MEDIA_RADIO_SUPPORT is not set
-# CONFIG_MEDIA_SDR_SUPPORT is not set
-CONFIG_MEDIA_RC_SUPPORT=y
-# CONFIG_MEDIA_CONTROLLER is not set
-CONFIG_VIDEO_DEV=y
-CONFIG_VIDEO_V4L2=y
-# CONFIG_VIDEO_ADV_DEBUG is not set
-# CONFIG_VIDEO_FIXED_MINOR_RANGES is not set
-# CONFIG_VIDEO_PCI_SKELETON is not set
-CONFIG_V4L2_MEM2MEM_DEV=y
-CONFIG_VIDEOBUF_GEN=y
-CONFIG_VIDEOBUF2_CORE=y
-CONFIG_VIDEOBUF2_MEMOPS=y
-CONFIG_VIDEOBUF2_DMA_CONTIG=y
-CONFIG_VIDEOBUF2_VMALLOC=y
-# CONFIG_TTPCI_EEPROM is not set
-
-#
-# Media drivers
-#
-CONFIG_RC_CORE=y
-CONFIG_RC_MAP=y
-CONFIG_RC_DECODERS=y
-# CONFIG_LIRC is not set
-CONFIG_IR_NEC_DECODER=y
-CONFIG_IR_RC5_DECODER=y
-CONFIG_IR_RC6_DECODER=y
-CONFIG_IR_JVC_DECODER=y
-CONFIG_IR_SONY_DECODER=y
-CONFIG_IR_SANYO_DECODER=y
-CONFIG_IR_SHARP_DECODER=y
-CONFIG_IR_MCE_KBD_DECODER=y
-CONFIG_IR_XMP_DECODER=y
-CONFIG_RC_DEVICES=y
-# CONFIG_RC_ATI_REMOTE is not set
-# CONFIG_IR_HIX5HD2 is not set
-# CONFIG_IR_IMON is not set
-# CONFIG_IR_MCEUSB is not set
-# CONFIG_IR_REDRAT3 is not set
-# CONFIG_IR_STREAMZAP is not set
-# CONFIG_IR_IGORPLUGUSB is not set
-# CONFIG_IR_IGUANA is not set
-# CONFIG_IR_TTUSBIR is not set
-# CONFIG_RC_LOOPBACK is not set
-CONFIG_IR_GPIO_CIR=y
-CONFIG_MEDIA_USB_SUPPORT=y
-
-#
-# Webcam devices
-#
-CONFIG_USB_VIDEO_CLASS=m
-CONFIG_USB_VIDEO_CLASS_INPUT_EVDEV=y
-CONFIG_USB_GSPCA=m
-# CONFIG_USB_M5602 is not set
-# CONFIG_USB_STV06XX is not set
-# CONFIG_USB_GL860 is not set
-# CONFIG_USB_GSPCA_BENQ is not set
-# CONFIG_USB_GSPCA_CONEX is not set
-# CONFIG_USB_GSPCA_CPIA1 is not set
-# CONFIG_USB_GSPCA_DTCS033 is not set
-# CONFIG_USB_GSPCA_ETOMS is not set
-# CONFIG_USB_GSPCA_FINEPIX is not set
-# CONFIG_USB_GSPCA_JEILINJ is not set
-# CONFIG_USB_GSPCA_JL2005BCD is not set
-# CONFIG_USB_GSPCA_KINECT is not set
-# CONFIG_USB_GSPCA_KONICA is not set
-# CONFIG_USB_GSPCA_MARS is not set
-# CONFIG_USB_GSPCA_MR97310A is not set
-# CONFIG_USB_GSPCA_NW80X is not set
-# CONFIG_USB_GSPCA_OV519 is not set
-# CONFIG_USB_GSPCA_OV534 is not set
-# CONFIG_USB_GSPCA_OV534_9 is not set
-# CONFIG_USB_GSPCA_PAC207 is not set
-# CONFIG_USB_GSPCA_PAC7302 is not set
-# CONFIG_USB_GSPCA_PAC7311 is not set
-# CONFIG_USB_GSPCA_SE401 is not set
-# CONFIG_USB_GSPCA_SN9C2028 is not set
-# CONFIG_USB_GSPCA_SN9C20X is not set
-# CONFIG_USB_GSPCA_SONIXB is not set
-# CONFIG_USB_GSPCA_SONIXJ is not set
-# CONFIG_USB_GSPCA_SPCA500 is not set
-# CONFIG_USB_GSPCA_SPCA501 is not set
-# CONFIG_USB_GSPCA_SPCA505 is not set
-# CONFIG_USB_GSPCA_SPCA506 is not set
-# CONFIG_USB_GSPCA_SPCA508 is not set
-# CONFIG_USB_GSPCA_SPCA561 is not set
-# CONFIG_USB_GSPCA_SPCA1528 is not set
-# CONFIG_USB_GSPCA_SQ905 is not set
-# CONFIG_USB_GSPCA_SQ905C is not set
-# CONFIG_USB_GSPCA_SQ930X is not set
-# CONFIG_USB_GSPCA_STK014 is not set
-# CONFIG_USB_GSPCA_STK1135 is not set
-# CONFIG_USB_GSPCA_STV0680 is not set
-# CONFIG_USB_GSPCA_SUNPLUS is not set
-# CONFIG_USB_GSPCA_T613 is not set
-# CONFIG_USB_GSPCA_TOPRO is not set
-# CONFIG_USB_GSPCA_TOUPTEK is not set
-# CONFIG_USB_GSPCA_TV8532 is not set
-# CONFIG_USB_GSPCA_VC032X is not set
-# CONFIG_USB_GSPCA_VICAM is not set
-# CONFIG_USB_GSPCA_XIRLINK_CIT is not set
-# CONFIG_USB_GSPCA_ZC3XX is not set
-# CONFIG_USB_PWC is not set
-# CONFIG_VIDEO_CPIA2 is not set
-# CONFIG_USB_ZR364XX is not set
-# CONFIG_USB_STKWEBCAM is not set
-# CONFIG_USB_S2255 is not set
-# CONFIG_VIDEO_USBTV is not set
-
-#
-# Webcam, TV (analog/digital) USB devices
-#
-# CONFIG_VIDEO_EM28XX is not set
-# CONFIG_MEDIA_PCI_SUPPORT is not set
-CONFIG_V4L_PLATFORM_DRIVERS=y
-# CONFIG_VIDEO_CAFE_CCIC is not set
-CONFIG_SOC_CAMERA=y
-# CONFIG_SOC_CAMERA_PLATFORM is not set
-CONFIG_V4L_MEM2MEM_DRIVERS=y
-CONFIG_VIDEO_CODA=y
-# CONFIG_VIDEO_MEM2MEM_DEINTERLACE is not set
-# CONFIG_VIDEO_SH_VEU is not set
-# CONFIG_V4L_TEST_DRIVERS is not set
-
-#
-# Supported MMC/SDIO adapters
-#
-# CONFIG_CYPRESS_FIRMWARE is not set
-
-#
-# Media ancillary drivers (tuners, sensors, i2c, spi, frontends)
-#
-CONFIG_MEDIA_SUBDRV_AUTOSELECT=y
-CONFIG_VIDEO_IR_I2C=y
-
-#
-# Audio decoders, processors and mixers
-#
-
-#
-# RDS decoders
-#
-
-#
-# Video decoders
-#
-
-#
-# Video and audio decoders
-#
-
-#
-# Video encoders
-#
-
-#
-# Camera sensor devices
-#
-
-#
-# Flash devices
-#
-
-#
-# Video improvement chips
-#
-
-#
-# Audio/Video compression chips
-#
-
-#
-# Miscellaneous helper chips
-#
-
-#
-# Sensors used on soc_camera driver
-#
-
-#
-# soc_camera sensor drivers
-#
-# CONFIG_SOC_CAMERA_IMX074 is not set
-# CONFIG_SOC_CAMERA_MT9M001 is not set
-# CONFIG_SOC_CAMERA_MT9M111 is not set
-# CONFIG_SOC_CAMERA_MT9T031 is not set
-# CONFIG_SOC_CAMERA_MT9T112 is not set
-# CONFIG_SOC_CAMERA_MT9V022 is not set
-CONFIG_SOC_CAMERA_OV2640=y
-# CONFIG_SOC_CAMERA_OV5642 is not set
-# CONFIG_SOC_CAMERA_OV6650 is not set
-# CONFIG_SOC_CAMERA_OV772X is not set
-# CONFIG_SOC_CAMERA_OV9640 is not set
-# CONFIG_SOC_CAMERA_OV9740 is not set
-# CONFIG_SOC_CAMERA_RJ54N1 is not set
-# CONFIG_SOC_CAMERA_TW9910 is not set
-
-#
-# Tools to develop new frontends
-#
-# CONFIG_DVB_DUMMY_FE is not set
+# CONFIG_MEDIA_SUPPORT is not set
 
 #
 # Graphics support
@@ -3251,9 +3044,10 @@ CONFIG_USB=y
 #
 CONFIG_USB_DEFAULT_PERSIST=y
 # CONFIG_USB_DYNAMIC_MINORS is not set
-# CONFIG_USB_OTG is not set
+CONFIG_USB_OTG=y
 # CONFIG_USB_OTG_WHITELIST is not set
 # CONFIG_USB_OTG_BLACKLIST_HUB is not set
+CONFIG_USB_OTG_FSM=y
 # CONFIG_USB_LEDS_TRIGGER_USBPORT is not set
 # CONFIG_USB_MON is not set
 # CONFIG_USB_WUSB_CBAF is not set
@@ -3332,58 +3126,7 @@ CONFIG_USB_CHIPIDEA_HOST=y
 #
 # USB port drivers
 #
-CONFIG_USB_SERIAL=m
-CONFIG_USB_SERIAL_GENERIC=y
-# CONFIG_USB_SERIAL_SIMPLE is not set
-# CONFIG_USB_SERIAL_AIRCABLE is not set
-# CONFIG_USB_SERIAL_ARK3116 is not set
-# CONFIG_USB_SERIAL_BELKIN is not set
-# CONFIG_USB_SERIAL_CH341 is not set
-# CONFIG_USB_SERIAL_WHITEHEAT is not set
-# CONFIG_USB_SERIAL_DIGI_ACCELEPORT is not set
-# CONFIG_USB_SERIAL_CP210X is not set
-# CONFIG_USB_SERIAL_CYPRESS_M8 is not set
-# CONFIG_USB_SERIAL_EMPEG is not set
-CONFIG_USB_SERIAL_FTDI_SIO=m
-# CONFIG_USB_SERIAL_VISOR is not set
-# CONFIG_USB_SERIAL_IPAQ is not set
-# CONFIG_USB_SERIAL_IR is not set
-# CONFIG_USB_SERIAL_EDGEPORT is not set
-# CONFIG_USB_SERIAL_EDGEPORT_TI is not set
-# CONFIG_USB_SERIAL_F81232 is not set
-# CONFIG_USB_SERIAL_GARMIN is not set
-# CONFIG_USB_SERIAL_IPW is not set
-# CONFIG_USB_SERIAL_IUU is not set
-# CONFIG_USB_SERIAL_KEYSPAN_PDA is not set
-# CONFIG_USB_SERIAL_KEYSPAN is not set
-# CONFIG_USB_SERIAL_KLSI is not set
-# CONFIG_USB_SERIAL_KOBIL_SCT is not set
-# CONFIG_USB_SERIAL_MCT_U232 is not set
-# CONFIG_USB_SERIAL_METRO is not set
-# CONFIG_USB_SERIAL_MOS7720 is not set
-# CONFIG_USB_SERIAL_MOS7840 is not set
-# CONFIG_USB_SERIAL_MXUPORT is not set
-# CONFIG_USB_SERIAL_NAVMAN is not set
-# CONFIG_USB_SERIAL_PL2303 is not set
-# CONFIG_USB_SERIAL_OTI6858 is not set
-# CONFIG_USB_SERIAL_QCAUX is not set
-# CONFIG_USB_SERIAL_QUALCOMM is not set
-# CONFIG_USB_SERIAL_SPCP8X5 is not set
-# CONFIG_USB_SERIAL_SAFE is not set
-# CONFIG_USB_SERIAL_SIERRAWIRELESS is not set
-# CONFIG_USB_SERIAL_SYMBOL is not set
-# CONFIG_USB_SERIAL_TI is not set
-# CONFIG_USB_SERIAL_CYBERJACK is not set
-# CONFIG_USB_SERIAL_XIRCOM is not set
-CONFIG_USB_SERIAL_WWAN=m
-CONFIG_USB_SERIAL_OPTION=m
-# CONFIG_USB_SERIAL_OMNINET is not set
-# CONFIG_USB_SERIAL_OPTICON is not set
-# CONFIG_USB_SERIAL_XSENS_MT is not set
-# CONFIG_USB_SERIAL_WISHBONE is not set
-# CONFIG_USB_SERIAL_SSU100 is not set
-# CONFIG_USB_SERIAL_QT2 is not set
-# CONFIG_USB_SERIAL_DEBUG is not set
+# CONFIG_USB_SERIAL is not set
 
 #
 # USB Miscellaneous drivers
@@ -3420,7 +3163,7 @@ CONFIG_USB_SERIAL_OPTION=m
 CONFIG_USB_PHY=y
 CONFIG_NOP_USB_XCEIV=y
 # CONFIG_AM335X_PHY_USB is not set
-# CONFIG_USB_GPIO_VBUS is not set
+CONFIG_USB_GPIO_VBUS=y
 # CONFIG_USB_ISP1301 is not set
 CONFIG_USB_MXS_PHY=y
 # CONFIG_USB_ULPI is not set
@@ -3482,9 +3225,9 @@ CONFIG_USB_CONFIGFS_F_FS=y
 # CONFIG_USB_CONFIGFS_F_UAC2 is not set
 # CONFIG_USB_CONFIGFS_F_MIDI is not set
 # CONFIG_USB_CONFIGFS_F_HID is not set
-# CONFIG_USB_CONFIGFS_F_UVC is not set
 # CONFIG_USB_CONFIGFS_F_PRINTER is not set
 CONFIG_USB_ZERO=m
+# CONFIG_USB_ZERO_HNPTEST is not set
 # CONFIG_USB_AUDIO is not set
 CONFIG_USB_ETH=m
 CONFIG_USB_ETH_RNDIS=y
@@ -3501,7 +3244,6 @@ CONFIG_USB_G_SERIAL=m
 # CONFIG_USB_G_MULTI is not set
 # CONFIG_USB_G_HID is not set
 # CONFIG_USB_G_DBGP is not set
-# CONFIG_USB_G_WEBCAM is not set
 # CONFIG_USB_LED_TRIG is not set
 CONFIG_USB_ULPI_BUS=y
 # CONFIG_UWB is not set
@@ -3762,119 +3504,7 @@ CONFIG_SYNC_FILE=y
 #
 # Microsoft Hyper-V guest support
 #
-CONFIG_STAGING=y
-# CONFIG_PRISM2_USB is not set
-# CONFIG_COMEDI is not set
-# CONFIG_RTL8192U is not set
-# CONFIG_RTLLIB is not set
-# CONFIG_R8712U is not set
-# CONFIG_R8188EU is not set
-# CONFIG_RTS5208 is not set
-# CONFIG_VT6655 is not set
-# CONFIG_VT6656 is not set
-
-#
-# IIO staging drivers
-#
-
-#
-# Accelerometers
-#
-# CONFIG_ADIS16201 is not set
-# CONFIG_ADIS16203 is not set
-# CONFIG_ADIS16209 is not set
-# CONFIG_ADIS16240 is not set
-# CONFIG_SCA3000 is not set
-
-#
-# Analog to digital converters
-#
-# CONFIG_AD7606 is not set
-# CONFIG_AD7780 is not set
-# CONFIG_AD7816 is not set
-# CONFIG_AD7192 is not set
-# CONFIG_AD7280 is not set
-
-#
-# Analog digital bi-direction converters
-#
-# CONFIG_ADT7316 is not set
-
-#
-# Capacitance to digital converters
-#
-# CONFIG_AD7150 is not set
-# CONFIG_AD7152 is not set
-# CONFIG_AD7746 is not set
-
-#
-# Direct Digital Synthesis
-#
-# CONFIG_AD9832 is not set
-# CONFIG_AD9834 is not set
-
-#
-# Digital gyroscope sensors
-#
-# CONFIG_ADIS16060 is not set
-
-#
-# Network Analyzer, Impedance Converters
-#
-# CONFIG_AD5933 is not set
-
-#
-# Light sensors
-#
-# CONFIG_SENSORS_ISL29018 is not set
-# CONFIG_SENSORS_ISL29028 is not set
-# CONFIG_TSL2583 is not set
-# CONFIG_TSL2x7x is not set
-
-#
-# Active energy metering IC
-#
-# CONFIG_ADE7753 is not set
-# CONFIG_ADE7754 is not set
-# CONFIG_ADE7758 is not set
-# CONFIG_ADE7759 is not set
-# CONFIG_ADE7854 is not set
-
-#
-# Resolver to digital converters
-#
-# CONFIG_AD2S90 is not set
-# CONFIG_AD2S1200 is not set
-# CONFIG_AD2S1210 is not set
-
-#
-# Triggers - standalone
-#
-# CONFIG_FB_SM750 is not set
-# CONFIG_FB_XGI is not set
-
-#
-# Speakup console speech
-#
-# CONFIG_SPEAKUP is not set
-# CONFIG_STAGING_MEDIA is not set
-
-#
-# Android
-#
-# CONFIG_STAGING_BOARD is not set
-# CONFIG_LTE_GDM724X is not set
-# CONFIG_MTD_SPINAND_MT29F is not set
-# CONFIG_LNET is not set
-# CONFIG_DGNC is not set
-# CONFIG_GS_FPGABOOT is not set
-# CONFIG_COMMON_CLK_XLNX_CLKWZRD is not set
-# CONFIG_FB_TFT is not set
-# CONFIG_WILC1000_SDIO is not set
-# CONFIG_WILC1000_SPI is not set
-# CONFIG_MOST is not set
-# CONFIG_KS7010 is not set
-# CONFIG_GREYBUS is not set
+# CONFIG_STAGING is not set
 # CONFIG_GOLDFISH is not set
 # CONFIG_CHROME_PLATFORMS is not set
 CONFIG_CLKDEV_LOOKUP=y
@@ -4040,6 +3670,11 @@ CONFIG_VF610_ADC=y
 # CONFIG_IIO_SSP_SENSORHUB is not set
 
 #
+# Counters
+#
+# CONFIG_EMAC_CPLD_COUNTER is not set
+
+#
 # Digital to analog converters
 #
 # CONFIG_AD5064 is not set
@@ -4064,6 +3699,7 @@ CONFIG_VF610_ADC=y
 # CONFIG_MAX5821 is not set
 # CONFIG_MCP4725 is not set
 CONFIG_MCP4922=y
+# CONFIG_TLV5618A is not set
 # CONFIG_VF610_DAC is not set
 
 #
