@@ -212,7 +212,7 @@ case ${carrier:4:3} in
 		carrierNumber=8;
 		;;
 esac
-kernPart=${kernPart:0:11}${carrierNumber}${kernPart:12}
+kernPart=${kernPart:0:9}${carrierNumber}${kernPart:10}
 
 #Get info on CPLD for the 150 and 200 carriers
 CPLD=$(dmesg | grep 'EMAC core')
