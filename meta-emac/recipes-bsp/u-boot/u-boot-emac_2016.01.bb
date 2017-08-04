@@ -6,7 +6,7 @@ PROVIDES = "virtual/bootloader"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 
-SRCREV = "1b99ab6ff4eba5d055266633cf552e0c0fa98f89"
+SRCREV = "c868af726c7f77415a0478521e2f7bf4a9c2d673"
 PV = "v2016.01+git${SRCPV}"
 
 UBRANCH = "emac-2016.01"
@@ -23,8 +23,9 @@ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHA
 # Allow setting an additional version string that will be picked up by the
 # u-boot build system and appended to the u-boot version.  If the .scmversion
 # file already exists it will not be overwritten.
-EMAC_UBOOT_VERSION = "SL161-00S"
+EMAC_UBOOT_VERSION = "SL161-0"
 FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
+EMAC_UBOOT_LOCALVERSION ?= "_${EMAC_UBOOT_VERSION}S0${SOM_NUMBER}A${UBOOT_REV}.ubin"
 UBOOT_LOCALVERSION = "${EMAC_UBOOT_LOCALVERSION}+${FIRST_SRCREV}"
 
 # Some versions of u-boot use .bin and others use .img.  By default use .bin
@@ -60,38 +61,37 @@ UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
 UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
 
 do_compile () {
-	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
-		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' config.mk
-	fi
+    unset LDFLAGS
+    unset CFLAGS
+    unset CPPFLAGS
 
-	unset LDFLAGS
-	unset CFLAGS
-	unset CPPFLAGS
-
-	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
-	then
-		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
-		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
-	fi
-
-	oe_runmake ${UBOOT_MACHINE}
-	oe_runmake ${UBOOT_MAKE_TARGET}
+    i=0
+    for config in ${UBOOT_MACHINE}; do
+        LOCALVERSION=${UBOOT_LOCALVERSION}
+        echo ${LOCALVERSION:0:8}${i}${LOCALVERSION:8} > ${S}/.scmversion
+        oe_runmake -C ${S} O=${B}/${config} ${config}
+        oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
+        i=$(expr $i + 1);
+    done
+    unset  i
 }
 
 do_install () {
     install -d ${D}/boot
-    install ${S}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-    ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
 
-    if [ -e ${WORKDIR}/fw_env.config ] ; then
-        install -d ${D}${sysconfdir}
-        install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
-    fi
+    for config in ${UBOOT_MACHINE}; do
+        name=${config}
+        install ${B}/${config}/${UBOOT_BINARY} ${D}/boot/u-boot-${name%_config}-${PV}-${PR}.${UBOOT_SUFFIX}
+    done
 
     if [ "x${SPL_BINARY}" != "x" ]
     then
-        install ${S}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-        ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARY}
+        for config in ${UBOOT_MACHINE}; do
+            for spl in ${SPL_BINARY}; do
+		name=`echo ${spl} | cut -d '/' -f 2`
+                install ${B}/${config}/${spl} ${D}/boot/${name}
+            done
+        done
     fi
 
     if [ "x${UBOOT_ENV}" != "x" ]
@@ -101,40 +101,16 @@ do_install () {
     fi
 }
 
-FILES_${PN} = "/boot ${sysconfdir}"
+FILES_${PN} = "/boot"
 
 do_deploy () {
     install -d ${DEPLOYDIR}
-    install ${S}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-
+    install ${D}/boot/* ${DEPLOYDIR}/
     cd ${DEPLOYDIR}
-    rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
-    ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
-    ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
-
-    if [ "x${SPL_BINARY}" != "x" ]
-    then
-        install ${S}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-        rm -f ${DEPLOYDIR}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_SYMLINK}
-        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARY}
-        ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-    fi
-
-    if [ "x${SPL_BINARY_TWO}" != "x" ]
-    then
-        install ${S}/spl/${SPL_BINARY_TWO} ${DEPLOYDIR}/${SPL_IMAGE_TWO}
-        rm -f ${DEPLOYDIR}/${SPL_BINARY_TWO} ${DEPLOYDIR}/${SPL_SYMLINK_TWO}
-        ln -sf ${SPL_IMAGE_TWO} ${DEPLOYDIR}/${SPL_BINARY_TWO}
-        ln -sf ${SPL_IMAGE_TWO} ${DEPLOYDIR}/${SPL_SYMLINK_TWO}
-    fi
-
-    if [ "x${UBOOT_ENV}" != "x" ]
-    then
-        install ${WORKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
-        rm -f ${DEPLOYDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
-        ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_BINARY}
-        ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
-    fi
+    for config in ${UBOOT_MACHINE}; do
+        name=${config}
+        ln -sf u-boot-${name%_config}-${PV}-${PR}.${UBOOT_SUFFIX} u-boot-${name%_config}.${UBOOT_SUFFIX}
+    done
 }
 
-addtask deploy before do_build after do_compile
+addtask deploy before do_build after do_install
