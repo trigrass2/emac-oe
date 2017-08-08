@@ -9,4 +9,5 @@ IMAGE_INSTALL_append = " \
 
 IMAGE_INSTALL_append_arm = " \
 	serial-control \
+	apm \
     "
