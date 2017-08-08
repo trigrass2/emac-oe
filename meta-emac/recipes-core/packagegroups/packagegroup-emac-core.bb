@@ -41,7 +41,7 @@ SUMMARY_packagegroup-emac-core-util = "EMAC OE Core Utilities"
 RRECOMMENDS_packagegroup-emac-core-util = "\
     bash \
     udev-extraconf \
-    kernel-modules \   
+    kernel-modules \
     ifplugd \
     ntp \
     opkg \
@@ -52,7 +52,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     emac-feed-config \
     sudo \
     rsync \
-    "	
+    "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
 RRECOMMENDS_packagegroup-emac-core-touch = "\
@@ -100,7 +100,6 @@ RRECOMMENDS_packagegroup-emac-core-screen = "\
     fbsplash \
     fbset \
     fbida \
-    graphics-demos \
     gst-plugins-base-meta \
     gst-plugins-good-meta \
     ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "graphics-demos", "", d)} \
