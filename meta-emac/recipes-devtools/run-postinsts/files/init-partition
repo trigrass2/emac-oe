@@ -8,11 +8,12 @@ if [ ! -d /home/root ]; then
         echo "Extracting enlightenment defaults"
         tar zxf /etc/enlightenment/e.tar.gz -C /home/root/
     fi
-    if [ -x /etc/emac/demos/*_ppm.tar.gz ]; then
+
+    fbresH=$(fbset | grep geometry | cut -d " " -f6)
+    fbresV=$(fbset | grep geometry | cut -d " " -f7)
+    if [ -x /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz ]; then
         echo "Extracting graphics demos"
         mkdir -p /home/root/Demos/graphics
-        fbresH=$(fbset | grep geometry | cut -d " " -f6)
-        fbresV=$(fbset | grep geometry | cut -d " " -f7)
         tar zxf /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz -C /home/root/Demos/graphics
     fi
     if [ -x /etc/emac/demos/audio_demos.tar.gz ]; then
