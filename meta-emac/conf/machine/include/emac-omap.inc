@@ -1,5 +1,5 @@
 PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
-PREFERRED_VERSION_linux-emac-omap ?= "4.9%"
+PREFERRED_VERSION_linux-emac ?= "4.9%"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
 
 
