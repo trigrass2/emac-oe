@@ -17,7 +17,7 @@ XSERVER ?= "${XSERVER_X86_BASE} \
            "
 
 MACHINE_FEATURES += "screen pci usbhost x86 \
-                     serial usbgadget sound bigflash "
+                     serial usbgadget sound bigflash wifi"
 
 BAD_RECOMMENDATIONS += " linux-firmware "
 
