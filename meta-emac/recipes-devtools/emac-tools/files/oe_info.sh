@@ -229,7 +229,7 @@ else
         bootPart=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f1)
 	bootRev=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
 	soc=$(fw_printenv soc | cut -d '=' -f2)
-	if [ $soc = "at91" ]; then
+	if [[ $soc = "at91" ]]; then
         	bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -m1 | cut -d '(' -f1)
 		bootStrapVers=$(echo $bootStrap | cut -d '_' -f1)
 		bootStrapPart=$(echo $bootStrap | cut -d '_' -f2 | cut -d '+' -f1)
