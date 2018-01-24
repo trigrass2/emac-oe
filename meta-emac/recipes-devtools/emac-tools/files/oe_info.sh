@@ -275,7 +275,9 @@ echo "####################################################"
 
 if [ -w / ]; then
         mv /tmp/oe_info /etc/oe_info
-	/usr/bin/webwriter.sh
+	if [ -x /usr/bin/webwriter.sh ];then
+		/usr/bin/webwriter.sh
+	fi
 fi
 
 echo
