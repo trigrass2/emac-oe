@@ -9,12 +9,14 @@ if [ ! -d /home/root ]; then
         tar zxf /etc/enlightenment/e.tar.gz -C /home/root/
     fi
 
-    fbresH=$(fbset | grep geometry | cut -d " " -f6)
-    fbresV=$(fbset | grep geometry | cut -d " " -f7)
-    if [ -x /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz ]; then
-        echo "Extracting graphics demos"
-        mkdir -p /home/root/Demos/graphics
-        tar zxf /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz -C /home/root/Demos/graphics
+    if [ -x /usr/sbin/fbset ]; then
+        fbresH=$(fbset | grep geometry | cut -d " " -f6)
+        fbresV=$(fbset | grep geometry | cut -d " " -f7)
+        if [ -x /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz ]; then
+            echo "Extracting graphics demos"
+            mkdir -p /home/root/Demos/graphics
+            tar zxf /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz -C /home/root/Demos/graphics
+        fi
     fi
     if [ -x /etc/emac/demos/audio_demos.tar.gz ]; then
         echo "Extracting audio demos"
