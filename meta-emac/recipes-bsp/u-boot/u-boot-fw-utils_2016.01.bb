@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 SECTION = "bootloader"
 DEPENDS = "mtd-utils"
 
-SRCREV = "6a3141dd59d649ff527e5fb8f447ab0ee89cee7d"
+SRCREV = "15d838bb52a8d5772d70807345d40af4c5bd050a"
 PV = "v2016.01+git${SRCPV}"
 
 UBRANCH = "emac-2016.01"
@@ -13,7 +13,7 @@ SRC_URI = "git://git.emacinc.com/bootloader/u-boot-emac.git;branch=${UBRANCH};pr
 S = "${WORKDIR}/git"
 
 INSANE_SKIP_${PN} = "already-stripped"
-EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS}" V=1'
+EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
 EXTRA_OEMAKE_class-cross = 'ARCH=${TARGET_ARCH} CC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
 
 inherit uboot-config
@@ -37,10 +37,7 @@ do_install_class-cross () {
     install -m 755 ${S}/tools/env/fw_printenv ${D}${bindir_cross}/fw_setenv
 }
 
-SYSROOT_PREPROCESS_FUNCS_class-cross = "uboot_fw_utils_cross"
-uboot_fw_utils_cross() {
-    sysroot_stage_dir ${D}${bindir_cross} ${SYSROOT_DESTDIR}${bindir_cross}
-}
+SYSROOT_DIRS_append_class-cross = " ${bindir_cross}"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 BBCLASSEXTEND = "cross"
