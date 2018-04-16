@@ -185,34 +185,36 @@ if [ -z "$carrier" ]; then
 	carrier=""
 fi
 
-carrierNumber=0;
-case ${carrier:4:3} in
-	150)
-		carrierNumber=1;
-		;;
-	200)
-		carrierNumber=2;
-		;;
-	210)
-		carrierNumber=3;
-		;;
-	212)
-		carrierNumber=4;
-		;;
-	250)
-		carrierNumber=5;
-		;;
-	300)
-		carrierNumber=6;
-		;;
-	320)
-		carrierNumber=7;
-		;;
-	350)
-		carrierNumber=8;
-		;;
-esac
-kernPart=${kernPart:0:9}${carrierNumber}${kernPart:10}
+if [ ${kernPart:0:1} = 'S' ]; then
+	carrierNumber=0;
+	case ${carrier:4:3} in
+		150)
+			carrierNumber=1;
+			;;
+		200)
+			carrierNumber=2;
+			;;
+		210)
+			carrierNumber=3;
+			;;
+		212)
+			carrierNumber=4;
+			;;
+		250)
+			carrierNumber=5;
+			;;
+		300)
+			carrierNumber=6;
+			;;
+		320)
+			carrierNumber=7;
+			;;
+		350)
+			carrierNumber=8;
+			;;
+	esac
+	kernPart=${kernPart:0:9}${carrierNumber}${kernPart:10}
+fi
 
 #Get info on CPLD for the 150 and 200 carriers
 CPLD=$(dmesg | grep 'EMAC core')
