@@ -1,11 +1,4 @@
-SUMMARY = "SysV init scripts"
-DESCRIPTION = "Initscripts provide the basic system startup initialization scripts for the system.  These scripts include actions such as filesystem mounting, fsck, RTC manipulation and other actions routinely performed at system startup.  In addition, the scripts are also used during system shutdown to reverse the actions performed at startup."
-SECTION = "base"
-LICENSE = "GPLv2"
-LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-PR = "r155"
-
-INHIBIT_DEFAULT_DEPS = "1"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${BP}:"
 
 SRC_URI = "file://functions \
            file://halt \
@@ -30,26 +23,6 @@ SRC_URI = "file://functions \
 "
 
 SRC_URI_append_arm = " file://alignment.sh"
-
-KERNEL_VERSION = ""
-
-inherit update-alternatives
-DEPENDS_append = " update-rc.d-native"
-
-PACKAGES =+ "${PN}-functions"
-RDEPENDS_${PN} = "${PN}-functions"
-FILES_${PN}-functions = "${sysconfdir}/init.d/functions*"
-
-ALTERNATIVE_PRIORITY_${PN}-functions = "90"
-ALTERNATIVE_${PN}-functions = "functions"
-ALTERNATIVE_LINK_NAME[functions] = "${sysconfdir}/init.d/functions"
-
-HALTARGS ?= "-d -f"
-
-do_configure() {
-	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/halt
-	sed -i -e "s:SED_HALTARGS:${HALTARGS}:g" ${WORKDIR}/reboot
-}
 
 do_install () {
 #
