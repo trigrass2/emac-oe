@@ -123,8 +123,8 @@ done
 if set_image ;then
     if set_conf; then
         ARGS="$ARGS -i $CONF_FILE"
-        do_start
     fi
+    do_start
 else
         echo -e "No bootsplash image could be found in $IMAGE_BASE"
         exit 1
