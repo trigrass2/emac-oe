@@ -1,1 +1,0 @@
-ETHEME = "exquisite-theme-illume"
