@@ -2,7 +2,7 @@ DESCRIPTION = "ifplugd is a Linux daemon which will automatically configure your
 when a cable is plugged in and automatically unconfigure it if the cable is pulled."
 HOMEPAGE = "http://0pointer.de/lennart/projects/ifplugd/"
 SECTION = "network"
-LICENSE = "CLOSED"
+LICENSE = "GPLv2"
 
 
 SRC_URI = "file://ifplugd \
@@ -12,7 +12,7 @@ SRC_URI = "file://ifplugd \
 inherit update-rc.d
 
 INITSCRIPT_NAME = "ifplugd"
-INITSCRIPT_PARAMS = "start 4 2 3 4 5 . stop 81 0 1 6 ."
+INITSCRIPT_PARAMS = "start 41 S . stop 41 0 1 6 ."
 
 do_install() {
 	install -d ${D}${sysconfdir}/ifplugd/
