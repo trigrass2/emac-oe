@@ -170,9 +170,9 @@ echo
 echo "Gathering build information..."
 echo
 
-fsPN=$(cat /etc/version | grep "part_number" | cut -d '"' -f2)
-oeVers=$(cat /etc/version | grep -m1 "version=" | cut -d '"' -f2)
-fsRev=$(cat /etc/version | grep "repository" | cut -d '"' -f2)
+fsPN=$(cat /etc/build | grep "PART_NUMBER" | cut -d ' ' -f3)
+oeVers=$(cat /etc/build | grep "DISTRO_VERSION" | cut -d ' ' -f3)
+fsRev=$(cat /etc/build | grep -m1 "meta-emac" | cut -d ':' -f2)
 fsRev=${fsRev:0:10}
 
 kernVers=$(uname -r | cut -d '_' -f1)
