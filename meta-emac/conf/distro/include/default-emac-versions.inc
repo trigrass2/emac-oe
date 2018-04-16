@@ -1,2 +1,2 @@
 PREFERRED_VERSION_xserver-nodm-init = "1.0"
-PREFERRED_VERSION_vim = "emac%"
+PREFERRED_VERSION_vim = "8.0.1727"

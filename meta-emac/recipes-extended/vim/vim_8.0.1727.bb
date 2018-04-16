@@ -5,26 +5,23 @@ LICENSE = "vim"
 LIC_FILES_CHKSUM = "file://../runtime/doc/uganda.txt;md5=eea32ac1424bba14096736a494ae9045"
 
 SRC_URI = "git://github.com/vim/vim.git \
-           file://disable_acl_header_check.patch;patchdir=.. \
-           file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=.. \
+           file://configure.patch;patchdir=.. \
            file://vimrc.sample"
 
-SRCREV = "ec68a99464055029c01082762517e97245ddae0c"
-
-#SRC_URI[md5sum] = "43148e0b7fc0457386b41edb70f243b4"
-#SRC_URI[sha256sum] = "037a103ba341e2af960b30f678c25bd0e7b8f6fcd811fb1149830b0dcf2199a1"
+SRCREV = "353eeeaca269ed5e83900bd4a24dc6dc80bb4880"
 
 SRCDIR = "${WORKDIR}/git"
 S = "${SRCDIR}/src"
 
-VIMDIR = "${BPN}${@d.getVar('PV',1).split('.')[1]}${@d.getVar('PV',1).split('.')[2]}"
+#VIMDIR = "${BPN}${@d.getVar('PV',1).split('.')[1]}${@d.getVar('PV',1).split('.')[2]}"
+VIMDIR = "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
 
 inherit autotools update-alternatives
 inherit autotools-brokensep
 
 # vim configure.in contains functions which got 'dropped' by autotools.bbclass
 do_configure () {
-    rm -rf auto/
+    rm -rf auto/*
     mkdir -p auto
     touch auto/config.mk
     aclocal
@@ -48,7 +45,7 @@ EXTRA_OECONF = " \
     vim_cv_memmove_handles_overlap=yes \
     vim_cv_stat_ignores_slash=no \
     vim_cv_terminfo=yes \
-    vim_cv_tgent=non-zero \
+    vim_cv_tgetent=non-zero \
     vim_cv_toupper_broken=no \
     vim_cv_tty_group=world \
     STRIP=/bin/true \
