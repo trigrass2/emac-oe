@@ -49,7 +49,6 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     e2fsprogs-tune2fs \
     usbutils \
     eudev-hwdb \
-    emac-feed-config \
     sudo \
     rsync \
     "
