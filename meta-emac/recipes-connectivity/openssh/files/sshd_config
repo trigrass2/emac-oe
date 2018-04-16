@@ -25,10 +25,15 @@ Protocol 2
 # HostKeys for protocol version 2
 #HostKey /etc/ssh/ssh_host_rsa_key
 #HostKey /etc/ssh/ssh_host_dsa_key
+#HostKey /etc/ssh/ssh_host_ecdsa_key
+#HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Lifetime and size of ephemeral version 1 server key
 #KeyRegenerationInterval 1h
 #ServerKeyBits 1024
+
+# Ciphers and keying
+#RekeyLimit default none
 
 # Logging
 # obsoletes QuietMode and FascistLogging
@@ -46,6 +51,11 @@ PermitRootLogin yes
 #RSAAuthentication yes
 #PubkeyAuthentication yes
 #AuthorizedKeysFile	.ssh/authorized_keys
+
+#AuthorizedPrincipalsFile none
+
+#AuthorizedKeysCommand none
+#AuthorizedKeysCommandUser nobody
 
 # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
 #RhostsRSAAuthentication no
@@ -88,14 +98,14 @@ PermitRootLogin yes
 #AllowAgentForwarding yes
 #AllowTcpForwarding yes
 #GatewayPorts no
-#X11Forwarding no
+X11Forwarding yes
 #X11DisplayOffset 10
 #X11UseLocalhost yes
+#PermitTTY yes
 #PrintMotd yes
 #PrintLastLog yes
 #TCPKeepAlive yes
 #UseLogin no
-UsePrivilegeSeparation yes
 #PermitUserEnvironment no
 Compression no
 ClientAliveInterval 15
@@ -105,6 +115,7 @@ ClientAliveCountMax 4
 #MaxStartups 10
 #PermitTunnel no
 #ChrootDirectory none
+#VersionAddendum none
 
 # no default banner path
 #Banner none
