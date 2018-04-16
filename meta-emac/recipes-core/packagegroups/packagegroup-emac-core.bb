@@ -99,8 +99,8 @@ RRECOMMENDS_packagegroup-emac-core-screen = "\
     fbsplash \
     fbset \
     fbida \
-    gst-plugins-base-meta \
-    gst-plugins-good-meta \
+    gstreamer1.0-plugins-base \
+    gstreamer1.0-plugins-good \
     ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "graphics-demos", "", d)} \
     "
 
