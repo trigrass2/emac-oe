@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.24.1
-# Thu Oct 20 11:01:30 2016
+# Mon Feb 12 22:40:20 2018
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -66,7 +66,7 @@ CONFIG_FEATURE_HAVE_RPC=y
 CONFIG_LFS=y
 CONFIG_CROSS_COMPILER_PREFIX="i586-emac-linux-"
 CONFIG_SYSROOT=""
-CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/opt/oe/build_5.1/tmp/work/core2-64-emac-linux/busybox/1.24.1-r0=/usr/src/debug/busybox/1.24.1-r0 -fdebug-prefix-map=/opt/oe/build_5.1/tmp/sysroots/x86_64-linux= -fdebug-prefix-map=/opt/oe/build_5.1/tmp/sysroots/Atom-SIB-64=   -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse"
+CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types   -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse"
 CONFIG_EXTRA_LDFLAGS=""
 CONFIG_EXTRA_LDLIBS=""
 
@@ -159,8 +159,8 @@ CONFIG_GZIP_FAST=0
 # CONFIG_FEATURE_GZIP_LEVELS is not set
 CONFIG_LZOP=y
 # CONFIG_LZOP_COMPR_HIGH is not set
-# CONFIG_RPM is not set
 # CONFIG_RPM2CPIO is not set
+# CONFIG_RPM is not set
 CONFIG_TAR=y
 CONFIG_FEATURE_TAR_CREATE=y
 CONFIG_FEATURE_TAR_AUTODETECT=y
@@ -641,8 +641,8 @@ CONFIG_VOLUMEID=y
 #
 # Filesystem/Volume identification
 #
-CONFIG_FEATURE_VOLUMEID_BTRFS=y
-CONFIG_FEATURE_VOLUMEID_CRAMFS=y
+# CONFIG_FEATURE_VOLUMEID_BTRFS is not set
+# CONFIG_FEATURE_VOLUMEID_CRAMFS is not set
 CONFIG_FEATURE_VOLUMEID_EXFAT=y
 CONFIG_FEATURE_VOLUMEID_EXT=y
 CONFIG_FEATURE_VOLUMEID_F2FS=y
@@ -658,7 +658,7 @@ CONFIG_FEATURE_VOLUMEID_NTFS=y
 # CONFIG_FEATURE_VOLUMEID_OCFS2 is not set
 # CONFIG_FEATURE_VOLUMEID_REISERFS is not set
 CONFIG_FEATURE_VOLUMEID_ROMFS=y
-CONFIG_FEATURE_VOLUMEID_SQUASHFS=y
+# CONFIG_FEATURE_VOLUMEID_SQUASHFS is not set
 CONFIG_FEATURE_VOLUMEID_SYSV=y
 # CONFIG_FEATURE_VOLUMEID_UDF is not set
 # CONFIG_FEATURE_VOLUMEID_XFS is not set
@@ -688,7 +688,7 @@ CONFIG_FEATURE_LESS_ASK_TERMINAL=y
 # CONFIG_FEATURE_LESS_LINENUMS is not set
 CONFIG_NANDWRITE=y
 CONFIG_NANDDUMP=y
-CONFIG_RFKILL=y
+# CONFIG_RFKILL is not set
 CONFIG_SETSERIAL=y
 # CONFIG_TASKSET is not set
 # CONFIG_FEATURE_TASKSET_FANCY is not set
@@ -1059,7 +1059,11 @@ CONFIG_FEATURE_IPC_SYSLOG=y
 CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=64
 CONFIG_LOGREAD=y
 CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
-# CONFIG_FEATURE_KMSG_SYSLOG is not set
+CONFIG_FEATURE_KMSG_SYSLOG=y
 CONFIG_KLOGD=y
+
+#
+# klogd should not be used together with syslog to kernel printk buffer
+#
 CONFIG_FEATURE_KLOGD_KLOGCTL=y
 CONFIG_LOGGER=y
