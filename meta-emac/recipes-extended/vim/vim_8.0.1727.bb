@@ -53,10 +53,9 @@ EXTRA_OECONF = " \
 
 do_install() {
         oe_runmake DESTDIR='${WORKDIR}/image' installvimbin
-#        install -d ${D}${datadir}/${PN}/
-#	install -d ${D}${datadir}/${PN}/vim74
 	install -d ${D}${datadir}/${BPN}/${VIMDIR}/syntax
 	install -d ${D}${datadir}/${BPN}/${VIMDIR}/doc
+	install -d ${D}${datadir}/${BPN}/${VIMDIR}/autoload/dist
         install -m 0644 ${WORKDIR}/vimrc.sample ${D}/${datadir}/${PN}/vimrc
         install -m 0644 ${SRCDIR}/runtime/rgb.txt ${D}/${datadir}/${BPN}/${VIMDIR}/rgb.txt
         install -m 0644 ${SRCDIR}/runtime/filetype.vim ${D}/${datadir}/${BPN}/${VIMDIR}/filetype.vim
@@ -100,6 +99,7 @@ do_install() {
         install -m 0644 ${SRCDIR}/runtime/syntax/sql.vim ${D}/${datadir}/${BPN}/${VIMDIR}/syntax/sql.vim
         install -m 0644 ${SRCDIR}/runtime/doc/tags ${D}/${datadir}/${BPN}/${VIMDIR}/doc/tags
         install -m 0644 ${SRCDIR}/runtime/doc/help.txt ${D}/${datadir}/${BPN}/${VIMDIR}/doc/help.txt
+	install -m 0644 ${SRCDIR}/runtime/autoload/dist/ft.vim ${D}${datadir}/${BPN}/${VIMDIR}/autoload/dist/ft.vim
 }
 
 PARALLEL_MAKEINST = ""
