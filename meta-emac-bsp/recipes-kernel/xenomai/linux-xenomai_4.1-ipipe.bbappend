@@ -6,4 +6,4 @@ SRC_URI_append = " \
 		file://defconfig \
 	"
 
-SRC_URI_append_somimx6-xenomai = "file://0001-imx6-linux-xeno.patch"
+SRC_URI_append_somimx6-xenomai = "file://0001-imx-xeno-dts.patch"
