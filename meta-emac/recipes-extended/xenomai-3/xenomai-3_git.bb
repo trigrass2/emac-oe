@@ -17,52 +17,27 @@ SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH}"
 
 DEPENDS = "fuse"
 
-inherit autotools
-
-INSANE_SKIP_${PN}-dev += " libdir "
-INSANE_SKIP_${PN}-dbg += " libdir "
-INSANE_SKIP_${PN} += " libdir "
+inherit autotools pkgconfig
 
 #Make it MACHINE specific
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-FILES_${PN} += "/usr/bin/* /usr/sbin/* \
-		/usr/lib/* /usr/lib/xenomai/* \
-		/etc/* \
-		/usr/demo/* \
-		/usr/share/xeno-src/*"
-FILES_${PN}-doc += "/usr/share/man/* /usr/share/doc/*"
-FILES_${PN}-dev += "/usr/include/*"
-FILES_${PN}-staticdev += "/usr/lib/*.a"
-FILES_${PN}-dbg += "/usr/bin/.debug/* /usr/sbin/.debug/* \
-		 /usr/lib/.debug/* \
-		 /usr/demo/.debug/* \
-		"
+FILES_${PN} += "\
+	${libdir}/cobalt.wrappers ${libdir}/modechk.wrappers \
+	${libdir}/dynlist.ld \
+	"
+
 S = "${WORKDIR}/git"
 
+EXTRA_OECONF = "--includedir=${includedir}/xenomai --with-demodir=${bindir} --enable-registry --with-core=cobalt --enable-pshared"
 CFLAGS_x86 := "-m32"
-EXTRA_OECONF_x86 = "--enable-smp"
+EXTRA_OECONF_append_x86 = "--enable-smp"
+EXTRA_OECONF_append_somimx6-xenomai = "--enable-smp"
+
 LDFLAGS = "`pkg-config fuse --cflags --libs`"
 
-do_configure () {
-	cd ${S}
 
-	${S}/scripts/bootstrap
-        ${S}/configure --build=${BUILD_SYS} --host=${HOST_SYS} --target=${TARGET_SYS} --with-core=cobalt --enable-pshared ${EXTRA_OECONF} --prefix=/usr --exec_prefix=/usr --includedir=/usr/include/xenomai --enable-registry
-}
-
-do_install () {
-	cd ${S}
-	make DESTDIR=${D} install
-
-	mkdir -p ${D}/usr/share/xeno-src
-	cd ${S}/demo
-	find . -name *.c | cpio -pdm ${D}/usr/share/xeno-src
-	find . -name *.h | cpio -pdm ${D}/usr/share/xeno-src
-	find . -name "Makefile.*" | cpio -pdm ${D}/usr/share/xeno-src
-	
-	# remove /dev entry - it will be created later in image
+do_install_append () {
 	rm -fR ${D}/dev
-	
-	mv ${D}/usr/etc ${D}/etc
+	rm -rf ${D}/${libdir}/xenomai
 }
