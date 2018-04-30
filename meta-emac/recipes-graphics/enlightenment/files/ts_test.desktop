@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=TS_TEST
-Comment=Test the touchscreen.
-Exec=ts_test
-Icon=utilities-terminal
-Terminal=false
-Categories=GTK;Utility;
-StartupNotify=true

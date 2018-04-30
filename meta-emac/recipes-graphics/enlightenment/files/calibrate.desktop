@@ -1,9 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=TS_CALIBRATE
-Comment=Calibrate the touchscreen.
-Exec=/usr/bin/tscal.sh
-Icon=utilities-terminal
-Terminal=false
-Categories=GTK;Utility;
-StartupNotify=true
