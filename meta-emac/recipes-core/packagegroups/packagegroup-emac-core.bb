@@ -16,7 +16,7 @@ PACKAGES = " \
     packagegroup-emac-core \
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "touch", "packagegroup-emac-core-touch", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "packagegroup-emac-core-touch", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", "packagegroup-emac-core-wifi", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", 'sound', 'packagegroup-emac-core-sound', '',d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "mtd", "packagegroup-emac-core-mtd", "", d)} \
@@ -28,7 +28,7 @@ PACKAGES = " \
 RRECOMMENDS_packagegroup-emac-core = "\
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "touch", "packagegroup-emac-core-touch", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "packagegroup-emac-core-touch", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", "packagegroup-emac-core-wifi", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", 'sound', 'packagegroup-emac-core-sound', '',d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "mtd", "packagegroup-emac-core-mtd", "", d)} \
