@@ -15,4 +15,5 @@ BBLAYERS ?= " \
   ##OEROOT##/recipes/meta-openembedded/meta-multimedia \
   ##OEROOT##/recipes/meta-openembedded/meta-filesystems \
   ##OEROOT##/recipes/meta-qt4 \
+  ##OEROOT##/recipes/meta-qt5 \
   "
