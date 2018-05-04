@@ -66,6 +66,7 @@ RRECOMMENDS_packagegroup-emac-core-wifi = "\
     iw \
     wpa-supplicant \
     wireless-tools \
+    bluez5 \
     "
 
 SUMMARY_packagegroup-emac-core-sound = "EMAC OE ALSA Utilities"
