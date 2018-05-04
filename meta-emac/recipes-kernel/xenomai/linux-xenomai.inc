@@ -5,8 +5,6 @@ LINUX_VER_SHORT="${@d.getVar('LINUX_VER',1).split('.')[0]}.${@d.getVar('LINUX_VE
 
 PROVIDES += " virtual/kernel kernel-modules "
 
-FILES_kernel-dev += "${KERNEL_LINK_PATH}"
-
 XENOMAI_SRC_PATH = "${TMPDIR}/work/${MULTIMACH_TARGET_SYS}/xenomai-3/git-${PR}/git"
 XENOMAI_DEST_SRC_PATH = "../xenomai"
 
@@ -27,3 +25,5 @@ do_configure_prepend() {
 		echo "CONFIG_LOCALVERSION="\"${LINUX_VERSION_EXTENSION}\" >> ${B}/.config
 	fi
 }
+
+KERNEL_MODULE_PACKAGE_SUFFIX = ""
