@@ -1,0 +1,34 @@
+#!/bin/sh
+
+set -e
+
+cd /usr/share/qt5/examples/widgets/animation/animatedtiles
+QTDEMO="./animatedtiles"
+
+case "$1" in
+  start)
+	echo "Starting qtdemo"
+	[ -f /etc/profile.d/tslib.sh ] && . /etc/profile.d/tslib.sh
+	[ -f /etc/profile.d/qte.sh ] && . /etc/profile.d/qte.sh		
+
+	if [ -f /usr/bin/tscal.sh ] && [ ! -f /etc/pointercal ]; then
+		. /usr/bin/tscal.sh
+	fi
+	
+	$QTDEMO &
+	;;
+  stop)
+	echo "Stopping qtdemo"
+	killall animatedtiles
+	;;
+  restart)
+	$0 stop
+	$0 start
+	;;
+  *)
+	echo "usage: $0 { start | stop | restart }" >&2
+	exit 1
+	;;
+esac
+
+exit 0
