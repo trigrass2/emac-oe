@@ -24,6 +24,7 @@ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHA
 # file already exists it will not be overwritten.
 EMAC_UBOOT_VERSION = "SL147-00S"
 FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
+EMAC_UBOOT_LOCALVERSION ?= "_${EMAC_UBOOT_VERSION}${SOM_NUMBER}A${UBOOT_REV}.ubin"
 UBOOT_LOCALVERSION = "${EMAC_UBOOT_LOCALVERSION}+${FIRST_SRCREV}"
 
 # Some versions of u-boot use .bin and others use .img.  By default use .bin
