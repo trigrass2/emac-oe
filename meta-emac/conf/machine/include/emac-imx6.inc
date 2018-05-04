@@ -1,4 +1,4 @@
-PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
 PREFERRED_VERSION_linux-emac ?= "4.9%"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
 
@@ -16,8 +16,8 @@ XSERVER ?= "xserver-xorg \
            xf86-input-tslib \
 "
 
-MACHINE_FEATURES += " pci usbhost sound serial usbgadget can"
-MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
+MACHINE_FEATURES += "pci usbhost sound serial can"
+MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils kernel-devicetree"
 EXTRA_IMAGEDEPENDS += "u-boot-emac"
 
 SERIAL_CONSOLE ?= "115200 ttymxc1"
