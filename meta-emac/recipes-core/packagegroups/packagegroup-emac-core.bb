@@ -53,6 +53,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     eudev-hwdb \
     sudo \
     rsync \
+    libgpiod \
     "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
