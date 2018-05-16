@@ -110,7 +110,7 @@ then
     fullpath=$(find $CUSTOMMACHINECONF -name $machine.conf)
     layerdir=$(dirname $(dirname $(dirname $fullpath)))
     [ -r "$layerdir/conf/bblayers.conf.sample" ] && OECORELAYERCONF="$layerdir/conf/bblayers.conf.sample"
-    BRANCH=$machine
+    BRANCH=$(echo $layerdir | cut -d '-' -f3)
 else
     fullpath=$MACHINECONF
     layerdir=$(dirname $(dirname $fullpath))
