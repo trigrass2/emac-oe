@@ -31,3 +31,5 @@ UBOOT_ENTRYPOINT ?= "0x80008000"
 UBOOT_MACHINE ?= "am3517_evm_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
+
+DEFAULTTUNE = "armv7a-neon"
