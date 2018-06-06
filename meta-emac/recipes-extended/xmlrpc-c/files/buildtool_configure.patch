@@ -6,8 +6,8 @@
  
 -BUILDTOOL_CC = $(CC)
 -BUILDTOOL_CCLD = $(CCLD)
-+BUILDTOOL_CC = x86_64-linux-gnu-gcc
-+BUILDTOOL_CCLD = x86_64-linux-gnu-gcc
++BUILDTOOL_CC = $(BUILD_CC)
++BUILDTOOL_CCLD = $(BUILD_CCLD)
  
  ifeq ($(C_COMPILER_GNU),yes)
    CFLAGS_NO_INLINE_WARNING = -Wno-inline
