@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.27.2
-# Mon May  7 21:48:16 2018
+# Tue May 29 22:58:09 2018
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -49,7 +49,7 @@ CONFIG_PLATFORM_LINUX=y
 CONFIG_LFS=y
 CONFIG_CROSS_COMPILER_PREFIX=""
 CONFIG_SYSROOT=""
-CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types   -march=armv7-a -mfpu=neon -mfloat-abi=softfp"
+CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types   -march=armv7-a -mfpu=vfp -mfloat-abi=softfp -mcpu=cortex-a5"
 CONFIG_EXTRA_LDFLAGS=""
 CONFIG_EXTRA_LDLIBS=""
 
@@ -846,11 +846,11 @@ CONFIG_IFPLUGD=y
 CONFIG_IFUP=y
 CONFIG_IFDOWN=y
 CONFIG_IFUPDOWN_IFSTATE_PATH="/var/run/ifstate"
-# CONFIG_FEATURE_IFUPDOWN_IP is not set
+CONFIG_FEATURE_IFUPDOWN_IP=y
 CONFIG_FEATURE_IFUPDOWN_IPV4=y
 CONFIG_FEATURE_IFUPDOWN_IPV6=y
 CONFIG_FEATURE_IFUPDOWN_MAPPING=y
-# CONFIG_FEATURE_IFUPDOWN_EXTERNAL_DHCP is not set
+CONFIG_FEATURE_IFUPDOWN_EXTERNAL_DHCP=y
 # CONFIG_INETD is not set
 # CONFIG_FEATURE_INETD_SUPPORT_BUILTIN_ECHO is not set
 # CONFIG_FEATURE_INETD_SUPPORT_BUILTIN_DISCARD is not set
