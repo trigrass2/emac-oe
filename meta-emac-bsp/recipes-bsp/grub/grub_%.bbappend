@@ -1,3 +1,4 @@
+FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
 GRUB_DEVICE ?= "/dev/sda1"
 GRUB_CMDLINE_LINUX ?= ""
