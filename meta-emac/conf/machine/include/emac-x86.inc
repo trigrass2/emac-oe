@@ -40,24 +40,23 @@ XSERVER_X86_BASE = "xserver-xorg \
            "
 
 XSERVER_X86_EXT = " \
-           ${@base_contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
+           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
            xserver-xorg-module-libint10 \
            "
 
 XSERVER_X86_I915 = "xf86-video-intel \
-           ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i915', '', d)} \
+           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i915', '', d)} \
            "
 
 XSERVER_X86_I965 = "xf86-video-intel \
-           ${@base_contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i965', '', d)} \
+           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i965', '', d)} \
            "
 
 XSERVER_X86_VESA = "xf86-video-vesa"
-
 XSERVER_X86_FBDEV = "xf86-video-fbdev"
 
 XSERVER_X86_TOUCH = " \
-           ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'xf86-input-tslib', '', d)} \
+           ${@bb.utils.contains('MACHINE_FEATURES', 'touchscreen', 'xf86-input-tslib', '', d)} \
            "
 
 XSERVER_X86_MODESETTING = "xf86-video-modesetting"
