@@ -222,7 +222,7 @@ CPLD=$(dmesg | grep 'EMAC core')
 if [ -x /usr/sbin/lilo ]; then
         bootVers=$(lilo -V)
 elif [ -x /usr/sbin/grub-install ]; then
-        bootVers=$(grub-install -v | cut -d ' ' -f3)
+        bootVers=$(grub-install -V | cut -d ' ' -f3)
         bootVers="GRUB $bootVers"
 else
 	mtdNum=$(cat /proc/mtd | grep spi | cut -d ':' -f1)
