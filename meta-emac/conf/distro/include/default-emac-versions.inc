@@ -1,2 +1,3 @@
 PREFERRED_VERSION_xserver-nodm-init = "1.0"
 PREFERRED_VERSION_vim = "8.0.1727"
+PREFERRED_VERSION_libmodbus = "3.1.4"
