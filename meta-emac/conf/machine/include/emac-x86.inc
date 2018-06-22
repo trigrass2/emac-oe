@@ -57,7 +57,7 @@ XSERVER_X86_VESA = "xf86-video-vesa"
 XSERVER_X86_FBDEV = "xf86-video-fbdev"
 
 XSERVER_X86_TOUCH = " \
-           ${@base_contains('MACHINE_FEATURES', 'touch', 'xf86-input-tslib', '', d)} \
+           ${@base_contains('MACHINE_FEATURES', 'touchscreen', 'xf86-input-tslib', '', d)} \
            "
 
 XSERVER_X86_MODESETTING = "xf86-video-modesetting"

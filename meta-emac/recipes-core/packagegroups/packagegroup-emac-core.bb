@@ -16,25 +16,27 @@ PACKAGES = " \
     packagegroup-emac-core \
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "touch", "packagegroup-emac-core-touch", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "packagegroup-emac-core-touch", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", "packagegroup-emac-core-wifi", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", 'sound', 'packagegroup-emac-core-sound', '',d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "mtd", "packagegroup-emac-core-mtd", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "screen", "packagegroup-emac-core-screen", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", "packagegroup-emac-core-can", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", "packagegroup-emac-core-pci", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "rt", "packagegroup-emac-core-rt", "", d)} \
     "
 
 RRECOMMENDS_packagegroup-emac-core = "\
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "touch", "packagegroup-emac-core-touch", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "packagegroup-emac-core-touch", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", "packagegroup-emac-core-wifi", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", 'sound', 'packagegroup-emac-core-sound', '',d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "mtd", "packagegroup-emac-core-mtd", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "screen", "packagegroup-emac-core-screen", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", "packagegroup-emac-core-can", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", "packagegroup-emac-core-pci", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "rt", "packagegroup-emac-core-rt", "", d)} \
     "
 
 SUMMARY_packagegroup-emac-core-util = "EMAC OE Core Utilities"
@@ -66,6 +68,7 @@ RRECOMMENDS_packagegroup-emac-core-wifi = "\
     iw \
     wpa-supplicant \
     wireless-tools \
+    bluez5 \
     "
 
 SUMMARY_packagegroup-emac-core-sound = "EMAC OE ALSA Utilities"
@@ -112,4 +115,10 @@ RRECOMMENDS_packagegroup-emac-core-can = "\
 SUMMARY_packagegroup-emac-core-pci= "EMAC OE PCI Packages."
 RRECOMMENDS_packagegroup-emac-core-pci = "\
     pciutils \
+    "
+
+SUMMARY_packagegroup-emac-core-rt= "EMAC OE RT Packages."
+RRECOMMENDS_packagegroup-emac-core-rt = "\
+    rt-tests \
+    hwlatdetect \
     "
