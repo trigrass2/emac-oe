@@ -1,7 +1,7 @@
 #!/bin/bash
 
 user=$(whoami)
-REPO=ftp://oe50opkg:opkgoe50123@ftp.emacinc.com
+REPO=ftp://oe50opkg:opkgoe50123@ftp.emacinc.com/5.1
 config_dir=$HOME/.config/QtProject/qtcreator/
 identifier="<!-- This comment is for the EMAC ADT parsing script -->"
 
