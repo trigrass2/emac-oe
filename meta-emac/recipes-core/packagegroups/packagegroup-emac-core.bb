@@ -54,6 +54,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     sudo \
     rsync \
     libgpiod \
+    sysfsutils \
     "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
