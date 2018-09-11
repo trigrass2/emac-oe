@@ -217,7 +217,7 @@ if [ ${kernPart:0:1} = 'S' ]; then
 fi
 
 #Get info on CPLD for the 150 and 200 carriers
-CPLD=$(dmesg | grep 'EMAC core')
+[ -f /sys/kernel/emac_cpld/cpld_id ] && CPLD=$(cat /sys/kernel/emac_cpld/cpld_id)
 
 if [ -x /usr/sbin/lilo ]; then
         bootVers=$(lilo -V)
@@ -225,7 +225,7 @@ elif [ -x /usr/sbin/grub-install ]; then
         bootVers=$(grub-install -V | cut -d ' ' -f3)
         bootVers="GRUB $bootVers"
 else
-	mtdNum=$(cat /proc/mtd | grep spi | cut -d ':' -f1)
+	mtdNum=$(cat /etc/fw_env.config | grep /dev | cut -d '/' -f3 | cut -d ' ' -f1)
 	boot=$(fw_printenv ver | cut -d '=' -f2)
         bootVers=$(echo $boot | cut -d '_' -f1)
         bootPart=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f1)
@@ -246,6 +246,9 @@ fi
 
 echo "Product: "$(hostname) > /tmp/oe_info
 [ -n "$carrier" ] && echo "Carrier:" $carrier >> /tmp/oe_info
+if [ ! -z "$CPLD" ]; then
+        echo "CPLD Version: "$CPLD >> /tmp/oe_info
+fi
 [ -n "$serialNum" ] && echo "Serial Number: "${serialNum:8} >> /tmp/oe_info
 echo >> /tmp/oe_info
 if [ -n "$bootStrap" ];then
@@ -265,10 +268,6 @@ echo >> /tmp/oe_info
 echo "Filesystem Part#: "$fsPN >> /tmp/oe_info
 echo "Filesystem Ver#: "$oeVers >> /tmp/oe_info
 echo "Filesystem Rev: "$fsRev >> /tmp/oe_info
-if [ ! -z "$CPLD" ]; then
-	echo >> /tmp/oe_info
-	echo "CPLD: "$CPLD >> /tmp/oe_info
-fi
 
 cat /tmp/oe_info
 echo
