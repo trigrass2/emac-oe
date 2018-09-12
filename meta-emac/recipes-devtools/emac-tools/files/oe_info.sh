@@ -212,6 +212,9 @@ if [ ${kernPart:0:1} = 'S' ]; then
 		350)
 			carrierNumber=8;
 			;;
+		112)
+			carrierNumber=9;
+			;;
 	esac
 	kernPart=${kernPart:0:9}${carrierNumber}${kernPart:10}
 fi
