@@ -16,7 +16,7 @@ XSERVER ?= "xserver-xorg \
            xf86-input-tslib \
 "
 
-MACHINE_FEATURES += "pci usbhost sound serial can"
+MACHINE_FEATURES += "pci usbhost sound serial can wifi"
 MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils kernel-devicetree"
 EXTRA_IMAGEDEPENDS += "u-boot-emac"
 

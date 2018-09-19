@@ -15,7 +15,7 @@ XSERVER ?= "xserver-xorg \
            xf86-input-tslib \
 	   "
 
-MACHINE_FEATURES += "usbhost serial usbgadget"
+MACHINE_FEATURES += "usbhost serial usbgadget wifi"
 MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
 EXTRA_IMAGEDEPENDS += "u-boot-emac-at91 at91bootstrap"
 
