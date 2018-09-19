@@ -6,8 +6,3 @@ IMAGE_INSTALL_append = " \
 	packagegroup-core-boot \
 	packagegroup-emac-core \
     "
-
-IMAGE_INSTALL_append_arm = " \
-	serial-control \
-	apm \
-    "

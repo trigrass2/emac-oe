@@ -15,8 +15,7 @@ XSERVER ?= "xserver-xorg \
            xf86-input-tslib \
 	   "
 
-MACHINE_FEATURES += "wifi sound"
-MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
+MACHINE_FEATURES += "wifi sound arm"
 EXTRA_IMAGEDEPENDS += "u-boot-emac-at91 at91bootstrap"
 
 SERIAL_CONSOLE ?= "115200 ttyS0"
