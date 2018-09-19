@@ -11,6 +11,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
 PROVIDES = "${PACKAGES}"
+RDEPENDS_packagegroup-emac-core = "${MACHINE_EXTRA_RDEPENDS}"
 
 PACKAGES = " \
     packagegroup-emac-core \
@@ -55,6 +56,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     rsync \
     libgpiod \
     sysfsutils \
+    openssh \
     "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"

@@ -5,7 +5,7 @@ BUILD_TYPE ?= "headless"
 EXTRA_PKGS ?= ""
 FS_NUMBER ?= "00"
 
-inherit core-image syslinux distro_features_check
+inherit image
 
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_BUILDINFO_VARS = "DATE DISTRO_NAME DISTRO_VERSION IMAGE_BASENAME MACHINE TUNE_PKGARCH PART_NUMBER EXTRA_PKGS"
