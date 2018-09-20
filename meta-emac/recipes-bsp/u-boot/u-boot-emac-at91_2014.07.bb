@@ -6,7 +6,7 @@ PROVIDES = "virtual/bootloader"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
 
-SRCREV = "a06b52a3c6d1b67ac9eba6cfddb1399ab34663dd"
+SRCREV = "91e172343e606964e12676ff98e0afb393d39f1f"
 PV = "v2014.07+git${SRCPV}"
 
 SRC_URI = "git://git.emacinc.com/bootloader/u-boot-at91.git;protocol=http"
@@ -22,9 +22,10 @@ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHA
 # Allow setting an additional version string that will be picked up by the
 # u-boot build system and appended to the u-boot version.  If the .scmversion
 # file already exists it will not be overwritten.
-EMAC_UBOOT_VERSION = "SL147-0XS0"
+EMAC_UBOOT_VERSION = "SL147-0XS"
 FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
-EMAC_UBOOT_LOCALVERSION ?= "_${EMAC_UBOOT_VERSION}${SOM_NUMBER}A${UBOOT_REV}.ubin"
+EMAC_UBOOT_LOCALVERSION ?= "_${EMAC_UBOOT_VERSION}0${SOM_NUMBER}A${UBOOT_REV}.ubin"
+EMAC_UBOOT_LOCALVERSION_ipac9x25 ?= "_${EMAC_UBOOT_VERSION}S${SOM_NUMBER}A${UBOOT_REV}.ubin"
 UBOOT_LOCALVERSION = "${EMAC_UBOOT_LOCALVERSION}+${FIRST_SRCREV}"
 
 # Some versions of u-boot use .bin and others use .img.  By default use .bin
