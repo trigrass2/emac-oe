@@ -19,57 +19,58 @@ DEPENDS += "bc-native"
 
 AT91BOOTSTRAP_MACHINE ??= "${MACHINE}"
 
-AT91BOOTSTRAP_SUFFIX ?= "bin"
-AT91BOOTSTRAP_IMAGE ?= "${AT91BOOTSTRAP_MACHINE}-${PV}.${AT91BOOTSTRAP_SUFFIX}"
-AT91BOOTSTRAP_BINARY ?= "at91bootstrap.${AT91BOOTSTRAP_SUFFIX}"
-AT91BOOTSTRAP_SYMLINK ?= "at91bootstrap-${AT91BOOTSTRAP_MACHINE}.${AT91BOOTSTRAP_SUFFIX}"
+AT91BOOTSTRAP_IMAGE ?= "${config}-${PV}.bin"
+AT91BOOTSTRAP_BINARY ?= "at91bootstrap.bin"
+AT91BOOTSTRAP_SYMLINK ?= "at91bootstrap-${config}.bin"
 
 EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
 
-EMAC_BOOTSTRAP_VERSION = "SL372-00S"
+EMAC_BOOTSTRAP_VERSION = "SL372-0XS"
 FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
 BOOTSTRAP_LOCALVERSION = "${EMAC_BOOTSTRAP_LOCALVERSION}+${FIRST_SRCREV}"
 
-do_configure() {
-	# Copy defconfig to .config if .config does not exist. This allows
-	# recipes to manage the .config themselves in do_configure_prepend()
-	# and to override default settings with a custom file.
-	if [ -f "${WORKDIR}/defconfig" ] && [ ! -f "${B}/.config" ]; then
-		cp "${WORKDIR}/defconfig" "${B}/.config"
-	fi
-
-	if [ ! -f "${S}/.config" ]; then
-		bbfatal "No config files found"
-	fi
-
-	cml1_do_configure
-}
-
 do_compile() {
-	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', 'ld-is-gold', '', d)}" = "ld-is-gold" ] ; then
-		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/Makefile
-	fi
 
-	echo ${BOOTSTRAP_LOCALVERSION} > ${B}/.scmversion
-	echo ${BOOTSTRAP_LOCALVERSION} > ${S}/.scmversion
-
+	i=0
 	unset CFLAGS CPPFLAGS LDFLAGS
-	oe_runmake
+	for config in ${AT91BOOTSTRAP_MACHINE}; do
+		if [ $i -gt 0 ]; then
+			defconfig=$(echo ${config} | cut -d '_' -f2 )
+			cp "${WORKDIR}/defconfig_${defconfig}" "${B}/.config"
+			cd ${S}
+		else
+			cp "${WORKDIR}/defconfig" "${B}/.config"
+		fi
+
+		echo ${BOOTSTRAP_LOCALVERSION} | sed "s|X|${i}|g" > ${S}/.scmversion
+
+		oe_runmake AT91BOOTSTRAP=${S}/binaries/$config.bin
+
+	        i=$(expr $i + 1);
+	done
+
+	unset i
 }
+
+do_install() {
+    install -d ${D}/boot
+	for config in ${AT91BOOTSTRAP_MACHINE}; do
+		install ${S}/binaries/${config}.bin ${D}/boot/${AT91BOOTSTRAP_IMAGE}
+	done
+}
+
+FILES_${PN} = "/boot"
 
 do_deploy () {
 	install -d ${DEPLOYDIR}
-	install ${S}/binaries/${AT91BOOTSTRAP_BINARY} ${DEPLOYDIR}/${AT91BOOTSTRAP_IMAGE}
-
+	install ${D}/boot/* ${DEPLOYDIR}/
 	cd ${DEPLOYDIR}
-	rm -f ${AT91BOOTSTRAP_BINARY} ${AT91BOOTSTRAP_SYMLINK}
-	ln -sf ${AT91BOOTSTRAP_IMAGE} ${AT91BOOTSTRAP_SYMLINK}
-	ln -sf ${AT91BOOTSTRAP_IMAGE} ${AT91BOOTSTRAP_BINARY}
+	for config in ${AT91BOOTSTRAP_MACHINE}; do
+		ln -sf ${AT91BOOTSTRAP_IMAGE} ${AT91BOOTSTRAP_SYMLINK}
+	done
 
-	# Create a symlink ready for file copy on SD card
-	rm -f boot.bin BOOT.BIN
-	ln -sf ${AT91BOOTSTRAP_IMAGE} BOOT.BIN
 }
-addtask deploy before do_build after do_compile
+addtask deploy before do_build after do_install
+
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
