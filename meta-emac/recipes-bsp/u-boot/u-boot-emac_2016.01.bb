@@ -24,7 +24,7 @@ EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
 # Allow setting an additional version string that will be picked up by the
 # u-boot build system and appended to the u-boot version.  If the .scmversion
 # file already exists it will not be overwritten.
-EMAC_UBOOT_VERSION = "SL161-0S0"
+EMAC_UBOOT_VERSION = "SL161-0XS0"
 FIRST_SRCREV = "${@'${SRCREV}'[:10]}"
 EMAC_UBOOT_LOCALVERSION ?= "_${EMAC_UBOOT_VERSION}${SOM_NUMBER}A${UBOOT_REV}.ubin"
 UBOOT_LOCALVERSION = "${EMAC_UBOOT_LOCALVERSION}+${FIRST_SRCREV}"
@@ -68,8 +68,7 @@ do_compile () {
 
     i=0
     for config in ${UBOOT_MACHINE}; do
-        LOCALVERSION=${UBOOT_LOCALVERSION}
-        echo ${LOCALVERSION:0:8}${i}${LOCALVERSION:8} > ${S}/.scmversion
+	echo ${UBOOT_LOCALVERSION} | sed "s|X|${i}|g" > ${S}/.scmversion
         oe_runmake -C ${S} O=${B}/${config} ${config}
         oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
         i=$(expr $i + 1);
