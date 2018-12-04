@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.wxwidgets.org"
 LICENSE = "WXwindows"
 LIC_FILES_CHKSUM = "file://docs/licence.txt;md5=18346072db6eb834b6edbd2cdc4f109b"
 
-DEPENDS = "webkitgtk gtk+ jpeg tiff libpng zlib expat libxinerama libglu"
+DEPENDS = "gtk+ jpeg tiff libpng zlib expat libxinerama libglu"
 
 SRC_URI = "${SOURCEFORGE_MIRROR}/wxwindows/wxWidgets-${PV}.tar.bz2"
 SRC_URI[md5sum] = "4103e37e277abeb8aee607b990c215c4"
