@@ -5,7 +5,7 @@ DESCRIPTION = "Kiosk Image extends emac-image."
 inherit update-alternatives
 
 IMAGE_INSTALL_append = "\
-    chromium \
+    chromium-x11 \
     xserver-xf86-config \
     liberation-fonts \
     xkbcomp \
@@ -16,7 +16,7 @@ IMAGE_INSTALL_append = "\
     packagegroup-core-x11-utils \
 "
 
-CHROME_ARGS ?= "--kiosk --start-fullscreen --app=\$HOMEPAGE"
+CHROME_ARGS ?= "--no-sandbox --kiosk --no-first-run --incognito \$HOMEPAGE"
 
 start_chromium() {
         echo "#!/bin/sh" > ${IMAGE_ROOTFS}${bindir}/chromium-start
@@ -25,7 +25,7 @@ start_chromium() {
 	echo "xset s noblank" >> ${IMAGE_ROOTFS}${bindir}/chromium-start
         echo >> ${IMAGE_ROOTFS}${bindir}/chromium-start
 	echo "while true; do" >> ${IMAGE_ROOTFS}${bindir}/chromium-start
-        echo "google-chrome ${CHROME_ARGS}" >> ${IMAGE_ROOTFS}${bindir}/chromium-start
+        echo "chromium ${CHROME_ARGS}" >> ${IMAGE_ROOTFS}${bindir}/chromium-start
 	echo "sleep 1" >> ${IMAGE_ROOTFS}${bindir}/chromium-start
 	echo "done" >> ${IMAGE_ROOTFS}${bindir}/chromium-start
 	chmod +x ${IMAGE_ROOTFS}${bindir}/chromium-start 
