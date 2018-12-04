@@ -9,9 +9,9 @@ SECTION = "tools/realtime"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
-# V3.0.6+
-XBRANCH = "stable-3.0.x"
-SRCREV ?= "e39cf659e70a6c7737bfbf5266f431ff66170228"
+# V3.0.7+
+XBRANCH = "stable/v3.0.x"
+SRCREV ?= "bc53d03ff77990b44430014a7967b1a6c39c8010"
 
 SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH}"
 
