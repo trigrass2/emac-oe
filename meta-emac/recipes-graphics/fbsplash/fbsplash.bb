@@ -37,7 +37,8 @@ do_install() {
 	install -m 0755 ${WORKDIR}/fbsplash ${D}${sysconfdir}/init.d/fbsplash
 
 	for i in ${SPLASH_IMAGES}; do
-		install -m 0644 ${WORKDIR}/${i:7} ${D}${sysconfdir}/splash/${i:7}
+		image=$(echo $i | awk '{ image=substr($0, 8); print image; }' )
+		install -m 0644 ${WORKDIR}/${image} ${D}${sysconfdir}/splash/${image}
 	done
 }
 
