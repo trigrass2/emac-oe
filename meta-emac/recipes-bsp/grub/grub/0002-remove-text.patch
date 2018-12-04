@@ -1,22 +1,22 @@
---- grub-2.02-old/Makefile.util.am	2017-09-12 12:14:02.477510552 -0500
-+++ grub-2.02/Makefile.util.am	2017-09-12 12:02:27.871700707 -0500
+--- grub-2.02-old/Makefile.util.am	2017-04-24 06:30:20.000000000 -0500
++++ grub-2.02/Makefile.util.am	2018-09-28 15:33:32.431474765 -0500
 @@ -677,7 +677,7 @@
- dist_noinst_DATA += util/grub.d/10_xnu.in
+ dist_noinst_DATA += util/grub.d/10_xnu.in 
  endif COND_HOST_XNU
  if COND_HOST_LINUX
 -grubconf_SCRIPTS += 20_linux_xen
 +grubconf_SCRIPTS +=
-
- 20_linux_xen: $(top_builddir)/config.status util/grub.d/20_linux_xen.in
+ 
+ 20_linux_xen: $(top_builddir)/config.status util/grub.d/20_linux_xen.in 
  	(for x in util/grub.d/20_linux_xen.in ; do cat $(srcdir)/"$$x"; done) | $(top_builddir)/config.status --file=$@:-
 @@ -687,7 +687,7 @@
- EXTRA_DIST +=
- dist_noinst_DATA += util/grub.d/20_linux_xen.in
+ EXTRA_DIST += 
+ dist_noinst_DATA += util/grub.d/20_linux_xen.in 
  endif COND_HOST_LINUX
 -grubconf_SCRIPTS += 30_os-prober
 +grubconf_SCRIPTS +=
-
- 30_os-prober: $(top_builddir)/config.status util/grub.d/30_os-prober.in
+ 
+ 30_os-prober: $(top_builddir)/config.status util/grub.d/30_os-prober.in 
  	(for x in util/grub.d/30_os-prober.in ; do cat $(srcdir)/"$$x"; done) | $(top_builddir)/config.status --file=$@:-
 --- grub-2.02-old/grub-core/boot/i386/pc/boot.S	2017-09-12 12:14:02.477510552 -0500
 +++ grub-2.02/grub-core/boot/i386/pc/boot.S	2017-09-12 12:04:53.273754812 -0500
