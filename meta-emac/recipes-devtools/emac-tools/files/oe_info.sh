@@ -227,6 +227,7 @@ if [ -x /usr/sbin/lilo ]; then
 elif [ -x /usr/sbin/grub-install ]; then
         bootVers=$(grub-install -V | cut -d ' ' -f3)
         bootVers="GRUB $bootVers"
+	/usr/bin/grub-editenv create
 else
 	mtdNum=$(cat /etc/fw_env.config | grep /dev | cut -d '/' -f3 | cut -d ' ' -f1)
 	boot=$(fw_printenv ver | cut -d '=' -f2)
