@@ -1,5 +1,7 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
+SRC_URI += "file://40_custom"
+
 GRUB_DEVICE ?= "/dev/sda1"
 GRUB_CMDLINE_LINUX ?= ""
 GRUB_CMDLINE_LINUX_DEFAULT ?= "quiet splash ro rootfstype=ext4"
@@ -7,6 +9,7 @@ GRUB_GFXMODE ?= ""
 GRUB_SERIAL_COMMAND ?= "ttyS0,115200"
 
 do_install_append () {
+	install -m 0755 ${WORKDIR}/40_custom ${D}${sysconfdir}/grub.d/
 	echo "GRUB_DEVICE=\"${GRUB_DEVICE}\"" >> ${D}${sysconfdir}/default/grub
 	echo "GRUB_CMDLINE_LINUX=\"${GRUB_CMDLINE_LINUX}\"" >> ${D}${sysconfdir}/default/grub
 	echo "GRUB_CMDLINE_LINUX_DEFAULT=\"${GRUB_CMDLINE_LINUX_DEFAULT}\"" >> ${D}${sysconfdir}/default/grub
