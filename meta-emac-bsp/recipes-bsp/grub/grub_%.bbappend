@@ -14,5 +14,5 @@ do_install_append () {
 	echo "GRUB_SERIAL_COMMAND=\"${GRUB_SERIAL_COMMAND}\"" >> ${D}${sysconfdir}/default/grub		
 	[ ! -z ${GRUB_GFXMODE} ] && VGA="vga=${GRUB_GFXMODE}"
 	BOOTSTRING="linux16 /boot/bzImage root=${GRUB_DEVICE} console=${GRUB_SERIAL_COMMAND} $VGA ${GRUB_CMDLINE_LINUX_DEFAULT} ${GRUB_CMDLINE_LINUX}"
-	sed -i -e "s|linux16.*|${BOOTSTRING}|g1" ${D}/boot/grub/grub.cfg
+	sed -i -e "0,\|linux16.*|s||${BOOTSTRING}|" ${D}/boot/grub/grub.cfg
 }
