@@ -68,7 +68,7 @@ getlist() {
             echo -ne "\t$i: ${mach_type[$i]}"
             if [ ! -z $1 ] && [ $custom -eq 1 ]
             then
-                desc=`grep "#@NAME:" $file | cut -d ':' -f2 | xargs`
+		desc=`echo $file | cut -d '/' -f3 | cut -d '-' -f2-$NF`
                 echo -n " ($desc)"
             fi
             echo
@@ -102,15 +102,14 @@ getlist $machdir
 
 
 
-
 OECORELAYERCONF="$TEMPLATECONF"/bblayers.conf.sample
 
 if [ $custom -eq 1 ] 
 then
-    fullpath=$(find $CUSTOMMACHINECONF -name $machine.conf)
+    fullpath=$(echo $list | cut -d ' ' -f$selection)
     layerdir=$(dirname $(dirname $(dirname $fullpath)))
     [ -r "$layerdir/conf/bblayers.conf.sample" ] && OECORELAYERCONF="$layerdir/conf/bblayers.conf.sample"
-    BRANCH=$(echo $layerdir | cut -d '-' -f3)
+    BRANCH=$(echo $layerdir | cut -d '-' -f3-$NF)
 else
     fullpath=$MACHINECONF
     layerdir=$(dirname $(dirname $fullpath))
@@ -119,6 +118,7 @@ else
 fi
 
 BUILDDIR="$OE/build_$BRANCH"
+
 mkdir -p "$BUILDDIR/conf"
 # Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
 sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
