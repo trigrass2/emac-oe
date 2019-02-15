@@ -57,6 +57,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     sudo \
     rsync \
     libgpiod \
+    libgpiod-tools \
     sysfsutils \
     openssh \
     "
