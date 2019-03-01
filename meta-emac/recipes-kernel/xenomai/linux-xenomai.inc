@@ -17,6 +17,8 @@ do_configure_prepend() {
 	if [ -e ${WORKDIR}/*ipipe*${LINUX_VER_SHORT}*${ARCH}*.patch ]; then
 		${XENOMAI_SRC_PATH}/scripts/prepare-kernel.sh --arch=${ARCH} \
 		    --adeos=${WORKDIR}/*ipipe*${LINUX_VER_SHORT}*${ARCH}*.patch --linux=${S}
+	else
+		${XENOMAI_SRC_PATH}/scripts/prepare-kernel.sh --arch=${ARCH} --linux=${S}
 	fi
 
 	# defconfig is copied in before prepare-kernel, so XENO options are lost
