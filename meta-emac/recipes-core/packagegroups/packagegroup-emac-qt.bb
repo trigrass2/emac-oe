@@ -34,5 +34,6 @@ RDEPENDS_${PN} = " \
         qt4-embedded-demos \
         qt-demo-init \
         qt4-embedded-conf \
+	qt4-embedded-plugin-gfxdriver-gfxtransformed \
 "
 
