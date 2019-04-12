@@ -10,7 +10,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
 
 # V3.0.8
-XBRANCH = "stable/v3.0.x"
+XBRANCH ?= "stable/v3.0.x"
 SRCREV ?= "fbc3271096c63b21fe895c66ba20b1d10d72ff48"
 
 SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH}"
