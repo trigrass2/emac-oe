@@ -47,6 +47,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     bash \
     udev-extraconf \
     kernel-modules \
+    kernel-base \
     ifplugd \
     ntp \
     opkg \
