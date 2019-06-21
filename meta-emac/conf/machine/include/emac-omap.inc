@@ -17,7 +17,7 @@ XSERVER = "xserver-xorg \
            xf86-input-tslib \
 "
 
-MACHINE_FEATURES += "screen sound can wifi arm"
+MACHINE_FEATURES += "arm"
 EXTRA_IMAGEDEPENDS += "u-boot-emac"
 
 SERIAL_CONSOLE ?= "115200 ttyO0"
