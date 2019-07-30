@@ -4,8 +4,6 @@ DEPENDS += "autoconf-archive"
 
 PACKAGECONFIG += "cxxbindings"
 
-TUNE_CCARGS_armv7a = "-march=armv5e"
-
 PACKAGECONFIG[cxxbindings] = "--enable-bindings-cxx,--disable-bindings-cxx,"
 
 SRC_URI[md5sum] = "9f7530a5d56f070ba0af78d6ba077973"
