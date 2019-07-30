@@ -30,6 +30,7 @@ addtask prepare_qmake_symlink after do_generate_qt_config_file before do_configu
 do_configure_prepend() {
     sed -i -e "s|\(Prefix\ =\).*|\1\ ${prefix}|" ${WORKDIR}/qt.conf
     sed -i -e "s|\(Headers\ =\).*|\1\ ${includedir}/qtopia|" ${WORKDIR}/qt.conf
+    echo "Data = ${datadir}/qtopia" >> ${WORKDIR}/qt.conf
     sed -i -r -e "/^(Binaries|Plugins|Mkspecs)/ d" ${WORKDIR}/qt.conf 
 }
 
@@ -39,7 +40,7 @@ do_install() {
 
 FILES_${PN}-dev += " \
     ${includedir}/QtSerialPort/* \
-    ${prefix}/mkspecs/* \
+    ${datadir}/qtopia/mkspecs/* \
     ${libdir}/*.prl \
 "
 
