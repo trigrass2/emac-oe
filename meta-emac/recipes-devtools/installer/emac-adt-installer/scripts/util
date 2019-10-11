@@ -82,14 +82,13 @@ done
 check_result()
 {
   result=$?
-  if [ $result -eq 1 ]; then
-    exit -1
-  elif [  $result -ne 0 ]; then
+  if [ $result -ne 0 ]; then
      echo_info "\n#############################################################################"
      echo_info "# Meet error(s) when installing EMAC ADT! Please check log file for details. "
      echo_info "#############################################################################\n"
-    exit -1
+    exit 1
   fi
+  return $result
 }
 
 # yocto adt installation log file
