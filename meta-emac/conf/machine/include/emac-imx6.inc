@@ -24,7 +24,7 @@ SERIAL_CONSOLE ?= "115200 ttymxc1"
 KERNEL_IMAGETYPE ?= "zImage"
 
 UBOOT_SUFFIX = "imx"
-UBOOT_MACHINE ?= "somimx6dq_config"
+UBOOT_MACHINE ?= "somimx6dq1G_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
 
