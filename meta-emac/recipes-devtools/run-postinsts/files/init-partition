@@ -4,10 +4,6 @@ echo "Running init-partition"
 if [ ! -d /home/root ]; then
     echo "Creating /home/root "
     mkdir -p /home/root
-    if [ -x /etc/enlightenment/e.tar.gz ]; then
-        echo "Extracting enlightenment defaults"
-        tar zxf /etc/enlightenment/e.tar.gz -C /home/root/
-    fi
 
     if [ -x /usr/sbin/fbset ]; then
         fbresH=$(fbset | grep geometry | cut -d " " -f6)
