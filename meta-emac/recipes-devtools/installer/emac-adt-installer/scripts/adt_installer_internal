@@ -107,7 +107,7 @@ if [ -n "$SUDO" ]; then
 fi
 
 #we need to make this directory firstly since opkg need to use it.
-OPKG_LOCK_DIR="$NATIVE_INSTALL_DIR/$OPKG_LIBDIR/opkg"
+OPKG_LOCK_DIR="$NATIVE_INSTALL_DIR/opkg"
 if [ ! -d "$OPKG_LOCK_DIR" ]; then
   $SUDO mkdir -p $OPKG_LOCK_DIR
   echo_info "Successfully create directory $OPKG_LOCK_DIR. "
@@ -130,6 +130,8 @@ else
 fi
 
 echo_info "Updating opkg..."
+echo $PWD
+echo "$OPKG_CMD -V 4 -t /tmp -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR update" &>> $YOCTOADT_INSTALL_LOG_FILE
 $OPKG_CMD -f $OPKG_CONFIG_FILE -o $NATIVE_INSTALL_DIR update &>> $YOCTOADT_INSTALL_LOG_FILE
 check_result
 echo_info "opkg update process ended..."
@@ -187,18 +189,18 @@ fi
 # the entire directory structure. We could patch opkg to do that but it's far
 # simpler to do that here and achieve the same result.
 # This is done in two steps:
-if [ -d $NATIVE_INSTALL_DIR/opt/emac/5.1 ]; then
+if [ -d $NATIVE_INSTALL_DIR/opt/emac/${SDK_VERSION} ]; then
     # Step 1: copy ./opt/${DISTRO}/${SDK_VERSION} contents to $NATIVE_INSTALL_DIR.
     # We cannot use move if $NATIVE_INSTALL_DIR is not empty (for example: contains
     # another SDK)
 
-    $SUDO cp -r $NATIVE_INSTALL_DIR/opt/emac/5.1/* $NATIVE_INSTALL_DIR
+    $SUDO cp -r $NATIVE_INSTALL_DIR/opt/emac/${SDK_VERSION}/* $NATIVE_INSTALL_DIR
 
     # delete the source directory now
-    $SUDO rm -rf $NATIVE_INSTALL_DIR/opt/emac/5.1/*
+    $SUDO rm -rf $NATIVE_INSTALL_DIR/opt/emac/${SDK_VERSION}/*
 
     # Step 2: Delete the ./opt/${DISTRO}/${SDK_VERSION} directories too, they should be empty
-    dir=$NATIVE_INSTALL_DIR//opt/emac/5.1
+    dir=$NATIVE_INSTALL_DIR/opt/emac/${SDK_VERSION}
     while [ "$dir" != "$NATIVE_INSTALL_DIR" ]; do
         # if the user chose / as the install folder, then we should leave /opt in place
         if [ "$dir" = "/opt" ]; then

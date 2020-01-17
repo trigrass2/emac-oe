@@ -3,22 +3,22 @@
 #
 # Copyright 2010-2011 by Intel Corp.
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy 
-# of this software and associated documentation files (the "Software"), to deal 
-# in the Software without restriction, including without limitation the rights 
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
-# copies of the Software, and to permit persons to whom the Software is 
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 
-# The above copyright notice and this permission notice shall be included in 
+# The above copyright notice and this permission notice shall be included in
 # all copies or substantial portions of the Software.
 
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
 
@@ -33,7 +33,7 @@ usage ()
   echo_info "# Welcome to EMAC Application Developement Tools (ADT) Installer"
   echo_info "# "
   echo_info "# Host Machine:\t\t\t\t"$INST_ARCH
-  echo_info "# OS info:\t\t\t\t$INST_KR"  
+  echo_info "# OS info:\t\t\t\t$INST_KR"
   echo_info "# EMAC ADT version to be installed:\t$YOCTOADT_VERSION"
   echo_info "# supported target architectures:\t$YOCTOADT_SUPPORTED_TARGETS"
   echo_info "# supported target root_fs images:\t$YOCTOADT_SUPPORTED_ROOTFS"
@@ -179,7 +179,7 @@ if [ ! -x "$LOCAL_OPKG_LOC/bin/opkg" ]; then
   check_result
 
   echo_info "Configure opkg ...\n"
-  autoreconf -i
+  autoreconf -if
   ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
   check_result
 
@@ -325,7 +325,7 @@ install_deps()
         #documentation for all distros can be found at:
         #http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#required-packages-for-the-host-development-system
         *Ubuntu* | *Debian*)
-	sudo apt-get install cmake gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat autoconf automake libtool libglib2.0-dev libarchive-dev sshpass;;
+	sudo apt-get install cmake gawk wget git-core diffstat unzip texinfo python gcc-multilib build-essential chrpath socat autoconf automake libtool libglib2.0-dev libarchive-dev sshpass;;
         Fedora)
             sudo dnf install cmake gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue socat findutils which autoconf automake libtool glib2-devel libarchive-devel sshpass;;
         *openSUSE*)
@@ -355,7 +355,7 @@ fetch_kit()
 	if [[ ! -d "$config_dir" ]]
 		then
 		mkdir -p $config_dir
-		wget $YOCTOADT_REPO/emac_Qt_build/kit.tar.gz
+		wget $YOCTOADT_REPO/../emac_Qt_build/kit.tar.gz
 		tar -xzf kit.tar.gz
 		rm kit.tar.gz
 		mv kit/* .
@@ -411,11 +411,12 @@ fetch_examples()
 			case $PROMPT in 
 				y|Y)
 					QtBuild="emac-QtCreator"
-					wget $YOCTOADT_REPO/emac_Qt_build/$QtBuild.tar.gz
+					wget $YOCTOADT_REPO/../emac_Qt_build/$QtBuild.tar.gz
 					tar -xzf $QtBuild.tar.gz
 					rm $QtBuild.tar.gz
 					mv $QtBuild/ ~/EMAC-SDK/
-					sudo mv EMAC.png /opt/emac/5.1/share/;;
+					wget $YOCTOADT_REPO/../emac_Qt_build/EMAC.png
+					sudo mv EMAC.png /opt/emac/${SDK_VERSION}/share/;;
 				*);;
 			esac 
 	fi
@@ -426,9 +427,9 @@ fetch_examples()
 		fetch_kit $1
 	fi
 
-	if [[ ! -f "$HOME/.local/share/applications/emacqt.desktop" ]]
-		#puts Qt Creator icon on desktop if user says yes
-		then
+	if [[ ! -f "$HOME/Desktop/emacqt.desktop" && ($PROMPT = 'y' || $PROMPT = 'Y') ]]
+	#puts Qt Creator icon on desktop if user says yes
+	then
 		echo
 		read -p "Would you like to place the EMAC Qt Creator icon on the desktop? [y/N]" PROMPT
 		echo
@@ -436,19 +437,20 @@ fetch_examples()
 		case $PROMPT in
 			y|Y)
 				user=$(whoami)
-				wget $YOCTOADT_REPO/emac_Qt_build/emacqt.desktop
-		    	sed -i "s|USERNAME|${user}|" emacqt.desktop
-		    	mv emacqt.desktop ~/.local/share/applications/
-		    	chmod +x ~/.local/share/applications/emacqt.desktop
-		    	ln -s ~/.local/share/applications/emacqt.desktop ~/Desktop/emacqt.desktop;;
-			*);;
+				wget $YOCTOADT_REPO/../emac_Qt_build/emacqt.desktop
+			    	sed -i "s|USERNAME|${user}|" emacqt.desktop
+			    	mv emacqt.desktop ~/.local/share/applications/
+			    	chmod +x ~/.local/share/applications/emacqt.desktop
+			    	ln -sf ~/.local/share/applications/emacqt.desktop ~/Desktop/emacqt.desktop
+				gio set ~/Desktop/emacqt.desktop "metadata::trusted" yes;;
+				*);;
 		esac
 	fi   		
 }
 
 create_symlink() {
 	sysroot_dir=$HOME/EMAC-SDK/sysroots
-	symlink_dir=/opt/emac/5.1/sysroots/x86_64-emacsdk-linux/usr/mkspecs
+	symlink_dir=/opt/emac/${SDK_VERSION}/sysroots/x86_64-emacsdk-linux/usr/mkspecs
 	path=usr/share/qtopia/mkspecs/
 	if [[ -d "$sysroot_dir/armv5e" ]]
 		then
@@ -605,10 +607,12 @@ fi
 download_images $YOCTOADT_TARGETS
 
 scripts/adt_installer_internal $user_inst_type $YOCTOADT_TARGETS $select_machine
-
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 fetch_examples $IMAGE_NUMBER
 
-symlink_dir=/opt/emac/5.1/sysroots/x86_64-emacsdk-linux/usr/mkspecs
+symlink_dir=/opt/emac/${SDK_VERSION}/sysroots/x86_64-emacsdk-linux/usr/mkspecs
 if [[ ! -h "$symlink_dir" ]]	
 	then
 	create_symlink

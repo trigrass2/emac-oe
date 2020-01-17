@@ -25,8 +25,8 @@
 config_file="adt_installer.conf"
 source `pwd`/$config_file
 
-LOCAL_OPKG_LOC="./opkg/build/opkg"
-LOCAL_OPKG_FOLDER="./opkg/build"
+LOCAL_OPKG_LOC="opkg/build/opkg"
+LOCAL_OPKG_FOLDER="opkg/build"
 
 # List all supported root fs types and target types,
 # it will be used in user configuration validity checking
@@ -34,7 +34,7 @@ YOCTOADT_SUPPORTED_ROOTFS="-neon -vfp -32"
 YOCTOADT_SUPPORTED_TARGETS="armv5e armv7a cortexa5 i586 core2"
 # Different host (32 bit or 64 bit) will have different opkg
 # configuration files
-YOCTOADT_OPKG_CONF_FILE_32="./opkg/conf/opkg-sdk-i686.conf"
-YOCTOADT_OPKG_CONF_FILE_64="./opkg/conf/opkg-sdk-x86_64.conf"
+YOCTOADT_OPKG_CONF_FILE_32="opkg/conf/opkg-sdk-i686.conf"
+YOCTOADT_OPKG_CONF_FILE_64="opkg/conf/opkg-sdk-x86_64.conf"
 SDK_VENDOR=-emacsdk
-DEFAULT_INSTALL_FOLDER=/opt/emac/5.1
+DEFAULT_INSTALL_FOLDER=/opt/emac/$SDK_VERSION

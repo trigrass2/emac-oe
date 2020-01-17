@@ -8,4 +8,4 @@ IMAGE_INSTALL_append = " \
 
 IMAGE_TYPE = "Qt 5 Embedded"
 BUILD_TYPE = "qt5"
-FS_NUMBER = "01"
+FS_NUMBER = "02"

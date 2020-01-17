@@ -17,17 +17,16 @@ XSERVER = "xserver-xorg \
            xf86-input-tslib \
 "
 
-MACHINE_FEATURES += "screen usbhost sound serial can"
-MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils"
+MACHINE_FEATURES += "arm"
 EXTRA_IMAGEDEPENDS += "u-boot-emac"
 
 SERIAL_CONSOLE ?= "115200 ttyO0"
 
 KERNEL_IMAGETYPE ?= "zImage"
 
-EMAC_LINUX_VERSION_EXTENSION = "_${EMAC_LINUX_VERSION}-X${SOM_NUMBER}A${KERNEL_REV}.zimg"
-
 UBOOT_ENTRYPOINT ?= "0x80008000"
 UBOOT_MACHINE ?= "am3517_evm_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
+
+DEFAULTTUNE = "armv7a-neon"

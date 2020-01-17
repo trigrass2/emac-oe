@@ -10,6 +10,6 @@ RDEPENDS_${PN} += " \
     libusb1-dev \
     confuse-dev \
     xenomai-3-dev \
-    xmlrpc-c-dev \
-    susi-utils-dev \
+    libgpiod-dev \
+    libmodbus-dev \
 "

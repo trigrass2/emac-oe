@@ -13,11 +13,11 @@ SRCREV = "353eeeaca269ed5e83900bd4a24dc6dc80bb4880"
 SRCDIR = "${WORKDIR}/git"
 S = "${SRCDIR}/src"
 
-#VIMDIR = "${BPN}${@d.getVar('PV',1).split('.')[1]}${@d.getVar('PV',1).split('.')[2]}"
 VIMDIR = "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
 
-inherit autotools update-alternatives
-inherit autotools-brokensep
+inherit autotools-brokensep update-alternatives
+
+CLEANBROKEN = "1"
 
 # vim configure.in contains functions which got 'dropped' by autotools.bbclass
 do_configure () {

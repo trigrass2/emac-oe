@@ -3,7 +3,7 @@ AUTHOR = "EMAC Inc."
 HOMEPAGE = "http://www.emacinc.com/"
 LICENSE = "CLOSED"
 
-SRCREV = "b891450b48bf5d04b114408609ccf75e5d513291"
+SRCREV = "0617993d160bcaa994f7dc89f85e6a515238958b"
 
 SRC_URI = " \
             git://git.emacinc.com/oe/automation-tools.git;protocol=http \

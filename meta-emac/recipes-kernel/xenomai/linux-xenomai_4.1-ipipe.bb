@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 SRC_URI = " \
 	git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;protocol=git;branch=linux-4.1.y;name=linux \
-	http://xenomai.org/downloads/ipipe/v4.x/arm/ipipe-core-4.1.18-arm-10.patch \
+	http://xenomai.org/downloads/ipipe/v4.x/arm/older/ipipe-core-4.1.18-arm-10.patch \
 "
 
 SRC_URI[md5sum] = "b5438f9f9f8f16c86de154e54920eef5"

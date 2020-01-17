@@ -11,11 +11,13 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
 PROVIDES = "${PACKAGES}"
+RDEPENDS_packagegroup-emac-core = "${MACHINE_EXTRA_RDEPENDS}"
 
 PACKAGES = " \
     packagegroup-emac-core \
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "arm", "packagegroup-emac-core-arm", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "packagegroup-emac-core-touch", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", "packagegroup-emac-core-wifi", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", 'sound', 'packagegroup-emac-core-sound', '',d)} \
@@ -29,6 +31,7 @@ PACKAGES = " \
 RRECOMMENDS_packagegroup-emac-core = "\
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "arm", "packagegroup-emac-core-arm", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "packagegroup-emac-core-touch", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", "packagegroup-emac-core-wifi", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", 'sound', 'packagegroup-emac-core-sound', '',d)} \
@@ -44,6 +47,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     bash \
     udev-extraconf \
     kernel-modules \
+    kernel-base \
     ifplugd \
     ntp \
     opkg \
@@ -53,6 +57,10 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     eudev-hwdb \
     sudo \
     rsync \
+    libgpiod \
+    libgpiod-tools \
+    sysfsutils \
+    openssh \
     "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
@@ -95,6 +103,14 @@ RRECOMMENDS_packagegroup-emac-core-mtd = "\
 SUMMARY_packagegroup-emac-core-x86= "EMAC OE x86 Packages."
 RRECOMMENDS_packagegroup-emac-core-x86 = "\
     grub \
+    "
+
+SUMMARY_packagegroup-emac-core-arm= "EMAC OE arm Packages."
+RRECOMMENDS_packagegroup-emac-core-arm = "\
+    serial-control \
+    apm \
+    u-boot-fw-utils \
+    kernel-devicetree \
     "
 
 SUMMARY_packagegroup-emac-core-screen= "EMAC OE Screen Packages."

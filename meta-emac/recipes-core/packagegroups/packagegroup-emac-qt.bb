@@ -4,6 +4,8 @@ LICENSE = "MIT"
 
 inherit packagegroup
 
+TOUCH = ' ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", "tslib tslib-calibrate tslib-tests qt4-embedded-plugin-mousedriver-tslib", "",d)}'
+
 RDEPENDS_${PN} = " \
 	qt4-embedded \
 	libqt-embeddedclucene4 \
@@ -28,11 +30,12 @@ RDEPENDS_${PN} = " \
 	qt4-embedded-plugin-imageformat-mng \
 	qt4-embedded-plugin-imageformat-svg \
 	qt4-embedded-plugin-imageformat-tiff \
-	qt4-embedded-plugin-mousedriver-tslib \
+	${TOUCH} \
 	qt4-embedded-plugin-script-dbus \
 	qt4-embedded-plugin-sqldriver-sqlite \
         qt4-embedded-demos \
         qt-demo-init \
         qt4-embedded-conf \
+	qt4-embedded-plugin-gfxdriver-gfxtransformed \
 "
 

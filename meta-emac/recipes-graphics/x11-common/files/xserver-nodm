@@ -37,10 +37,9 @@ fi
 
 case "$1" in
   start)
-       username=root
+	. /etc/default/xserver-nodm
        echo "Starting Xserver"
-       if [ -f /etc/X11/Xusername ]; then
-           username=`cat /etc/X11/Xusername`
+       if [ "$USER" != "root" ]; then
            # setting for rootless X
            chmod o+w /var/log
            chmod g+r /dev/tty[0-3]
@@ -50,12 +49,11 @@ case "$1" in
        ts_cal
 
        # Using su rather than sudo as latest 1.8.1 cause failure [YOCTO #1211]
-       su -l -c '/etc/X11/Xserver&' $username >/var/log/Xsession.log 2>&1
+       su -l -c '/etc/xserver-nodm/Xserver&' $USER >/var/log/Xsession.log 2>&1
   ;;
 
   stop)
         echo "Stopping XServer"
-        killproc enlightenment_start
         killproc xinit
   ;;
 

@@ -5,15 +5,14 @@ SRC_URI = "file://susi-utils.tar.gz"
 
 S = "${WORKDIR}/susi-utils"
 
-INSANE_SKIP_${PN} = "already-stripped"
+INSANE_SKIP_${PN} = "already-stripped ldflags"
 
-FILES_${PN} += "${base_libdir}/*.so"
-FILES_SOLIBSDEV = ""
-FILES_${PN}-dev = "${includedir}/define.h  ${includedir}/REL_EC_API.h ${includedir}/REL_DEBUG.H"
+FILES_${PN} += "${bindir}/* ${libdir}/lib*.so*"
+FILES_${PN}-dev = "${includedir}/*.h  ${includedir}/*.H"
 
-do_install () {
-	oe_runmake install DESTDIR=${D}
-	install -d ${D}${includedir}
-	install -m 0666  ${S}/*.h ${D}${includedir}
-	install -m 0666  ${S}/*.H ${D}${includedir}
+do_install() {
+	oe_runmake install DESTDIR=${D} BINDIR=${bindir} LIBDIR=${libdir} INCLUDEDIR=${includedir}
+	cd ${D}${libdir}
+	ln -sf libEApi.so libEApi.so.1
+	ln -sf libEApi.so libEApi.so.1.0.3
 }

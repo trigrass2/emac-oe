@@ -16,18 +16,15 @@ XSERVER ?= "xserver-xorg \
            xf86-input-tslib \
 "
 
-MACHINE_FEATURES += "pci usbhost sound serial can"
-MACHINE_EXTRA_RDEPENDS += "u-boot-fw-utils kernel-devicetree"
+MACHINE_FEATURES += "pci can wifi sound arm"
 EXTRA_IMAGEDEPENDS += "u-boot-emac"
 
 SERIAL_CONSOLE ?= "115200 ttymxc1"
 
 KERNEL_IMAGETYPE ?= "zImage"
 
-EMAC_LINUX_VERSION_EXTENSION ?= "_${EMAC_LINUX_VERSION}X${SOM_NUMBER}A${KERNEL_REV}.zimg"
-
 UBOOT_SUFFIX = "imx"
-UBOOT_MACHINE ?= "somimx6dq_config"
+UBOOT_MACHINE ?= "somimx6dq1G_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
 

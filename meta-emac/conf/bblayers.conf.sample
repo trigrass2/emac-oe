@@ -8,12 +8,11 @@ BBFILES ?= ""
 BBLAYERS ?= " \
   ##OEROOT##/recipes/emac-oe/meta-emac \
 \
+  ##OEROOT##/recipes/emac-oe/meta-emac-bsp \
   ##OEROOT##/recipes/poky/meta \
   ##OEROOT##/recipes/meta-openembedded/meta-oe \
   ##OEROOT##/recipes/meta-openembedded/meta-networking \
   ##OEROOT##/recipes/meta-openembedded/meta-python \
   ##OEROOT##/recipes/meta-openembedded/meta-multimedia \
   ##OEROOT##/recipes/meta-openembedded/meta-filesystems \
-  ##OEROOT##/recipes/meta-qt4 \
-  ##OEROOT##/recipes/meta-qt5 \
   "

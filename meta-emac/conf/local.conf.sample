@@ -1,5 +1,5 @@
 # Image Features Selection
-IMAGE_FEATURES = "ssh-server-openssh package-management"
+IMAGE_FEATURES = "package-management"
 
 # Where to place downloads
 DL_DIR ?= "##OEROOT##/downloads"
