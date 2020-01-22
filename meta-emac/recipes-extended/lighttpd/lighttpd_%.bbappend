@@ -7,7 +7,6 @@ SRC_URI += " \
 		file://x86.html \
 		file://EMAC_LOGO.png \
 		file://webwriter.sh \
-		file://basic_auth_fix.patch \
 	"
 
 do_install_append () {
