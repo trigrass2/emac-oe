@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
 COMPATIBLE_MACHINE_append = "ipac9x25|som9x25|soma5d35|soma5d36|som3354|som9g25|som9g45|somimx6|somimx6-xenomai|som3517|som9g20"
 
