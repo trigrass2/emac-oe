@@ -325,7 +325,7 @@ install_deps()
         #documentation for all distros can be found at:
         #http://www.yoctoproject.org/docs/2.0/ref-manual/ref-manual.html#required-packages-for-the-host-development-system
         *Ubuntu* | *Debian*)
-	sudo apt-get install cmake gawk wget git-core diffstat unzip texinfo gcc-multilib build-essential chrpath socat autoconf automake libtool libglib2.0-dev libarchive-dev sshpass;;
+	sudo apt-get install cmake gawk wget git-core diffstat python unzip texinfo gcc-multilib build-essential chrpath socat autoconf automake libtool libglib2.0-dev libarchive-dev sshpass;;
         Fedora)
             sudo dnf install cmake gawk make wget tar bzip2 gzip python unzip perl patch diffutils diffstat git cpp gcc gcc-c++ glibc-devel texinfo chrpath ccache perl-Data-Dumper perl-Text-ParseWords perl-Thread-Queue socat findutils which autoconf automake libtool glib2-devel libarchive-devel sshpass;;
         *openSUSE*)
