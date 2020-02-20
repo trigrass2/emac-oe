@@ -215,8 +215,15 @@ if [ ${kernPart:0:1} = 'S' ]; then
 		112)
 			carrierNumber=9;
 			;;
+		215)
+			carrierNumber=A;
+			;;
 	esac
 	kernPart=${kernPart:0:9}${carrierNumber}${kernPart:10}
+        som=$(cat /proc/device-tree/model  | awk -F ' ' '{print($2)}')
+        if [ $som = 'SOM-A536M/P' ]; then
+          kernPart=${kernPart:0:7}1${kernPart:8}
+        fi
 fi
 
 #Get info on CPLD for the 150 and 200 carriers
@@ -249,6 +256,7 @@ else
 fi
 
 echo "Product: "$(hostname) > /tmp/oe_info
+[ -n "$som" ] && echo "SoM:" $som >> /tmp/oe_info
 [ -n "$carrier" ] && echo "Carrier:" $carrier >> /tmp/oe_info
 if [ ! -z "$CPLD" ]; then
         echo "CPLD Version: "$CPLD >> /tmp/oe_info
