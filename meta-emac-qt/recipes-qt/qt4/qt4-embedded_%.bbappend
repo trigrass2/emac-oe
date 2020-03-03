@@ -8,10 +8,6 @@ SRC_URI += " file://armv5e_qmake.conf \
              file://config.xml \
 "
 
-QT_PHONON = "-phonon"
-
-DEPENDS += "gstreamer gst-plugins-base"
-
 do_install_append() {
     install -d ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv5e-emac-linux-gnueabi-g++
     install -m 644 ${WORKDIR}/armv5e_qmake.conf ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv5e-emac-linux-gnueabi-g++/qmake.conf
