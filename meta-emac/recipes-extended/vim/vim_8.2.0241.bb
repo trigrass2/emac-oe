@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/vim/vim.git \
            file://configure.patch;patchdir=.. \
            file://vimrc.sample"
 
-SRCREV = "353eeeaca269ed5e83900bd4a24dc6dc80bb4880"
+SRCREV = "99234f29aa8767f2e71bb1f5db6ee0131bc8e64e"
 
 SRCDIR = "${WORKDIR}/git"
 S = "${SRCDIR}/src"
