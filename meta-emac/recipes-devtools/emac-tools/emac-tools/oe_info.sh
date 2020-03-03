@@ -185,7 +185,7 @@ if [ -z "$carrier" ]; then
 	carrier=""
 fi
 
-if [ ${kernPart:0:1} = 'S' ]; then
+if [ ${kernPart:0:1} = 'S' ]  && [ ${kernPart:12:1} = 'A' ]; then
 	carrierNumber=0;
 	case ${carrier:4:3} in
 		150)
