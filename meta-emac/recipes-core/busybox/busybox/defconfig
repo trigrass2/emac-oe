@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.31.0
-# Mon Jan 20 21:05:47 2020
+# Wed Feb 26 23:49:28 2020
 #
 CONFIG_HAVE_DOT_CONFIG=y
 
@@ -50,7 +50,7 @@ CONFIG_PLATFORM_LINUX=y
 # CONFIG_FEATURE_SHARED_BUSYBOX is not set
 CONFIG_CROSS_COMPILER_PREFIX=""
 CONFIG_SYSROOT=""
-CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types   -march=armv8-a+crc"
+CONFIG_EXTRA_CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types   -march=armv5te -marm"
 CONFIG_EXTRA_LDFLAGS=""
 CONFIG_EXTRA_LDLIBS=""
 # CONFIG_USE_PORTABLE_CODE is not set
@@ -764,7 +764,7 @@ CONFIG_FEATURE_CROND_D=y
 CONFIG_FEATURE_CROND_CALL_SENDMAIL=y
 CONFIG_FEATURE_CROND_SPECIAL_TIMES=y
 CONFIG_FEATURE_CROND_DIR="/var/spool/cron"
-# CONFIG_CRONTAB is not set
+CONFIG_CRONTAB=y
 # CONFIG_DEVFSD is not set
 # CONFIG_DEVFSD_MODLOAD is not set
 # CONFIG_DEVFSD_FG_NP is not set
