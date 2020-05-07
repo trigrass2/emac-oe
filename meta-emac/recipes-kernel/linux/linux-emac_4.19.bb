@@ -1,12 +1,12 @@
 require recipes-kernel/linux/linux-yocto.inc
 
 KBRANCH = "emac-4.19"
-SRCREV_machine ?= "7736d41c69ffafce9d149ad21eb906cf16e68de6"
+SRCREV_machine ?= "e88e91b64a0cd05cc56951e0009806dfb37fa6ab"
 
 SRC_URI = "git://git.emacinc.com/linux-kernel/linux-emac.git;bareclone=1;branch=${KBRANCH};name=machine;protocol=http"
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
-LINUX_VERSION ?= "4.19.64"
+LINUX_VERSION ?= "4.19.97"
 EMAC_LINUX_VERSION = "SL419-00S"
 FIRST_SRCREV = "${@'${SRCREV_machine}'[:10]}"
 LINUX_VERSION_EXTENSION = "${EMAC_LINUX_VERSION_EXTENSION}+${FIRST_SRCREV}"
