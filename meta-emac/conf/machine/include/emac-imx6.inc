@@ -1,5 +1,5 @@
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
-PREFERRED_VERSION_linux-emac ?= "4.9%"
+PREFERRED_VERSION_linux-emac ?= "4.19%"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
@@ -23,8 +23,8 @@ SERIAL_CONSOLE ?= "115200 ttymxc1"
 
 KERNEL_IMAGETYPE ?= "zImage"
 
-UBOOT_SUFFIX = "imx"
-UBOOT_MACHINE ?= "somimx6dq1G_config"
+UBOOT_SUFFIX = "img"
+UBOOT_MACHINE ?= "somimx6dq_defconfig"
 
 IMAGE_FSTYPES ?= "tar.gz"
 
