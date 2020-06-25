@@ -37,7 +37,7 @@ ADT_DEPLOY = "${DEPLOY_DIR}/sdk"
 ADT_DIR = "${WORKDIR}/adt-installer"
 S = "${WORKDIR}/opkg-${PV}"
 
-PV = "0.4.1"
+PV = "0.4.2"
 SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
            file://wget_cache.patch \
            file://adt_installer.sh \
@@ -55,8 +55,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
            file://opkg/conf/opkg-sdk-i686.conf \
 	  "
 
-SRC_URI[md5sum] = "ba0c21305fc93b26e844981ef100dc85"
-SRC_URI[sha256sum] = "45ac1e037d3877f635d883f8a555e172883a25d3eeb7986c75890fdd31250a43"
+SRC_URI[md5sum] = "bd13e5dfc1c2536f0c7b2e15f795278e"
+SRC_URI[sha256sum] = "86887852c43457edfff9d8b6d9520f3f1cdd55f25eb600a6eb31e1c4e151e106"
 
 # This recipe makes no sense as a multilib
 MULTILIBS = ""
