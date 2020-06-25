@@ -355,7 +355,7 @@ fetch_kit()
 	if [[ ! -d "$config_dir" ]]
 		then
 		mkdir -p $config_dir
-		wget $YOCTOADT_REPO/../emac_Qt_build/kit.tar.gz
+		wget $YOCTOADT_REPO/emac_Qt_build/kit.tar.gz
 		tar -xzf kit.tar.gz
 		rm kit.tar.gz
 		mv kit/* .
@@ -399,6 +399,8 @@ fetch_examples()
 			rm archive.tar.gz
 			mv qt* example-projects
 			mv example-projects/ ~/EMAC-SDK/
+			sed -i -e "s|^SET(CORRECT_VERSION.*$|SET(CORRECT_VERSION ${SDK_VERSION})|" ~/EMAC-SDK/example-projects/toolchain.armv5e.cmake
+			sed -i -e "s|^SET(CORRECT_VERSION.*$|SET(CORRECT_VERSION ${SDK_VERSION})|" ~/EMAC-SDK/example-projects/toolchain.i586.cmake
 	fi
 
 	if [[ ! -d "$HOME/EMAC-SDK/emac-QtCreator" ]]
@@ -411,11 +413,11 @@ fetch_examples()
 			case $PROMPT in 
 				y|Y)
 					QtBuild="emac-QtCreator"
-					wget $YOCTOADT_REPO/../emac_Qt_build/$QtBuild.tar.gz
+					wget $YOCTOADT_REPO/emac_Qt_build/$QtBuild.tar.gz
 					tar -xzf $QtBuild.tar.gz
 					rm $QtBuild.tar.gz
 					mv $QtBuild/ ~/EMAC-SDK/
-					wget $YOCTOADT_REPO/../emac_Qt_build/EMAC.png
+					wget $YOCTOADT_REPO/emac_Qt_build/EMAC.png
 					sudo mv EMAC.png /opt/emac/${SDK_VERSION}/share/;;
 				*);;
 			esac 
@@ -437,7 +439,7 @@ fetch_examples()
 		case $PROMPT in
 			y|Y)
 				user=$(whoami)
-				wget $YOCTOADT_REPO/../emac_Qt_build/emacqt.desktop
+				wget $YOCTOADT_REPO/emac_Qt_build/emacqt.desktop
 			    	sed -i "s|USERNAME|${user}|" emacqt.desktop
 			    	mv emacqt.desktop ~/.local/share/applications/
 			    	chmod +x ~/.local/share/applications/emacqt.desktop
