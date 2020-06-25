@@ -6,7 +6,10 @@ SRC_URI += " file://armv5e_qmake.conf \
              file://core2_qmake.conf \
              file://qplatformdefs.h \
              file://config.xml \
+	     file://force_dpi_72.patch \
 "
+
+SRC_URI_append_soma5d36 = "file://rgb_swapped_when_rotated.patch"
 
 do_install_append() {
     install -d ${D}${datadir}/${QT_DIR_NAME}/mkspecs/armv5e-emac-linux-gnueabi-g++
