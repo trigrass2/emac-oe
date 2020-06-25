@@ -1,8 +1,9 @@
-require recipes-core/images/emac-qt4e-image.bb
+require recipes-core/images/emac-minimal-image.bb
 
 DESCRIPTION = "SDK Image extends emac-qt4-image with SDK packages"
 
 IMAGE_FEATURES_append = "dev-pkgs"
+PACKAGE_EXCLUDE = "linux-dummy-dev lighttpd linux-firmware kernel-modules packagegroup-core-boot"
 
 IMAGE_INSTALL_append = " \
 	packagegroup-qte-toolchain-target \
