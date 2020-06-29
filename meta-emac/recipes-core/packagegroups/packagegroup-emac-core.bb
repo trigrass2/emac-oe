@@ -109,7 +109,7 @@ SUMMARY_packagegroup-emac-core-arm= "EMAC OE arm Packages."
 RRECOMMENDS_packagegroup-emac-core-arm = "\
     serial-control \
     apm \
-    libubootenv \
+    libubootenv-bin \
     kernel-devicetree \
     "
 
