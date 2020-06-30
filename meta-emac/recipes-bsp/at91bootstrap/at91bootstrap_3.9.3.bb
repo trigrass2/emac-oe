@@ -17,6 +17,13 @@ inherit cml1 deploy
 
 DEPENDS += "bc-native"
 
+BSBRANCH = "emac-bootstrap-3.9.3"
+SRCREV = "4a055866e29f25bac8a26d14d20f89bb2451858c"
+PV = "v3.9.3+git${SRCPV}"
+
+SRC_URI = "git://git.emacinc.com/bootloader/at91-bootstrap.git;branch=${BSBRANCH};protocol=http"
+S = "${WORKDIR}/git"
+
 AT91BOOTSTRAP_MACHINE ??= "${MACHINE}"
 
 AT91BOOTSTRAP_IMAGE ?= "${config}-${PV}.bin"
