@@ -19,4 +19,5 @@ do_install_append() {
 
 FILES_${PN} += "/usr/lib/SusiCores.ko"
 
-RPROVIDES_${PN} += "kernel-module-susicores${KERNEL_MODULE_PACKAGE_SUFFIX}"
+KERNEL_MODULE_PACKAGE_SUFFIX = ""
+RPROVIDES_${PN} += "kernel-module-susicores"
