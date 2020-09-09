@@ -8,5 +8,8 @@ do_install_append () {
 	install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
 }
 
-#FILES_tslib-calibrate += "${bindir}/tscal.sh"
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+PACKAGE_BEFORE_PN += "${PN}-env"
+RPROVIDES_${PN}-env += "u-boot-default-env"
+FILES_${PN}-env = " \
+    ${sysconfdir}/fw_env.config \
+"
