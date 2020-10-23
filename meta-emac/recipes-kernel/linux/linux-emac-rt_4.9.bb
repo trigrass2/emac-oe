@@ -1,7 +1,7 @@
-require recipes-kernel/linux/linux-yocto.inc
-
-KBRANCH = "emac-4.9-stable-rt"
+KBRANCH ?= "emac-4.9-stable-rt"
 SRCREV_machine ?= "5a2e9482789a2992bf1b522d91982aa0515b6083"
+
+require recipes-kernel/linux/linux-yocto.inc
 
 PROVIDES += "virtual/kernel kernel-modules"
 
