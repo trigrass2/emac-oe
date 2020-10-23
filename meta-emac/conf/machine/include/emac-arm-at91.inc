@@ -15,7 +15,7 @@ XSERVER ?= "xserver-xorg \
            xf86-input-tslib \
 	   "
 
-MACHINE_FEATURES += "wifi sound arm"
+MACHINE_FEATURES += "arm"
 
 SERIAL_CONSOLE ?= "115200 ttyS0"
 
