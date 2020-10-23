@@ -115,7 +115,7 @@ RRECOMMENDS_packagegroup-emac-core-arm = "\
 
 SUMMARY_packagegroup-emac-core-screen= "EMAC OE Screen Packages."
 RRECOMMENDS_packagegroup-emac-core-screen = "\
-    fbsplash \
+    psplash \
     fbset \
     fbida \
     gstreamer1.0-plugins-base \
