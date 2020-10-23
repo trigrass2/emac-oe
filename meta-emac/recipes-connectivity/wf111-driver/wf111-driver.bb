@@ -4,14 +4,18 @@ LICENSE = "GPLv2"
 
 inherit module
 
-INSANE_SKIP_${PN} = "already-stripped"
+INSANE_SKIP_${PN}-tools = "already-stripped ldflags"
 
 MODULES_INSTALL_TARGET = "install"
 
+SRCREV = "71d880310d465878012ac5bb5293081bcda39992"
+
 SRC_URI = " \
-	file://wf111-linux-driver-5-2-2-r3-armv7-a.tar.gz \
+	git://github.com/morixhub/wf111-linux-driver_5.2.2-r4_armv7-a.git;branch=master \
+	file://override_output_path.patch \
 "
-S = "${WORKDIR}/wf111-linux-driver_5.2.2-r2_armv7-a/"
+S = "${WORKDIR}/git"
+
 export KDIR="${STAGING_KERNEL_BUILDDIR}"
 export OUTPUT_BIN="${D}${sbindir}"
 export OUTPUT_FIRMWARE="${D}${nonarch_base_libdir}/firmware/unifi-sdio"

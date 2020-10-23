@@ -1,0 +1,15 @@
+diff --git a/Makefile b/Makefile
+index e7f8336..d3667b0 100755
+--- a/Makefile
++++ b/Makefile
+@@ -97,8 +97,8 @@ unifi_helper_clean:
+ # INSTALL
+ ###########
+ 
+-OUTPUT_BIN := $(OUTPUT)/usr/sbin
+-OUTPUT_FIRMWARE := $(OUTPUT)/lib/firmware/unifi-sdio
++OUTPUT_BIN ?= $(OUTPUT)/usr/sbin
++OUTPUT_FIRMWARE ?= $(OUTPUT)/lib/firmware/unifi-sdio
+ install_android install_static_android: OUTPUT_BIN := $(OUTPUT)/system/bin
+ install_android install_static_android: OUTPUT_FIRMWARE := $(OUTPUT)/system/etc/firmware/unifi-sdio
+ install_android install_static_android: OUTPUT_MODULE := $(OUTPUT)/system/lib/modules
