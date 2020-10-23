@@ -1,6 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-4.19:"
 
-COMPATIBLE_MACHINE = "somimx6|atom-sbc|atom-sbc-64"
+COMPATIBLE_MACHINE = "somimx6|somimx6ul|atom-sbc|atom-sbc-64|som3354"
 
 SRC_URI += " \
 		file://defconfig \
