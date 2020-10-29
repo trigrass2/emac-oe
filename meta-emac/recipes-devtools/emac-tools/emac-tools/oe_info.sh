@@ -173,7 +173,9 @@ echo
 fsPN=$(cat /etc/build | grep "PART_NUMBER" | cut -d ' ' -f3)
 oeVers=$(cat /etc/build | grep "DISTRO_VERSION" | cut -d ' ' -f3)
 fsRev=$(cat /etc/build | grep -m1 "meta-emac" | cut -d ':' -f2)
+dirty=$(echo $fsRev | grep modified)
 fsRev=${fsRev:0:10}
+if [ ! -z "$dirty" ];then fsRev=$fsRev"-dirtry";fi
 
 kernVers=$(uname -r | cut -d '_' -f1)
 kernPart=$(uname -r | cut -d '_' -f2 | cut -d '+' -f1 )
