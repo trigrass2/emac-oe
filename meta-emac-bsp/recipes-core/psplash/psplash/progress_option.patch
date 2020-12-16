@@ -1,0 +1,75 @@
+diff --git a/psplash.c b/psplash.c
+index 1a56629..a7746d3 100644
+--- a/psplash.c
++++ b/psplash.c
+@@ -27,6 +27,8 @@
+ 	    * (fb)->height / PSPLASH_IMG_SPLIT_DENOMINATOR) \
+ 	)
+ 
++bool       disable_progress_bar = FALSE;
++
+ void
+ psplash_exit (int UNUSED(signum))
+ {
+@@ -110,10 +112,12 @@ parse_command (PSplashFB *fb, char *string)
+ 
+   if (!strcmp(command,"PROGRESS")) 
+     {
+-      char *arg = strtok(NULL, "\0");
++      if (!disable_progress_bar) {
++        char *arg = strtok(NULL, "\0");
+ 
+-      if (arg)
+-        psplash_draw_progress (fb, atoi(arg));
++        if (arg)
++            psplash_draw_progress (fb, atoi(arg));
++      }
+     } 
+   else if (!strcmp(command,"MSG")) 
+     {
+@@ -247,10 +251,15 @@ main (int argc, char** argv)
+         fbdev_id = atoi(argv[i]);
+         continue;
+       }
++    if (!strcmp(argv[i],"-p") || !strcmp(argv[i],"--no-progress"))
++      {
++	    disable_progress_bar = TRUE;
++	    continue;
++	  }
+ 
+     fail:
+       fprintf(stderr, 
+-              "Usage: %s [-n|--no-console-switch][-a|--angle <0|90|180|270>][-f|--fbdev <0..9>]\n", 
++              "Usage: %s [-n|--no-console-switch][-a|--angle <0|90|180|270>][-f|--fbdev <0..9>][-p|--no-progress]\n", 
+               argv[0]);
+       exit(-1);
+   }
+@@ -312,16 +321,18 @@ main (int argc, char** argv)
+ 			 POKY_IMG_RLE_PIXEL_DATA);
+ 
+   /* Draw progress bar border */
+-  psplash_fb_draw_image (fb, 
+-			 (fb->width  - BAR_IMG_WIDTH)/2, 
+-			 SPLIT_LINE_POS(fb),
+-			 BAR_IMG_WIDTH,
+-			 BAR_IMG_HEIGHT,
+-			 BAR_IMG_BYTES_PER_PIXEL,
+-			 BAR_IMG_ROWSTRIDE,
+-			 BAR_IMG_RLE_PIXEL_DATA);
+-
+-  psplash_draw_progress (fb, 0);
++  if (!disable_progress_bar) {
++    psplash_fb_draw_image (fb,
++				 (fb->width  - BAR_IMG_WIDTH)/2,
++				 SPLIT_LINE_POS(fb),
++				 BAR_IMG_WIDTH,
++				 BAR_IMG_HEIGHT,
++				 BAR_IMG_BYTES_PER_PIXEL,
++				 BAR_IMG_ROWSTRIDE,
++				 BAR_IMG_RLE_PIXEL_DATA);
++
++    psplash_draw_progress (fb, 0);
++  }
+ 
+ #ifdef PSPLASH_STARTUP_MSG
+   psplash_draw_msg (fb, PSPLASH_STARTUP_MSG);
