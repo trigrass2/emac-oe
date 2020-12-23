@@ -246,15 +246,18 @@ else
 	soc=$(fw_printenv soc | cut -d '=' -f2)
 	if [[ $soc = "at91" ]]; then
         	bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -m1 | cut -d '(' -f1)
-		bootStrapVers=$(echo $bootStrap | cut -d '_' -f1)
-		bootStrapPart=$(echo $bootStrap | cut -d '_' -f2 | cut -d '+' -f1)
-		bootStrapRev=$(echo $bootStrap | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
+		if [ -z ${bootStrap} ]; then
+			bootStrap=$(strings /dev/$mtdNum | grep 'U-Boot SPL' -m1)
+		fi
 	else
-		bootStrapVers=""
-		bootStrapPart=""
-		bootStrapRev=""
+		bootStrap=$(strings /dev/$mtdNum | grep 'U-Boot SPL' -m1)
 	fi
-        serialNum=$(fw_printenv serial#)
+
+	bootStrapVers=$(echo $bootStrap | cut -d '_' -f1)
+	bootStrapPart=$(echo $bootStrap | cut -d '_' -f2 | cut -d '+' -f1)
+	bootStrapRev=$(echo $bootStrap | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
+
+    serialNum=$(fw_printenv serial#)
 fi
 
 echo "Product: "$(hostname) > /tmp/oe_info
