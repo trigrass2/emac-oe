@@ -6,7 +6,7 @@ PROVIDES = "virtual/bootloader"
 LICENSE = "GPLv2+"
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
 
-SRCREV = "5ee6ac3b7a708dfe576c795b7108763746020065"
+SRCREV = "bebba5bac3a3a97c9d95d4ba140915320dcc8220"
 PV = "v2020.04+git${SRCPV}"
 
 UBRANCH = "emac-2020.04"
