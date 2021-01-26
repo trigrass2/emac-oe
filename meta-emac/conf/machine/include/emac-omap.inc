@@ -1,7 +1,7 @@
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
 PREFERRED_VERSION_linux-emac ?= "4.19%"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-emac"
-PREFERRED_VERSION_u-boot-emac ?= "v2016.01%"
+PREFERRED_VERSION_u-boot-emac ?= "v2020.04%"
 
 
 PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
@@ -19,13 +19,11 @@ XSERVER = "xserver-xorg \
 "
 
 MACHINE_FEATURES += "arm"
-EXTRA_IMAGEDEPENDS += "u-boot-emac"
 
 SERIAL_CONSOLE ?= "115200 ttyO0"
 
 KERNEL_IMAGETYPE ?= "zImage"
 
-UBOOT_ENTRYPOINT ?= "0x80008000"
 UBOOT_MACHINE ?= "am3517_evm_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
