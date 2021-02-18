@@ -16,8 +16,7 @@ XSERVER ?= "xserver-xorg \
            xf86-input-tslib \
 "
 
-MACHINE_FEATURES += "pci can wifi sound arm"
-EXTRA_IMAGEDEPENDS += "u-boot-emac"
+MACHINE_FEATURES += "arm"
 
 SERIAL_CONSOLE ?= "115200 ttymxc1"
 
