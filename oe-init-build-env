@@ -92,7 +92,7 @@ getlist() {
     machine=${mach_type[$selection]}
 }
 
-# Check out the machine type conf files in $MACHINECONF to get a list of 
+# Check out the machine type conf files in $MACHINECONF to get a list of
 # possible machines to build for
 
 getlist
@@ -104,11 +104,17 @@ getlist $machdir
 
 OECORELAYERCONF="$TEMPLATECONF"/bblayers.conf.sample
 
-if [ $custom -eq 1 ] 
+if [ $custom -eq 1 ]
 then
     fullpath=$(echo $list | cut -d ' ' -f$selection)
     layerdir=$(dirname $(dirname $(dirname $fullpath)))
-    [ -r "$layerdir/conf/bblayers.conf.sample" ] && OECORELAYERCONF="$layerdir/conf/bblayers.conf.sample"
+    if [ -r "$layerdir/conf/bblayers.conf.sample_$machine" ]
+    then
+	    OECORELAYERCONF="$layerdir/conf/bblayers.conf.sample_$machine"
+	elif [ -r "$layerdir/conf/bblayers.conf.sample" ]
+	then
+	    OECORELAYERCONF="$layerdir/conf/bblayers.conf.sample"
+    fi
     BRANCH=$(echo $layerdir | cut -d '-' -f3-$NF)
 else
     fullpath=$MACHINECONF
@@ -140,7 +146,7 @@ sed -i -e 's|^\\|'"${CUSTOMLAYER}"'|' $BUILDDIR/conf/bblayers.conf
 
 OECORENOTESCONF="$TEMPLATECONF/conf-notes.txt"
 
-if [ $custom -eq 1 ] 
+if [ $custom -eq 1 ]
 then
     echo "Custom images for machine:"
     images=`ls ${OE}/${layerdir}/recipes-core/images/*.bb | rev | cut -d '/' -f1 | rev | cut -d '.' -f1`
