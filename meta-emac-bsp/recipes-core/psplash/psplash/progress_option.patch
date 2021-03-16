@@ -1,5 +1,5 @@
 diff --git a/psplash.c b/psplash.c
-index 1a56629..a7746d3 100644
+index 1a56629..fe47341 100644
 --- a/psplash.c
 +++ b/psplash.c
 @@ -27,6 +27,8 @@
@@ -11,7 +11,7 @@ index 1a56629..a7746d3 100644
  void
  psplash_exit (int UNUSED(signum))
  {
-@@ -110,10 +112,12 @@ parse_command (PSplashFB *fb, char *string)
+@@ -110,19 +112,23 @@ parse_command (PSplashFB *fb, char *string)
  
    if (!strcmp(command,"PROGRESS")) 
      {
@@ -21,13 +21,27 @@ index 1a56629..a7746d3 100644
  
 -      if (arg)
 -        psplash_draw_progress (fb, atoi(arg));
+-    } 
 +        if (arg)
 +            psplash_draw_progress (fb, atoi(arg));
 +      }
-     } 
++    }
++#ifndef PSPLASH_IMG_FULLSCREEN
    else if (!strcmp(command,"MSG")) 
      {
-@@ -247,10 +251,15 @@ main (int argc, char** argv)
+       char *arg = strtok(NULL, "\0");
+ 
+       if (arg)
+         psplash_draw_msg (fb, arg);
+-    } 
+-  else if (!strcmp(command,"QUIT")) 
++    }
++#endif
++  else if (!strcmp(command,"QUIT"))
+     {
+       return 1;
+     }
+@@ -247,10 +253,15 @@ main (int argc, char** argv)
          fbdev_id = atoi(argv[i]);
          continue;
        }
@@ -40,11 +54,11 @@ index 1a56629..a7746d3 100644
      fail:
        fprintf(stderr, 
 -              "Usage: %s [-n|--no-console-switch][-a|--angle <0|90|180|270>][-f|--fbdev <0..9>]\n", 
-+              "Usage: %s [-n|--no-console-switch][-a|--angle <0|90|180|270>][-f|--fbdev <0..9>][-p|--no-progress]\n", 
++              "Usage: %s [-n|--no-console-switch][-a|--angle <0|90|180|270>][-f|--fbdev <0..9>][-p|--no-progress]\n",
                argv[0]);
        exit(-1);
    }
-@@ -312,16 +321,18 @@ main (int argc, char** argv)
+@@ -312,19 +323,23 @@ main (int argc, char** argv)
  			 POKY_IMG_RLE_PIXEL_DATA);
  
    /* Draw progress bar border */
@@ -71,5 +85,10 @@ index 1a56629..a7746d3 100644
 +    psplash_draw_progress (fb, 0);
 +  }
  
++#ifndef PSPLASH_IMG_FULLSCREEN
  #ifdef PSPLASH_STARTUP_MSG
    psplash_draw_msg (fb, PSPLASH_STARTUP_MSG);
++#endif
+ #endif
+ 
+   /* Scene set so let's flip the buffers. */
