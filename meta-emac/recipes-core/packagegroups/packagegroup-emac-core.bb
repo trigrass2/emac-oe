@@ -125,7 +125,7 @@ RRECOMMENDS_packagegroup-emac-core-screen = "\
 
 SUMMARY_packagegroup-emac-core-can= "EMAC OE CAN Packages."
 RRECOMMENDS_packagegroup-emac-core-can = "\
-    canutils \
+    can-utils \
     "
 
 SUMMARY_packagegroup-emac-core-pci= "EMAC OE PCI Packages."
