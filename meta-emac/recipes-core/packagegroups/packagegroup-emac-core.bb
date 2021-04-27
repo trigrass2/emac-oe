@@ -61,6 +61,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     libgpiod-tools \
     sysfsutils \
     openssh \
+    tzcode \
     "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
