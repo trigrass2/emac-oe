@@ -62,6 +62,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     sysfsutils \
     openssh \
     tzcode \
+    util-linux-mount \
     "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
