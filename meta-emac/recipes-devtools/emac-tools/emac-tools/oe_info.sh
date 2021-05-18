@@ -246,7 +246,7 @@ else
 	soc=$(fw_printenv soc | cut -d '=' -f2)
 	if [[ $soc = "at91" ]]; then
         	bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -m1 | cut -d '(' -f1)
-		if [ -z ${bootStrap} ]; then
+		if [[ -z ${bootStrap} ]]; then
 			bootStrap=$(strings /dev/$mtdNum | grep 'U-Boot SPL' -m1)
 		fi
 	else
