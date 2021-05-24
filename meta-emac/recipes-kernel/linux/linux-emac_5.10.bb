@@ -1,5 +1,5 @@
 KBRANCH ?= "emac-5.10"
-SRCREV_machine ?= "176e3c844683ed237c0f37882c3c13307b5bdb3e"
+SRCREV_machine ?= "0fd08d25f2953f9e098c6e5572b9546b506e99cc"
 
 require recipes-kernel/linux/linux-yocto.inc
 
