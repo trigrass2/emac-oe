@@ -1,5 +1,5 @@
 KBRANCH ?= "emac-5.10"
-SRCREV_machine ?= "0fd08d25f2953f9e098c6e5572b9546b506e99cc"
+SRCREV_machine ?= "cf9e857a0abb5c2d78987ffade1b50b8e91ce2c9"
 
 require recipes-kernel/linux/linux-yocto.inc
 
@@ -11,7 +11,7 @@ DEPENDS += "gmp-native"
 EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
-LINUX_VERSION ?= "5.10.29"
+LINUX_VERSION ?= "5.10.42"
 EMAC_LINUX_VERSION = "SL510-00S"
 FIRST_SRCREV = "${@'${SRCREV_machine}'[:10]}"
 LINUX_VERSION_EXTENSION = "${EMAC_LINUX_VERSION_EXTENSION}+${FIRST_SRCREV}"
