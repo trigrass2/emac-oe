@@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 XBRANCH ?= "stable/v3.0.x"
 SRCREV ?= "78338e7243eb00c4cbcdd6492a43f80f8d96bc74"
 
-SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH}"
+SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH} \
+	   file://bad_syscall_remove_printk.patch \
+	   "
 
 DEPENDS = "fuse"
 
