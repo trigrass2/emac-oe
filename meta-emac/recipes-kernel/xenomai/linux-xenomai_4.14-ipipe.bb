@@ -8,6 +8,7 @@ KBRANCH = "stable/4.14.85-arm"
 SRC_URI = " \
 	git://gitlab.denx.de/Xenomai/ipipe-arm.git;branch=${KBRANCH};protocol=http \
 	file://0001-null-evtdev-check.patch \
+	file://0002-write-once-last-tsc.patch \
 "
 
 SRCREV = "35a84af5b7e3193e90ee129a91054657c02e8248"
