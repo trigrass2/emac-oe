@@ -1,0 +1,38 @@
+diff -Naur gpsd-3.22-old/SConscript gpsd-3.22-new/SConscript
+--- gpsd-3.22-old/SConscript	2021-01-08 20:35:30.000000000 -0600
++++ gpsd-3.22-new/SConscript	2021-06-03 13:45:17.170606150 -0500
+@@ -1514,7 +1514,7 @@
+ 
+ # Set up configuration for target Python
+ 
+-PYTHON_LIBDIR_CALL = 'sysconfig.get_python_lib()'
++PYTHON_LIBDIR_CALL = 'sysconfig.get_python_lib(plat_specific=1)'
+ 
+ PYTHON_CONFIG_NAMES = ['SO']  # Now a fairly degenerate list
+ PYTHON_CONFIG_QUOTED = ["'%s'" % s for s in PYTHON_CONFIG_NAMES]
+@@ -1566,7 +1566,7 @@
+             python_libdir = polystr(python_libdir)
+             python_libdir = python_libdir.replace("/usr/lib",
+                                                   "/usr/local/lib")
+-        python_module_dir = str(python_libdir) + os.sep
++        python_module_dir = python_libdir.replace(env['sysroot'], '') + os.sep
+         # Many systems can have a problem with the Python path
+         if 'PYTHONPATH' in os.environ:
+             announce("System PYTHONPATH='%s'" % os.environ['PYTHONPATH'])
+@@ -2526,14 +2526,14 @@
+      not env['nostrip'] and not sys.platform.startswith('darwin'))):
+     env.AddPostAction(binaryinstall, '$STRIP $TARGET')
+ 
+-python_module_dir = str(python_libdir) + os.sep + 'gps'
++python_module_dir = python_libdir.replace(env['sysroot'], '') + os.sep + 'gps'
+ 
+ python_modules_install = env.Install(DESTDIR + python_module_dir,
+                                      python_modules)
+ 
+ python_progs_install = env.Install(installdir('bindir'), python_progs)
+ 
+-python_egg_info_install = env.Install(DESTDIR + str(python_libdir),
++python_egg_info_install = env.Install(DESTDIR + python_libdir.replace(env['sysroot'], ''),
+                                       python_egg_info)
+ python_install = [python_modules_install,
+                   python_progs_install,
