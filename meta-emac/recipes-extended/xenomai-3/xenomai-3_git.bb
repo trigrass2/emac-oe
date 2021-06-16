@@ -15,6 +15,7 @@ SRCREV ?= "78338e7243eb00c4cbcdd6492a43f80f8d96bc74"
 
 SRC_URI = "git://git.xenomai.org/xenomai-3.git;branch=${XBRANCH} \
 	   file://bad_syscall_remove_printk.patch \
+	   file://0002-add-check-for-eadv-select.patch \
 	   "
 
 DEPENDS = "fuse"
