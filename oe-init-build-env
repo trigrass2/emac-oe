@@ -13,13 +13,23 @@
 # name.
 #
 
+set -x 
+
 if [ -z "$ZSH_NAME" ] && [ "x$0" = "x./oe-init-build-env" ]; then
 	echo "Error: This script needs to be sourced. Please run as '. ./oe-init-build-env'"
 	exit 0
 fi
 
 #Set where everything is
-OE="`pwd`"
+OE=""
+script_path="${BASH_SOURCE[0]}"
+while [ -h "$script_path" ]; 
+do
+    OE="$( cd -P "$( dirname "$script_path" )" >/dev/null 2>&1 && pwd )"
+    script_path="$(readlink "$script_path")"
+    [[ $script_path != /* ]] && script_path="$OE/$script_path" 
+done
+OE="$( cd -P "$( dirname "$script_path" )" >/dev/null 2>&1 && pwd )"
 BBROOT="$OE/recipes/poky"
 TEMPLATECONF="recipes/emac-oe/meta-emac/conf"
 MACHINECONF="recipes/emac-oe/meta-emac-bsp/conf/machine"
@@ -100,8 +110,6 @@ machdir=$machine
 getlist $machdir
 
 
-
-
 OECORELAYERCONF="$TEMPLATECONF"/bblayers.conf.sample
 
 if [ $custom -eq 1 ]
@@ -124,8 +132,17 @@ else
 fi
 
 BUILDDIR="$OE/build_$BRANCH"
-
 mkdir -p "$BUILDDIR/conf"
+
+# check if there is a custom machine layer for a non custom board
+if [ $custom != 1 ];
+then
+    if [ -f "$layerdir/conf/extra_layers/$machine.conf" ];
+    then
+        OECORELAYERCONF="$layerdir/conf/extra_layers/$machine.conf"
+    fi
+fi
+
 # Modify bblayers.conf to insert ##OEROOT## where appropriate to add layers
 sed "s|##OEROOT##|$OE|g" $OECORELAYERCONF > $BUILDDIR/conf/bblayers.conf
 

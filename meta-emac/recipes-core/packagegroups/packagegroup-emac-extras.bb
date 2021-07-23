@@ -73,10 +73,10 @@ RRECOMMENDS_${PN}-timezone = "\
     tzdata-africa \
     tzdata-americas \
     tzdata-antarctica \
-    tzdata-arctic \ 
+    tzdata-arctic \
     tzdata-asia \
     tzdata-atlantic \
     tzdata-australia \
-    tzdata-europe \ 
+    tzdata-europe \
     tzdata-pacific \
-    "
+"

@@ -1,0 +1,40 @@
+# LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+LCONF_VERSION = "7"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+## mask out freescale qt5 because it is not built the way that we want it to really
+# qt5-creator masked because required bbclass xdg-mime is not present in zeus
+BBMASK += "\
+   ##OEROOT##/recipes/meta-freescale/dynamic-layers/qt5-layer/recipes-qt/qt5 \
+   ##OEROOT##/recipes/meta-qt5/recipes-qt/qt5/qt5-creator_git.bb \
+"
+
+# remove qt4 & gpref
+BBMASK += " \
+   ##OEROOT##/recipes/emac-oe/meta-emac-qt/recipes-qt/qtserialport/qtserialport-e_5.1.0.bb \
+   ##OEROOT##/recipes/meta-emac-qt/recipes-core/meta/meta-toolchain-emac-qt4.bb \
+   ##OEROOT##/recipes/emac-oe/meta-emac-qt/recipes-core/meta/meta-toolchain-emac-qt4.bb \
+   ##OEROOT##/recipes/emac-oe/meta-emac-qt/recipes-qt/qt-demo/qt-demo-init_%.bbappend \
+   ##OEROOT##/recipes/emac-oe/meta-emac-qt/recipes-qt/qt4/qt4-embedded_%.bbappend \
+   ##OEROOT##/recipes/emac-oe/meta-emac/recipes-extended/gperf/gpref_%.bbappend \
+"
+
+BBLAYERS ?= " \
+  ##OEROOT##/recipes/emac-oe/meta-emac \
+  ##OEROOT##/recipes/emac-oe/meta-emac-bsp \
+  ##OEROOT##/recipes/emac-oe/meta-emac-freescale \
+  ##OEROOT##/recipes/emac-oe/meta-emac-qt \
+  ##OEROOT##/recipes/poky/meta \
+  ##OEROOT##/recipes/meta-freescale \
+  ##OEROOT##/recipes/meta-freescale-3rdparty \
+  ##OEROOT##/recipes/meta-openembedded/meta-oe \
+  ##OEROOT##/recipes/meta-openembedded/meta-networking \
+  ##OEROOT##/recipes/meta-openembedded/meta-python \
+  ##OEROOT##/recipes/meta-openembedded/meta-multimedia \
+  ##OEROOT##/recipes/meta-openembedded/meta-filesystems \
+  ##OEROOT##/recipes/meta-qt5 \
+"
+
