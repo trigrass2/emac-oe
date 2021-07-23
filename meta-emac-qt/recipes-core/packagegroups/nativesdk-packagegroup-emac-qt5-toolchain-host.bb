@@ -6,8 +6,9 @@ inherit nativesdk packagegroup
 
 MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""
 
+#     nativesdk-gperf
+
 RDEPENDS_${PN} += "\
-    nativesdk-gperf \
     nativesdk-cmake \
     nativesdk-make \
     ${MACHINE_EXTRA_INSTALL_SDK_HOST} \
