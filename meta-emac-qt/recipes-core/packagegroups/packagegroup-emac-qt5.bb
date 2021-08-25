@@ -2,32 +2,54 @@ SUMMARY = "Qt for Embedded Linux (Qt without X11)"
 PR = "r2"
 LICENSE = "MIT"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 inherit packagegroup
 
 PROVIDES = "${PACKAGES}"
 
-PACKAGES = "\
+PACKAGES = " \
     ${PN} \
-    ${PN}-imx \
     ${PN}-base-extras \
     ${PN}-tools \
     ${PN}-gstreamer \
 "
-    
-## imx stuff
-## need to fix all of gstreamer1.16.imx :( There is bad linkage
-##  boken at ld imx-gst1.0-plugin 
-SUMMARY_${PN}-imx = "Imx6 (mx6:mx6q:mx6dq) libs and binary blobs"
-RDEPENDS_${PN}-imx_somimx6q-ha += " \
-    libimxdmabuffer \
-    gstreamer1.0-plugins-imx \
-    kernel-module-imx-gpu-viv \
-    imx-gpu-viv \
-    imx-codec \
-    imx-gpu-g2d \
-    libimxvpuapi \
-    imx-vpu \
-    imx-vpuwrap \
+
+# QT MODS
+# SUMMARY_${PN}-qt5 = "Qt5(Full) meta package"
+RDEPENDS_${PN} += " \
+    ${PN}-base-extras \
+    ${PN}-tools \
+    ${PN}-gstreamer \
+    qt3d \
+    qtbase \
+    qtcharts \
+    qtconnectivity \
+    qtdatavis3d \
+    qtdeclarative \
+    qtdeclarative-tools \
+    qtgamepad \
+    qtgraphicaleffects \
+    qtimageformats \
+    qtlocation \
+    qtmultimedia \
+    qtquick3d \
+    qtquickcontrols \
+    qtquickcontrols2 \
+    qtquicktimeline \
+    qtremoteobjects \
+    qtsensors \
+    qtserialbus \
+    qtserialport \
+    qtsvg \
+    qttools \
+    qttools-tools \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland', '', d)} \
+    qtwebsockets \
+    qtwebchannel \
+    qtwebglplugin \
+    qtxmlpatterns \
+    qtvirtualkeyboard \
 "
 
 
@@ -78,7 +100,8 @@ RDEPENDS_${PN}-tools += " \
 
 ## gstreamer
 SUMMARY_${PN}-gstreamer = "gstreamer meta package"
-RDEPENDS_${PN}-gstreamer += " \
+MACHINE_GSTREAMER_1_0_PLUGIN ?= ""
+RDEPENDS_${PN}-gstreamer = " \
     gstreamer1.0-meta-base \
     gstreamer1.0-meta-video \
     gstreamer1.0-meta-audio \
@@ -87,39 +110,5 @@ RDEPENDS_${PN}-gstreamer += " \
     gstreamer1.0-plugins-ugly-meta \
     gstreamer1.0-plugins-bad-meta \
     gstreamer1.0-libav \
+    ${MACHINE_GSTREAMER_1_0_PLUGIN} \
 "
-
-# QT MODS
-# SUMMARY_${PN}-qt5 = "Qt5(Full) meta package"
-RDEPENDS_${PN} += " \
-    qt3d \
-    qtbase \
-    qtcharts \
-    qtconnectivity \
-    qtdatavis3d \
-    qtdeclarative \
-    qtdeclarative-tools \
-    qtgamepad \
-    qtgraphicaleffects \
-    qtimageformats \
-    qtlocation \
-    qtmultimedia \
-    qtquick3d \
-    qtquickcontrols \
-    qtquickcontrols2 \
-    qtquicktimeline \
-    qtremoteobjects \
-    qtsensors \
-    qtserialbus \
-    qtserialport \
-    qtsvg \
-    qttools \
-    qttools-tools \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland', '', d)} \
-    qtwebsockets \
-    qtwebchannel \
-    qtwebglplugin \
-    qtxmlpatterns \
-    qtvirtualkeyboard \
-"
-

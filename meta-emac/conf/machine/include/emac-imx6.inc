@@ -11,7 +11,7 @@ XSERVER ?= "xserver-xorg \
            xf86-input-evdev \
            xf86-input-mouse \
            xf86-video-omapfb \
-	   xf86-video-fbdev \
+           xf86-video-fbdev \
            xf86-input-keyboard \
            xf86-input-tslib \
 "

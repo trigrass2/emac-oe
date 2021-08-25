@@ -5,8 +5,10 @@ PR = "r0"
 inherit packagegroup
 
 PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
-MACHINE_EXTRA_INSTALL_SDK ?= ""
-OGL_RUNTIME_DEV ?= "ogl-runtime-dev"
+
+MACHINE_EXTRA_INSTALL_SDK ?= " "
+
+OGL_RUNTIME_DEV ?= " ogl-runtime-dev "
 OGL_RUNTIME_DEV_mipsarch ?= ""
 GCC-SANITIZERS ?= "gcc-sanitizers"
 GCC-SANITIZERS_mipsarch = ""
@@ -14,13 +16,7 @@ GCC-SANITIZERS_libc-musl = ""
 
 RDEPENDS_${PN} += " \
     ${MACHINE_EXTRA_INSTALL_SDK} \
-    libgcc \
-    libgcc-dev \
-    libatomic \
-    libatomic-dev \
-    libstdc++ \
-    libstdc++-dev \
-    ${LIBC_DEPENDENCIES} \
+    packagegroup-core-standalone-sdk-target \
     ${GCC-SANITIZERS} \
     ${OGL_RUNTIME_DEV} \
     qt3d-dev \
@@ -37,7 +33,6 @@ RDEPENDS_${PN} += " \
     qtimageformats-dev \
     qtlocation-dev \
     qtmultimedia-dev \
-    qtnetworkauth-dev \
     qtquick3d-dev \
     qtquickcontrols-dev \
     qtquickcontrols2-dev \

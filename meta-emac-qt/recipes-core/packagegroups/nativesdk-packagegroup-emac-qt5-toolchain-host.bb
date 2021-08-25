@@ -6,16 +6,16 @@ inherit nativesdk packagegroup
 
 MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""
 
-#     nativesdk-gperf
-
-RDEPENDS_${PN} += "\
+RDEPENDS_${PN} += " \
     nativesdk-cmake \
     nativesdk-make \
-    ${MACHINE_EXTRA_INSTALL_SDK_HOST} \
     nativesdk-python3-modules \
     nativesdk-python3-misc \
     nativesdk-perl-modules \
-    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "nativesdk-wayland-dev", "", d)} \
+    ${MACHINE_EXTRA_INSTALL_SDK_HOST} \
+"
+
+RDEPENDS_${PN} += " \
     nativesdk-qt3d-tools \
     nativesdk-qtbase \
     nativesdk-qtbase-dev \
@@ -25,6 +25,7 @@ RDEPENDS_${PN} += "\
     nativesdk-qtremoteobjects-tools \
     nativesdk-qtscxml-tools \
     nativesdk-qttools-tools \
+    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "nativesdk-wayland-dev", "", d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-qtwayland-tools', '', d)} \
 "
     
