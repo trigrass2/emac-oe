@@ -34,20 +34,20 @@ cd recipes
 Download the openembedded-core,meta-openembedded and EMAC meta data:
 ```sh
 cd recipes
-git clone -b sumo git://git.yoctoproject.org/poky
-git clone -b sumo git://git.openembedded.org/meta-openembedded
-git clone -b sumo http://git.emacinc.com/OE/emac-oe.git
+git clone -b dunfell git://git.yoctoproject.org/poky
+git clone -b dunfell git://git.openembedded.org/meta-openembedded
+git clone -b dunfell http://git.emacinc.com/OE/emac-oe.git
 ```
 Checkout the appropriate branches of the repositories.
 
-*EMAC OE 5.2 is based on OpenEmbedded/Yocto Sumo branch*
+*EMAC OE 5.4 is based on OpenEmbedded/Yocto Dunfell branch*
 ```sh
 cd emac-oe
-git checkout 5.2
+git checkout 5.4
 cd -
 ```
 Apply any poky or mete-openembedded patches. Patches to the upstream repositories are located in the emac-oe/patches directory and include instructions on applying.
-None needed for EMAC OE 5.2
+None needed for EMAC OE 5.4
 
 Copy the oe-init-build-env script from the emac directory to one level above recipes/:
 ```sh
@@ -76,10 +76,14 @@ If any Qt recipes or meta-toolchain-emac are to be built, download and checkout 
 cd recipes
 git clone git://git.yoctoproject.org/meta-qt4
 git clone https://github.com/meta-qt5/meta-qt5.git
-cd meta-qt4 && git checkout sumo && cd ..
-cd meta-qt5 && git checkout sumo && cd ..
+cd meta-qt4
+git checkout dunfell
+cd ..
+cd meta-qt5
+git checkout dunfell
+cd ..
 ```
-Add the Qt layers paths to build_5.2/conf/bblayers.conf. ${recipes_dir} is the full path to where the recipes are downloaded.
+Add the Qt layers paths to build_5.4/conf/bblayers.conf. ${recipes_dir} is the full path to where the recipes are downloaded.
 ```
 ${recipes_dir}/meta-qt4
 ${recipes_dir}/meta-qt5
