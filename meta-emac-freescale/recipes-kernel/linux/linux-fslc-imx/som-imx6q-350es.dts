@@ -25,9 +25,12 @@
 };
 
 &ts_tsc2004 {
-    touchscreen-inverted-y;
+
+#if 0 
+touchscreen-inverted-y;
     touchscreen-inverted-x;
     touchscreen-swapped-x-y;
+#endif
     touchscreen-x-mm = <152>;
     touchscreen-y-mm = <91>;
 };

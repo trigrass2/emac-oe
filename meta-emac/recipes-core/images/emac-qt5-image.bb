@@ -12,4 +12,4 @@ BUILD_TYPE = "qt5"
 FS_NUMBER = "02"
 
 ## SDK
-include recipes-core/meta/meta-toolchain-emac-qt5.bb
+# include recipes-core/meta/meta-toolchain-emac-qt5.bb

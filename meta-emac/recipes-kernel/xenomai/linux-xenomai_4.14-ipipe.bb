@@ -3,15 +3,14 @@ require linux-xenomai.inc
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-KBRANCH = "stable/4.14.85-arm"
+KBRANCH = "stable/4.14.85-arm_lan743x"
+SRCREV = "de10c82e752f57d24e165e873d446cbdd528e218"
 
 SRC_URI = " \
-	git://gitlab.denx.de/Xenomai/ipipe-arm.git;branch=${KBRANCH};protocol=http \
-	file://0001-null-evtdev-check.patch \
-	file://0002-write-once-last-tsc.patch \
+    git://git@git.emacinc.com/linux-kernel/xenomai.git;branch=${KBRANCH};protocol=ssh \
+    file://0001-null-evtdev-check.patch \
+    file://0002-write-once-last-tsc.patch \
 "
-
-SRCREV = "35a84af5b7e3193e90ee129a91054657c02e8248"
 
 LINUX_VERSION = "4.14.85-ipipe"
 
