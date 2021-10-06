@@ -27,4 +27,3 @@ UBOOT_MACHINE ?= "somimx6dq_defconfig"
 
 IMAGE_FSTYPES ?= "tar.gz"
 
-DEFAULTTUNE = "armv7a-neon"

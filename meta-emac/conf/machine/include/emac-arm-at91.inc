@@ -16,6 +16,8 @@ XSERVER ?= " \
     xf86-input-tslib \
 "
 
+
+DEFAULTTUNE = "armv7athf-neon"
 MACHINE_FEATURES += "arm"
 
 SERIAL_CONSOLE ?= "115200 ttyS0"
