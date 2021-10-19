@@ -107,5 +107,3 @@ ${recipes_dir}/emac-oe/meta-emac-qt
 
 For more information, visit our wiki at http://wiki.emacinc.com/
 
-
-For testing the OP intergration
