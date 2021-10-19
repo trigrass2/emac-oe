@@ -9,6 +9,7 @@ build-image:
     - whoami;
     - cd /home/jmills/git/5.4_imx_qt5;
     - source start_afterclose.sh;
+    - env
     - cd /home/jmills/git/5.4_imx_qt5/build_5.4_jmills;
     - pwd;
     - sudo bitbake-layers show-recipes;
