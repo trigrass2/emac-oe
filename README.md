@@ -106,3 +106,5 @@ ${recipes_dir}/emac-oe/meta-emac-qt
 > Qt4 and Qt5 related recipes.
 
 For more information, visit our wiki at http://wiki.emacinc.com/
+
+
