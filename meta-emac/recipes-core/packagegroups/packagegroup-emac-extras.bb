@@ -17,38 +17,40 @@ PACKAGES = "\
     ${PN}-util-networking \
     ${PN}-util-debug \
     ${PN}-timezone \
-    "
+"
 
 RRECOMMENDS_${PN} = "\
     ${PN}-util-base \
     ${PN}-util-networking \
     ${PN}-util-debug \
     ${PN}-timezone \
-    "
+"
 
 SUMMARY_${PN}-util-base = "EMAC OE Extra Utilities"
-RRECOMMENDS_${PN}-util-base = "\
+RRECOMMENDS_${PN}-util-base = " \
     tftp-hpa \
     wget \
-    lighttpd \
-    ntpdate \
     libstdc++ \
     sqlite3 \
     inotify-tools \
-    "
+    lighttpd \
+    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd-analyze", "", d)} \
+"
+
 
 SUMMARY_${PN}-util-networking = "EMAC OE Extra Utilities"
-RRECOMMENDS_${PN}-util-networking = "\
+RRECOMMENDS_${PN}-util-networking = " \
     iptables \
     tcpdump \
+    ntpdate \
     bind-utils \
     nfs-utils-client \
     ethtool \
     iproute2 \
-    "
+"
 
 SUMMARY_${PN}-util-debug = "EMAC OE Extra Utilities"
-RRECOMMENDS_${PN}-util-debug = "\
+RRECOMMENDS_${PN}-util-debug = " \
     gdbserver \
     strace \
     memtester \
@@ -65,10 +67,11 @@ RRECOMMENDS_${PN}-util-debug = "\
     nano \
     md5deep \
     ldd \
-    "
+"
+
 
 SUMMARY_${PN}-timezone = "EMAC OE TimeZone Files"
-RRECOMMENDS_${PN}-timezone = "\
+RRECOMMENDS_${PN}-timezone = " \
     tzdata \
     tzdata-africa \
     tzdata-americas \
@@ -80,3 +83,8 @@ RRECOMMENDS_${PN}-timezone = "\
     tzdata-europe \
     tzdata-pacific \
 "
+
+
+# parted
+# i2c-tools
+# spidev-test

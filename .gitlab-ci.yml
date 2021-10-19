@@ -1,0 +1,8 @@
+build_Joseph_builder:
+  stage: build
+  tags: Joseph_builder
+  script:
+    - cd /home/jmills/git/5.4_imx_qt5 || exit;
+    - source start_afterclose.sh
+    - cd /home/jmills/git/5.4_imx_qt5/build_5.4_jmills
+    - bitbake emac-image

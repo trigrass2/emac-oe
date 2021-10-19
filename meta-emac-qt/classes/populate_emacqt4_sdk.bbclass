@@ -1,10 +1,17 @@
+require recipes-core/meta/meta-toolchain.bb
+inherit populate_sdk abi-arch siteinfo
+
 TOOLCHAIN_HOST_TASK = "nativesdk-packagegroup-${QTNAME}-toolchain-host packagegroup-cross-canadian-${MACHINE}"
 TOOLCHAIN_TARGET_TASK = "packagegroup-${QTNAME}-toolchain-target"
 TOOLCHAIN_OUTPUTNAME = "${SDK_NAME}-toolchain-${QTNAME}-${DISTRO_VERSION}"
 
-require recipes-core/meta/meta-toolchain.bb
-
 QT_TOOLS_PREFIX = "$OECORE_NATIVE_SYSROOT${bindir_nativesdk}"
+
+SDK_MKSPEC_DIR = "${SDKTARGETSYSROOT}/usr/share/${QT_DIR_NAME}/mkspecs"
+NATIVE_SDK_MKSPEC_DIR = "${SDK_OUTPUT}${SDKPATHNATIVE}/usr/share/${QT_DIR_NAME}/mkspecs"
+
+SDK_MKSPEC_COMMON_DIR = "${SDKTARGETSYSROOT}/usr/share/${QT_DIR_NAME}/mkspecs/common"
+NATIVE_SDK_MKSPEC_DIR = "${SDK_OUTPUT}${SDKPATHNATIVE}/usr/share/${QT_DIR_NAME}/mkspecs/common"
 
 create_sdk_files_append() {
     mkdir -p ${SDK_OUTPUT}${SDKPATHNATIVE}/environment-setup.d/
@@ -17,6 +24,10 @@ create_sdk_files_append() {
     echo 'export OE_QMAKE_CXX=$CXX' >> $script
     echo 'export OE_QMAKE_LINK=$CXX' >> $script
     echo 'export OE_QMAKE_AR=$AR' >> $script
+
+    echo 'export QMAKE_LIBDIR_QT=${libdir}' >> $script
+    echo 'export QMAKE_INCDIR_QT=${includedir}/${QT_DIR_NAME}' >> $script
+
     echo 'export OE_QMAKE_LIBDIR_QT=${libdir}' >> $script
     echo 'export OE_QMAKE_INCDIR_QT=${includedir}/${QT_DIR_NAME}' >> $script
     
@@ -35,5 +46,10 @@ create_sdk_files_append() {
 
     # make a symbolic link to mkspecs for compatibility with Qt SDK
     # and Qt Creator
-    (cd ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/..; ln -s ${SDKTARGETSYSROOT}/usr/share/${QT_DIR_NAME}/mkspecs mkspecs;)
+
+    (cd ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/..; ln -sf ${SDKTARGETSYSROOT}/usr/share/${QT_DIR_NAME}/mkspecs mkspecs;)
+
+
 }
+
+do_populate_sdk[depends] += "p7zip-native:do_populate_sysroot"

@@ -43,6 +43,7 @@ RRECOMMENDS_packagegroup-emac-core = "\
     "
 
 SUMMARY_packagegroup-emac-core-util = "EMAC OE Core Utilities"
+#    eudev-hwdb
 RRECOMMENDS_packagegroup-emac-core-util = "\
     bash \
     udev-extraconf \
@@ -50,11 +51,12 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     kernel-base \
     ifplugd \
     ntp \
-    opkg \
+    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "ipk", "opkg", "", d)} \
+    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "deb", "apt", "", d)} \
+    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "rpm", "yum", "", d)} \
     e2fsprogs \
     e2fsprogs-tune2fs \
     usbutils \
-    eudev-hwdb \
     sudo \
     rsync \
     libgpiod \
@@ -63,7 +65,7 @@ RRECOMMENDS_packagegroup-emac-core-util = "\
     openssh \
     tzcode \
     util-linux-mount \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
 RRECOMMENDS_packagegroup-emac-core-touch = "\
@@ -71,7 +73,7 @@ RRECOMMENDS_packagegroup-emac-core-touch = "\
     tslib-conf \
     tslib-tests \
     tslib \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-wifi = "EMAC OE Wifi Utilities"
 RRECOMMENDS_packagegroup-emac-core-wifi = "\
@@ -79,33 +81,34 @@ RRECOMMENDS_packagegroup-emac-core-wifi = "\
     wpa-supplicant \
     wireless-tools \
     bluez5 \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-sound = "EMAC OE ALSA Utilities"
 RRECOMMENDS_packagegroup-emac-core-sound = "\
-    alsa-utils-alsamixer \
-    alsa-utils-midi \
-    alsa-utils-aplay \
-    alsa-utils-amixer \
-    alsa-utils-speakertest \
-    alsa-utils-alsaloop \
-    alsa-utils-alsactl \
-    alsa-state \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-alsamixer", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-midi", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-aplay", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-amixer", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-speakertest", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-alsaloop", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-alsactl", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-state", "", d)} \
     mpg123 \
     libltdl \
+    ${@bb.utils.contains("DISTRO_FEATURES", "pulseaudio", "pulseaudio-server pulseaudio-misc", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "audio-demos", "", d)} \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-mtd = "EMAC OE MTD Utilities"
 RRECOMMENDS_packagegroup-emac-core-mtd = "\
     mtd-utils \
     mtd-utils-jffs2 \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-x86= "EMAC OE x86 Packages."
 RRECOMMENDS_packagegroup-emac-core-x86 = "\
     grub \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-arm= "EMAC OE arm Packages."
 RRECOMMENDS_packagegroup-emac-core-arm = "\
@@ -113,7 +116,7 @@ RRECOMMENDS_packagegroup-emac-core-arm = "\
     apm \
     libubootenv-bin \
     kernel-devicetree \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-screen= "EMAC OE Screen Packages."
 RRECOMMENDS_packagegroup-emac-core-screen = "\
@@ -123,20 +126,20 @@ RRECOMMENDS_packagegroup-emac-core-screen = "\
     gstreamer1.0-plugins-base \
     gstreamer1.0-plugins-good \
     ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "graphics-demos", "", d)} \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-can= "EMAC OE CAN Packages."
 RRECOMMENDS_packagegroup-emac-core-can = "\
     can-utils \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-pci= "EMAC OE PCI Packages."
 RRECOMMENDS_packagegroup-emac-core-pci = "\
     pciutils \
-    "
+"
 
 SUMMARY_packagegroup-emac-core-rt= "EMAC OE RT Packages."
 RRECOMMENDS_packagegroup-emac-core-rt = "\
     rt-tests \
     hwlatdetect \
-    "
+"

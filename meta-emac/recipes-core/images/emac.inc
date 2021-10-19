@@ -40,7 +40,9 @@ fix_rootfs() {
     if [ -e ${IMAGE_ROOTFS}${datadir}/applications/htop.desktop ];then
         rm -f ${IMAGE_ROOTFS}${datadir}/applications/htop.desktop
     fi
-    ln -s ../init.d/run-postinsts ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S99postinsts
+    if [ "${EMAC_INIT_MANGER}" -eq "systemv" ];then
+        ln -s ../init.d/run-postinsts ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S99postinsts
+    fi
 }
 
 ROOTFS_POSTPROCESS_COMMAND += " fix_rootfs; "

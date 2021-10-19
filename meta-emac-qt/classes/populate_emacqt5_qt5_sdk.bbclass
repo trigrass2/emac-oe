@@ -27,7 +27,7 @@ SDK_DEVICE_PRI = "${SDK_MKSPEC_DIR}/qdevice.pri"
 MACHINE_CMAKE = "${SDK_OUTPUT}${SDKPATHNATIVE}${datadir}/cmake/OEToolchainConfig.cmake.d/${MACHINE}.cmake"
 
 create_sdk_files_append () {
-    # Create the toolchain user's generic device mkspec
+    # Create the toolchain users generic device mkspec
     install -d ${SDK_MKSPEC_DIR}/${SDK_MKSPEC}
     cat > ${SDK_MKSPEC_DIR}/${SDK_MKSPEC}/qmake.conf <<EOF
 include(../common/linux_device_pre.conf)

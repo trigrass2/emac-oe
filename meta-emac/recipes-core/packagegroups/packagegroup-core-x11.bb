@@ -23,8 +23,7 @@ RDEPENDS_${PN} = "\
 
 SUMMARY_${PN}-utils = "X11 basic utilities and init"
 RDEPENDS_${PN}-utils = "\
-    ${VIRTUAL-RUNTIME_xserver_common} \
-    ${VIRTUAL-RUNTIME_graphical_init_manager} \
+    ${VIRTUAL-RUNTIME_xserver_common} \    ${VIRTUAL-RUNTIME_graphical_init_manager} \
     xauth \
     xhost \
     xset \

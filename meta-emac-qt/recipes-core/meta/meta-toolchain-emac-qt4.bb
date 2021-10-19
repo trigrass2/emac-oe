@@ -1,6 +1,9 @@
+#require recipes-qt4/meta/meta-toolchain-qt.inc
 # A image used to populate the toolchain
 QTNAME = "qte"
 QT_DIR_NAME = "qtopia"
+
+inherit populate_emacqt4_sdk
 
 TOOLCHAIN_TARGET_TASK_append = " packagegroup-emac-toolchain-target"
 
@@ -33,4 +36,3 @@ TOOLCHAIN_HOST_TASK_append = " \
     nativesdk-autoconf-archive \
 "
 
-require recipes-qt4/meta/meta-toolchain-qt.inc
