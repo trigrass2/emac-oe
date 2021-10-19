@@ -7,6 +7,8 @@ build-image:
     - Joseph_builder
   script:
     - whoami;
+    - su jmills
+    - whoami
     - cd /home/jmills/git/5.4_imx_qt5;
     - source start_afterclose.sh;
     - cd /home/jmills/git/5.4_imx_qt5/build_5.4_jmills;
