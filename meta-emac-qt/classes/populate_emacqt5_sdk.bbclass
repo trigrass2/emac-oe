@@ -18,7 +18,7 @@
 ##
 ###########################################################################
 inherit populate_sdk
-
+SDK_DEPLOY = "${TMPDIR}/deploy/sdk/${MACHINE}"
 quiet_sdk_extraction() {
 EXTRA_TAR_OPTIONS="$EXTRA_TAR_OPTIONS --checkpoint=9999999"
 }

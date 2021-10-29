@@ -1,5 +1,4 @@
 #!/bin/sh
-
 if [ ! -w / ]; then
     mount -o remount,rw /
     TS_REMOUNT=true
@@ -7,7 +6,8 @@ fi
 
 run-postinsts
 
-if [ -f "/etc/rcS.d/S99postinsts" ]; then
+if [ -f "/etc/rcS.d/S99postinsts" ];
+then
    rm /etc/rcS.d/S99postinsts
 fi
 

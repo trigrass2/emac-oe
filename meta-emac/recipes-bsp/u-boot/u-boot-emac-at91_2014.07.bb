@@ -38,9 +38,9 @@ UBOOT_MAKE_TARGET ?= "all"
 
 do_compile () {
 
-	unset LDFLAGS
-	unset CFLAGS
-	unset CPPFLAGS
+    unset LDFLAGS
+    unset CFLAGS
+    unset CPPFLAGS
 
     i=0
     for config in ${UBOOT_MACHINE}; do
@@ -74,3 +74,4 @@ do_deploy () {
 }
 
 addtask deploy before do_build after do_install
+

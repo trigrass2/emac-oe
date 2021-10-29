@@ -28,7 +28,7 @@ PACKAGES = " \
     ${@bb.utils.contains("MACHINE_FEATURES", "rt", "packagegroup-emac-core-rt", "", d)} \
     "
 
-RRECOMMENDS_packagegroup-emac-core = "\
+RRECOMMENDS_packagegroup-emac-core = " \
     packagegroup-emac-core-util \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", "packagegroup-emac-core-x86", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "arm", "packagegroup-emac-core-arm", "", d)} \
@@ -44,31 +44,31 @@ RRECOMMENDS_packagegroup-emac-core = "\
 
 SUMMARY_packagegroup-emac-core-util = "EMAC OE Core Utilities"
 #    eudev-hwdb
-RRECOMMENDS_packagegroup-emac-core-util = "\
+RRECOMMENDS_packagegroup-emac-core-util = " \
     bash \
-    udev-extraconf \
+    e2fsprogs \
+    e2fsprogs-tune2fs \
     kernel-modules \
     kernel-base \
     ifplugd \
     ntp \
-    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "ipk", "opkg", "", d)} \
-    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "deb", "apt", "", d)} \
-    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "rpm", "yum", "", d)} \
-    e2fsprogs \
-    e2fsprogs-tune2fs \
-    usbutils \
-    sudo \
-    rsync \
+    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "rpm", " dnf rpm ", "", d)} \
+    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "ipk", " opkg ", "", d)} \
+    ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "deb", " apt ", "", d)} \
     libgpiod \
     libgpiod-tools \
-    sysfsutils \
     openssh \
+    rsync \
+    sudo \
+    sysfsutils \
     tzcode \
+    usbutils \
+    udev-extraconf \
     util-linux-mount \
 "
 
 SUMMARY_packagegroup-emac-core-touch = "EMAC OE Touch Utilities"
-RRECOMMENDS_packagegroup-emac-core-touch = "\
+RRECOMMENDS_packagegroup-emac-core-touch = " \
     tslib-calibrate \
     tslib-conf \
     tslib-tests \
@@ -76,7 +76,7 @@ RRECOMMENDS_packagegroup-emac-core-touch = "\
 "
 
 SUMMARY_packagegroup-emac-core-wifi = "EMAC OE Wifi Utilities"
-RRECOMMENDS_packagegroup-emac-core-wifi = "\
+RRECOMMENDS_packagegroup-emac-core-wifi = " \
     iw \
     wpa-supplicant \
     wireless-tools \
@@ -85,18 +85,18 @@ RRECOMMENDS_packagegroup-emac-core-wifi = "\
 
 SUMMARY_packagegroup-emac-core-sound = "EMAC OE ALSA Utilities"
 RRECOMMENDS_packagegroup-emac-core-sound = "\
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-alsamixer", "", d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-midi", "", d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-aplay", "", d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-amixer", "", d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-speakertest", "", d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-alsaloop", "", d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-utils-alsactl", "", d)} \
-    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", "alsa-state", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-utils-alsamixer ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-utils-midi ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-utils-aplay ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-utils-amixer ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-utils-speakertest ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-utils-alsaloop ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-utils-alsactl ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "alsa", " alsa-state ", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "pulseaudio", " pulseaudio-server pulseaudio-misc ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", " audio-demos ", "", d)} \
     mpg123 \
     libltdl \
-    ${@bb.utils.contains("DISTRO_FEATURES", "pulseaudio", "pulseaudio-server pulseaudio-misc", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "audio-demos", "", d)} \
 "
 
 SUMMARY_packagegroup-emac-core-mtd = "EMAC OE MTD Utilities"
