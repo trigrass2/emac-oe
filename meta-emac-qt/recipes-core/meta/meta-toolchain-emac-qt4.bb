@@ -1,13 +1,25 @@
-#require recipes-qt4/meta/meta-toolchain-qt.inc
-# A image used to populate the toolchain
-QTNAME = "qte"
-QT_DIR_NAME = "qtopia"
+SUMMARY = "Meta package for building a qt4 installable toolchain"
+LICENSE = "MIT"
+PR = "r8"
 
 inherit populate_emacqt4_sdk
 
-TOOLCHAIN_TARGET_TASK_append = " packagegroup-emac-toolchain-target"
+TOOLCHAIN_TARGET_TASK_append = " \
+    linux-libc-headers-dev \
+    libusb1-dev \
+    confuse-dev \
+    libgpiod-dev \
+    libmodbus-dev \
+    boost-dev \
+"
 
+MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""
 TOOLCHAIN_HOST_TASK_append = " \
+    nativesdk-qt4-tools \
+    nativesdk-cmake \
+    nativesdk-perl-modules \
+    nativesdk-make \
+    nativesdk-autoconf-archive \
     nativesdk-python-core \
     nativesdk-python-textutils \
     nativesdk-python-sqlite3 \
@@ -33,6 +45,8 @@ TOOLCHAIN_HOST_TASK_append = " \
     nativesdk-python-difflib \
     nativesdk-python-pprint \
     nativesdk-python-pkgutil \
-    nativesdk-autoconf-archive \
+    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "nativesdk-wayland-dev", "", d)} \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-qtwayland-tools', '', d)} \
+    ${MACHINE_EXTRA_INSTALL_SDK_HOST} \
 "
 

@@ -17,7 +17,7 @@ if [ "$PS1" ]; then
 fi
 
 if [ -d /etc/profile.d ]; then
-  for i in /etc/profile.d/* ; do
+  for i in /etc/profile.d/*.sh ; do
     . $i
   done
   unset i
@@ -35,7 +35,10 @@ fi
 
 if [ ${TERMINAL:5:4} == ttyS ] || [ ${TERMINAL:5:4} == ttyO ] || [ ${TERMINAL:5:6} == ttymxc ]
 then
-        resize > /dev/null
+    if [ -x /usr/bin/resize ];
+    then
+        resize > /dev/null;
+    fi
 fi
 
 alias minicom='minicom -con'

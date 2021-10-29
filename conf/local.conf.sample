@@ -1,0 +1,164 @@
+# Where to place downloads
+DL_DIR ?= "${TOPDIR}/downloads"
+
+# Where to place shared-state files
+SSTATE_DIR = "${TOPDIR}/sstate-cache"
+
+# Where to place the build output
+TMPDIR ?= "${TOPDIR}/tmp"
+
+DISTRO = "emac"
+# Add this if you are building for nvidia
+#DISTRO = "emactegra"
+
+PACKAGE_CLASSES ?= "package_ipk package_deb package_rpm"
+IMAGE_FEATURES = "package-management"
+FEEDURIPREFIX = "ftp://ftp.emacinc.com"
+
+
+
+SDKMACHINE ?= "x86_64"
+
+USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+
+OE_TERMINAL = "auto"
+
+PATCHRESOLVE = "noop"
+
+BB_DISKMON_DIRS = "\
+    STOPTASKS,${TMPDIR},1G,100K \
+    STOPTASKS,${DL_DIR},1G,100K \
+    STOPTASKS,${SSTATE_DIR},1G,100K \
+    ABORT,${TMPDIR},100M,1K \
+    ABORT,${DL_DIR},100M,1K \
+    ABORT,${SSTATE_DIR},100M,1K"
+
+
+# FIXME
+#SSTATE_MIRRORS ?= "\
+#file://.* http://someserver.tld/share/sstate/ \n \
+#file://.* file:///some/local/dir/sstate/"
+
+CONF_VERSION = "1"
+
+# Enable build info & testing
+INHERIT += "buildhistory"
+INHERIT += "image-buildinfo"
+INHERIT += "testimage"
+
+BUILDHISTORY_COMMIT = "1"
+
+#Copy license text to image
+LICENSE_FLAGS_WHITELIST += " commercial_mpg123 commercial_libav commercial_x264"
+
+BB_NUMBER_THREADS ?= "4"
+PARALLEL_MAKE ?= "-j 8"
+
+BBMULTICONFIG = " \
+    qemu-x86-64 \
+    qemu-armv7 \
+"
+
+######################
+## EMAC arm boards
+#######################
+
+## EMAC's SoM-imx6 q/p & ul
+## som-imx6(350GS) dual/quad
+## with hardware acceleration & without
+# MACHINE ?= "somimx6q-ha"
+# MACHINE ?= "somimx6q"
+# MACHINE ?= "somimx6q-rt"
+# MACHINE ?= "somimx6ul"
+
+## EMAC's SoM-3517
+# MACHINE ?= "som3517"
+
+## EMAC's Som-A5d36
+# MACHINE ?= "soma5d36"
+## EMAC's Som-A5d35
+# MACHINE ?= "soma5d35"
+
+## EMAC's Som-9x25
+# MACHINE ?= "som9x25"
+## EMAC's Som-9g45
+# MACHINE ?= "som9g45"
+## EMAC's Som-9g25
+# MACHINE ?= "som9g25"
+## EMAC's Som-9g20
+# MACHINE ?= "som9g20"
+
+## EMAC's Som-3517
+# MACHINE ?= "som3517"
+
+## EMAC's Som-3354
+# MACHINE ?= "som3354"
+
+## EMAC's iPac-9x25
+# MACHINE ?= "ipac9x25"
+
+######################
+## EMAC x86 boards
+#######################
+## EMAC's vortex-sbc
+# MACHINE ?= "vortex-sbc"
+
+######################
+## EMAC SETTINGS
+#######################
+
+## vaild choices. Unless "none"
+## none(as single choice only)
+## opengl
+## vulkan
+EMAC_DISPLAY_HW="none"
+
+## vaild choices. Unless "none"
+## none(as single choice only)
+## linuxfb
+## wayland
+## x11
+EMAC_DISPLAY="none"
+
+## vaild single choice
+## coreutils
+## busybox
+EMAC_SHELLMANAGER="busybox"
+
+## vaild single choice
+## sysvinit
+## systemd
+EMAC_INITMANAGER="sysvinit"
+
+## vaild single choice
+## connman
+## networkmanager
+## legacy
+EMAC_NETWORKMANGER="legacy"
+
+## vaild choices
+## alsa
+## pulseaudio
+EMAC_AUDIOMANAGER="alsa"
+
+## vaild single choice
+## deb
+## rpm
+## ipk
+EMAC_PACKAGEMANAGER="ipk"
+
+
+##################################
+## INTERNAL DO NOT CHANGE
+EMAC_IMAGE=""
+EMAC_SOC=""
+
+EMAC_CUSTOMER_NUMBER = ""
+EMAC_CUSTOMER_UUID = "01"
+EMAC_CUSTOMER_ARCH = '${@bb.utils.contains("TUNE_FEATURES", "arm", "a", "x", d)}'
+EMAC_CUSTOMER_MAJ = "0"
+EMAC_CUSTOMER_MIN = "0"
+EMAC_CUSTOMER_REV = "000"
+EMAC_CUSTOMER_VERSION = ""
+EMAC_CUSTUMER_FULL= "${CUSTOMER_NUMBER}-${CUSTOMER_UUID}s00${CUSTOMER_ARCH}00.${CUSTOMER_REV}"
+########################################

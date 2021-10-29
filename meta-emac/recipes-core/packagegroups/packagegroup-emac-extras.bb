@@ -33,8 +33,7 @@ RRECOMMENDS_${PN}-util-base = " \
     libstdc++ \
     sqlite3 \
     inotify-tools \
-    lighttpd \
-    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd-analyze", "", d)} \
+    ${@bb.utils.contains("EMAC_INITMANAGER", "systemd", " systemd-analyze ", "", d)} \
 "
 
 
@@ -67,6 +66,7 @@ RRECOMMENDS_${PN}-util-debug = " \
     nano \
     md5deep \
     ldd \
+    i2c-tools \
 "
 
 
