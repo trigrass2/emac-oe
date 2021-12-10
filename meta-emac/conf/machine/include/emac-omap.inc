@@ -20,11 +20,7 @@ XSERVER = "\
 "
 
 MACHINE_FEATURES += "arm"
-
 SERIAL_CONSOLE ?= "115200 ttyO0"
-
 KERNEL_IMAGETYPE ?= "zImage"
-
 UBOOT_MACHINE ?= "am3517_evm_config"
-
 IMAGE_FSTYPES ?= "tar.gz"

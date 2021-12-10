@@ -65,7 +65,7 @@ All recipes that get overwrote in the meta-atmel layer
 
 ****meta-emac-qt****
 
-All recipes for qt4 and qt5 layers
+All recipes for qt4 or qt5 layers
 
 ****meta-emac-tegra****
 

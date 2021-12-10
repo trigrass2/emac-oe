@@ -10,6 +10,8 @@ inherit image
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_BUILDINFO_VARS = "DATE DISTRO_NAME DISTRO_VERSION IMAGE_BASENAME MACHINE TUNE_PKGARCH PART_NUMBER EXTRA_PKGS"
 
+IMAGE_FSTYPES ?= " ext4 tar.gz"
+IMAGE_FSTYPES_remove = "tar.xz wic.xz"
 fix_rootfs() {
 
     sed -i -e "s|^root:.*$|root:4fkNNeH5j4zNk::0:99999:7:::|" ${IMAGE_ROOTFS}${sysconfdir}/shadow

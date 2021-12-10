@@ -1,9 +1,9 @@
 SUMMARY = "Standard full-featured Emac Linux system"
 DESCRIPTION = "Package group bringing in packages needed for no busybox"
 PR = "r6"
-
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
-
+PROVIDES = "${PACKAGES}"
 PACKAGES = "\
     packagegroup-no-busybox \
     packagegroup-no-busybox-libs \
@@ -16,7 +16,7 @@ PACKAGES = "\
 "
 
 
-RDEPENDS_packagegroup-no-busybox = "\
+RRECOMMENDS_packagegroup-no-busybox = "\
     packagegroup-no-busybox-libs \
     packagegroup-no-busybox-utils \
     packagegroup-no-busybox-networking \
@@ -27,13 +27,13 @@ RDEPENDS_packagegroup-no-busybox = "\
 "
 
 # gcc-sanitizers
-RDEPENDS_packagegroup-no-busybox-libs = "\
+RRECOMMENDS_packagegroup-no-busybox-libs = "\
     binutils \
     binutils-symlinks \
     glib-2.0 \
 "
 
-RDEPENDS_packagegroup-no-busybox-utils = "\
+RRECOMMENDS_packagegroup-no-busybox-utils = "\
     acl \
     attr \
     bash \
@@ -78,7 +78,7 @@ RDEPENDS_packagegroup-no-busybox-utils = "\
     xz \
 "
 
-RDEPENDS_packagegroup-no-busybox-networking = "\
+RRECOMMENDS_packagegroup-no-busybox-networking = "\
     iproute2 \
     iputils \
     iptables \
@@ -87,7 +87,7 @@ RDEPENDS_packagegroup-no-busybox-networking = "\
     ethtool \
     ca-certificates \
 "
-RDEPENDS_packagegroup-no-busybox-dev-utils = "\
+RRECOMMENDS_packagegroup-no-busybox-dev-utils = "\
     ${@bb.utils.contains("EMAC_AUDIOMANAGER", "alsa", " alsa-utils-amixer ", "", d)} \
     diffutils \
     m4 \
@@ -96,21 +96,21 @@ RDEPENDS_packagegroup-no-busybox-dev-utils = "\
 "
 
 VIRTUAL-RUNTIME_syslog ?= "sysklogd"
-RDEPENDS_packagegroup-no-busybox-initscripts = "\
+RRECOMMENDS_packagegroup-no-busybox-initscripts = "\
     ${VIRTUAL-RUNTIME_initscripts} \
     ${VIRTUAL-RUNTIME_init_manager} \
     ${VIRTUAL-RUNTIME_login_manager} \
     ${VIRTUAL-RUNTIME_syslog} \
     "
 
-RDEPENDS_packagegroup-no-busybox-multiuser = "\
+RRECOMMENDS_packagegroup-no-busybox-multiuser = "\
     adduser \
     cracklib \
     shadow \
     sudo \
 "
 
-RDEPENDS_packagegroup-no-busybox-sys-services = "\
+RRECOMMENDS_packagegroup-no-busybox-sys-services = "\
     at \
     cronie \
     logrotate \

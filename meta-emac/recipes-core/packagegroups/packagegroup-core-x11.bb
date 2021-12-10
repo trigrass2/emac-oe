@@ -22,8 +22,9 @@ RDEPENDS_${PN} = "\
     "
 
 SUMMARY_${PN}-utils = "X11 basic utilities and init"
-RDEPENDS_${PN}-utils = "\
-    ${VIRTUAL-RUNTIME_xserver_common} \    ${VIRTUAL-RUNTIME_graphical_init_manager} \
+RDEPENDS_${PN}-utils = " \
+    ${VIRTUAL-RUNTIME_xserver_common} \
+    ${VIRTUAL-RUNTIME_graphical_init_manager} \
     xauth \
     xhost \
     xset \
@@ -31,4 +32,4 @@ RDEPENDS_${PN}-utils = "\
     xmodmap \
     xdpyinfo \
     dbus-x11 \
-    "
+"

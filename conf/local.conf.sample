@@ -13,9 +13,6 @@ DISTRO = "emac"
 
 PACKAGE_CLASSES ?= "package_ipk package_deb package_rpm"
 IMAGE_FEATURES = "package-management"
-FEEDURIPREFIX = "ftp://ftp.emacinc.com"
-
-
 
 SDKMACHINE ?= "x86_64"
 
