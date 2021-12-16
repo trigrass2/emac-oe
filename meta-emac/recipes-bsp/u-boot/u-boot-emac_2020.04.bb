@@ -116,3 +116,20 @@ do_deploy () {
 }
 
 addtask deploy before do_build after do_install
+
+do_install_ti33x () {
+    install -d ${D}/boot
+
+    
+    name=${UBOOT_MACHINE}
+    install ${B}/${name}/u-boot.bin ${D}/boot/u-boot-${name%_config}-${PV}-${PR}.${UBOOT_SUFFIX}
+
+    install ${B}/${name}/spl/u-boot-spl.bin ${D}/boot/SPL
+    install ${B}/${name}/MLO.byteswap ${D}/boot/
+
+    if [ "x${UBOOT_ENV}" != "x" ]
+    then
+        install ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}
+        ln -sf ${UBOOT_ENV_IMAGE} ${D}/boot/${UBOOT_ENV_BINARY}
+    fi
+}
