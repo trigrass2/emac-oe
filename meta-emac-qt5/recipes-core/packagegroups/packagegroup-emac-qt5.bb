@@ -3,7 +3,6 @@ PR = "r2"
 LICENSE = "MIT"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-
 inherit packagegroup
 
 PROVIDES = "${PACKAGES}"

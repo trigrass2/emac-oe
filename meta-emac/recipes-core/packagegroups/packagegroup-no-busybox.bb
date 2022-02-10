@@ -87,6 +87,7 @@ RRECOMMENDS_packagegroup-no-busybox-networking = "\
     ethtool \
     ca-certificates \
 "
+
 RRECOMMENDS_packagegroup-no-busybox-dev-utils = "\
     ${@bb.utils.contains("EMAC_AUDIOMANAGER", "alsa", " alsa-utils-amixer ", "", d)} \
     diffutils \
@@ -104,7 +105,6 @@ RRECOMMENDS_packagegroup-no-busybox-initscripts = "\
     "
 
 RRECOMMENDS_packagegroup-no-busybox-multiuser = "\
-    adduser \
     cracklib \
     shadow \
     sudo \

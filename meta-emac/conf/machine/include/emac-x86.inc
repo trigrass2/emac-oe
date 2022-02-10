@@ -17,11 +17,11 @@ MACHINE_FEATURES = " \
 GLIBC_ADDONS = "nptl"
 
 ## KERNEL
-#PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
-#REFERRED_VERSION_linux-emac ?= "5.10%"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
+REFERRED_VERSION_linux-emac ?= "5.10%"
 
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
-PREFERRED_VERSION_linux-emac ?= "5.15%"
+#PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+#PREFERRED_VERSION_linux-emac ?= "5.15%"
 
 KERNEL_IMAGETYPE ?= "bzImage"
 EMAC_LINUX_VERSION_EXTENSION = "_${EMAC_LINUX_VERSION}${MACHINE_NUMBER}X${KERNEL_REV}.bzimg"
@@ -32,7 +32,7 @@ MACHINE_EXTRA_RRECOMMENDS += " \
 "
 
 ## BOOTLOADER 
-PREFERRED_PROVIDER_virtual/bootloader ?= "grub2"
+PREFERRED_PROVIDER_virtual/bootloader ?= "grub-efi"
 MACHINE_EXTRA_RDEPENDS += " \
     grub-efi \
     efibootmgr \

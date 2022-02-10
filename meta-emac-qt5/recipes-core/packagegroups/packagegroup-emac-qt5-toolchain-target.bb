@@ -2,6 +2,7 @@ DESCRIPTION = "Emac Target Qt5 SDK"
 LICENSE = "CLOSED"
 PR = "r0"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 
 PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
@@ -47,8 +48,12 @@ RDEPENDS_${PN} += " \
     qttools-staticdev \
     qtvirtualkeyboard-dev \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland-dev', '', d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'webengine', 'qtwebengine-dev qtwebview-dev', '', d)} \
     qtwebsockets-dev \
     qtwebchannel-dev \
     qtxmlpatterns-dev \
+"
+
+#     qtwebview-dev
+RDEPENDS_${PN}_atom-sbc += " \
+    qtwebengine-dev \
 "
