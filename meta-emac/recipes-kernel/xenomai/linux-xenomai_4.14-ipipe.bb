@@ -4,9 +4,9 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 KBRANCH = "stable/4.14.85-arm_lan743x_ksz9477"
-SRCREV = "406f8d0fe14bba9028426422dbb1f595a6ecba56"
+SRCREV = "07b0175ee6efdb568d88aea9bf14241f8a61a9ef"
 
-SRC_URI = " \
+SRC_URI += " \
     git://git@git.emacinc.com/linux-kernel/xenomai.git;branch=${KBRANCH};protocol=ssh \
     file://0001-null-evtdev-check.patch \
     file://0002-write-once-last-tsc.patch \
