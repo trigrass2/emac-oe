@@ -1,5 +1,5 @@
 DESCRIPTION = "Emac Qt5 Development SDK"
-LICENSE = "CLOSED"
+LICENSE = "MIT"
 
 inherit populate_emacqt5_qt5_sdk
 

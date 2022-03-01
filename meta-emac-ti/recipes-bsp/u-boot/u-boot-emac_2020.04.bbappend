@@ -1,37 +1,29 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}/${MACHINE}:"
 PROVIDES = "virtual/bootloader"
 UBRANCH = "emac-2020.04_som5728"
-SRCREV = "7b1e21e8cd0fabbd609e3633c0e99c111cd030da"
+SRCREV = "7d50d1fe2a091dc334dbf02fcb1ef3abc2f3c235"
 SRC_URI = "git://git.emacinc.com/bootloader/u-boot-emac.git;branch=${UBRANCH};protocol=http"
-# 
-# 
-# do_compile(){
-#     unset LDFLAGS
-#     unset CFLAGS
-#     unset CPPFLAGS
-#     echo ${UBOOT_LOCALVERSION} | sed "s|X|${i}|g" > ${S}/.scmversion
-#     oe_runmake som5728_defconfig 
-#     oe_runmake
-# }
 
+do_configure (){
+    cp ${S}/configs/som5728_defconfig ${B}/.config
+    cp ${S}/configs/som5728_defconfig ${B}/defconfig
+    
+    ## FIXME copy over the u-boot.env file so that it works lol
+}
+do_compile () {
+    unset LDFLAGS
+    unset CFLAGS
+    unset CPPFLAGS
+    echo ${UBOOT_LOCALVERSION} | sed "s|X|${i}|g" > ${S}/.scmversion
+    oe_runmake som5728_defconfig
+    oe_runmake all
+}
 do_install () {
     install -d ${D}/boot
-
-    for config in ${UBOOT_MACHINE}; do
-        name=${config}
-        install ${B}/${config}/${UBOOT_BINARY} ${D}/boot/u-boot-${name%_config}-${PV}-${PR}.${UBOOT_SUFFIX}
-    done
-
-    if [ "x${SPL_BINARY}" != "x" ]
-    then
-        for config in ${UBOOT_MACHINE}; do
-            for spl in ${SPL_BINARY}; do
-                name=`echo ${spl} | cut -d '/' -f 2`
-                install ${B}/${config}/spl/u-boot-spl ${D}/boot/${name}
-            done
-        done
-    fi
-
+    install ${B}/MLO ${D}/boot/MLO
+    install ${B}/u-boot.bin ${D}/boot/u-boot.bin
+    install ${B}/u-boot.img ${D}/boot/u-boot.img
+    install ${B}/spl/u-boot-spl ${D}/boot/SPL
     if [ "x${UBOOT_ENV}" != "x" ]
     then
         install ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_IMAGE}

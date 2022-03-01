@@ -2,6 +2,7 @@ DESCRIPTION = "EMACS Host packages for a embedded Qt5 image"
 LICENSE = "CLOSED"
 PR = "r0"
 
+# PACKAGE_ARCH = "${SDK_ARCH}"
 inherit nativesdk packagegroup
 
 MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""

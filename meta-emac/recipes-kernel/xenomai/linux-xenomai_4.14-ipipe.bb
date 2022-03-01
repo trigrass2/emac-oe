@@ -3,13 +3,8 @@ require linux-xenomai.inc
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-#KBRANCH = "stable/4.14.85-arm_lan743x"
-# KBRANCH = "stable/4.14.85-arm_lan743x_ksz9477"
-KBRANCH = "stable/4.14.85-arm_lan743x_ksz9477_5.3_port"
-
-# SRCREV = "aa5b91651bdbf8770ebba74632f2df7df0781efa"
-
-SRCREV = "93457a6ebfa4b65e095a221bc47899913394d38f"
+KBRANCH = "stable/4.14.85-arm_lan743x_ksz9477"
+SRCREV = "406f8d0fe14bba9028426422dbb1f595a6ecba56"
 
 SRC_URI = " \
     git://git@git.emacinc.com/linux-kernel/xenomai.git;branch=${KBRANCH};protocol=ssh \
