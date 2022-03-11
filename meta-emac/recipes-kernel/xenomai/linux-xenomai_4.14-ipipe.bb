@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
 KBRANCH = "stable/4.14.85-arm_lan743x_ksz9477"
-SRCREV = "07b0175ee6efdb568d88aea9bf14241f8a61a9ef"
+SRCREV = "1a22da01b132df823febe94626f0643b30c2f1e3"
 
 SRC_URI += " \
     git://git@git.emacinc.com/linux-kernel/xenomai.git;branch=${KBRANCH};protocol=ssh \
