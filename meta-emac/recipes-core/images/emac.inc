@@ -13,9 +13,6 @@ IMAGE_BUILDINFO_VARS = "DATE DISTRO_NAME DISTRO_VERSION IMAGE_BASENAME MACHINE T
 IMAGE_FSTYPES ?= " ext4 tar.gz"
 IMAGE_FSTYPES_remove = "tar.xz wic.xz"
 
-inherit extrausers
-EXTRA_USERS_PARAMS = "usermod -p 'fb7SZfwDJvKFo' root;"
-
 fix_rootfs() {
     echo "${DISTRO_NAME} ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue
     echo "${DISTRO_NAME} - ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue.net
