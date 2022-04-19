@@ -1,3 +1,4 @@
 [submodule "repo-tool"]
 	path = repo-tool
 	url = git@git.emacinc.com:OE/repo-tool.git
+	branch = a1bc39e7d44b08c376c8d3e65d523308c8891bc2
