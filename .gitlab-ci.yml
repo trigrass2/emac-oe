@@ -1,9 +1,35 @@
-stages:
-  - build
+variables:
+  MACHINE: "none"
+  REPO_TOOL_GROUPS: 'default'
+  LAYERS_SAMPLE: '${CI_PROJECT_DIR}/conf/machine/${MACHINE}/${MACHINE}.bblayers.conf.sample'
+  EMAC_CLIENT_NAME: 'emac'
+  EMAC_IMAGE: 'emac-image'
 
-build-image:
-  stage: build
+no-stages-build:
+  stage: all
   tags:
-    - Joseph_builder
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
   script:
-    - whoami;
+    - pwd
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
+    - pushd repo-tool
+    - ./init-build.sh -c
+    - ./init-build.sh -g "$REPO_TOOL_GROUPS"
+    - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
+    - echo "export MACHINE=$MACHINE" >> emac.env
+    - echo "export EMAC_CLIENT_NAME=$EMAC_CLIENT_NAME" >> emac.env
+    - echo "export EMAC_IMAGE=$EMAC_IMAGE" >> emac.env
+    - cat emac.env
+    - source setup_env.sh
+    - sed -i "s|PROJECTBUILDDIR|${BUILDDIR}|g"  ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
+    - export
+    - bitbake emac-image
+    - echo "Testing image somehow"
+    - echo "Deploying Packages and Images"
+
+stages:
+  - all
