@@ -15,6 +15,7 @@ PROVIDES = " \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
+    ${PN}-users \
     ${PN}-wifi  \
     ${PN}-screen \
     ${PN}-x86 \
@@ -31,6 +32,7 @@ PACKAGES = " \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
+    ${PN}-users \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", " packagegroup-emac-core-x86 ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "arm", " packagegroup-emac-core-arm ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", " packagegroup-emac-core-touch ", "", d)} \
@@ -58,6 +60,7 @@ RRECOMMENDS_${PN} = " \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
+    ${PN}-users \
 "
 
 SUMMARY_${PN}-util = "EMAC OE Core Utilities"
@@ -85,6 +88,10 @@ RRECOMMENDS_${PN}-packagemanagement = " \
     ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "deb", " apt dpkg ", "", d)} \
 "
 
+SUMMARY_${PN}-users = "EMAC OE Users"
+RRECOMMENDS_${PN}-users = " \
+    emac-users \
+"
 
 SUMMARY_${PN}-touch = "EMAC OE Touch Utilities"
 RRECOMMENDS_${PN}-touch = " \

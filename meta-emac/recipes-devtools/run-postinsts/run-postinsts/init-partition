@@ -1,23 +1,27 @@
 #!/bin/sh
 
 echo "Running init-partition"
-if [ ! -d /home/root ]; then
-    echo "Creating /home/root "
-    mkdir -p /home/root
+if [ ! -d /root ]; then
+    echo "Creating /root"
+    mkdir -p /root
+fi
+if [ ! -d /home/emac ]; then
+    echo "Creating /home/emac "
+    mkdir -p /home/emac
 
     if [ -x /usr/sbin/fbset ]; then
         fbresH=$(fbset | grep geometry | cut -d " " -f6)
         fbresV=$(fbset | grep geometry | cut -d " " -f7)
         if [ -x /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz ]; then
             echo "Extracting graphics demos"
-            mkdir -p /home/root/Demos/graphics
-            tar zxf /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz -C /home/root/Demos/graphics
+            mkdir -p /home/emac/Demos/graphics
+            tar zxf /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz -C /home/emac/Demos/graphics
         fi
     fi
     if [ -x /etc/emac/demos/audio_demos.tar.gz ]; then
         echo "Extracting audio demos"
-        mkdir -p /home/root/Demos/audio
-        tar zxf /etc/emac/demos/audio_demos.tar.gz -C /home/root/Demos/audio
+        mkdir -p /home/emac/Demos/audio
+        tar zxf /etc/emac/demos/audio_demos.tar.gz -C /home/emac/Demos/audio
     fi
 fi
 
