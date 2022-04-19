@@ -1,0 +1,5 @@
+## Included from machine/somimx6q-ha/somimx6q-ha.bblayers.conf.sample
+## FIXME this is wrong it needs meat-freescale and others 
+BBLAYERS ?= " \
+  ${CORE_RECIPES} \
+"
