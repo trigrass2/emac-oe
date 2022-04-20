@@ -28,7 +28,6 @@ init-env:
     - echo "export MACHINE=$MACHINE" >> emac.env
     - echo "export EMAC_CLIENT_NAME=$EMAC_CLIENT_NAME" >> emac.env
     - echo "export EMAC_IMAGE=$EMAC_IMAGE" >> emac.env
-    - cat emac.env
     - source setup_env.sh
 
 clean-init:
