@@ -11,6 +11,5 @@
 #|              |                         |               |
 # 1G                    whats left 
 #
-part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4096 --size 1G
-part /home --source rootfs --ondisk mmcblk --fstype=ext4 --label client 
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4096
 part swap --ondisk mmcblk --size 44 --label swap1 --fstype=swap 
