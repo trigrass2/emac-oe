@@ -128,9 +128,9 @@ EMAC_PACKAGEMANAGER ?= "rpm"
 EMAC_CLIENT_NAME ?= "emac"
 EMAC_IMAGE ?= "emac-image"
 
-DEPLOY_DIR        = "/srv/emac-oe/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}"
-DEPLOY_DIR_IMAGE  = "${DEPLOY_DIR}/${MACHINE}/image"
-LICENSE_DIRECTORY = "${DEPLOY_DIR}/${MACHINE}/license"
+DEPLOY_DIR        = "/srv/emac-oe/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}/${MACHINE}"
+DEPLOY_DIR_IMAGE  = "${DEPLOY_DIR}/image"
+LICENSE_DIRECTORY = "${DEPLOY_DIR}/license"
 
 DEPLOY_DIR_DEB    = "${DEPLOY_DIR}/deb"
 DEPLOY_DIR_IPK    = "${DEPLOY_DIR}/ipk"
