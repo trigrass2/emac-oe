@@ -3,6 +3,7 @@ DL_DIR ?= "/srv/emac-oe/downloads"
 
 # Where to place shared-state files
 SSTATE_DIR = "/srv/emac-oe/sstate-cache"
+STAMPS_DIR = "/srv/emac-oe/stamps"
 
 # Where to place the build output
 #TMPDIR ?= "${BUILDDIR}/tmp"

@@ -5,32 +5,107 @@ variables:
   EMAC_CLIENT_NAME: 'emac'
   EMAC_IMAGE: 'emac-image'
 
-no-stages-build:
-  stage: all
+stages:
+  - setup
+  - build
+  - test
+  - deploy
+
+init-env:
+  stage: setup
   tags:
     - oe-builder
     - bitbake
   rules:
     - if: '$MACHINE != "none"'
   script:
-    - pwd
     - git submodule sync --recursive
     - git submodule update --init --recursive
-    - pushd repo-tool
-    - ./init-build.sh -c
+    - cd repo-tool
     - ./init-build.sh -g "$REPO_TOOL_GROUPS"
     - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
+    - sed -i "s|PROJECTBUILDDIR|${CI_PROJECT_DIR}/repo-tool/build|g"  ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
     - echo "export MACHINE=$MACHINE" >> emac.env
     - echo "export EMAC_CLIENT_NAME=$EMAC_CLIENT_NAME" >> emac.env
     - echo "export EMAC_IMAGE=$EMAC_IMAGE" >> emac.env
-    - cat emac.env
     - source setup_env.sh
-    - sed -i "s|PROJECTBUILDDIR|${BUILDDIR}|g"  ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
-    - export
+    - cat emac.env
+
+clean-init:
+  stage: setup
+  tags:
+    - oe-builder
+    - bitbake
+  when: manual
+  allow_failure: true
+  script:
+    - pushd repo-tool
+    - ./init-build.sh -c
+
+
+build-standard 1/3:
+  stage: build
+  tags:
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
+  script:
+    - cd repo-tool
+    - start_afterclose.sh
     - bitbake emac-image
+build-standard 2/3:
+  stage: build
+  tags:
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
+  script:
+    - cd repo-tool
+    - start_afterclose.sh
     - bitbake emac-image -c do_populate_sdk
+
+build-standard 3/3:
+  stage: build
+  tags:
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
+  script:
+    - cd repo-tool
+    - start_afterclose.sh
+    - bitbake mc:qemu-armv7:emac-image
+
+test-image:
+  stage: test
+  tags:
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
+  script:
     - echo "Testing image somehow"
+
+deploy-image:
+  stage: deploy
+  tags:
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
+  script:
     - echo "Deploying Packages and Images"
 
-stages:
-  - all
+clean-image:
+  stage: setup
+  tags:
+    - oe-builder
+    - bitbake
+  when: manual
+  allow_failure: true
+  script:
+    - cd repo-tool
+    - start_afterclose.sh
+    - bitbake emac-image -c clean
