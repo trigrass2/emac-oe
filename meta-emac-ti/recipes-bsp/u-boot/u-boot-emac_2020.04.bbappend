@@ -1,15 +1,16 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}/${MACHINE}:"
 PROVIDES = "virtual/bootloader"
 UBRANCH = "emac-2020.04_som5728"
-SRCREV = "7d50d1fe2a091dc334dbf02fcb1ef3abc2f3c235"
+SRCREV = "15e93e72b06b35877a31347c6da5f9d91e0ed0ea"
 SRC_URI = "git://git.emacinc.com/bootloader/u-boot-emac.git;branch=${UBRANCH};protocol=http"
 
 do_configure (){
     cp ${S}/configs/som5728_defconfig ${B}/.config
     cp ${S}/configs/som5728_defconfig ${B}/defconfig
     
-    ## FIXME copy over the u-boot.env file so that it works lol
+    ## FIXME copy over the u-boot.env file so that it works
 }
+
 do_compile () {
     unset LDFLAGS
     unset CFLAGS
@@ -18,6 +19,7 @@ do_compile () {
     oe_runmake som5728_defconfig
     oe_runmake all
 }
+
 do_install () {
     install -d ${D}/boot
     install ${B}/MLO ${D}/boot/MLO

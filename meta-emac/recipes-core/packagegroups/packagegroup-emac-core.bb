@@ -75,9 +75,11 @@ RRECOMMENDS_${PN}-util = " \
 SUMMARY_${PN}-networking = "EMAC OE Networking Utilities"
 RRECOMMENDS_${PN}-networking = " \
     ifplugd \
-    ntp \
     openssh \
     rsync \
+    ntp ntpdc ntpq ntp-tickadj ntp-utils ntpdate \
+    ${@bb.utils.contains("EMAC_NETWORKMANGER", "connman", " connman connman-conf  connman-tools connman-client ", " ", d)} \
+    ${@bb.utils.contains("EMAC_NETWORKMANGER", "networkmanager", " networkmanager networkmanager-nmtui networkmanager-bash-completion ", " ", d)} \
 "
 
 
@@ -139,15 +141,15 @@ RRECOMMENDS_${PN}-arm = " \
 "
 
 #    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "graphics-demos", "", d)} 
+#     gstreamer1.0-plugins-base 
+#     gstreamer1.0-plugins-good 
 
-# YIKES
+# !! YIKES !!
 SUMMARY_${PN}-screen = "EMAC OE Screen Packages."
 RRECOMMENDS_${PN}-screen = " \
     psplash \
     fbset \
     fbida \
-    gstreamer1.0-plugins-base \
-    gstreamer1.0-plugins-good \
 "
 
 SUMMARY_${PN}-can = "EMAC OE CAN Packages."

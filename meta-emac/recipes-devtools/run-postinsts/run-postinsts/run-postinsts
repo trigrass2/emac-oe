@@ -11,6 +11,7 @@
 LOGFILE="/var/log/postinst"
 pi_dir="#SYSCONFDIR#/ipk-postinsts"
 
+## FIXME for system d and also packagetype
 remove_rcsd_link () {
     if [ -e "$(which update-rc.d)" ];
     then
@@ -27,7 +28,8 @@ append_log=">>$LOGFILE 2>&1"
 
 remove_pi_dir=1
 exec_postinst_scriptlets() {
-    for i in `ls $pi_dir`; do
+    for i in `ls $pi_dir`; 
+    do
         i=$pi_dir/$i
         echo "Running postinst $i..."
         eval echo "Running postinst $i..." $append_log
@@ -43,10 +45,6 @@ exec_postinst_scriptlets() {
     done
 }
 
-if [ -x /ysr/bin/opkg ];
-then
-    eval opkg configure $append_log
-fi
 
 if [ -d "$pi_dir" ];
 then
