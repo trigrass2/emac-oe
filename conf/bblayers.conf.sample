@@ -65,5 +65,5 @@ CHROME_RECIPES += " \
 "
 
 WEB_RECIPES += " \
-    ##OEROOT##/meta-browser \
+    ##OEROOT##/meta-emac-browser/meta-webserver \
 "
