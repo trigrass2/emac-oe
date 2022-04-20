@@ -47,3 +47,4 @@ FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-1.0/presets/GstVoAmrwbEnc.prs"
 FILES_${PN}-opengl += "/usr/share/*.fs"
 
 COMPATIBLE_MACHINE = "(ti33x|omap-a15|dra7xx)"
+

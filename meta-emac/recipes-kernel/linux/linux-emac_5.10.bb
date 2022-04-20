@@ -29,6 +29,6 @@ EMAC_LINUX_VERSION_EXTENSION_ipac9x25 ?= "_${EMAC_LINUX_VERSION}S${SOM_NUMBER}A$
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
 
 
-#kernel_do_install_x86-64_prepend(){
-#    export INSTALL_MOD_STRIP=1
+#kernel_do_install_x86-64_append(){
+#    cat zImage $KERNEL_DEFCONFIG 
 #}

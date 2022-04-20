@@ -2,11 +2,13 @@
 DL_DIR ?= "/srv/emac-oe/downloads"
 
 # Where to place shared-state files
-SSTATE_DIR = "/srv/emac-oe/sstate-cache"
-STAMPS_DIR = "/srv/emac-oe/stamps"
+# SSTATE_DIR = "/srv/emac-oe/sstate-cache"
+STAMPS_DIR = "/srv/bb/stamps"
 
-# Where to place the build output
-#TMPDIR ?= "${BUILDDIR}/tmp"
+SSTATE_MIRRORS ?= "\
+file://.* file:///srv/emac-oe/sstate-cache \
+"
+
 
 DISTRO ?= "emac"
 # Add this if you are building for nvidia
@@ -32,10 +34,6 @@ BB_DISKMON_DIRS = "\
     ABORT,${SSTATE_DIR},100M,1K"
 
 
-SSTATE_MIRRORS ?= "\
-file://.* file:///srv/emac-oe/sstate-cache \
-"
-
 CONF_VERSION = "1"
 
 # Enable build info & testing
@@ -47,8 +45,8 @@ INHERIT += "rm_work"
 BUILDHISTORY_COMMIT = "1"
 
 ## Set these when building locally
-#BB_NUMBER_THREADS ?= "4"
-#PARALLEL_MAKE ?= "-j 8"
+#BB_NUMBER_THREADS ?= "20"
+#PARALLEL_MAKE ?= "-j 12"
 
 BBMULTICONFIG = " \
     qemu-x86-64 \
@@ -127,7 +125,6 @@ EMAC_PACKAGEMANAGER ?= "rpm"
 ###########################################
 ## INTERNAL DO NOT CHANGE
 ###########################################
-
 EMAC_CLIENT_NAME ?= "emac"
 EMAC_IMAGE ?= "emac-image"
 

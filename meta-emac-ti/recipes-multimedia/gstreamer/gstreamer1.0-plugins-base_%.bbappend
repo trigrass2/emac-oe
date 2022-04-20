@@ -67,6 +67,5 @@ EXTRA_OEMESON = " \
 #      cp -f ${WORKDIR}/git/gst-libs/gst/gl/viv-fb/gstglwindow_viv_fb_egl.h ${D}/usr/include/gstreamer-1.0/gst/gl/viv-fb/
 # }
 
-
-COMPATIBLE_MACHINE = "(ti33x|omap-a15|dra7xx)"
+COMPATIBLE_MACHINE = "(ti33x|omap-a15|dra7xx|qemuarm|qemux86-64)"
 

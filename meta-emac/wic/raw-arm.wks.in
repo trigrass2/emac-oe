@@ -1,0 +1,16 @@
+# short-description: Create raw image without a boot partition
+# long-description:
+# Create an image that can be written onto a emmc card using dd
+# It uses no bootloader
+#
+# The disk layout used is:
+# ---------------------------------------------------------
+#|    rootfs    |      emac client        |   swap        |
+# ---------------------------------------------------------
+#^              ^                         ^               ^
+#|              |                         |               |
+# 1G                    whats left 
+#
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4096 --size 1G
+part /home --source rootfs --ondisk mmcblk --fstype=ext4 --label client 
+part swap --ondisk mmcblk --size 44 --label swap1 --fstype=swap 
