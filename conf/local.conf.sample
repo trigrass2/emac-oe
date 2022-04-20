@@ -1,17 +1,20 @@
 # Where to place downloads
-DL_DIR ?= "${TOPDIR}/downloads"
+DL_DIR ?= "/srv/emac-oe/downloads"
 
 # Where to place shared-state files
-SSTATE_DIR = "${TOPDIR}/sstate-cache"
+# SSTATE_DIR = "/srv/emac-oe/sstate-cache"
+STAMPS_DIR = "/srv/bb/stamps"
 
-# Where to place the build output
-TMPDIR ?= "${TOPDIR}/tmp"
+SSTATE_MIRRORS ?= "\
+file://.* file:///srv/emac-oe/sstate-cache \
+"
 
-DISTRO = "emac"
+
+DISTRO ?= "emac"
 # Add this if you are building for nvidia
 #DISTRO = "emactegra"
 
-PACKAGE_CLASSES ?= "package_ipk package_deb package_rpm"
+PACKAGE_CLASSES ?= "package_rpm package_ipk package_deb"
 IMAGE_FEATURES = "package-management"
 
 SDKMACHINE ?= "x86_64"
@@ -31,25 +34,19 @@ BB_DISKMON_DIRS = "\
     ABORT,${SSTATE_DIR},100M,1K"
 
 
-# FIXME
-#SSTATE_MIRRORS ?= "\
-#file://.* http://someserver.tld/share/sstate/ \n \
-#file://.* file:///some/local/dir/sstate/"
-
 CONF_VERSION = "1"
 
 # Enable build info & testing
 INHERIT += "buildhistory"
 INHERIT += "image-buildinfo"
 INHERIT += "testimage"
+INHERIT += "rm_work"
 
 BUILDHISTORY_COMMIT = "1"
 
-#Copy license text to image
-LICENSE_FLAGS_WHITELIST += " commercial_mpg123 commercial_libav commercial_x264"
-
-BB_NUMBER_THREADS ?= "4"
-PARALLEL_MAKE ?= "-j 8"
+## Set these when building locally
+#BB_NUMBER_THREADS ?= "20"
+#PARALLEL_MAKE ?= "-j 12"
 
 BBMULTICONFIG = " \
     qemu-x86-64 \
@@ -104,58 +101,39 @@ BBMULTICONFIG = " \
 ## EMAC SETTINGS
 #######################
 
-## vaild choices. Unless "none"
-## none(as single choice only)
-## opengl
-## vulkan
-EMAC_DISPLAY_HW="none"
+## none, opengl, vulkan
+EMAC_DISPLAY_HW ?= "none"
 
-## vaild choices. Unless "none"
-## none(as single choice only)
-## linuxfb
-## wayland
-## x11
-EMAC_DISPLAY="none"
+## none, linuxfb, wayland, x11
+EMAC_DISPLAY ?= "none"
 
-## vaild single choice
-## coreutils
-## busybox
-EMAC_SHELLMANAGER="busybox"
+## coreutils, busybox
+EMAC_SHELLMANAGER ?= "coreutils"
 
-## vaild single choice
-## sysvinit
-## systemd
-EMAC_INITMANAGER="sysvinit"
+## systemd, sysvinit
+EMAC_INITMANAGER ?= "systemd"
 
-## vaild single choice
-## connman
-## networkmanager
-## legacy
-EMAC_NETWORKMANGER="legacy"
+## connman, networkmanager, legacy
+EMAC_NETWORKMANGER ?= "networkmanager"
 
-## vaild choices
-## alsa
-## pulseaudio
-EMAC_AUDIOMANAGER="alsa"
+## alsa, pulseaudio
+EMAC_AUDIOMANAGER ?= "alsa"
 
-## vaild single choice
-## deb
-## rpm
-## ipk
-EMAC_PACKAGEMANAGER="ipk"
+## deb, rpm, ipk
+EMAC_PACKAGEMANAGER ?= "rpm"
 
-
-##################################
+###########################################
 ## INTERNAL DO NOT CHANGE
-EMAC_IMAGE=""
-EMAC_SOC=""
+###########################################
+EMAC_CLIENT_NAME ?= "emac"
+EMAC_IMAGE ?= "emac-image"
 
-EMAC_CUSTOMER_NUMBER = ""
-EMAC_CUSTOMER_UUID = "01"
-EMAC_CUSTOMER_ARCH = '${@bb.utils.contains("TUNE_FEATURES", "arm", "a", "x", d)}'
-EMAC_CUSTOMER_MAJ = "0"
-EMAC_CUSTOMER_MIN = "0"
-EMAC_CUSTOMER_REV = "000"
-EMAC_CUSTOMER_VERSION = ""
-EMAC_CUSTUMER_FULL= "${CUSTOMER_NUMBER}-${CUSTOMER_UUID}s00${CUSTOMER_ARCH}00.${CUSTOMER_REV}"
-########################################
+DEPLOY_DIR        = "/srv/emac-oe/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}"
+DEPLOY_DIR_IMAGE  = "${DEPLOY_DIR}/${MACHINE}/image"
+LICENSE_DIRECTORY = "${DEPLOY_DIR}/${MACHINE}/license"
+
+DEPLOY_DIR_DEB    = "${DEPLOY_DIR}/deb"
+DEPLOY_DIR_IPK    = "${DEPLOY_DIR}/ipk"
+DEPLOY_DIR_RPM    = "${DEPLOY_DIR}/rpm"
+
+## needs MACHINE, EMAC_CLIENT_NAME, and EMAC_IMAGE exported to env before run
