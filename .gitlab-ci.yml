@@ -28,6 +28,7 @@ no-stages-build:
     - sed -i "s|PROJECTBUILDDIR|${BUILDDIR}|g"  ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
     - export
     - bitbake emac-image
+    - bitbake emac-image -c do_populate_sdk
     - echo "Testing image somehow"
     - echo "Deploying Packages and Images"
 
