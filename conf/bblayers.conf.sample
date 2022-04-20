@@ -63,3 +63,7 @@ CHROME_RECIPES += " \
     ##OEROOT##/meta-browser/meta-chromium \
     ##OEROOT##/meta-clang \
 "
+
+WEB_RECIPES += " \
+    ##OEROOT##/meta-browser \
+"
