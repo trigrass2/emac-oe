@@ -97,13 +97,13 @@ build-standard 3/3:
   artifacts:
     paths:
       - repo-tool/build/localCopy-qemuarm/image/*.conf
-      - repo-tool/build/localcopy-qemuarm/*.ext4
-      - repo-tool/build/localCopy-qemuarm/*.manifest
-      - repo-tool/build/localCopy-qemuarm/*.bz2
-      - repo-tool/build/localCopy-qemuarm/*.json
-      - repo-tool/build/localCopy-qemuarm/*/tgz
-      - repo-tool/build/localCopy-qemuarm/zImage
-      - repo-tool/build/localCopy-qemuarm/*.bin
+      - repo-tool/build/localCopy-qemuarm/image/*.ext4
+      - repo-tool/build/localCopy-qemuarm/image/*.manifest
+      - repo-tool/build/localCopy-qemuarm/image/*.bz2
+      - repo-tool/build/localCopy-qemuarm/image/*.json
+      - repo-tool/build/localCopy-qemuarm/image/*/tgz
+      - repo-tool/build/localCopy-qemuarm/image/zImage
+      - repo-tool/build/localCopy-qemuarm/image/*.bin
 
 test-image:
   stage: test
