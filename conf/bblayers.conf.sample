@@ -18,7 +18,6 @@ CORE_RECIPES = " \
 "
 # BSP BASED
 
-
 ATMEL_RECIPES = " \
     ##OEROOT##/emac-oe/meta-emac-atmel \
     ##OEROOT##/meta-atmel \
@@ -62,8 +61,13 @@ QT5_RECIPES = " \
 CHROME_RECIPES += " \
     ##OEROOT##/meta-browser/meta-chromium \
     ##OEROOT##/meta-clang \
+    ##OEROOT##/emac-oe/meta-emac-web/meta-chromium \
 "
 
 WEB_RECIPES += " \
-    ##OEROOT##/meta-emac-browser/meta-webserver \
+    ##OEROOT##/emac-oe/meta-emac-web/meta-webserver \
+"
+
+XENOMAI_RECIPES += " \
+    ##OEROOT##/emac-oe/meta-emac-xenomai \
 "

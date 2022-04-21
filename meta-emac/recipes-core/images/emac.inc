@@ -7,6 +7,26 @@ FS_NUMBER ?= "00"
 
 inherit image
 
+inherit extrausers
+# ROOTPASSWD = "EMAC_inc"
+ROOTPASSWD="\$1\$toNMNUq8\$73DgW8yu5SZeY5PRzleI.0"
+# PASSWD = "emac_inc"
+PASSWD="\$1\$UMtWLrpz\$Hpp1KSgg5zCwcxMZW1FsP1"
+
+# USERADDEXTENSION = "useradd-staticids"
+# USERADD_UID_TABLES = "files/passwd"
+# USERADD_GID_TABLES = "files/group"
+
+EXTRA_USERS_PARAMS += " \
+    usermod -p '\$1\$toNMNUq8\$73DgW8yu5SZeY5PRzleI.0' root; \
+    usermod -d /root root; \
+    useradd -p '\$1\$UMtWLrpz\$Hpp1KSgg5zCwcxMZW1FsP1' emac; \
+    usermod -aG sudo emac; \
+    usermod -aG dialout emac; \
+    usermod -d /home/emac emac; \
+"
+
+
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_BUILDINFO_VARS = "DATE DISTRO_NAME DISTRO_VERSION IMAGE_BASENAME MACHINE TUNE_PKGARCH PART_NUMBER EXTRA_PKGS"
 
@@ -36,9 +56,6 @@ fix_rootfs() {
     # and directories to support read-only rootfs.
     if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
         ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
-    fi
-    if [ -e ${IMAGE_ROOTFS}${datadir}/applications/htop.desktop ];then
-        rm -f ${IMAGE_ROOTFS}${datadir}/applications/htop.desktop
     fi
     
     if [ "${EMAC_INITMANAGER}" -eq "sysvinit" ]; 
