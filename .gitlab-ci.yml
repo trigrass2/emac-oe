@@ -56,13 +56,13 @@ build-standard 1/3:
     - ln -sf /srv/emac-oe/deploy/emac/emac-image/$MACHINE localCopy
   artifacts:
     paths:
-      - localCopy/image/*.tgz
-      - localCopy/image/*.manifest
-      - localcopy/image/*.json
-      - localCopy/image/*.tar.gz
-      - localCopy/image/*.dtb
-      - localCopy/image/zImage
-      - localCopy/image/*.bin
+      - repo-tool/build/localCopy/image/*.tgz
+      - repo-tool/build/localCopy/image/*.manifest
+      - repo-tool/build/localcopy/image/*.json
+      - repo-tool/build/localCopy/image/*.tar.gz
+      - repo-tool/build/localCopy/image/*.dtb
+      - repo-tool/build/localCopy/image/zImage
+      - repo-tool/build/localCopy/image/*.bin
 
 build-standard 2/3:
   stage: build
@@ -78,9 +78,9 @@ build-standard 2/3:
     - ln -sf /srv/emac-oe/deploy/emac/emac-image/sdk localCopy-sdk
   artifacts:
     paths:
-      - localCopy-sdk/*.manifest
-      - localCopy-sdk/*.json
-      - localCopy-sdk/*.sh
+      - repo-tool/build/localCopy-sdk/*.manifest
+      - repo-tool/build/localCopy-sdk/*.json
+      - repo-tool/build/localCopy-sdk/*.sh
 
 build-standard 3/3:
   stage: build
@@ -96,14 +96,14 @@ build-standard 3/3:
     - ln -sf /srv/emac-oe/deploy/emac/emac-image/$MACHINE localCopy-qemuarm
   artifacts:
     paths:
-      - localCopy-qemuarm/image/*.conf
-      - localcopy-qemuarm/*.ext4
-      - localCopy-qemuarm/*.manifest
-      - localCopy-qemuarm/*.bz2
-      - localCopy-qemuarm/*.json
-      - localCopy-qemuarm/*/tgz
-      - localCopy-qemuarm/zImage
-      - localCopy-qemuarm/*.bin
+      - repo-tool/build/localCopy-qemuarm/image/*.conf
+      - repo-tool/build/localcopy-qemuarm/*.ext4
+      - repo-tool/build/localCopy-qemuarm/*.manifest
+      - repo-tool/build/localCopy-qemuarm/*.bz2
+      - repo-tool/build/localCopy-qemuarm/*.json
+      - repo-tool/build/localCopy-qemuarm/*/tgz
+      - repo-tool/build/localCopy-qemuarm/zImage
+      - repo-tool/build/localCopy-qemuarm/*.bin
 
 test-image:
   stage: test
