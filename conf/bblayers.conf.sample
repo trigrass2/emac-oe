@@ -67,3 +67,7 @@ CHROME_RECIPES += " \
 WEB_RECIPES += " \
     ##OEROOT##/meta-emac-browser/meta-webserver \
 "
+
+XENOMAI_RECIPES += " \
+    ##OEROOT##/meta-emac-xenomai \
+"
