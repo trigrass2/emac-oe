@@ -23,22 +23,21 @@ OE_TERMINAL = "auto"
 
 PATCHRESOLVE = "noop"
 
-BB_DISKMON_DIRS = "\
+BB_DISKMON_DIRS ??= "\
     STOPTASKS,${TMPDIR},1G,100K \
     STOPTASKS,${DL_DIR},1G,100K \
     STOPTASKS,${SSTATE_DIR},1G,100K \
-    ABORT,${TMPDIR},100M,1K \
-    ABORT,${DL_DIR},100M,1K \
-    ABORT,${SSTATE_DIR},100M,1K"
+    STOPTASKS,/tmp,100M,100K \
+    HALT,${TMPDIR},100M,1K \
+    HALT,${DL_DIR},100M,1K \
+    HALT,${SSTATE_DIR},100M,1K \
+    HALT,/tmp,10M,1K"
 
 
 CONF_VERSION = "1"
 
 # Enable build info & testing
-INHERIT += "buildhistory"
-INHERIT += "image-buildinfo"
-INHERIT += "testimage"
-INHERIT += "rm_work"
+INHERIT:append  = " buildhistory image-buildinfo testimage rm_work"
 
 BUILDHISTORY_COMMIT = "1"
 
@@ -58,9 +57,9 @@ BBMULTICONFIG = " \
 ## EMAC's SoM-imx6 q/p & ul
 ## som-imx6(350GS) dual/quad
 ## with hardware acceleration & without
-# MACHINE ?= "somimx6q-ha"
-# MACHINE ?= "somimx6q"
-# MACHINE ?= "somimx6q-rt"
+# MACHINE ?= "somimx6-ha"
+MACHINE ??= "somimx6"
+# MACHINE ?= "somimx6-rt"
 # MACHINE ?= "somimx6ul"
 
 ## EMAC's SoM-3517

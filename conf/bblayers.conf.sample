@@ -2,7 +2,7 @@
 # changes incompatibly
 LCONF_VERSION = "7"
 
-BBPATH = "PROJECTBUILDDIR"
+BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 CORE_RECIPES = " \
