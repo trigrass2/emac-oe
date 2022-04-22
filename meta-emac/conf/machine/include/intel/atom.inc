@@ -2,7 +2,7 @@
 # Default image for all atom based products
 
 DEFAULTTUNE ?= "core2-64"
-MACHINEOVERRIDES =. "atom-sbc:"
+MACHINEOVERRIDES:prepend = "atom-sbc:"
 
 include conf/machine/include/x86/emac-x86.inc
 include conf/machine/include/x86/tune-core2.inc
@@ -11,21 +11,21 @@ MACHINE_FEATURES += " \
     atom-sbc \
 "
 
-#PREFERRED_PROVIDER:virtual/kernel = "linux-intel"
-#PREFERRED_VERSION:linux-intel = "4.19%"
+#PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
+#PREFERRED_VERSION_linux-intel = "4.19%"
 #BSP_SUBTYPE = "leafhill"
 
 
-PREFERRED_PROVIDER:libva = "libva-intel"
-PREFERRED_PROVIDER:libva-native = "libva-intel-native"
-PREFERRED_PROVIDER:nativesdk-libva = "nativesdk-libva-intel"
+PREFERRED_PROVIDER_libva = "libva-intel"
+PREFERRED_PROVIDER_libva-native = "libva-intel-native"
+PREFERRED_PROVIDER_nativesdk-libva = "nativesdk-libva-intel"
 
-PREFERRED_PROVIDER:libva-utils = "libva-utils-intel"
-PREFERRED_PROVIDER:libva-native = "libva-utils-intel-native"
-PREFERRED_PROVIDER:nativesdk-libva-utils = "nativesdk-libva-utils-intel"
+PREFERRED_PROVIDER_libva-utils = "libva-utils-intel"
+PREFERRED_PROVIDER_libva-native = "libva-utils-intel-native"
+PREFERRED_PROVIDER_nativesdk-libva-utils = "nativesdk-libva-utils-intel"
 
 ## intel based feature set 
-MACHINE_EXTRA_RDEPENDS += " \
+MACHINE_EXTRA_RDEPENDS:append = " \
     grub-efi \
     grub \
     efibootmgr \

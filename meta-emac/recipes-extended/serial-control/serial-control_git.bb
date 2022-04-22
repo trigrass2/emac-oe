@@ -6,11 +6,11 @@ LICENSE = "CLOSED"
 SRCREV = "b93902d0e43957beafb4ac1244fad7460db5832b"
 
 SRC_URI = " \
-    git://git.emacinc.com/oe/serial-mode-tool.git;protocol=http \
+    git://git.emacinc.com/oe/serial-mode-tool.git;protocol=http;branch=master \
     file://serial-mode.conf \
 "
 
-S = "${WORKDIR}/git/"
+S = "${WORKDIR}/git"
 
 do_compile(){
     oe_runmake

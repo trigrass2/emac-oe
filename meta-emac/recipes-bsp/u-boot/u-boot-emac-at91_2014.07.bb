@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=025bf9f768cbcb1a165dbe1a110babfb"
 SRCREV = "0eb13b9b883c817633a5db8f0e6f5ad63d1cb4d0"
 PV = "v2014.07+git${SRCPV}"
 
-SRC_URI = "git://git.emacinc.com/bootloader/u-boot-at91.git;protocol=http"
+SRC_URI = " \
+	git://git.emacinc.com/bootloader/u-boot-at91.git;protocol=http;branch=master; \
+"
 
 S = "${WORKDIR}/git"
 

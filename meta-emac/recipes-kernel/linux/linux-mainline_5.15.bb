@@ -2,7 +2,7 @@ SUMMARY = "Linux kernel"
 SECTION = "kernel"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-5.15:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}-5.15:"
 
 KBRANCH = "master"
 SRCREV = "8bb7eca972ad531c9b149c0a51ab43a417385813"
@@ -10,7 +10,7 @@ SRCREV = "8bb7eca972ad531c9b149c0a51ab43a417385813"
 require recipes-kernel/linux/linux-yocto.inc
 
 SRC_URI = " \
-    git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=https \
+    git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git;protocol=https;branch=master \
     file://defconfig \
 "
 
@@ -24,7 +24,7 @@ DEPENDS:append = " \
 "
 
 
-EXTRA_OEMAKE:append += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" "
+EXTRA_OEMAKE:append = " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" "
 
 LINUX_VERSION = "5.15.00"
 PV = "${LINUX_VERSION}-git-${SRCPV}"

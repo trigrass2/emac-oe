@@ -7,20 +7,22 @@ SRC_URI:append = " \
 
 DEPENDS:append = " \
     nss \
-    ${@bb.utils.contains('EMAC_INITMANAGER', 'systemd', 'systemd', '', d )} \
+    ${@bb.utils.contains('EMAC_INITMANAGER', 'systemd', ' systemd ', '', d )} \
 "
 
 PACKAGECONFIG:append = " \
     bluez5 \
     modemmanager \
     ppp \
-    dhclient \
+    dhcpcd \
     nss \
     dnsmasq \
     wifi \
     ifupdown \
     ${@bb.utils.contains('EMAC_INITMANAGER', 'systemd', 'systemd', '', d )} \
 "
+
+PACKAGECONFIG:remove = " vala " 
 
 do_install:append() {
     install -m 0644 ${WORKDIR}/NetworkManager.conf ${D}/${sysconfdir}/NetworkManager/

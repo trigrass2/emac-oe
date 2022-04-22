@@ -25,3 +25,4 @@ do_install() {
 }
 
 FILES:${PN}:append = " ${CHROMIUM_EXTENSION_DIR}/${BPN} "
+# 

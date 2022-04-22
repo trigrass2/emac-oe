@@ -25,7 +25,7 @@ inherit autotools pkgconfig
 #Make it MACHINE specific
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-FILES_${PN} += " \
+FILES:${PN} += " \
 	${libdir}/cobalt.wrappers \
 	${libdir}/modechk.wrappers \
 	${libdir}/dynlist.ld \
@@ -35,13 +35,13 @@ S = "${WORKDIR}/git"
 
 EXTRA_OECONF = "--includedir=${includedir}/xenomai --with-demodir=${bindir} --enable-registry --with-core=cobalt --enable-pshared"
 CFLAGS_x86 := "-m32"
-EXTRA_OECONF_append_x86 = "--enable-smp"
-EXTRA_OECONF_append_somimx6-xenomai = "--enable-smp"
+EXTRA_OECONF:append:x86 = "--enable-smp"
+EXTRA_OECONF:append:somimx6-xenomai = "--enable-smp"
 
 LDFLAGS = "`pkg-config fuse --cflags --libs`"
 
 
-do_install_append () {
+do_install:append () {
 	rm -fR ${D}/dev
 	rm -rf ${D}/${libdir}/xenomai
 }

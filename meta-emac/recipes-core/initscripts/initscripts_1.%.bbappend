@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/${BP}:"
+FILESEXTRAPATHS:prepend = "${THISDIR}/${BP}:"
 
 SRC_URI = "file://functions \
            file://halt \

@@ -6,13 +6,12 @@ GRUB_CMDLINE_LINUX_DEFAULT ?= "quiet splash ro rootfstype=ext4"
 GRUB_GFXMODE ?= ""
 GRUB_SERIAL_COMMAND ?= "ttyS0,115200"
 
-SRC_URI_append = " \
+SRC_URI:append = " \
 	file://grub.cfg \
 	file://10_linux \
 	file://grub-default \
 	file://0002-remove-text.patch \
-\
-    file://40_custom \
+        file://40_custom \
 "
 do_install:append () {
 	install -d ${D}${sysconfdir}/default/

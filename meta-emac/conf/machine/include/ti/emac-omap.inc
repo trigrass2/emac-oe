@@ -1,9 +1,9 @@
-PREFERRED_PROVIDER:virtual/kernel ?= "linux-emac"
-PREFERRED_VERSION:linux-emac ?= "4.19%"
-PREFERRED_PROVIDER:virtual/bootloader ?= "u-boot-emac"
-PREFERRED_VERSION:u-boot-emac ?= "v2020.04%"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
+PREFERRED_VERSION_linux-emac ?= "4.19%"
+PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-emac"
+PREFERRED_VERSION_u-boot-emac ?= "v2020.04%"
 
-PREFERRED_PROVIDER:virtual/xserver = "xserver-xorg"
+PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
 
 XSERVER = "\
     xserver-xorg \

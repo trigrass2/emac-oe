@@ -1,5 +1,5 @@
 do_compile:append() {
-	oe_runmake "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool" apmsleep
+	oe_runmake apmsleep
 }
 
 do_install:append() { 

@@ -3,7 +3,7 @@ DESCRIPTION = "A library, which enables invoking the real-time core services fro
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=2500c28da9dacbee31a3f4d4f69b74d0"
 
-DEPENDS_append = " linux-evl "
+DEPENDS:append = " linux-evl "
 PV .= "+git${SRCPV}"
 
 S = "${WORKDIR}/git"
@@ -22,7 +22,8 @@ EXTRA_OEMAKE = " \
     DESTDIR='${D}${libdir}' \
 "
 
-EXTRA_OEMAKE += " MAKE_SKIP_INSTALL_RPATH=TRUE"
+EXTRA_OEMAKE:append = " MAKE_SKIP_INSTALL_RPATH=TRUE "
+
 do_configure(){
     echo "nothing to do"
 }
@@ -33,7 +34,7 @@ do_compile() {
 }
 
 
-FILES_${PN}-dev += " \
+FILES:${PN}-dev += " \
     /tests/* \
     /tidbits/* \
 "
@@ -42,4 +43,4 @@ do_install() {
     oe_runmake install_all 'DESTDIR=${D}'  
 }
 
-INSANE_SKIP += "useless-rpaths"
+INSANE_SKIP:append = " useless-rpaths "

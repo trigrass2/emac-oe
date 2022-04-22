@@ -2,9 +2,9 @@ DESCRIPTION = "User creation for EMAC OE"
 LICENSE = "MIT"
 
 DEPENDS:append = " sudo base-files "
-RDEPENDS:${PN} += " base-files "
+RDEPENDS:${PN} = " base-files "
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
 SRC_URI:append = " \
     file://bashrc \

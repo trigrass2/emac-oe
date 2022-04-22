@@ -4,7 +4,7 @@ DESCRIPTION = "Headless development image with xenomai from which other EMAC ima
 
 PREFERRED_PROVIDER:virtual/linux-ipipe ?= "linux-xenomai"
 
-DEPENDS_append = " ${PREFERRED_PROVIDER_virtual/linux-ipipe} "
+DEPENDS:append = " ${PREFERRED_PROVIDER_virtual/linux-ipipe} "
 
 IMAGE_INSTALL:append = " \
 	packagegroup-emac-extras \
