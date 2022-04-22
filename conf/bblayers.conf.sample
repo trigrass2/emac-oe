@@ -64,3 +64,8 @@ WEBSERVER_RECIPES += " \
 XENOMAI_RECIPES += " \
     ##OEROOT##/emac-oe/meta-emac-xenomai \
 "
+
+## add the default and over write if need be
+BBLAYERS ?= " \
+  ${CORE_RECIPES} \
+"
