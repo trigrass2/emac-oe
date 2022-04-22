@@ -17,7 +17,7 @@ IMAGE_FEATURES = "package-management"
 
 SDKMACHINE ?= "x86_64"
 
-USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+USER_CLASSES ?= "buildstats image-prelink"
 
 OE_TERMINAL = "auto"
 
