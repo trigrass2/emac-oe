@@ -10,22 +10,22 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe \
 require rt-tests.inc
 inherit ptest
 
-SRC_URI += " \
-            file://run-ptest \
-            file://rt_bmark.py \
-           "
+SRC_URI:append = " \
+    file://run-ptest \
+    file://rt_bmark.py \
+"
 # Do not install hwlatdetect
-EXTRA_OEMAKE += "PYLIB=''"
+EXTRA_OEMAKE:append = " PYLIB='' "
 
 do_install() {
-        oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} \
-                           INCLUDEDIR=${includedir}
+    oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} \
+                        INCLUDEDIR=${includedir}
 }
 
-do_install_ptest() {
-        cp ${WORKDIR}/rt_bmark.py ${D}${PTEST_PATH}
+do_install:ptest() {
+    cp ${WORKDIR}/rt_bmark.py ${D}${PTEST_PATH}
 }
 
-RDEPENDS_${PN}-ptest += " stress python3 python3-multiprocessing python3-datetime python3-misc"
+RDEPENDS:${PN}-ptest += " stress python3 python3-multiprocessing python3-datetime python3-misc"
 
-FILES_${PN} += "${prefix}/src/backfire"
+FILES:${PN} += "${prefix}/src/backfire"

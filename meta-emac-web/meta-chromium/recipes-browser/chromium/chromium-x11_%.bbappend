@@ -1,5 +1,5 @@
 
-PACKAGECONFIG_x86-64_append = " \
+PACKAGECONFIG:x86-64:append = " \
     cups \
     kiosk-mode \
     proprietary-codecs \

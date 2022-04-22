@@ -31,6 +31,6 @@ python tegra_distro_update_bblayersconf() {
 
 }
 
-BBLAYERS_CONF_UPDATE_FUNCS += " \
+BBLAYERS_CONF_UPDATE_FUNCS:append = " \
     conf/bblayers.conf:TD_BBLAYERS_CONF_VERSION:REQUIRED_TD_BBLAYERS_CONF_VERSION:tegra_distro_update_bblayersconf \
 " 

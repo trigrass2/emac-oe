@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BP}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BP}:"
 
 SRC_URI = "file://functions \
            file://halt \
@@ -22,7 +22,7 @@ SRC_URI = "file://functions \
            file://GPLv2.patch \
 "
 
-SRC_URI_append_arm = " file://alignment.sh"
+SRC_URI:append:arm = " file://alignment.sh"
 
 do_install () {
 #

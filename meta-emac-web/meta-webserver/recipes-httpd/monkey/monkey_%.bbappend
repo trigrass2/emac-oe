@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-DEPENDS += "harden-web-servers"
-RDEPENDS += "harden-web-servers"
+DEPENDS: = " harden-web-servers"
+RDEPENDS: = " harden-web-servers"

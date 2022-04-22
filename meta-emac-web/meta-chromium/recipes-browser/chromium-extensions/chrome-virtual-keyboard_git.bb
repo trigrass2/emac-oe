@@ -24,4 +24,4 @@ do_install() {
     rm  -rf ${D}${CHROMIUM_EXTENSION_DIR}/${BPN}/.git/
 }
 
-FILES_${PN} += "${CHROMIUM_EXTENSION_DIR}/${BPN}"
+FILES:${PN}:append = " ${CHROMIUM_EXTENSION_DIR}/${BPN} "

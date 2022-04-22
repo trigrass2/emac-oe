@@ -1,5 +1,5 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-5.4:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}-5.4:"
 
-SRC_URI += " \
+SRC_URI:append = " \
     file://defconfig \
 "

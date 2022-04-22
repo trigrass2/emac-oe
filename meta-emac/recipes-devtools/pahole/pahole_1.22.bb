@@ -24,12 +24,12 @@ PACKAGECONFIG[python3] = ",,python3-core,python3-core"
 
 EXTRA_OECMAKE = "-D__LIB=lib -DCMAKE_BUILD_TYPE=Release -DLIBBPF_EMBEDDED=ON"
 
-FILES_${PN} =  "${bindir}/pahole \
+FILES:${PN} =  "${bindir}/pahole \
 		${libdir}/libdwarves.so* \
 		${libdir}/libdwarves_reorganize.so*"
 
 PACKAGES += "${PN}-extra"
-FILES_${PN}-extra = "${datadir} ${bindir} ${libdir}/libdwarves_emit.so*"
-RDEPENDS_${PN}-extra += "bash python3-core"
+FILES:${PN}-extra = "${datadir} ${bindir} ${libdir}/libdwarves_emit.so*"
+RDEPENDS:${PN}-extra += "bash python3-core"
 
 BBCLASSEXTEND = "native nativesdk" 

@@ -5,8 +5,8 @@ LICENSE = "GPL"
 AUTHOR = "Joe Drew <hoserhead@woot.net>"
 HOMEPAGE = "http://mpg321.sourceforge.net/"
 
-RCONFLICTS_${PN} = "mpg123"
-RREPLACES_${PN} = "mpg123"
+RCONFLICTS:${PN} = "mpg123"
+RREPLACES:${PN} = "mpg123"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
 
@@ -17,5 +17,5 @@ S = "${WORKDIR}/mpg321-0.3.2-orig"
 
 inherit autotools-brokensep
 
-EXTRA_OECONF="--with-ao-includes=${STAGING_INCDIR} --with-ao-libraries=${STAGING_LIBDIR}"
+EXTRA_OECONF = "--with-ao-includes=${STAGING_INCDIR} --with-ao-libraries=${STAGING_LIBDIR}"
 

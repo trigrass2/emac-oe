@@ -41,4 +41,4 @@ replace_sysroot_symlink() {
         done
 }
 
-do_populate_sdk[depends] += "p7zip-native:do_populate_sysroot"
+do_populate_sdk[depends] += " p7zip-native:do_populate_sysroot "

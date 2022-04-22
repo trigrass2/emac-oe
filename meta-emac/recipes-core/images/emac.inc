@@ -8,16 +8,10 @@ FS_NUMBER ?= "00"
 inherit image
 
 inherit extrausers
-# ROOTPASSWD = "EMAC_inc"
 ROOTPASSWD="\$1\$toNMNUq8\$73DgW8yu5SZeY5PRzleI.0"
-# PASSWD = "emac_inc"
 PASSWD="\$1\$UMtWLrpz\$Hpp1KSgg5zCwcxMZW1FsP1"
 
-# USERADDEXTENSION = "useradd-staticids"
-# USERADD_UID_TABLES = "files/passwd"
-# USERADD_GID_TABLES = "files/group"
-
-EXTRA_USERS_PARAMS += " \
+EXTRA_USERS_PARAMS:append = " \
     usermod -p '\$1\$toNMNUq8\$73DgW8yu5SZeY5PRzleI.0' root; \
     usermod -d /root root; \
     useradd -p '\$1\$UMtWLrpz\$Hpp1KSgg5zCwcxMZW1FsP1' emac; \
@@ -31,7 +25,7 @@ IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_BUILDINFO_VARS = "DATE DISTRO_NAME DISTRO_VERSION IMAGE_BASENAME MACHINE TUNE_PKGARCH PART_NUMBER EXTRA_PKGS"
 
 IMAGE_FSTYPES ?= " ext4 tar.gz"
-IMAGE_FSTYPES_remove = "tar.xz wic.xz"
+IMAGE_FSTYPES:remove = "tar.xz wic.xz"
 
 fix_rootfs() {
     echo "${DISTRO_NAME} ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue
@@ -64,4 +58,4 @@ fix_rootfs() {
     fi
 }
 
-ROOTFS_POSTPROCESS_COMMAND += " fix_rootfs; "
+ROOTFS_POSTPROCESS_COMMAND:append = " fix_rootfs; "

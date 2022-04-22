@@ -5,7 +5,7 @@ inherit qmake5
 
 SRC_URI = "git://git.emacinc.com/oe/lightbrowser.git;branch=main;"
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     ${libdir}/* \
     /opt/* \
     /usr/bin/* \

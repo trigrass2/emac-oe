@@ -18,7 +18,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit uboot-config deploy
 
-DEPENDS += "flex-native bison-native"
+DEPENDS:append = " flex-native bison-native "
 
 EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
 EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
@@ -103,7 +103,7 @@ do_install () {
     fi
 }
 
-FILES_${PN} = "/boot"
+FILES:${PN} = "/boot"
 
 do_deploy () {
     install -d ${DEPLOYDIR}
@@ -117,7 +117,7 @@ do_deploy () {
 
 addtask deploy before do_build after do_install
 
-do_install_ti33x () {
+do_install:ti33x () {
     install -d ${D}/boot
 
     

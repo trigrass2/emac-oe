@@ -26,6 +26,7 @@ PROVIDES = " \
     ${PN}-pci \
     ${PN}-rt \ 
 "
+
 PACKAGES = " \
     ${PN} \
     ${PN}-util \
@@ -45,8 +46,8 @@ PACKAGES = " \
 
 #    eudev-hwdb
 #    kernel-devicetree 
-SUMMARY_${PN} = "EMAC OE Core Utilities"
-RRECOMMENDS_${PN} = " \
+SUMMARY:${PN} = "EMAC OE Core Utilities"
+RRECOMMENDS:${PN} = " \
     e2fsprogs \
     e2fsprogs-tune2fs \
     kernel-modules \
@@ -60,8 +61,8 @@ RRECOMMENDS_${PN} = " \
     ${PN}-packagemanagement \
 "
 
-SUMMARY_${PN}-util = "EMAC OE Core Utilities"
-RRECOMMENDS_${PN}-util = " \
+SUMMARY:${PN}-util = "EMAC OE Core Utilities"
+RRECOMMENDS:${PN}-util = " \
     bash \
     libgpiod \
     libgpiod-tools \
@@ -70,8 +71,8 @@ RRECOMMENDS_${PN}-util = " \
     usbutils \
 "
 
-SUMMARY_${PN}-networking = "EMAC OE Networking Utilities"
-RRECOMMENDS_${PN}-networking = " \
+SUMMARY:${PN}-networking = "EMAC OE Networking Utilities"
+RRECOMMENDS:${PN}-networking = " \
     ifplugd \
     openssh \
     rsync \
@@ -81,23 +82,23 @@ RRECOMMENDS_${PN}-networking = " \
 "
 
 
-SUMMARY_${PN}-packagemanagement = "EMAC OE Package Management"
-RRECOMMENDS_${PN}-packagemanagement = " \
+SUMMARY:${PN}-packagemanagement = "EMAC OE Package Management"
+RRECOMMENDS:${PN}-packagemanagement = " \
     ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "rpm", " dnf rpm ", "", d)} \
     ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "ipk", " libarchive opkg opkg-utils ", "", d)} \
     ${@bb.utils.contains("EMAC_PACKAGEMANAGER", "deb", " apt dpkg ", "", d)} \
 "
 
-SUMMARY_${PN}-touch = "EMAC OE Touch Utilities"
-RRECOMMENDS_${PN}-touch = " \
+SUMMARY:${PN}-touch = "EMAC OE Touch Utilities"
+RRECOMMENDS:${PN}-touch = " \
     tslib-calibrate \
     tslib-conf \
     tslib-tests \
     tslib \
 "
 
-SUMMARY_${PN}-wifi = "EMAC OE Wifi Utilities"
-RRECOMMENDS_${PN}-wifi = " \
+SUMMARY:${PN}-wifi = "EMAC OE Wifi Utilities"
+RRECOMMENDS:${PN}-wifi = " \
     iw \
     wpa-supplicant \
     wireless-tools \
@@ -105,8 +106,8 @@ RRECOMMENDS_${PN}-wifi = " \
 "
 
 #    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", " audio-demos ", "", d)} 
-SUMMARY_${PN}-sound = "EMAC OE SOUND Utilities"
-RRECOMMENDS_${PN}-sound = " \
+SUMMARY:${PN}-sound = "EMAC OE SOUND Utilities"
+RRECOMMENDS:${PN}-sound = " \
     ${@bb.utils.contains("EMAC_AUDIOMANAGER", "alsa", " \
         alsa-utils-alsamixer alsa-utils-midi \ 
         alsa-utils-aplay alsa-utils-amixer \
@@ -117,17 +118,17 @@ RRECOMMENDS_${PN}-sound = " \
     libltdl \
 "
 
-SUMMARY_${PN}-mtd = "EMAC OE MTD Utilities"
-RRECOMMENDS_${PN}-mtd = " \
+SUMMARY:${PN}-mtd = "EMAC OE MTD Utilities"
+RRECOMMENDS:${PN}-mtd = " \
     mtd-utils \
     mtd-utils-jffs2 \
 "
 
-SUMMARY_${PN}-x86 = "EMAC OE x86 Packages."
-RRECOMMENDS_${PN}-x86 = "grub"
+SUMMARY:${PN}-x86 = "EMAC OE x86 Packages."
+RRECOMMENDS:${PN}-x86 = "grub"
 
-SUMMARY_${PN}-arm = "EMAC OE Arm 32 Packages."
-RRECOMMENDS_${PN}-arm = " \
+SUMMARY:${PN}-arm = "EMAC OE Arm 32 Packages."
+RRECOMMENDS:${PN}-arm = " \
     serial-control \
     apm \
     libubootenv-bin \
@@ -138,21 +139,21 @@ RRECOMMENDS_${PN}-arm = " \
 #     gstreamer1.0-plugins-good 
 
 # !! YIKES !!
-SUMMARY_${PN}-screen = "EMAC OE Screen Packages."
-RRECOMMENDS_${PN}-screen = " \
+SUMMARY:${PN}-screen = "EMAC OE Screen Packages."
+RRECOMMENDS:${PN}-screen = " \
     psplash \
     fbset \
     fbida \
 "
 
-SUMMARY_${PN}-can = "EMAC OE CAN Packages."
-RRECOMMENDS_${PN}-can = " can-utils "
+SUMMARY:${PN}-can = "EMAC OE CAN Packages."
+RRECOMMENDS:${PN}-can = " can-utils "
 
-SUMMARY_${PN}-pci = "EMAC OE PCI Packages."
-RRECOMMENDS_${PN}-pci = " pciutils "
+SUMMARY:${PN}-pci = "EMAC OE PCI Packages."
+RRECOMMENDS:${PN}-pci = " pciutils "
 
-SUMMARY_${PN}-rt = "EMAC OE RT Packages."
-RRECOMMENDS_${PN}-rt = " \
+SUMMARY:${PN}-rt = "EMAC OE RT Packages."
+RRECOMMENDS:${PN}-rt = " \
     rt-tests \
     hwlatdetect \
 "

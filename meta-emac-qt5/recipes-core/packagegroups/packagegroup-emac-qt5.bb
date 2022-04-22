@@ -16,7 +16,7 @@ PACKAGES = " \
 
 # QT MODS
 # SUMMARY_${PN}-qt5 = "Qt5(Full) meta package"
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     ${PN}-base-extras \
     ${PN}-tools \
     ${PN}-gstreamer \
@@ -52,9 +52,9 @@ RDEPENDS_${PN} += " \
 "
 
 
-## TODO ADD connman
-SUMMARY_${PN}-base-extras = "Extra tools fonts and tz data for emac qt based boards"
-RDEPENDS_${PN}-base-extras += " \
+
+SUMMARY:${PN}-base-extras = "Extra tools fonts and tz data for emac qt based boards"
+RDEPENDS:${PN}-base-extras += " \
     kernel-modules \
     linux-firmware \
     ca-certificates \
@@ -73,12 +73,9 @@ RDEPENDS_${PN}-base-extras += " \
     rng-tools \
     ${@bb.utils.contains("DISTRO_FEATURES", "pulseaudio", "pulseaudio-server pulseaudio-misc", "", d)} \
 "
-#     ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "weston weston-init", "", d)} 
 
-# TOOLS for developers to use on the system.  Most if not all are needed by qt
-# connman-client
-SUMMARY_${PN}-tools = "Extra Tools for a qtbased company"
-RDEPENDS_${PN}-tools += " \
+SUMMARY:${PN}-tools = "Extra Tools for a qtbased company"
+RDEPENDS:${PN}-tools:append = " \
     alsa-utils-amixer \
     binutils \
     binutils-symlinks \
@@ -98,9 +95,9 @@ RDEPENDS_${PN}-tools += " \
 
 
 ## gstreamer
-SUMMARY_${PN}-gstreamer = "gstreamer meta package"
+SUMMARY:${PN}-gstreamer = "gstreamer meta package"
 MACHINE_GSTREAMER_1_0_PLUGIN ?= ""
-RDEPENDS_${PN}-gstreamer = " \
+RDEPENDS:${PN}-gstreamer = " \
     gstreamer1.0-meta-base \
     gstreamer1.0-meta-video \
     gstreamer1.0-meta-audio \

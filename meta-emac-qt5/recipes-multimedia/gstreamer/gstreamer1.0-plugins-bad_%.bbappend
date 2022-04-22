@@ -17,5 +17,5 @@
 ##
 ##
 ############################################################################
-PACKAGECONFIG_append = " faad"
-PACKAGECONFIG_remove = "x11 gdk-pixbuf rsvg"
+PACKAGECONFIG:append = " faad"
+PACKAGECONFIG:remove = "x11 gdk-pixbuf rsvg"

@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 KBRANCH = "stable/4.14.85-arm_lan743x_ksz9477"
 SRCREV = "44bc68d2c86ffe9be106b83d42ddbfdc292de01f"
 
-SRC_URI += " \
+SRC_URI:append = " \
     git://git@git.emacinc.com/linux-kernel/xenomai.git;branch=${KBRANCH};protocol=ssh \
     file://0001-null-evtdev-check.patch \
     file://0002-write-once-last-tsc.patch \

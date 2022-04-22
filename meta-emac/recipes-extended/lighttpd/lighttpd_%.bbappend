@@ -1,8 +1,8 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
-DEPENDS += "harden-web-servers"
+DEPENDS:append = " harden-web-servers "
 
-SRC_URI += " \
+SRC_URI:append = " \
 		file://index.html.lighttpd \
 		file://about.html \
 		file://arm.html \
@@ -11,7 +11,7 @@ SRC_URI += " \
 		file://webwriter.sh \
 	"
 
-do_install_append () {
+do_install:append () {
 	install -d ${D}/www/pages/images/
 	install -m 0644 ${WORKDIR}/about.html ${D}/www/pages/about.html
 	install -m 0644 ${WORKDIR}/arm.html ${D}/www/pages/arm.html

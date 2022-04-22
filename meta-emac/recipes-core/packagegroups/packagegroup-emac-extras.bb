@@ -19,15 +19,15 @@ PACKAGES = "\
     ${PN}-timezone \
 "
 
-RRECOMMENDS_${PN} = "\
+RRECOMMENDS:${PN} = "\
     ${PN}-util-base \
     ${PN}-util-networking \
     ${PN}-util-debug \
     ${PN}-timezone \
 "
 
-SUMMARY_${PN}-util-base = "EMAC OE Extra Utilities"
-RRECOMMENDS_${PN}-util-base = " \
+SUMMARY:${PN}-util-base = "EMAC OE Extra Utilities"
+RRECOMMENDS:${PN}-util-base = " \
     tftp-hpa \
     wget \
     libstdc++ \
@@ -37,8 +37,8 @@ RRECOMMENDS_${PN}-util-base = " \
 "
 
 
-SUMMARY_${PN}-util-networking = "EMAC OE Extra Utilities"
-RRECOMMENDS_${PN}-util-networking = " \
+SUMMARY:${PN}-util-networking = "EMAC OE Extra Utilities"
+RRECOMMENDS:${PN}-util-networking = " \
     iptables \
     tcpdump \
     ntpdate \
@@ -48,8 +48,8 @@ RRECOMMENDS_${PN}-util-networking = " \
     iproute2 \
 "
 
-SUMMARY_${PN}-util-debug = "EMAC OE Extra Utilities"
-RRECOMMENDS_${PN}-util-debug = " \
+SUMMARY:${PN}-util-debug = "EMAC OE Extra Utilities"
+RRECOMMENDS:${PN}-util-debug = " \
     gdbserver \
     strace \
     memtester \
@@ -70,8 +70,8 @@ RRECOMMENDS_${PN}-util-debug = " \
 "
 
 
-SUMMARY_${PN}-timezone = "EMAC OE TimeZone Files"
-RRECOMMENDS_${PN}-timezone = " \
+SUMMARY:${PN}-timezone = "EMAC OE TimeZone Files"
+RRECOMMENDS:${PN}-timezone = " \
     tzdata \
     tzdata-africa \
     tzdata-americas \

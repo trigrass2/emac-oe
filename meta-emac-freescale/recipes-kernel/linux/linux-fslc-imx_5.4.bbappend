@@ -1,6 +1,6 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}-5.4:" 
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}-5.4:" 
 
-SRC_URI += " \
+SRC_URI:append = " \
     file://som350es_config \
     file://som-imx6dq.dtsi \
     file://som-imx6q-350es.dts \
@@ -9,7 +9,7 @@ SRC_URI += " \
 "
 #     file://som-imx6q-350es-7.dts 
 
-do_configure_append(){
+do_configure:append(){
     mkdir -p ${S}arch/arm/boot/dts
     cp -f ${WORKDIR}/som350es_config ${WORKDIR}/defconfig
     cp -f ${WORKDIR}/som350es_config ${WORKDIR}/git/defconfig

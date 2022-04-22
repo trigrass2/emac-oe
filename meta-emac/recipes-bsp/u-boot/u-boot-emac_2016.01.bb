@@ -101,7 +101,7 @@ do_install () {
     fi
 }
 
-FILES_${PN} = "/boot"
+FILES:${PN} = "/boot"
 
 do_deploy () {
     install -d ${DEPLOYDIR}

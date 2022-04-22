@@ -1,9 +1,9 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI += "file://progress_option.patch"
+SRC_URI:append = " file://progress_option.patch "
 
-do_install_append() {
+do_install:append() {
 	install -d ${D}/mnt/.psplash/
 }
 
-FILES_${PN} += "/mnt/.psplash"
+FILES:${PN} += "/mnt/.psplash"

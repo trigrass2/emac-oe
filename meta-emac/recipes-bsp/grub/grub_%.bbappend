@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
 GRUB_DEVICE ?= "/dev/sda1"
 GRUB_CMDLINE_LINUX ?= ""
@@ -14,7 +14,7 @@ SRC_URI_append = " \
 \
     file://40_custom \
 "
-do_install_append () {
+do_install:append () {
 	install -d ${D}${sysconfdir}/default/
 	install -d ${D}/boot/grub
 	install -m 0755 ${WORKDIR}/10_linux ${D}${sysconfdir}/grub.d/
@@ -34,5 +34,5 @@ do_install_append () {
 
 }
 
-FILES_${PN} += "/boot/grub ${sysconfdir}/default"
+FILES:${PN} += "/boot/grub ${sysconfdir}/default"
 PACKAGE_ARCH = "${MACHINE_ARCH}"

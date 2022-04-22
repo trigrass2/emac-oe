@@ -5,7 +5,7 @@ require recipes-kernel/linux/linux-yocto.inc
 
 SRC_URI = "git://git.emacinc.com/linux-kernel/linux-emac.git;bareclone=1;branch=${KBRANCH};name=machine;protocol=http"
 
-DEPENDS += " \
+DEPENDS:append = " \
     openssl-native \
     util-linux-native \
     gmp-native \
@@ -13,9 +13,9 @@ DEPENDS += " \
     zstd-native \
 "
 
-DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native pahole-native ', '', d)}"
+DEPENDS:append = "${@bb.utils.contains('ARCH', 'x86', ' elfutils-native pahole-native ', '', d)}"
 
-EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
+EXTRA_OEMAKE:append = " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" "
 
 PV = "${LINUX_VERSION}+git${SRCPV}"
 LINUX_VERSION ?= "5.10.42"

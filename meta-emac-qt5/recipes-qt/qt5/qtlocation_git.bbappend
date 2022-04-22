@@ -1,4 +1,4 @@
-PACKAGECONFIG += " \
+PACKAGECONFIG:appemnd = " \
     geoservices_esri \
     geoservices_here \
     geoservices_itemsoverlay \

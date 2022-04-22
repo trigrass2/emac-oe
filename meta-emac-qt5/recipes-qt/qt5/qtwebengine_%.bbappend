@@ -1,4 +1,4 @@
-PACKAGECONFIG_atom-sbc += " \
+PACKAGECONFIG:append:atom-sbc = " \
     proprietary-codecs \
     libvpx \
     ffmpeg \

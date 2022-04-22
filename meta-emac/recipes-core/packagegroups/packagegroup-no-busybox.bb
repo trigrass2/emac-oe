@@ -16,7 +16,7 @@ PACKAGES = "\
 "
 
 
-RRECOMMENDS_packagegroup-no-busybox = "\
+RRECOMMENDS:packagegroup-no-busybox = "\
     packagegroup-no-busybox-libs \
     packagegroup-no-busybox-utils \
     packagegroup-no-busybox-networking \
@@ -27,13 +27,13 @@ RRECOMMENDS_packagegroup-no-busybox = "\
 "
 
 # gcc-sanitizers
-RRECOMMENDS_packagegroup-no-busybox-libs = "\
+RRECOMMENDS:packagegroup-no-busybox-libs = "\
     binutils \
     binutils-symlinks \
     glib-2.0 \
 "
 
-RRECOMMENDS_packagegroup-no-busybox-utils = "\
+RRECOMMENDS:packagegroup-no-busybox-utils = "\
     acl \
     attr \
     bash \
@@ -78,7 +78,7 @@ RRECOMMENDS_packagegroup-no-busybox-utils = "\
     xz \
 "
 
-RRECOMMENDS_packagegroup-no-busybox-networking = "\
+RRECOMMENDS:packagegroup-no-busybox-networking = "\
     iproute2 \
     iputils \
     iptables \
@@ -88,7 +88,7 @@ RRECOMMENDS_packagegroup-no-busybox-networking = "\
     ca-certificates \
 "
 
-RRECOMMENDS_packagegroup-no-busybox-dev-utils = "\
+RRECOMMENDS:packagegroup-no-busybox-dev-utils = "\
     ${@bb.utils.contains("EMAC_AUDIOMANAGER", "alsa", " alsa-utils-amixer ", "", d)} \
     diffutils \
     m4 \
@@ -97,20 +97,20 @@ RRECOMMENDS_packagegroup-no-busybox-dev-utils = "\
 "
 
 VIRTUAL-RUNTIME_syslog ?= "sysklogd"
-RRECOMMENDS_packagegroup-no-busybox-initscripts = "\
+RRECOMMENDS:packagegroup-no-busybox-initscripts = "\
     ${VIRTUAL-RUNTIME_initscripts} \
     ${VIRTUAL-RUNTIME_init_manager} \
     ${VIRTUAL-RUNTIME_login_manager} \
     ${VIRTUAL-RUNTIME_syslog} \
     "
 
-RRECOMMENDS_packagegroup-no-busybox-multiuser = "\
+RRECOMMENDS:packagegroup-no-busybox-multiuser = "\
     cracklib \
     shadow \
     sudo \
 "
 
-RRECOMMENDS_packagegroup-no-busybox-sys-services = "\
+RRECOMMENDS:packagegroup-no-busybox-sys-services = "\
     at \
     cronie \
     logrotate \

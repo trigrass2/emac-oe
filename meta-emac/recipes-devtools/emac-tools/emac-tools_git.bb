@@ -10,7 +10,7 @@ SRC_URI = " \
             file://oe_info.sh \
 "
 
-FILES_${PN} += "emac-tools/* bin/* share/*"
+FILES:${PN} += "emac-tools/* bin/* share/*"
 
 S = "${WORKDIR}/git/"
 
@@ -26,7 +26,7 @@ do_install() {
     install -m 755 ${WORKDIR}/oe_info.sh ${D}${bindir}
 }
 
-do_install_class-nativesdk() {
+do_install:class-nativesdk() {
     install -d ${D}/bin
     install -d ${D}/share/templates
     install -d ${D}/share/man

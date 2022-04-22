@@ -1,5 +1,5 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}/${MACHINE}:"
-SRC_URI_remove_c03439-00 = " file://defconfig"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}/${MACHINE}:"
+SRC_URI:remove:c03439-00 = " file://defconfig"
 
 SRCREV = "33574931b48f50c37abb58e0a9c617cbec472b01"
 PV = "5.10.65+git${SRCPV}"
@@ -16,7 +16,7 @@ KERNEL_GIT_PROTOCOL = "http"
 # RDEPENDS_kernel-base += "kernel-image kernel-devicetree vpdma-fw goodix-fw"
 # RDEPENDS_${KERNEL_PACKAGE_NAME}-base_append_som-5728 = " prueth-fw prusw-fw pruhsr-fw pruprp-fw"
 
-SRC_URI += " \
+SRC_URI:append = " \
      file://som-5728-5228.dts \
      file://som5728-mmc-iodelay.dtsi \
      file://som-5728.dtsi \

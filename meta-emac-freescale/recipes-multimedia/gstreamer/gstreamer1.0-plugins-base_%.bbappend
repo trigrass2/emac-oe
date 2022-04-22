@@ -1,4 +1,4 @@
-DEPENDS += " libdrm "
+DEPENDS:append = " libdrm "
 
 
 ## HACKY but it works.

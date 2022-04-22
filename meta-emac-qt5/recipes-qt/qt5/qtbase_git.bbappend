@@ -1,20 +1,20 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}/${MACHINE}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}/${MACHINE}:"
 
-SRC_URI += " \
+SRC_URI:append = " \
     file://oe-device-extra.pri \
 "
 
 # dbus and x11 want atk
-DEPENDS_append_x86-64 = " \
+DEPENDS:append:x86-64 = " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' at-spi2-atk ', '', d )} \
 "
 
 # arm wants gles2 and eglfs for the HA  
 PACKAGECONFIG_GL = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 eglfs', 'no-opengl', d )}"
-PACKAGECONFIG_GL_x86-64 = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl gles2 eglfs', 'no-opengl', d )}"
+PACKAGECONFIG_GL:x86-64 = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl gles2 eglfs', 'no-opengl', d )}"
 
-PACKAGECONFIG += " \
+PACKAGECONFIG:append = " \
     cups \
     fontconfig \
     getentropy \
@@ -38,7 +38,7 @@ PACKAGECONFIG += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'journald', '', d)} \
 "
 
-PACKAGECONFIG_append_x86-64 = " \
+PACKAGECONFIG:append:x86-64 = " \
     sm \
     xcb \
     xkb \
@@ -48,8 +48,8 @@ PACKAGECONFIG_append_x86-64 = " \
 "
 
 # PACKAGECONFIG_CONFARGS_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '-syslog', '', d)}"
-PACKAGECONFIG_remove = "tests"
+PACKAGECONFIG:remove = "tests"
 
-do_configure_prepend(){
+do_configure:prepend(){
     install -m 0644 ${WORKDIR}/oe-device-extra.pri ${S}/mkspecs
 }

@@ -6,7 +6,7 @@ S="${WORKDIR}/git"
 require linux-xenomai.inc
 
 # require recipes-kernel/linux/linux-yocto.inc
-PROVIDES += " virtual/kernel kernel-modules "
+PROVIDES:append = " virtual/kernel kernel-modules "
 
 KBRANCH = "RC/5.4.61/base/ipipe/xenomai_next"
 

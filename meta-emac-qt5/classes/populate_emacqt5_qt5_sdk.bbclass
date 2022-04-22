@@ -26,7 +26,7 @@ SDK_MKSPEC = "devices/linux-oe-generic-g++"
 SDK_DEVICE_PRI = "${SDK_MKSPEC_DIR}/qdevice.pri"
 MACHINE_CMAKE = "${SDK_OUTPUT}${SDKPATHNATIVE}${datadir}/cmake/OEToolchainConfig.cmake.d/${MACHINE}.cmake"
 
-create_sdk_files_append () {
+create_sdk_files:append () {
     # Create the toolchain users generic device mkspec
     install -d ${SDK_MKSPEC_DIR}/${SDK_MKSPEC}
     cat > ${SDK_MKSPEC_DIR}/${SDK_MKSPEC}/qmake.conf <<EOF

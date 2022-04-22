@@ -1,1 +1,1 @@
-EXTRA_OECONF_append = " --enable-tui "
+EXTRA_OECONF:append = " --enable-tui "

@@ -7,7 +7,7 @@ inherit nativesdk packagegroup
 
 MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     nativesdk-cmake \
     nativesdk-make \
     nativesdk-python3-modules \
@@ -16,7 +16,7 @@ RDEPENDS_${PN} += " \
     ${MACHINE_EXTRA_INSTALL_SDK_HOST} \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     nativesdk-qt3d-tools \
     nativesdk-qtbase \
     nativesdk-qtbase-dev \

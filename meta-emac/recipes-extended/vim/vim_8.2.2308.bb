@@ -104,7 +104,7 @@ do_install() {
 
 PARALLEL_MAKEINST = ""
 
-ALTERNATIVE_${PN} = "vi"
+ALTERNATIVE:${PN} = "vi"
 ALTERNATIVE_TARGET[vi] = "${bindir}/${BPN}"
 ALTERNATIVE_LINK_NAME[vi] = "${base_bindir}/vi"
 ALTERNATIVE_PRIORITY[vi] = "100"

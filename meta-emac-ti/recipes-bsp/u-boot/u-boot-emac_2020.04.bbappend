@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}/${MACHINE}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}/${MACHINE}:"
 PROVIDES = "virtual/bootloader"
 UBRANCH = "emac-2020.04_som5728"
 SRCREV = "15e93e72b06b35877a31347c6da5f9d91e0ed0ea"

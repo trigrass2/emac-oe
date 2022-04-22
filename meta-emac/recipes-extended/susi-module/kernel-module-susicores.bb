@@ -12,12 +12,12 @@ SRC_URI = "file://Makefile \
 
 S = "${WORKDIR}"
 
-do_install_append() {
+do_install:append() {
 	install -d ${D}/usr/lib
 	install -m 0644 ${WORKDIR}/SusiCores.ko ${D}/usr/lib
 }
 
-FILES_${PN} += "/usr/lib/SusiCores.ko"
+FILES:${PN} += "/usr/lib/SusiCores.ko"
 
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
-RPROVIDES_${PN} += "kernel-module-susicores"
+RPROVIDES:${PN} += "kernel-module-susicores"

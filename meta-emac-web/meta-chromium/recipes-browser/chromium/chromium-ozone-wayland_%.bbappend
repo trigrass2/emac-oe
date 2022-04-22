@@ -1,6 +1,6 @@
-RDEPENDS_${PN}_append_x86 = " libpci"
+RDEPENDS:${PN}:append_x86 = " libpci"
 
-PACKAGECONFIG_x86-64_append = " \
+PACKAGECONFIG:x86-64:append = " \
     cups \
     kiosk-mode \
     proprietary-codecs \

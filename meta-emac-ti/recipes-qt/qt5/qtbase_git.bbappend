@@ -1,4 +1,4 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:" 
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:" 
 
-PACKAGECONFIG_remove_ti = "tests examples"
-PACKAGECONFIG_DEFAULT_remove_ti = "tests"
+PACKAGECONFIG:remove:ti = "tests examples"
+PACKAGECONFIG_DEFAULT:remove:ti = "tests"

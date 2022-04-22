@@ -22,4 +22,4 @@ do_install() {
 	install -m 0755 ${WORKDIR}/ifplugd.action ${D}${sysconfdir}/ifplugd/ifplugd.action
 }
 
-CONFFILES_${PN} = "${sysconfdir}/ifplugd/ifplugd.conf"
+CONFFILES:${PN} = "${sysconfdir}/ifplugd/ifplugd.conf"

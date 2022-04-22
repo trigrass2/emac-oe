@@ -1,1 +1,1 @@
-PACKAGECONFIG += " openssl gui imageformats "
+PACKAGECONFIG:append = " openssl gui imageformats "

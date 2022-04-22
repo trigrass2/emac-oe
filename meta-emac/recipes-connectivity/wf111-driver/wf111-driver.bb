@@ -4,8 +4,8 @@ LICENSE = "GPLv2"
 
 inherit module
 
-INSANE_SKIP_${PN} = "already-stripped"
-INSANE_SKIP_${PN}-tools = "ldflags"
+INSANE_SKIP:${PN} = "already-stripped"
+INSANE_SKIP:${PN}-tools = "ldflags"
 
 MODULES_INSTALL_TARGET = "install"
 
@@ -21,9 +21,9 @@ export KDIR="${STAGING_KERNEL_BUILDDIR}"
 export OUTPUT_BIN="${D}${sbindir}"
 export OUTPUT_FIRMWARE="${D}${nonarch_base_libdir}/firmware/unifi-sdio"
 
-PACKAGES_append = " ${PN}-fw ${PN}-tools "
-FILES_${PN} = "${nonarch_base_libdir}/modules/*"
-FILES_${PN}-tools = "${sbindir}/*"
-FILES_${PN}-fw = "${nonarch_base_libdir}/firmware/*"
+PACKAGES:append = " ${PN}-fw ${PN}-tools "
+FILES:${PN} = "${nonarch_base_libdir}/modules/*"
+FILES:${PN}-tools = "${sbindir}/*"
+FILES:${PN}-fw = "${nonarch_base_libdir}/firmware/*"
 
-RPROVIDES_${PN} += "kernel-module-unifi-sdio${KERNEL_MODULE_PACKAGE_SUFFIX}"
+RPROVIDES:${PN} += "kernel-module-unifi-sdio${KERNEL_MODULE_PACKAGE_SUFFIX}"

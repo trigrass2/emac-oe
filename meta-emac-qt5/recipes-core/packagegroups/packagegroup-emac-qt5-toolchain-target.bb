@@ -15,7 +15,7 @@ GCC-SANITIZERS ?= "gcc-sanitizers"
 GCC-SANITIZERS_mipsarch = ""
 GCC-SANITIZERS_libc-musl = ""
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN}:append = " \
     ${MACHINE_EXTRA_INSTALL_SDK} \
     packagegroup-core-standalone-sdk-target \
     ${GCC-SANITIZERS} \
@@ -54,6 +54,6 @@ RDEPENDS_${PN} += " \
 "
 
 #     qtwebview-dev
-RDEPENDS_${PN}_atom-sbc += " \
+RDEPENDS:${PN}:atom-sbc:append = " \
     qtwebengine-dev \
 "

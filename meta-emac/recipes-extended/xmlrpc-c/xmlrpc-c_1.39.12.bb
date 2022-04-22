@@ -2,7 +2,7 @@ DESCRIPTION = "XML-RPC for C/C++ is programming libraries and related tools to h
 write an XML-RPC server or client in C or C++."
 LICENSE = "GPLv2+"
 DEPENDS = "curl libxml2"
-RDEPENDS_${PN} = "curl perl"
+RDEPENDS:${PN} = "curl perl"
 
 PR = "r0"
 
@@ -19,7 +19,7 @@ SRC_URI = " \
 SRC_URI[md5sum] = "1e01d4a462198b6c0a4f44b66cbf7a93"
 SRC_URI[sha256sum] = "d830f3264a832dfe09f629cc64036acfd08121692526d0fabe090f7ff881ce08"
 
-EXTRA_OECONF += "--disable-libwww-client"
+EXTRA_OECONF:append = " --disable-libwww-client "
 
 do_configure () {
 	oe_runconf

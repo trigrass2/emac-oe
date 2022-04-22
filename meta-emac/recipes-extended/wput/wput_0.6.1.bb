@@ -19,7 +19,7 @@ EXTRA_OECONF = " \
 		"
 
 do_install() {
-	install -d ${D}${bindir}
-        install -m 755 wput ${D}${bindir}
+    install -d ${D}${bindir}
+    install -m 755 wput ${D}${bindir}
 
 } 

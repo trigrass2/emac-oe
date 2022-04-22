@@ -1,4 +1,4 @@
-PACKAGECONFIG_corei7-64-intel-common = " \
+PACKAGECONFIG:corei7-64-intel-common = " \
     wayland-client \
     wayland-server \
     wayland-egl \

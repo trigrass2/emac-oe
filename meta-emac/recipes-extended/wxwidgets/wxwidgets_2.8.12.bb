@@ -23,7 +23,7 @@ EXTRA_OECONF = "  --without-sdl \
                "
 
 CXXFLAGS := "${@oe.utils.str_filter_out('-fvisibility-inlines-hidden', '${CXXFLAGS}', d)}"
-CXXFLAGS += "-std=gnu++11"
+CXXFLAGS:append = " -std=gnu++11 "
 
 # Broken autotools :/
 do_configure() {
@@ -32,13 +32,13 @@ do_configure() {
 
 # wx-config contains entries like this:
 # this_prefix=`check_dirname "/build/v2013.06/build/tmp-angstrom_v2013_06-eglibc/work/cortexa8hf-vfp-neon-angstrom-linux-gnueabi/wxwidgets/2.9.5-r0/wxWidgets-2.9.5"`
-do_install_prepend() {
+do_install:prepend() {
 	sed -i -e s:${S}:${STAGING_DIR_HOST}${prefix}:g ${S}/wx-config
 	sed -i -e /^this_prefix/,+3d ${S}/wx-config
 }
 
 # wx-config doesn't handle the suffixed libwx_media, xrc, etc, make a compat symlink
-do_install_append() {
+do_install:append() {
 	for lib in adv aui core html qa richtext xrc ; do
 		ln -sf libwx_gtk2u_$lib-2.8.so.0.8.0 ${D}${libdir}/libwx_gtk2u_$lib-2.8.so
 	done
@@ -47,5 +47,5 @@ do_install_append() {
 	ln -sf ../lib/wx/config/arm-emac-linux-gnueabi-gtk2-unicode-release-2.8 ${D}${bindir}/wx-config
 }
 
-FILES_${PN} += "${bindir} ${libdir}/wx/config"
-FILES_${PN}-dev += "${libdir}/wx/include ${datadir}/bakefile"
+FILES:${PN} += "${bindir} ${libdir}/wx/config"
+FILES:${PN}-dev += "${libdir}/wx/include ${datadir}/bakefile"

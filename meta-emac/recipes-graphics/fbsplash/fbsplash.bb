@@ -42,6 +42,6 @@ do_install() {
 	done
 }
 
-FILES_${PN} += "/mnt/.psplash"
+FILES:${PN} += "/mnt/.psplash"
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+

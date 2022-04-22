@@ -1,7 +1,5 @@
 Common targets are:
     emac-image (Headless)
-    emac-qt4e-image (QT4 embedded)
-    emac-qt4x-image (QT4 X11)
     emac-qt5-image (QT5 embedded)
     meta-toolchain-emac (Emac Toolchain)
 

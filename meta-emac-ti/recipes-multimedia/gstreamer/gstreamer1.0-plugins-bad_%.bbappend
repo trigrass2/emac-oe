@@ -18,33 +18,33 @@ PACKAGECONFIG ??= " \
     bz2 closedcaption curl dash dtls hls rsvg sbc smoothstreaming sndfile \
     ttml uvch264 webp \
 "
-ARM_INSTRUCTION_SET_armv4 = "arm"
-ARM_INSTRUCTION_SET_armv5 = "arm"
+ARM_INSTRUCTION_SET:armv4 = "arm"
+ARM_INSTRUCTION_SET:armv5 = "arm"
 
-DEPENDS += " \
+DEPENDS:append = " \
     cmake-native \
     bzip2 \
     bluez5 \
 " 
 
-RDEPENDS_${PN} += " \
+RDEPENDS:append:${PN} = " \
     bzip2 \
     bluez5 \
 "
 
-PACKAGECONFIG_append += " \
+PACKAGECONFIG:append = " \
     bz2 \
     bluez \
 "
 
 ## FIXME make this check against x11 and wayland 
-CXXFLAGS  += " -DEGL_API_WAYLAND"
+CXXFLAGS:append += " -DEGL_API_WAYLAND "
 
-FILES_${PN}-freeverb += "${datadir}/gstreamer-1.0/presets/GstFreeverb.prs"
-FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/1.0/opencv*"
-FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-1.0/presets/GstVoAmrwbEnc.prs"
+FILES:append:${PN}-freeverb = " ${datadir}/gstreamer-1.0/presets/GstFreeverb.prs "
+FILES:append:${PN}-opencv = " ${datadir}/gst-plugins-bad/1.0/opencv* "
+FILES:append:${PN}-voamrwbenc = " ${datadir}/gstreamer-1.0/presets/GstVoAmrwbEnc.prs "
 # include fragment shaders
-FILES_${PN}-opengl += "/usr/share/*.fs"
+FILES:append:${PN}-opengl = " /usr/share/*.fs "
 
 COMPATIBLE_MACHINE = "(ti33x|omap-a15|dra7xx)"
 

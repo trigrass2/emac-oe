@@ -4,12 +4,12 @@
 # Checking for GStreamer i.MX common... yes
 
 
-DEPENDS += " \
+DEPENDS:append = " \
     imx-gpu-viv \
     gstreamer1.0-plugins-imx \
 "
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     gstreamer1.0-plugins-imx \
     imx-gpu-viv \
 "

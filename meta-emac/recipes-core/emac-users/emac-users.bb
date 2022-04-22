@@ -1,18 +1,18 @@
 DESCRIPTION = "User creation for EMAC OE"
 LICENSE = "MIT"
 
-DEPENDS += " sudo base-files "
-RDEPENDS_${PN} += " base-files "
+DEPENDS:append = " sudo base-files "
+RDEPENDS:${PN} += " base-files "
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI += " \
+SRC_URI:append = " \
     file://bashrc \
     file://bashrc-root \
     file://profile \
 "
 
-do_install_append(){
+do_install:append(){
     install -d ${D}/root
     cp ${WORKDIR}/bashrc-root ${D}/root/.bashrc
     cp ${WORKDIR}/profile ${D}/root/.profile
@@ -22,7 +22,7 @@ do_install_append(){
     cp ${WORKDIR}/profile ${D}/home/emac/.profile
 }
 
-FILES_${PN} += " \
+FILES:${PN} += " \
     /root \
     /root/.profile \
     /root/.bashrc \

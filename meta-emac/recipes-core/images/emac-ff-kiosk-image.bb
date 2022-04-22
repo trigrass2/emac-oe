@@ -4,7 +4,7 @@ DESCRIPTION = "Kiosk Image extends emac-image."
 
 inherit update-alternatives
 
-IMAGE_INSTALL_append = "\
+IMAGE_INSTALL:append = " \
     firefox \
     xdotool \
     xserver-xf86-config \

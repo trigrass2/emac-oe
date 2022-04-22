@@ -2,7 +2,7 @@ require emac-image.bb
 
 DESCRIPTION = "A very basic X11 image with a terminal"
 
-IMAGE_INSTALL += "\
+IMAGE_INSTALL:append = " \
     packagegroup-core-x11 \
     matchbox-terminal \
     xserver-xf86-config \

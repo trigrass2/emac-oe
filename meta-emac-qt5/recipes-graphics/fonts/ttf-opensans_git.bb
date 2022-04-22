@@ -38,4 +38,4 @@ do_install() {
 }
 
 PACKAGES = "${PN}"
-FILES_${PN} += "${datadir}/fonts/truetype/opensans"
+FILES:${PN}:append = " ${datadir}/fonts/truetype/opensans"

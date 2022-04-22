@@ -1,0 +1,13 @@
+diff --git a/kernel/cobalt/posix/syscall.c b/kernel/cobalt/posix/syscall.c
+index a9c979903..e3ecfb162 100644
+--- a/kernel/cobalt/posix/syscall.c
++++ b/kernel/cobalt/posix/syscall.c
+@@ -660,7 +660,7 @@ linux_syscall:
+ 	return KEVENT_PROPAGATE;
+ 
+ bad_syscall:
+-	printk(XENO_WARNING "bad syscall <%#x>\n", code);
++	/*printk(XENO_WARNING "bad syscall <%#x>\n", code);*/
+ 
+ 	__xn_error_return(regs, -ENOSYS);
+ 

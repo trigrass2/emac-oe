@@ -17,6 +17,6 @@
 ##
 ############################################################################
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
 
-SRC_URI_append_apalis-imx6 = " file://0001-Increase-default-playback-volume.patch"
+SRC_URI:append:apalis-imx6 = " file://0001-Increase-default-playback-volume.patch"

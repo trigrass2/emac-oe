@@ -5,25 +5,25 @@
 ## ADD libde265
 
 
-DEPENDS += " \
+DEPENDS:append = " \
     bzip2 \
     bluez5 \
     imx-codec \
 " 
 
-RDEPENDS_${PN} += " \
+RDEPENDS:append:${PN} = " \
     bzip2 \
     bluez5 \
     imx-codec \
 "
 
-PACKAGECONFIG_append += " \
+PACKAGECONFIG:append += " \
     bz2 \
     bluez \
 "
 
 ## FIXME make this check against x11 and wayland 
-CXXFLAGS  += " -DEGL_API_FB "
+CXXFLAGS:append  = " -DEGL_API_FB "
 
 
 COMPATIBLE_MACHINE = "(mx6dl|mx6q|mx6sl|mx6sx|mx6ul|mx6ull|mx7d)"

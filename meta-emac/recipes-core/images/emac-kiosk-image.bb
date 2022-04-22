@@ -4,7 +4,7 @@ DESCRIPTION = "Kiosk Image extends emac-image."
 
 inherit update-alternatives
 
-IMAGE_INSTALL_append = "\
+IMAGE_INSTALL:append = "\
     chromium-x11 \
     xserver-xf86-config \
     liberation-fonts \
@@ -35,7 +35,7 @@ start_chromium() {
 	chmod +x ${IMAGE_ROOTFS}${sysconfdir}/profile.d/homepage.sh
 }
 
-ROOTFS_POSTPROCESS_COMMAND += "start_chromium;"
+ROOTFS_POSTPROCESS_COMMAND:append = " start_chromium; "
 
 IMAGE_TYPE = "Chromium Kiosk"
 BUILD_TYPE = "kiosk"

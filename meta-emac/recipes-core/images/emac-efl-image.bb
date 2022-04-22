@@ -2,7 +2,7 @@ require recipes-core/images/emac-image.bb
 
 DESCRIPTION = "An Enlightenment illume desktop image"
 
-IMAGE_INSTALL += "\
+IMAGE_INSTALL:append = " \
     packagegroup-x11-illume \
     matchbox-terminal \
     xscreensaver \
