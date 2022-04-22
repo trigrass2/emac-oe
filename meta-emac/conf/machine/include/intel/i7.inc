@@ -7,19 +7,17 @@ require conf/machine/include/meta-intel.inc
 require conf/machine/include/intel-corei7-64-common.inc
 require conf/machine/include/intel-common-pkgarch.inc
 
-MACHINE_FEATURES += "pcbios efi"
-MACHINE_FEATURES += "wifi 3g nfc"
-MACHINE_FEATURES += "intel-ucode"
+MACHINE_FEATURES:append  = " pcbios efi wifi 3g nfc intel-ucode "
 
 MACHINE_HWCODECS ?= "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '', 'intel-media-driver intel-mediasdk', d)} intel-vaapi-driver gstreamer1.0-vaapi"
 
 # Enable optional dpdk:
-COMPATIBLE_MACHINE_pn-dpdk = "intel-corei7-64"
+COMPATIBLE_MACHINE:pn-dpdk = "intel-corei7-64"
 
 # Enable optional QAT items:
-COMPATIBLE_MACHINE_pn-qat16 = "intel-corei7-64"
-COMPATIBLE_MACHINE_pn-qat17 = "intel-corei7-64"
-COMPATIBLE_MACHINE_pn-zlib-qat = "intel-corei7-64"
+COMPATIBLE_MACHINE:pn-qat16 = "intel-corei7-64"
+COMPATIBLE_MACHINE:pn-qat17 = "intel-corei7-64"
+COMPATIBLE_MACHINE:pn-zlib-qat = "intel-corei7-64"
 
 XSERVER ?= "${XSERVER_X86_BASE} \
             ${XSERVER_X86_EXT} \
