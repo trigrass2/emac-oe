@@ -56,7 +56,7 @@ RRECOMMENDS_${PN}-util-debug = " \
     evtest \
     htop \
     minicom \
-    vim \
+    vim-tiny \
     openssh-sftp \
     openssh-sftp-server \
     file \

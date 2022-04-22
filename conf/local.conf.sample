@@ -133,4 +133,8 @@ DEPLOY_DIR_DEB    = "${DEPLOY_DIR}/deb"
 DEPLOY_DIR_IPK    = "${DEPLOY_DIR}/ipk"
 DEPLOY_DIR_RPM    = "${DEPLOY_DIR}/rpm"
 
+# TEST_TARGET = "emac-image"
+# TEST_TARGET_IP = "<10.0.X.XXX>"
+# TEST_SERVER_IP = "<10.0.X.XXX>"
+
 ## needs MACHINE, EMAC_CLIENT_NAME, and EMAC_IMAGE exported to env before run
