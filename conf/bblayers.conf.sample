@@ -44,13 +44,6 @@ TI_RECIPES = " \
     ##OEROOT##/meta-arm/meta-arm \
     ##OEROOT##/meta-arm/meta-arm-toolchain \
 "
-
-# APPLICATOPNS BASED
-QT4_RECIPES = " \ 
-    ##OEROOT##/emac-oe/meta-emac-qt4 \
-    ##OEROOT##/meta-qt4  \
-    ##OEROOT##/meta-python2 \
-"
  
 QT5_RECIPES = " \
     ##OEROOT##/emac-oe/meta-emac-qt5 \
@@ -64,7 +57,7 @@ CHROME_RECIPES += " \
     ##OEROOT##/emac-oe/meta-emac-web/meta-chromium \
 "
 
-WEB_RECIPES += " \
+WEBSERVER_RECIPES += " \
     ##OEROOT##/emac-oe/meta-emac-web/meta-webserver \
 "
 
