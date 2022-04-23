@@ -54,7 +54,7 @@ RRECOMMENDS:${PN} = " \
     kernel-base \
     sysfsutils \
     udev-extraconf \
-    util-linux-mount \    
+    util-linux-mount \
     tzcode \
     ${PN}-util \
     ${PN}-networking \
@@ -76,7 +76,7 @@ RRECOMMENDS:${PN}-networking = " \
     ifplugd \
     openssh \
     rsync \
-    ntp ntpdc ntpq ntp-tickadj ntp-utils ntpdate \
+    ntpdate sntp ntpdc ntpq ntp-tickadj ntp-utils ntp ppp \
     ${@bb.utils.contains("EMAC_NETWORKMANGER", "connman", " connman connman-conf  connman-tools connman-client ", " ", d)} \
     ${@bb.utils.contains("EMAC_NETWORKMANGER", "networkmanager", " networkmanager networkmanager-nmcli networkmanager-wifi networkmanager-nmtui networkmanager-bash-completion", " ", d)} \
 "
@@ -103,6 +103,7 @@ RRECOMMENDS:${PN}-wifi = " \
     wpa-supplicant \
     wireless-tools \
     bluez5 \
+    ${@bb.utils.contains("EMAC_NETWORKMANGER", "networkmanager", " modemmanager ", " ", d)} \
 "
 
 #    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", " audio-demos ", "", d)} 
@@ -138,7 +139,6 @@ RRECOMMENDS:${PN}-arm = " \
 #     gstreamer1.0-plugins-base 
 #     gstreamer1.0-plugins-good 
 #     fbida 
-
 # !! YIKES !!
 SUMMARY:${PN}-screen = "EMAC OE Screen Packages."
 RRECOMMENDS:${PN}-screen = " \
