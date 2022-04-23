@@ -5,11 +5,11 @@
 #
 # The disk layout used is:
 # ---------------------------------------------------------
-#|    rootfs    |      emac client        |   swap        |
+#|    rootfs                              |    swap        |
 # ---------------------------------------------------------
-#^              ^                         ^               ^
-#|              |                         |               |
-# 1G                    whats left 
-#
+#^                                        ^               ^
+#|                                        |               |
+# 
 part / --source rootfs --ondisk mmcblk --fstype=ext4 --label root --align 4096
 part swap --ondisk mmcblk --size 44 --label swap1 --fstype=swap 
+bootloader --ptable msdos

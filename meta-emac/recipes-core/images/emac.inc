@@ -8,9 +8,6 @@ FS_NUMBER ?= "00"
 inherit image
 
 inherit extrausers
-ROOTPASSWD="\$1\$toNMNUq8\$73DgW8yu5SZeY5PRzleI.0"
-PASSWD="\$1\$UMtWLrpz\$Hpp1KSgg5zCwcxMZW1FsP1"
-
 EXTRA_USERS_PARAMS:append = " \
     usermod -p '\$1\$toNMNUq8\$73DgW8yu5SZeY5PRzleI.0' root; \
     usermod -d /root root; \
@@ -19,7 +16,6 @@ EXTRA_USERS_PARAMS:append = " \
     usermod -aG dialout emac; \
     usermod -d /home/emac emac; \
 "
-
 
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_BUILDINFO_VARS = "DATE DISTRO_NAME DISTRO_VERSION IMAGE_BASENAME MACHINE TUNE_PKGARCH PART_NUMBER EXTRA_PKGS"

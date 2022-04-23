@@ -34,7 +34,7 @@ BB_DISKMON_DIRS ??= "\
     HALT,/tmp,10M,1K"
 
 
-CONF_VERSION = "1"
+CONF_VERSION = "2"
 
 # Enable build info & testing
 INHERIT:append  = " buildhistory image-buildinfo testimage rm_work"
@@ -53,46 +53,42 @@ BBMULTICONFIG = " \
 ######################
 ## EMAC arm boards
 #######################
-
-## EMAC's SoM-imx6 q/p & ul
-## som-imx6(350GS) dual/quad
-## with hardware acceleration & without
+## EMAC's NXP
 # MACHINE ?= "somimx6-ha"
 MACHINE ??= "somimx6"
 # MACHINE ?= "somimx6-rt"
 # MACHINE ?= "somimx6ul"
 
-## EMAC's SoM-3517
+## EMAC's TI
 # MACHINE ?= "som3517"
-
-## EMAC's Som-A5d36
-# MACHINE ?= "soma5d36"
-## EMAC's Som-A5d35
-# MACHINE ?= "soma5d35"
-
-## EMAC's Som-9x25
-# MACHINE ?= "som9x25"
-## EMAC's Som-9g45
-# MACHINE ?= "som9g45"
-## EMAC's Som-9g25
-# MACHINE ?= "som9g25"
-## EMAC's Som-9g20
-# MACHINE ?= "som9g20"
-
-## EMAC's Som-3517
-# MACHINE ?= "som3517"
-
-## EMAC's Som-3354
 # MACHINE ?= "som3354"
 
-## EMAC's iPac-9x25
+## EMAC's Microchip
+# MACHINE ?= "soma5d36"
+# MACHINE ?= "soma5d35"
+# MACHINE ?= "som9x25"
+# MACHINE ?= "som9g45"
+# MACHINE ?= "som9g25"
+# MACHINE ?= "som9g20"
 # MACHINE ?= "ipac9x25"
 
-######################
 ## EMAC x86 boards
-#######################
-## EMAC's vortex-sbc
+# MACHINE ?= "vdx-632x-xenomai"
 # MACHINE ?= "vortex-sbc"
+# MACHINE ?= "vox-150"
+# MACHINE ?= "pmx"
+# MACHINE ?= "pcm-9375"
+# MACHINE ?= "pcm-3356"
+# MACHINE ?= "ppc-150t"
+# MACHINE ?= "hmi-043t"
+# MACHINE ?= "ppc-150t"
+# MACHINE ?= "ft10270"
+# MACHINE ?= "ft8270"
+# MACHINE ?= "atom-sbc-ia64"
+# MACHINE ?= "atom-sbc-64"
+# MACHINE ?= "atom-sbc-64-x32"
+# MACHINE ?= "atom-sbc-32"
+# MACHINE ?= "aimb-214"
 
 ######################
 ## EMAC SETTINGS
