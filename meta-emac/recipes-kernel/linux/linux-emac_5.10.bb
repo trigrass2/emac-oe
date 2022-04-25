@@ -13,7 +13,7 @@ DEPENDS += " \
     zstd-native \
 "
 
-DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native pahole-native ', '', d)}"
+DEPENDS += "${@bb.utils.contains('EMAC_INITMANAGER', 'systemd', 'elfutils-native pahole-native ', '', d)}"
 
 EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
 

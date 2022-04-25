@@ -53,7 +53,7 @@ RDEPENDS_${PN} += " \
     qtxmlpatterns-dev \
 "
 
-#     qtwebview-dev
+# qtwebview-dev
 RDEPENDS_${PN}_atom-sbc += " \
     qtwebengine-dev \
 "

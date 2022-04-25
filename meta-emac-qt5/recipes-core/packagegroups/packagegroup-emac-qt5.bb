@@ -11,28 +11,22 @@ PACKAGES = " \
     ${PN} \
     ${PN}-base-extras \
     ${PN}-tools \
-    ${PN}-gstreamer \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' ${PN}-gstreamer  ', '', d)} \
 "
+
 
 # QT MODS
 # SUMMARY_${PN}-qt5 = "Qt5(Full) meta package"
 RDEPENDS_${PN} += " \
     ${PN}-base-extras \
     ${PN}-tools \
-    ${PN}-gstreamer \
-    qt3d \
     qtbase \
     qtcharts \
     qtconnectivity \
-    qtdatavis3d \
     qtdeclarative \
     qtdeclarative-tools \
     qtgamepad \
-    qtgraphicaleffects \
     qtimageformats \
-    qtlocation \
-    qtmultimedia \
-    qtquick3d \
     qtquickcontrols \
     qtquickcontrols2 \
     qtquicktimeline \
@@ -46,17 +40,24 @@ RDEPENDS_${PN} += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland', '', d)} \
     qtwebsockets \
     qtwebchannel \
-    qtwebglplugin \
     qtxmlpatterns \
     qtvirtualkeyboard \
+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' \
+	    ${PN}-gstreamer \
+	    qt3d \
+	    qtdatavis3d \
+	    qtgraphicaleffects \
+	    qtlocation \
+	    qtmultimedia \
+	    qtquick3d \
+	    qtwebglplugin ', '', d)} \
 "
 
 
-## TODO ADD connman
+## linux-firmware 
 SUMMARY_${PN}-base-extras = "Extra tools fonts and tz data for emac qt based boards"
 RDEPENDS_${PN}-base-extras += " \
     kernel-modules \
-    linux-firmware \
     ca-certificates \
     liberation-fonts \
     ttf-devanagari \

@@ -4,11 +4,10 @@ PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 
-MACHINE_FEATURES += " arm"
+MACHINE_FEATURES += " arm "
 
 SERIAL_CONSOLE ?= "115200 ttymxc1"
 KERNEL_IMAGETYPE ?= "zImage"
-
 UBOOT_SUFFIX = "img"
 UBOOT_MACHINE ?= "somimx6dq_defconfig"
 

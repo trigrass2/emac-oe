@@ -1,11 +1,8 @@
 DEPENDS_ti33x += " \
-    wayland \
     wayland-native \
     wayland \
     wayland-protocols \
     libdrm \
-    ti-sgx-ddk-um \
-    gstreamer1.0 \
     iso-codes \
     util-linux \
     zlib \
@@ -67,5 +64,5 @@ EXTRA_OEMESON = " \
 #      cp -f ${WORKDIR}/git/gst-libs/gst/gl/viv-fb/gstglwindow_viv_fb_egl.h ${D}/usr/include/gstreamer-1.0/gst/gl/viv-fb/
 # }
 
-COMPATIBLE_MACHINE = "(ti33x|omap-a15|dra7xx|qemuarm|qemux86-64)"
+COMPATIBLE_MACHINE = "(omap-a15|dra7xx|qemuarm|qemux86-64)"
 
