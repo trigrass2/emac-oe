@@ -75,7 +75,6 @@ clean-sstate:
     - source start_afterclose.sh
     - bitbake $EMAC_IMAGE -c cleansstate
 
-
 .build-standard:
   variables:
     GIT_STRATEGY: none
@@ -84,19 +83,19 @@ clean-sstate:
     - oe-builder
     - bitbake
   script:
-    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE build-standard
+    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE repo-tool/build/build-standard-$MACHINE
     - cd repo-tool
     - source start_afterclose.sh
     - $BITBAKE_CMD $EMAC_IMAGE
   artifacts:
     paths:
-      - repo-tool/build/build-standard/image/*.tgz
-      - repo-tool/build/build-standard/image/*.manifest
-      - repo-tool/build/build-standard/image/*.json
-      - repo-tool/build/build-standard/image/*.tar.gz
-      - repo-tool/build/build-standard/image/*.dtb
-      - repo-tool/build/build-standard/image/zImage
-      - repo-tool/build/build-standard/image/*.bin
+      - repo-tool/build/build-standard-$MACHINE/image/*.tgz
+      - repo-tool/build/build-standard-$MACHINE/image/*.manifest
+      - repo-tool/build/build-standard-$MACHINE/image/*.json
+      - repo-tool/build/build-standard-$MACHINE/image/*.tar.gz
+      - repo-tool/build/build-standard-$MACHINE/image/*.dtb
+      - repo-tool/build/build-standard-$MACHINE/image/zImage
+      - repo-tool/build/build-standard-$MACHINE/image/*.bin
 
 build-emac-image:
   stage: build
@@ -121,7 +120,7 @@ build-emac-image-sdk:
   when: manual
   allow_failure: true
   script:
-    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/qemuarm build-standard-qemu-arm
+    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE repo-tool/build/build-standard-qemu-arm
     - cd repo-tool
     - source start_afterclose.sh
     - bitbake mc:qemu-armv7:$EMAC_IMAGE
@@ -140,7 +139,7 @@ build-emac-image-sdk:
   when: manual
   allow_failure: true
   script:
-    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/qemux86-64 build-standard-qemu-x86
+    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/qemux86-64 repo-tool/build/build-standard-qemu-x86
     - cd repo-tool
     - source start_afterclose.sh
     - bitbake mc:qemu-x86-64:$EMAC_IMAGE
