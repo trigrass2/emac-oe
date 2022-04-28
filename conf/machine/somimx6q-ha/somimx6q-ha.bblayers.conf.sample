@@ -3,4 +3,5 @@
 BBLAYERS = " \
   ${CORE_RECIPES} \
   ${NXP_RECIPES} \
+  ${QT5_RECIPES} \
 "

@@ -94,8 +94,13 @@ clean-sstate:
       - repo-tool/build/build-standard-$MACHINE/image/*.json
       - repo-tool/build/build-standard-$MACHINE/image/*.tar.gz
       - repo-tool/build/build-standard-$MACHINE/image/*.dtb
-      - repo-tool/build/build-standard-$MACHINE/image/zImage
       - repo-tool/build/build-standard-$MACHINE/image/*.bin
+      - repo-tool/build/build-standard-$MACHINE/image/*.wic
+      - repo-tool/build/build-standard-$MACHINE/image/*.ext4
+      - repo-tool/build/build-standard-$MACHINE/image/zImage
+      - repo-tool/build/build-standard-$MACHINE/image/SPL
+      - repo-tool/build/build-standard-$MACHINE/image/MLO
+      - repo-tool/build/build-standard-$MACHINE/image/MLO.byteswap
 
 build-emac-image:
   stage: build
