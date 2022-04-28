@@ -43,8 +43,8 @@ INHERIT += "rm_work"
 BUILDHISTORY_COMMIT = "1"
 
 ## Set these when building locally
-#BB_NUMBER_THREADS ?= "20"
-#PARALLEL_MAKE ?= "-j 12"
+BB_NUMBER_THREADS ?= "20"
+PARALLEL_MAKE ?= "-j 12"
 
 BBMULTICONFIG = " \
     qemu-x86-64 \
@@ -59,8 +59,8 @@ BBMULTICONFIG = " \
 ## som-imx6(350GS) dual/quad
 ## with hardware acceleration & without
 # MACHINE ?= "somimx6q-ha"
-# MACHINE ?= "somimx6q"
-# MACHINE ?= "somimx6q-rt"
+# MACHINE ?= "somimx6"
+# MACHINE ?= "somimx6-rt"
 # MACHINE ?= "somimx6ul"
 
 ## EMAC's SoM-3517

@@ -19,6 +19,10 @@ XSERVER = "\
     xf86-input-tslib \
 "
 
+EXTRA_IMAGEDEPENDS_append = " \
+    u-boot-emac \
+"
+
 MACHINE_FEATURES += "arm"
 SERIAL_CONSOLE ?= "115200 ttyO0"
 KERNEL_IMAGETYPE ?= "zImage"

@@ -31,7 +31,7 @@ PACKAGECONFIG += " \
 "
 
 ## HACKY but it works.
-EXTRA_OEMESON = " \
+EXTRA_OEMESON_dra7xx = " \
     -Dexamples=disabled \
     -Ddbghelp=disabled \
     -Dgtk_doc=disabled \

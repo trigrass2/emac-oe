@@ -2,7 +2,7 @@
 # changes incompatibly
 LCONF_VERSION = "7"
 
-BBPATH = "PROJECTBUILDDIR"
+BBPATH = "${TOPDIR}"
 BBFILES ?= ""
 
 CORE_RECIPES = " \
@@ -70,4 +70,9 @@ WEB_RECIPES += " \
 
 XENOMAI_RECIPES += " \
     ##OEROOT##/emac-oe/meta-emac-xenomai \
+"
+
+#Change this to fit your needs
+BBLAYERS ?= " \
+  ${CORE_RECIPES} \
 "

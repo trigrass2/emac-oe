@@ -1,5 +1,5 @@
 ## Included from machine/atom-sbc-64-x32/atom-sbc-64-x32.bblayers.conf.sample
 
-BBLAYERS ?= " \
+BBLAYERS = " \
   ${CORE_RECIPES} \
 "

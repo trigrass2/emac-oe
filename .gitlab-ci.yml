@@ -4,7 +4,10 @@ variables:
   LAYERS_SAMPLE: '${CI_PROJECT_DIR}/conf/machine/${MACHINE}/${MACHINE}.bblayers.conf.sample'
   EMAC_CLIENT_NAME: 'emac'
   EMAC_IMAGE: 'emac-image'
-
+  BB_NUMBER_THREADS: "20"
+  PARALLEL_MAKE: "-j 12"
+  GIT_CLEAN_FLAGS: none
+  
 stages:
   - setup
   - build
@@ -13,6 +16,8 @@ stages:
 
 init-env:
   stage: setup
+  variables:
+    GIT_STRATEGY: fetch
   tags:
     - oe-builder
     - bitbake
@@ -22,16 +27,16 @@ init-env:
     - git submodule sync --recursive
     - git submodule update --init --recursive
     - cd repo-tool
+    - ./init-build.sh -c
     - ./init-build.sh -g "$REPO_TOOL_GROUPS"
     - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
-    - sed -i "s|PROJECTBUILDDIR|${CI_PROJECT_DIR}/repo-tool/build|g"  ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
-    - echo "export MACHINE=$MACHINE" >> emac.env
-    - echo "export EMAC_CLIENT_NAME=$EMAC_CLIENT_NAME" >> emac.env
-    - echo "export EMAC_IMAGE=$EMAC_IMAGE" >> emac.env
     - source setup_env.sh
+    - export
 
-clean-init:
+clean-build:
   stage: setup
+  variables:
+    GIT_STRATEGY: none
   tags:
     - oe-builder
     - bitbake
@@ -40,93 +45,12 @@ clean-init:
   script:
     - pushd repo-tool
     - ./init-build.sh -c
-
-
-build-standard 1/3:
-  stage: build
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake emac-image
-    - ln -sf /srv/emac-oe/deploy/emac/emac-image/$MACHINE localCopy
-  artifacts:
-    paths:
-      - repo-tool/build/localCopy/image/*.tgz
-      - repo-tool/build/localCopy/image/*.manifest
-      - repo-tool/build/localcopy/image/*.json
-      - repo-tool/build/localCopy/image/*.tar.gz
-      - repo-tool/build/localCopy/image/*.dtb
-      - repo-tool/build/localCopy/image/zImage
-      - repo-tool/build/localCopy/image/*.bin
-
-build-standard 2/3:
-  stage: build
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake emac-image -c do_populate_sdk
-    - ln -sf /srv/emac-oe/deploy/emac/emac-image/sdk localCopy-sdk
-  artifacts:
-    paths:
-      - repo-tool/build/localCopy-sdk/*.manifest
-      - repo-tool/build/localCopy-sdk/*.json
-      - repo-tool/build/localCopy-sdk/*.sh
-
-build-standard 3/3:
-  stage: build
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake mc:qemu-armv7:emac-image
-    - ln -sf /srv/emac-oe/deploy/emac/emac-image/$MACHINE localCopy-qemuarm
-  artifacts:
-    paths:
-      - repo-tool/build/localCopy-qemuarm/image/*.conf
-      - repo-tool/build/localCopy-qemuarm/image/*.ext4
-      - repo-tool/build/localCopy-qemuarm/image/*.manifest
-      - repo-tool/build/localCopy-qemuarm/image/*.bz2
-      - repo-tool/build/localCopy-qemuarm/image/*.json
-      - repo-tool/build/localCopy-qemuarm/image/*/tgz
-      - repo-tool/build/localCopy-qemuarm/image/zImage
-      - repo-tool/build/localCopy-qemuarm/image/*.bin
-
-test-image:
-  stage: test
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - echo "Testing image somehow"
-
-deploy-image:
-  stage: deploy
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - echo "Deploying Packages and Images"
+    - rm -rf build
 
 clean-image:
   stage: setup
+  variables:
+    GIT_STRATEGY: none
   tags:
     - oe-builder
     - bitbake
@@ -134,5 +58,136 @@ clean-image:
   allow_failure: true
   script:
     - cd repo-tool
-    - start_afterclose.sh
-    - bitbake emac-image -c clean
+    - source start_afterclose.sh
+    - bitbake $EMAC_IMAGE -c clean
+
+clean-sstate:
+  stage: setup
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - oe-builder
+    - bitbake
+  when: manual
+  allow_failure: true
+  script:
+    - cd repo-tool
+    - source start_afterclose.sh
+    - bitbake $EMAC_IMAGE -c cleansstate
+
+
+.build-standard:
+  variables:
+    GIT_STRATEGY: none
+    BITBAKE_CMD: 'bitbake'
+  tags:
+    - oe-builder
+    - bitbake
+  script:
+    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE build-standard
+    - cd repo-tool
+    - source start_afterclose.sh
+    - $BITBAKE_CMD $EMAC_IMAGE
+  artifacts:
+    paths:
+      - repo-tool/build/build-standard/image/*.tgz
+      - repo-tool/build/build-standard/image/*.manifest
+      - repo-tool/build/build-standard/image/*.json
+      - repo-tool/build/build-standard/image/*.tar.gz
+      - repo-tool/build/build-standard/image/*.dtb
+      - repo-tool/build/build-standard/image/zImage
+      - repo-tool/build/build-standard/image/*.bin
+
+build-emac-image:
+  stage: build
+  extends: .build-standard
+  rules:
+  - if: '$MACHINE != "none"'
+
+build-emac-image-sdk:
+  stage: build
+  extends: .build-standard
+  when: manual
+  allow_failure: true
+  variables:
+    BITBAKE_CMD: 'bitbake -c do_populate_sdk'
+
+.build-standard-qemu-arm:
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - oe-builder
+    - bitbake
+  when: manual
+  allow_failure: true
+  script:
+    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/qemuarm build-standard-qemu-arm
+    - cd repo-tool
+    - source start_afterclose.sh
+    - bitbake mc:qemu-armv7:$EMAC_IMAGE
+  artifacts:
+    paths:
+      - repo-tool/build/build-standard-qemu-arm/*.manifest
+      - repo-tool/build/build-standard-qemu-arm/*.json
+      - repo-tool/build/build-standard-qemu-arm/*.sh
+
+.build-standard-qemu-x86:
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - oe-builder
+    - bitbake
+  when: manual
+  allow_failure: true
+  script:
+    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/qemux86-64 build-standard-qemu-x86
+    - cd repo-tool
+    - source start_afterclose.sh
+    - bitbake mc:qemu-x86-64:$EMAC_IMAGE
+  artifacts:
+    paths:
+      - repo-tool/build/build-standard-qemu-x86/image/*.conf
+      - repo-tool/build/build-standard-qemu-x86/image/*.ext4
+      - repo-tool/build/build-standard-qemu-x86/image/*.manifest
+      - repo-tool/build/build-standard-qemu-x86/image/*.bz2
+      - repo-tool/build/build-standard-qemu-x86/image/*.json
+      - repo-tool/build/build-standard-qemu-x86/image/*/tgz
+      - repo-tool/build/build-standard-qemu-x86/image/zImage
+      - repo-tool/build/build-standard-qemu-x86/image/*.bin
+
+build-emac-image-qemu-arm:
+  stage: build
+  extends: .build-standard-qemu-arm
+  variables:
+    EMAC_IMAGE: 'emac-image'
+
+build-emac-image-qemu-x86:
+  stage: build
+  extends: .build-standard-qemu-x86
+  variables:
+    EMAC_IMAGE: 'emac-image'
+
+test-image:
+  stage: test
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
+  script:
+    - echo "Nothing to do here. Yet"
+
+deploy-image:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - oe-builder
+    - bitbake
+  rules:
+    - if: '$MACHINE != "none"'
+  script:
+    - echo "Nothing to do here Yet"
+
