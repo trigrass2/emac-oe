@@ -88,8 +88,6 @@ clean-sstate:
   timeout: 6hr
   script:
     - *initenv-script
-    - cd repo-tool
-    - source start_afterclose.sh
     - $BITBAKE_CMD $EMAC_IMAGE
     - test ! -e build-standard-$MACHINE && ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE build-standard-$MACHINE
   artifacts:
