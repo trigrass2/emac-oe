@@ -5,9 +5,10 @@ SRC_URI += " \
     file://som-imx6dq.dtsi \
     file://som-imx6q-350es.dts \
     file://som-imx6q-350es-10.dts \
+    file://som-imx6q-350es-7.dts \
     file://0015_tsc2004touchscreenpropertiesfix.patch \
 "
-#     file://som-imx6q-350es-7.dts 
+ 
 
 do_configure_append(){
     mkdir -p ${S}arch/arm/boot/dts
