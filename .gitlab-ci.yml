@@ -84,7 +84,7 @@ clean-sstate:
     - oe-builder
     - bitbake
   script:
-    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE build-standard
+    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE build-standard
     - cd repo-tool
     - source start_afterclose.sh
     - $BITBAKE_CMD $EMAC_IMAGE
