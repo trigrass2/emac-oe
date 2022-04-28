@@ -21,6 +21,7 @@ XSERVER = "\
 
 EXTRA_IMAGEDEPENDS_append = " \
     u-boot-emac \
+    linux-emac \
 "
 
 MACHINE_FEATURES += "arm"
