@@ -8,6 +8,10 @@
   - source setup_env.sh
   - export
 
+.create-links-for-deploy: &create-links-for-deploy
+ - test -e deploy && unlink deploy; 
+ - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE deploy
+
 variables:
   MACHINE: "none"
   REPO_TOOL_GROUPS: 'default'
@@ -89,21 +93,21 @@ clean-sstate:
   script:
     - *initenv-script
     - $BITBAKE_CMD $EMAC_IMAGE
-    - test ! -e build-standard-$MACHINE && ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE build-standard-$MACHINE
+    - *create-links-for-deploy
   artifacts:
     paths:
-      - repo-tool/build/build-standard-$MACHINE/image/*.tgz
-      - repo-tool/build/build-standard-$MACHINE/image/*.manifest
-      - repo-tool/build/build-standard-$MACHINE/image/*.json
-      - repo-tool/build/build-standard-$MACHINE/image/*.tar.gz
-      - repo-tool/build/build-standard-$MACHINE/image/*.dtb
-      - repo-tool/build/build-standard-$MACHINE/image/*.bin
-      - repo-tool/build/build-standard-$MACHINE/image/*.wic
-      - repo-tool/build/build-standard-$MACHINE/image/*.ext4
-      - repo-tool/build/build-standard-$MACHINE/image/zImage
-      - repo-tool/build/build-standard-$MACHINE/image/SPL
-      - repo-tool/build/build-standard-$MACHINE/image/MLO
-      - repo-tool/build/build-standard-$MACHINE/image/MLO.byteswap
+      - deploy/image/*.tgz
+      - deploy/image/*.manifest
+      - deploy/image/*.json
+      - deploy/image/*.tar.gz
+      - deploy/image/*.dtb
+      - deploy/image/*.bin
+      - deploy/image/*.wic
+      - deploy/image/*.ext4
+      - deploy/image/zImage
+      - deploy/image/SPL
+      - deploy/image/MLO
+      - deploy/image/MLO.byteswap
 
 build-emac-image:
   stage: build
@@ -131,12 +135,12 @@ build-emac-image-sdk:
     - cd repo-tool
     - source start_afterclose.sh
     - bitbake mc:qemu-armv7:$EMAC_IMAGE
-    - test ! -e build-standard-qemu-arm &&  ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE build-standard-qemu-arm
+    - *create-links-for-deploy
   artifacts:
     paths:
-      - repo-tool/build/build-standard-qemu-arm/*.manifest
-      - repo-tool/build/build-standard-qemu-arm/*.json
-      - repo-tool/build/build-standard-qemu-arm/*.sh
+      - deploy/image/*.manifest
+      - deploy/image/*.json
+      - deploy/image/*.sh
 
 .build-standard-qemu-x86:
   variables:
@@ -150,17 +154,17 @@ build-emac-image-sdk:
     - cd repo-tool
     - source start_afterclose.sh
     - bitbake mc:qemu-x86-64:$EMAC_IMAGE
-    - test ! -e build-standard-qemu-x86 && ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/qemux86-64 build-standard-qemu-x86
+    - *create-links-for-deploy
   artifacts:
     paths:
-      - repo-tool/build/build-standard-qemu-x86/image/*.conf
-      - repo-tool/build/build-standard-qemu-x86/image/*.ext4
-      - repo-tool/build/build-standard-qemu-x86/image/*.manifest
-      - repo-tool/build/build-standard-qemu-x86/image/*.bz2
-      - repo-tool/build/build-standard-qemu-x86/image/*.json
-      - repo-tool/build/build-standard-qemu-x86/image/*/tgz
-      - repo-tool/build/build-standard-qemu-x86/image/zImage
-      - repo-tool/build/build-standard-qemu-x86/image/*.bin
+      - deploy/image/*.conf
+      - deploy/image/*.ext4
+      - deploy/image/*.manifest
+      - deploy/image/*.bz2
+      - deploy/image/*.json
+      - deploy/image/*/tgz
+      - deploy/image/zImage
+      - deploy/image/*.bin
 
 build-emac-image-qemu-arm:
   stage: build
