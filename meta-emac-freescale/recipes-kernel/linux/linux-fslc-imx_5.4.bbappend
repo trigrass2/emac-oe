@@ -17,7 +17,7 @@ do_configure_append(){
     
     cp -f ${WORKDIR}/som-imx6dq.dtsi ${WORKDIR}/git/arch/arm/boot/dts
     cp -f ${WORKDIR}/som-imx6q-350es.dts ${WORKDIR}/git/arch/arm/boot/dts
-#     cp -f ${WORKDIR}/som-imx6q-350es-7.dts ${WORKDIR}/git/arch/arm/boot/dts
+    cp -f ${WORKDIR}/som-imx6q-350es-7.dts ${WORKDIR}/git/arch/arm/boot/dts
     cp -f ${WORKDIR}/som-imx6q-350es-10.dts ${WORKDIR}/git/arch/arm/boot/dts
 }
 
