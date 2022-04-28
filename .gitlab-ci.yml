@@ -9,8 +9,8 @@
   - export
 
 .create-links-for-deploy: &create-links-for-deploy
- - test -e deploy && unlink deploy; 
- - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE deploy
+ - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
+ - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE ${CI_PROJECT_DIR}/deploy
 
 variables:
   MACHINE: "none"
