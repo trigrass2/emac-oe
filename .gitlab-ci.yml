@@ -33,8 +33,6 @@ init-env:
   tags:
     - oe-builder
     - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
   script:
     - *initenv-script
 
