@@ -10,7 +10,7 @@
 
 .create-links-for-deploy: &create-links-for-deploy
   - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
-  - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE ${CI_PROJECT_DIR}/deploy
+  - ln -sf /srv/emac-oe/$DISTRO_CODENAME/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE ${CI_PROJECT_DIR}/deploy
 
 .start-bb-after-close: &start-bb-after-close
   - cd repo-tool
@@ -27,6 +27,7 @@
 
 variables:
   MACHINE: "none"
+  DISTRO_CODENAME: "duncan"
   REPO_TOOL_GROUPS: 'default'
   LAYERS_SAMPLE: '${CI_PROJECT_DIR}/conf/machine/${MACHINE}/${MACHINE}.bblayers.conf.sample'
   EMAC_CLIENT_NAME: 'emac'
@@ -129,7 +130,7 @@ build-emac-image-sdk:
     - echo $BITBAKE_CMD
     - $BITBAKE_CMD
     - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
-    - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$QEMU_MACHINE ${CI_PROJECT_DIR}/deploy
+    - ln -sf /srv/emac-oe/$DISTRO_CODENAME/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$QEMU_MACHINE ${CI_PROJECT_DIR}/deploy
   artifacts:
     paths:
       - deploy/image/
