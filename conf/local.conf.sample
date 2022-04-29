@@ -1,8 +1,10 @@
+DISTRO_CODENAME ?= "duncan"
+
 # Where to place downloads
 DL_DIR = "/srv/emac-oe/downloads"
-STAMPS_DIR = "/srv/emac-oe/stamps"
+STAMPS_DIR = "/srv/emac-oe/${DISTRO_CODENAME}/stamps"
 # Where to place shared-state files
-SSTATE_DIR = "/srv/emac-oe/sstate-cache"
+SSTATE_DIR = "/srv/emac-oe/${DISTRO_CODENAME}/sstate-cache/"
 
 # SSTATE_MIRRORS ?= "
 # file://.* file:///srv/emac-oe/sstate-cache
@@ -126,9 +128,11 @@ EMAC_PACKAGEMANAGER ?= "rpm"
 EMAC_CLIENT_NAME ?= "emac"
 EMAC_IMAGE ?= "emac-image"
 
-DEPLOY_DIR        = "/srv/emac-oe/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}/${MACHINE}"
+DEPLOY_DIR        = "/srv/emac-oe/${DISTRO_CODENAME}/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}/${MACHINE}"
 DEPLOY_DIR_IMAGE  = "${DEPLOY_DIR}/image"
-LICENSE_DIRECTORY = "${DEPLOY_DIR}/license"
+
+## SSTATE_DUPWHITELIST is set to this, if needing to change license dirs add it to this var
+LICENSE_DIRECTORY = "${DEPLOY_DIR}/licenses" 
 
 DEPLOY_DIR_DEB    = "${DEPLOY_DIR}/deb"
 DEPLOY_DIR_IPK    = "${DEPLOY_DIR}/ipk"
