@@ -9,11 +9,25 @@
   - export
 
 .create-links-for-deploy: &create-links-for-deploy
- - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
- - ln -sf /srv/emac-oe/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE ${CI_PROJECT_DIR}/deploy
+  - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
+  - ln -sf /srv/emac-oe/$DISTRO_CODENAME/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE ${CI_PROJECT_DIR}/deploy
+
+.start-bb-after-close: &start-bb-after-close
+  - cd repo-tool
+  - source start_afterclose.sh
+
+.default-no-fetch-manual: &default-no-fetch-manual
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - oe-builder
+    - bitbake
+  when: manual
+  allow_failure: true
 
 variables:
   MACHINE: "none"
+  DISTRO_CODENAME: "duncan"
   REPO_TOOL_GROUPS: 'default'
   LAYERS_SAMPLE: '${CI_PROJECT_DIR}/conf/machine/${MACHINE}/${MACHINE}.bblayers.conf.sample'
   EMAC_CLIENT_NAME: 'emac'
@@ -40,143 +54,102 @@ init-env:
   script:
     - *initenv-script
 
-clean-build:
+clean-bitbake-locks:
   stage: setup
-  variables:
-    GIT_STRATEGY: none
-  tags:
-    - oe-builder
-    - bitbake
-  when: manual
-  allow_failure: true
+  <<: *default-no-fetch-manual
   script:
-    - pushd repo-tool
-    - ./init-build.sh -c
-    - rm -rf build
+    - pushd repo-tool/build
+    - rm bitbake.*
+
+clean-recipe:
+  stage: setup
+  <<: *default-no-fetch-manual
+  script:
+    - test ! -z $RECIPE_NAME
+    - *start-bb-after-close
+    - bitbake $RECIPE_NAME -c clean
+
+clean-recipe-sstate:
+  stage: setup
+  <<: *default-no-fetch-manual
+  script:
+    - test ! -z $RECIPE_NAME
+    - *start-bb-after-close
+    - bitbake $RECIPE_NAME -c cleansstate
 
 clean-image:
   stage: setup
+  extends: clean-recipe
   variables:
-    GIT_STRATEGY: none
-  tags:
-    - oe-builder
-    - bitbake
-  when: manual
-  allow_failure: true
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake $EMAC_IMAGE -c clean
+    RECIPE_NAME: $EMAC_IMAGE
 
-clean-sstate:
+clean-image-sstate:
   stage: setup
+  extends: clean-recipe-sstate
   variables:
-    GIT_STRATEGY: none
-  tags:
-    - oe-builder
-    - bitbake
-  when: manual
-  allow_failure: true
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake $EMAC_IMAGE -c cleansstate
+    RECIPE_NAME: $EMAC_IMAGE
 
-.build-standard:
+.build-recipe:
   variables:
     GIT_STRATEGY: none
     BITBAKE_CMD: 'bitbake'
+    RECIPE_NAME: $EMAC_IMAGE
   tags:
     - oe-builder
     - bitbake
   timeout: 6hr
   script:
     - *initenv-script
-    - $BITBAKE_CMD $EMAC_IMAGE
+    - $BITBAKE_CMD $RECIPE_NAME
     - *create-links-for-deploy
-  artifacts:
-    paths:
-      - deploy/image/*.tgz
-      - deploy/image/*.manifest
-      - deploy/image/*.json
-      - deploy/image/*.tar.gz
-      - deploy/image/*.dtb
-      - deploy/image/*.bin
-      - deploy/image/*.wic
-      - deploy/image/*.ext4
-      - deploy/image/zImage
-      - deploy/image/SPL
-      - deploy/image/MLO
-      - deploy/image/MLO.byteswap
 
 build-emac-image:
   stage: build
-  extends: .build-standard
+  extends: .build-recipe
   rules:
   - if: '$MACHINE != "none"'
+  artifacts:
+    paths:
+      - deploy/image/
 
 build-emac-image-sdk:
   stage: build
-  extends: .build-standard
+  extends: .build-recipe
   when: manual
   allow_failure: true
   variables:
     BITBAKE_CMD: 'bitbake -c do_populate_sdk'
-
-.build-standard-qemu-arm:
-  variables:
-    GIT_STRATEGY: none
-  tags:
-    - oe-builder
-    - bitbake
-  when: manual
-  allow_failure: true
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake mc:qemu-armv7:$EMAC_IMAGE
-    - *create-links-for-deploy
   artifacts:
     paths:
-      - deploy/image/*.manifest
-      - deploy/image/*.json
-      - deploy/image/*.sh
+      - deploy/sdk/
 
-.build-standard-qemu-x86:
-  variables:
-    GIT_STRATEGY: none
-  tags:
-    - oe-builder
-    - bitbake
-  when: manual
-  allow_failure: true
+.build-standard-qemu:
+  <<: *default-no-fetch-manual
   script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake mc:qemu-x86-64:$EMAC_IMAGE
-    - *create-links-for-deploy
+    - *start-bb-after-close
+    - echo $BITBAKE_CMD
+    - $BITBAKE_CMD
+    - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
+    - ln -sf /srv/emac-oe/$DISTRO_CODENAME/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$QEMU_MACHINE ${CI_PROJECT_DIR}/deploy
   artifacts:
     paths:
-      - deploy/image/*.conf
-      - deploy/image/*.ext4
-      - deploy/image/*.manifest
-      - deploy/image/*.bz2
-      - deploy/image/*.json
-      - deploy/image/*/tgz
-      - deploy/image/zImage
-      - deploy/image/*.bin
+      - deploy/image/
 
 build-emac-image-qemu-arm:
   stage: build
-  extends: .build-standard-qemu-arm
+  extends: .build-standard-qemu
   variables:
     EMAC_IMAGE: 'emac-image'
+    BITBAKE_CMD: bitbake mc:qemu-armv7:$EMAC_IMAGE
+    QEMU_MACHINE: qemuarm
 
 build-emac-image-qemu-x86:
   stage: build
-  extends: .build-standard-qemu-x86
+  extends: .build-standard-qemu
   variables:
     EMAC_IMAGE: 'emac-image'
+    BITBAKE_CMD: bitbake mc:qemu-x86-64:$EMAC_IMAGE
+    QEMU_MACHINE: qemux86-64
 
 test-image:
   stage: test
