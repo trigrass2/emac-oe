@@ -91,7 +91,7 @@ clean-image-sstate:
 
 .build-recipe:
   variables:
-    GIT_STRATEGY: none
+    GIT_STRATEGY: fetch
     BITBAKE_CMD: 'bitbake'
     RECIPE_NAME: $EMAC_IMAGE
   tags:
