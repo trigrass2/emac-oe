@@ -1,5 +1,8 @@
 inherit qmake5_paths
 
+## Redirect source to EMAC mirror of upstream repository
+GST1.0-PLUGINS-GOOD_SRC = "git://git.emacinc.com/nxp-sources/gst-plugins-good.git;protocol=http"
+
 PACKAGECONFIG_GL = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 eglfs', 'no-opengl', d )}"
 
 DEPENDS += " \
