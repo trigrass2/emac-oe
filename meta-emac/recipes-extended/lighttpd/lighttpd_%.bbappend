@@ -22,5 +22,5 @@ do_install_append () {
          
 	install -d ${D}${bindir}
 	install -m 0755 ${WORKDIR}/webwriter.sh ${D}${bindir}/
-	rmdir ${D}/www/pages/dav
+
 }
