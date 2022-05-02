@@ -20,7 +20,7 @@ CORE_RECIPES = " \
 
 INTEL_RECIPES = " \
     ##OEROOT##/meta-intel \
-    ##OEROOT##/meta-emac-intel \
+    ##OEROOT##/emac-oe/meta-emac-intel \
 "
 
 ATMEL_RECIPES = " \
