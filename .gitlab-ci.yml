@@ -134,11 +134,6 @@ build-emac-image:
     paths:
       - deploy/image/
 
-build-emac-qt5-image:
-  extends: build-emac-image
-  variables:
-    EMAC_IMAGE: emac-qt5-image
-
 build-emac-image-sdk:
   stage: build
   extends: .build-recipe
