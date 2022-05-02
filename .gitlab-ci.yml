@@ -26,7 +26,17 @@
 .start-bb-after-close: &start-bb-after-close
   - cd repo-tool
   - source start_afterclose.sh
-  - export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE EMAC_CLIENT_NAME EMAC_IMAGE"
+  - |
+    export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE \
+      EMAC_CLIENT_NAME \
+      EMAC_IMAGE \
+      EMAC_DISPLAY_HW \
+      EMAC_DISPLAY \
+      EMAC_SHELLMANAGER \
+      EMAC_INITMANAGER \
+      EMAC_NETWORKMANGER \
+      EMAC_AUDIOMANAGER \
+      EMAC_PACKAGEMANAGER"
 
 .default-no-fetch-manual: &default-no-fetch-manual
   variables:
@@ -127,7 +137,7 @@ build-emac-image:
 build-emac-qt5-image:
   extends: build-emac-image
   variables:
-    RECIPE_NAME: emac-qt5-image
+    EMAC_IMAGE: emac-qt5-image
 
 build-emac-image-sdk:
   stage: build
