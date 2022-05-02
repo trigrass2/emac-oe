@@ -5,6 +5,17 @@
   - ./init-build.sh -c
   - ./init-build.sh -g "$REPO_TOOL_GROUPS"
   - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
+  - |
+    export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE \
+      EMAC_CLIENT_NAME \
+      EMAC_IMAGE \
+      EMAC_DISPLAY_HW \
+      EMAC_DISPLAY \
+      EMAC_SHELLMANAGER \
+      EMAC_INITMANAGER \
+      EMAC_NETWORKMANGER \
+      EMAC_AUDIOMANAGER \
+      EMAC_PACKAGEMANAGER"
   - source setup_env.sh
   - export
 
@@ -15,6 +26,7 @@
 .start-bb-after-close: &start-bb-after-close
   - cd repo-tool
   - source start_afterclose.sh
+  - export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE EMAC_CLIENT_NAME EMAC_IMAGE"
 
 .default-no-fetch-manual: &default-no-fetch-manual
   variables:
