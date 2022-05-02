@@ -15,7 +15,6 @@ DISTRO ?= "emac"
 #DISTRO = "emactegra"
 
 PACKAGE_CLASSES ?= "package_rpm package_ipk package_deb"
-IMAGE_FEATURES = "package-management"
 
 SDKMACHINE ?= "x86_64"
 
