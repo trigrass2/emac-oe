@@ -2,4 +2,5 @@
 
 BBLAYERS = " \
   ${CORE_RECIPES} \
+  ${INTEL_RECIPES} \
 "

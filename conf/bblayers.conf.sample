@@ -18,6 +18,11 @@ CORE_RECIPES = " \
 "
 # BSP BASED
 
+INTEL_RECIPES = " \
+    ##OEROOT##/meta-intel \
+    ##OEROOT##/meta-emac-intel \
+"
+
 ATMEL_RECIPES = " \
     ##OEROOT##/emac-oe/meta-emac-atmel \
     ##OEROOT##/meta-atmel \
