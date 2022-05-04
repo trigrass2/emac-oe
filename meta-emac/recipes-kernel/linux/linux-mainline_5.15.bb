@@ -7,6 +7,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}-5.15:"
 KBRANCH = "master"
 SRCREV = "8bb7eca972ad531c9b149c0a51ab43a417385813"
 
+inherit concatdtbs
+
 require recipes-kernel/linux/linux-yocto.inc
 
 SRC_URI = " \
