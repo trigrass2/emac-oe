@@ -1,4 +1,4 @@
-## Included from machine/atom-sbc-ia64/atom-sbc-ia64.bblayers.conf.sample
+## Included from machine/
 
 BBLAYERS = " \
   ${CORE_RECIPES} \

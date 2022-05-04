@@ -8,73 +8,73 @@ BBFILES ?= ""
 CORE_RECIPES = " \
     ##OEROOT##/emac-oe/meta-emac \
     \
-    ##OEROOT##/poky/meta \
-    ##OEROOT##/meta-openembedded/meta-oe \
-    ##OEROOT##/meta-openembedded/meta-networking \
-    ##OEROOT##/meta-openembedded/meta-multimedia \
-    ##OEROOT##/meta-openembedded/meta-python \
-    ##OEROOT##/meta-openembedded/meta-filesystems \
-    ##OEROOT##/meta-openembedded/meta-perl \
+    ##OEROOT##/duncan/poky/meta \
+    ##OEROOT##/duncan/meta-openembedded/meta-oe \
+    ##OEROOT##/duncan/meta-openembedded/meta-networking \
+    ##OEROOT##/duncan/meta-openembedded/meta-multimedia \
+    ##OEROOT##/duncan/meta-openembedded/meta-python \
+    ##OEROOT##/duncan/meta-openembedded/meta-filesystems \
+    ##OEROOT##/duncan/meta-openembedded/meta-perl \
 "
 # BSP BASED
 
 INTEL_RECIPES = " \
-    ##OEROOT##/meta-intel \
-    ##OEROOT##/emac-oe/meta-emac-intel \
+    ##OEROOT##/duncan/meta-intel \
+    ##OEROOT##/duncan/emac-oe/meta-emac-intel \
 "
 
 ATMEL_RECIPES = " \
-    ##OEROOT##/emac-oe/meta-emac-atmel \
-    ##OEROOT##/meta-atmel \
+    ##OEROOT##/duncan/emac-oe/meta-emac-atmel \
+    ##OEROOT##/duncan/meta-atmel \
 "
 
 NXP_RECIPES = " \
-    ##OEROOT##/emac-oe/meta-emac-freescale \
-    ##OEROOT##/meta-freescale \
-    ##OEROOT##/meta-freescale-3rdparty \
+    ##OEROOT##/duncan/emac-oe/meta-emac-freescale \
+    ##OEROOT##/duncan/meta-freescale \
+    ##OEROOT##/duncan/meta-freescale-3rdparty \
 "
 
 # READ you need to add this here if you are using nvidia(tegra)
 # TD_BBLAYERS_CONF_VERSION = "emactegra-3"
 TEGRA_RECIPES = " \
-    ##OEROOT##/emac-oe/meta-emac-tegra \
-    ##OEROOT##/meta-tegra \
-    ##OEROOT##/meta-tegra/contrib  \
-    ##OEROOT##/meta-virtualization \
+    ##OEROOT##/duncan/emac-oe/meta-emac-tegra \
+    ##OEROOT##/duncan/meta-tegra \
+    ##OEROOT##/duncan/meta-tegra/contrib  \
+    ##OEROOT##/duncan/meta-virtualization \
 "
 
 TI_RECIPES = " \
-    ##OEROOT##/emac-oe/meta-emac-ti \
-    ##OEROOT##/meta-ti \
-    ##OEROOT##/meta-arm/meta-arm \
-    ##OEROOT##/meta-arm/meta-arm-toolchain \
+    ##OEROOT##/duncan/emac-oe/meta-emac-ti \
+    ##OEROOT##/duncan/meta-ti \
+    ##OEROOT##/duncan/meta-arm/meta-arm \
+    ##OEROOT##/duncan/meta-arm/meta-arm-toolchain \
 "
 
 # APPLICATOPNS BASED
 QT4_RECIPES = " \ 
-    ##OEROOT##/emac-oe/meta-emac-qt4 \
-    ##OEROOT##/meta-qt4  \
-    ##OEROOT##/meta-python2 \
+    ##OEROOT##/duncan/emac-oe/meta-emac-qt4 \
+    ##OEROOT##/duncan/meta-qt4  \
+    ##OEROOT##/duncan/meta-python2 \
 "
  
 QT5_RECIPES = " \
-    ##OEROOT##/emac-oe/meta-emac-qt5 \
-    ##OEROOT##/meta-qt5  \   
-    ##OEROOT##/meta-python2 \
+    ##OEROOT##/duncan/emac-oe/meta-emac-qt5 \
+    ##OEROOT##/duncan/meta-qt5  \   
+    ##OEROOT##/duncan/meta-python2 \
 "
 
 CHROME_RECIPES += " \
-    ##OEROOT##/meta-browser/meta-chromium \
-    ##OEROOT##/meta-clang \
-    ##OEROOT##/emac-oe/meta-emac-web/meta-chromium \
+    ##OEROOT##/duncan/meta-browser/meta-chromium \
+    ##OEROOT##/duncan/meta-clang \
+    ##OEROOT##/duncan/emac-oe/meta-emac-web/meta-chromium \
 "
 
 WEB_RECIPES += " \
-    ##OEROOT##/emac-oe/meta-emac-web/meta-webserver \
+    ##OEROOT##/duncan/emac-oe/meta-emac-web/meta-webserver \
 "
 
 XENOMAI_RECIPES += " \
-    ##OEROOT##/emac-oe/meta-emac-xenomai \
+    ##OEROOT##/duncan/emac-oe/meta-emac-xenomai \
 "
 
 #Change this to fit your needs
