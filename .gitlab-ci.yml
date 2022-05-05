@@ -4,7 +4,7 @@
   - cd repo-tool
   - ./init-build.sh -c
   - ./init-build.sh -g "$REPO_TOOL_GROUPS"
-  - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
+  - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/${DISTRO_CODENAME}/conf/bblayers.conf
   - |
     export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE \
       EMAC_CLIENT_NAME \
@@ -80,7 +80,7 @@ clean-bitbake-locks:
   stage: setup
   <<: *default-no-fetch-manual
   script:
-    - pushd repo-tool/build
+    - pushd repo-tool/build/${DISTRO_CODENAME}
     - rm bitbake.*
 
 clean-recipe:
