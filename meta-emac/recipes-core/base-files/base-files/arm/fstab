@@ -3,7 +3,6 @@
 # <file system> <mount point>            <type>       <options>       <dump>  <pass>
 
 rootfs               /                    auto       rw,noatime,discard    0  0
-/dev/mmcblk0p2       /home                auto       defaults,noatime      0  0
 proc                 /proc                proc       defaults              0  0
 devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
 tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
