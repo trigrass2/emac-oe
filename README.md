@@ -13,7 +13,7 @@ sudo apt-get install gawk wget git-core diffstat unzip texinfo gcc-multilib buil
 
 Clone this repository for distro duncan:
 ```
-git clone -b v5.8.0-duncan-rc2 http://git.emacinc.com/OE/emac-oe.git .
+git clone -b duncan-next http://git.emacinc.com/OE/emac-oe.git .
 ```
 
 Initialize the Repo-Tool submodule
