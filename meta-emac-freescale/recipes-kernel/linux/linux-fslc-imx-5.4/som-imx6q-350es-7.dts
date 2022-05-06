@@ -13,7 +13,8 @@
 
 #include <dt-bindings/interrupt-controller/irq.h>
 #include "imx6q.dtsi"
-#include "som-imx6dq.dts"
+#include "som-imx6q-350es.dts"
+
 / {
     model = "EMAC SOM-iMX6 with 7 inch SOM-350ES";
     compatible = "emac,som-imx6q-350es", "fsl,imx6q";

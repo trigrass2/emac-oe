@@ -13,7 +13,7 @@
 
 #include <dt-bindings/interrupt-controller/irq.h>
 #include "imx6q.dtsi"
-#include "som-imx6dq.dts"
+#include "som-imx6q-350es.dts"
 
 / {
     model = "EMAC SOM-iMX6 Quad with 10 inch SOM-350ES";

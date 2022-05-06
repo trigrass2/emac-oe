@@ -1,5 +1,5 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}/${MACHINE}:"
-SRC_URI:remove:c03439-00 = " file://defconfig"
+SRC_URI:remove:som5728 = " file://defconfig"
 
 SRCREV = "33574931b48f50c37abb58e0a9c617cbec472b01"
 PV = "5.10.65+git${SRCPV}"

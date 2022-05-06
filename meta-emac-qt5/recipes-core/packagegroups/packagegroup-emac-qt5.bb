@@ -11,28 +11,21 @@ PACKAGES = " \
     ${PN} \
     ${PN}-base-extras \
     ${PN}-tools \
-    ${PN}-gstreamer \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' ${PN}-gstreamer  ', '', d)} \
 "
 
 # QT MODS
 # SUMMARY_${PN}-qt5 = "Qt5(Full) meta package"
-RDEPENDS:${PN} += " \
+RDEPENDS:${PN}:append = " \
     ${PN}-base-extras \
     ${PN}-tools \
-    ${PN}-gstreamer \
-    qt3d \
     qtbase \
     qtcharts \
     qtconnectivity \
-    qtdatavis3d \
     qtdeclarative \
     qtdeclarative-tools \
     qtgamepad \
-    qtgraphicaleffects \
     qtimageformats \
-    qtlocation \
-    qtmultimedia \
-    qtquick3d \
     qtquickcontrols \
     qtquickcontrols2 \
     qtquicktimeline \
@@ -46,17 +39,24 @@ RDEPENDS:${PN} += " \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland', '', d)} \
     qtwebsockets \
     qtwebchannel \
-    qtwebglplugin \
     qtxmlpatterns \
     qtvirtualkeyboard \
+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' \
+	    ${PN}-gstreamer \
+	    qt3d \
+	    qtdatavis3d \
+	    qtgraphicaleffects \
+	    qtlocation \
+	    qtmultimedia \
+	    qtquick3d \
+	    qtwebglplugin ', '', d)} \
 "
 
 
 
 SUMMARY:${PN}-base-extras = "Extra tools fonts and tz data for emac qt based boards"
-RDEPENDS:${PN}-base-extras += " \
+RDEPENDS:${PN}-base-extras:append = " \
     kernel-modules \
-    linux-firmware \
     ca-certificates \
     liberation-fonts \
     ttf-devanagari \
@@ -73,6 +73,7 @@ RDEPENDS:${PN}-base-extras += " \
     rng-tools \
     ${@bb.utils.contains("DISTRO_FEATURES", "pulseaudio", "pulseaudio-server pulseaudio-misc", "", d)} \
 "
+#     ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "weston weston-init", "", d)} 
 
 SUMMARY:${PN}-tools = "Extra Tools for a qtbased company"
 RDEPENDS:${PN}-tools:append = " \

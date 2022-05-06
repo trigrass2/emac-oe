@@ -41,4 +41,4 @@ do_install() {
 }
 
 PACKAGES = "${PN}"
-FILES:${PN} += "${datadir}/fonts/truetype/lohit"
+FILES:${PN}:append = "${datadir}/fonts/truetype/lohit"

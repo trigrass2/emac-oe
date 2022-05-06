@@ -1,0 +1,9 @@
+emac-image-somimx6ul:
+  extends: .build-emac-image
+  variables:
+    MACHINE: somimx6ul
+
+emac-image-sdk-somimx6ul:
+  extends: .build-emac-image-sdk
+  variables:
+    MACHINE: somimx6ul

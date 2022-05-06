@@ -1,5 +1,0 @@
-## Included from machine/atom-sbc-ia64/atom-sbc-ia64.bblayers.conf.sample
-
-BBLAYERS ?= " \
-  ${CORE_RECIPES} \
-"

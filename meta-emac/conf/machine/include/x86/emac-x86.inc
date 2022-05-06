@@ -17,8 +17,8 @@ MACHINE_FEATURES = " \
 GLIBC_ADDONS = "nptl"
 
 ## KERNEL
-PREFERRED_PROVIDER:virtual/kernel ?= "linux-emac"
-REFERRED_VERSION:linux-emac ?= "5.10%"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
+REFERRED_VERSION_linux-emac ?= "5.10%"
 
 #PREFERRED_PROVIDER:virtual/kernel ?= "linux-mainline"
 #PREFERRED_VERSION:linux-emac ?= "5.15%"
@@ -32,7 +32,7 @@ MACHINE_EXTRA_RRECOMMENDS:append = " \
 "
 
 ## BOOTLOADER 
-PREFERRED_PROVIDER:virtual/bootloader ?= "grub-efi"
+PREFERRED_PROVIDER_virtual/bootloader ?= "grub-efi"
 MACHINE_EXTRA_RDEPENDS:append = " \
     grub-efi \
     efibootmgr \

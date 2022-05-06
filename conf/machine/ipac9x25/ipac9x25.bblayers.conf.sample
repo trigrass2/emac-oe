@@ -1,5 +1,5 @@
 ## Included from machine/ipac9x25/ipac9x25.bblayers.conf.sample
 
-BBLAYERS ?= " \
+BBLAYERS = " \
   ${CORE_RECIPES} \
 "

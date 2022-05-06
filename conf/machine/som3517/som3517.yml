@@ -1,0 +1,9 @@
+emac-image-som3517:
+  extends: .build-emac-image
+  variables:
+    MACHINE: som3517
+
+emac-image-sdk-som3517:
+  extends: .build-emac-image-sdk
+  variables:
+    MACHINE: som3517

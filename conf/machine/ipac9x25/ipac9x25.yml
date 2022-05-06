@@ -1,0 +1,9 @@
+emac-image-ipac9x25:
+  extends: .build-emac-image
+  variables:
+    MACHINE: ipac9x25
+
+emac-image-sdk-ipac9x25:
+  extends: .build-emac-image-sdk
+  variables:
+    MACHINE: ipac9x25
