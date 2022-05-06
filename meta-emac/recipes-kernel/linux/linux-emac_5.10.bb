@@ -1,6 +1,8 @@
 KBRANCH ?= "emac-5.10"
 SRCREV_machine ?= "3f1409b47bb659f9c9fce5e90cc1eb00d260cbb1"
 
+inherit concatdtbs
+
 require recipes-kernel/linux/linux-yocto.inc
 
 SRC_URI = "git://git.emacinc.com/linux-kernel/linux-emac.git;bareclone=1;branch=${KBRANCH};name=machine;protocol=http"
@@ -13,7 +15,7 @@ DEPENDS:append = " \
     zstd-native \
 "
 
-DEPENDS:append = "${@bb.utils.contains('ARCH', 'x86', ' elfutils-native pahole-native ', '', d)}"
+DEPENDS:append = "${@bb.utils.contains('EMAC_INITMANAGER', 'systemd', ' elfutils-native pahole-native ', '', d)}"
 
 EXTRA_OEMAKE:append = " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" "
 

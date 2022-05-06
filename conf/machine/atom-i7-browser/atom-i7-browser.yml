@@ -1,0 +1,9 @@
+emac-image-atom-i7-browser:
+  extends: .build-emac-image
+  variables:
+    MACHINE: atom-i7-browser
+
+emac-image-sdk-atom-i7-browser:
+  extends: .build-emac-image-sdk
+  variables:
+    MACHINE: atom-i7-browser

@@ -1,138 +1,59 @@
 variables:
-  MACHINE: "none"
-  REPO_TOOL_GROUPS: 'default'
-  LAYERS_SAMPLE: '${CI_PROJECT_DIR}/conf/machine/${MACHINE}/${MACHINE}.bblayers.conf.sample'
-  EMAC_CLIENT_NAME: 'emac'
-  EMAC_IMAGE: 'emac-image'
+  GIT_MACHINE: "none"
+  DISTRO_CODENAME: "spike"
+  REPO_TOOL_GROUPS: "default"
+  LAYERS_SAMPLE: "${CI_PROJECT_DIR}/conf/machine/${MACHINE}/${MACHINE}.bblayers.conf.sample"
+  EMAC_CLIENT_NAME: "emac"
+  EMAC_IMAGE: "emac-image"
+  BB_NUMBER_THREADS: "20"
+  PARALLEL_MAKE: "-j 12"
+  GIT_CLEAN_FLAGS: none
+  INCLUDE_SDK: "false"
+  INCLUDE_QEMU: "false"
+  DEBUG: "false"
 
 stages:
-  - setup
+  - debug
   - build
   - test
   - deploy
 
-init-env:
-  stage: setup
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - git submodule sync --recursive
-    - git submodule update --init --recursive
-    - cd repo-tool
-    - ./init-build.sh -g "$REPO_TOOL_GROUPS"
-    - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
-    - sed -i "s|PROJECTBUILDDIR|${CI_PROJECT_DIR}/repo-tool/build|g"  ${CI_PROJECT_DIR}/repo-tool/build/conf/bblayers.conf
-    - echo "export MACHINE=$MACHINE" >> emac.env
-    - echo "export EMAC_CLIENT_NAME=$EMAC_CLIENT_NAME" >> emac.env
-    - echo "export EMAC_IMAGE=$EMAC_IMAGE" >> emac.env
-    - source setup_env.sh
-
-clean-init:
-  stage: setup
-  tags:
-    - oe-builder
-    - bitbake
+emac-image-manual:
+  extends: .build-emac-image
+  variables:
+    MACHINE: ipac9x25
   when: manual
   allow_failure: true
-  script:
-    - pushd repo-tool
-    - ./init-build.sh -c
 
-
-build-standard 1/3:
-  stage: build
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake emac-image
-    - ln -sf /srv/emac-oe/deploy/emac/emac-image/$MACHINE localCopy
-  artifacts:
-    paths:
-      - repo-tool/build/localCopy/image/*.tgz
-      - repo-tool/build/localCopy/image/*.manifest
-      - repo-tool/build/localcopy/image/*.json
-      - repo-tool/build/localCopy/image/*.tar.gz
-      - repo-tool/build/localCopy/image/*.dtb
-      - repo-tool/build/localCopy/image/zImage
-      - repo-tool/build/localCopy/image/*.bin
-
-build-standard 2/3:
-  stage: build
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake emac-image -c do_populate_sdk
-    - ln -sf /srv/emac-oe/deploy/emac/emac-image/sdk localCopy-sdk
-  artifacts:
-    paths:
-      - repo-tool/build/localCopy-sdk/*.manifest
-      - repo-tool/build/localCopy-sdk/*.json
-      - repo-tool/build/localCopy-sdk/*.sh
-
-build-standard 3/3:
-  stage: build
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - cd repo-tool
-    - source start_afterclose.sh
-    - bitbake mc:qemu-armv7:emac-image
-    - ln -sf /srv/emac-oe/deploy/emac/emac-image/$MACHINE localCopy-qemuarm
-  artifacts:
-    paths:
-      - repo-tool/build/localCopy-qemuarm/image/*.conf
-      - repo-tool/build/localCopy-qemuarm/image/*.ext4
-      - repo-tool/build/localCopy-qemuarm/image/*.manifest
-      - repo-tool/build/localCopy-qemuarm/image/*.bz2
-      - repo-tool/build/localCopy-qemuarm/image/*.json
-      - repo-tool/build/localCopy-qemuarm/image/*/tgz
-      - repo-tool/build/localCopy-qemuarm/image/zImage
-      - repo-tool/build/localCopy-qemuarm/image/*.bin
-
-test-image:
-  stage: test
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - echo "Testing image somehow"
-
-deploy-image:
-  stage: deploy
-  tags:
-    - oe-builder
-    - bitbake
-  rules:
-    - if: '$MACHINE != "none"'
-  script:
-    - echo "Deploying Packages and Images"
-
-clean-image:
-  stage: setup
-  tags:
-    - oe-builder
-    - bitbake
-  when: manual
-  allow_failure: true
-  script:
-    - cd repo-tool
-    - start_afterclose.sh
-    - bitbake emac-image -c clean
+include:
+  - local: "conf/gitlab-ci/base-build-machine.yml"
+  - local: "conf/gitlab-ci/build-qemu.yml"
+    rules:
+      - if: $INCLUDE_QEMU == "true"
+  - local: "conf/gitlab-ci/debugging-jobs.yml"
+    rules:
+      - if: $DEBUG == "true"
+  - local: "conf/machine/intel-x86/intel-x86.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'intel-x86'
+  - local: "conf/machine/ipac9x25/ipac9x25.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'ipac9x25'
+  - local: "conf/machine/som3354/som3354.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'som3354'
+  - local: "conf/machine/som3517/som3517.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'som3517'
+  - local: "conf/machine/soma5d36/soma5d36.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'soma5d36'
+  - local: "conf/machine/somimx6/somimx6.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'somimx6'
+  - local: "conf/machine/somimx6q-ha/somimx6q-ha.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'somimx6q-ha'
+  - local: "conf/machine/somimx6ul/somimx6ul.yml"
+    rules:
+      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'somimx6ul'

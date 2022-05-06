@@ -18,6 +18,11 @@ CORE_RECIPES = " \
 "
 # BSP BASED
 
+INTEL_RECIPES = " \
+    ##OEROOT##/meta-intel \
+    ##OEROOT##/emac-oe/meta-emac-intel \
+"
+
 ATMEL_RECIPES = " \
     ##OEROOT##/emac-oe/meta-emac-atmel \
     ##OEROOT##/meta-atmel \
@@ -65,7 +70,7 @@ XENOMAI_RECIPES += " \
     ##OEROOT##/emac-oe/meta-emac-xenomai \
 "
 
-## add the default and over write if need be
+#Change this to fit your needs
 BBLAYERS ?= " \
   ${CORE_RECIPES} \
 "

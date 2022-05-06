@@ -50,4 +50,5 @@ then
 	alias htop='TERM=xterm htop'
 	alias vi='TERM=xterm vi-tiny'
 	alias vim='TERM=xterm vim'
+	alias vim.tiny='TERM=xterm vim.tiny'
 fi

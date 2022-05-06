@@ -38,7 +38,7 @@ PACKAGECONFIG:append = " \
 "
 
 ## FIXME make this check against x11 and wayland 
-CXXFLAGS:append += " -DEGL_API_WAYLAND "
+CXXFLAGS:append = " -DEGL_API_WAYLAND "
 
 FILES:append:${PN}-freeverb = " ${datadir}/gstreamer-1.0/presets/GstFreeverb.prs "
 FILES:append:${PN}-opencv = " ${datadir}/gst-plugins-bad/1.0/opencv* "

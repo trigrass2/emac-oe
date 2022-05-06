@@ -19,7 +19,12 @@ XSERVER = "\
     xf86-input-tslib \
 "
 
-MACHINE_FEATURES:append = " arm "
+EXTRA_IMAGEDEPENDS:append = " \
+    u-boot-emac \
+    linux-emac \
+"
+
+MACHINE_FEATURES:append = " arm"
 SERIAL_CONSOLE ?= "115200 ttyO0"
 KERNEL_IMAGETYPE ?= "zImage"
 UBOOT_MACHINE ?= "am3517_evm_config"
