@@ -2,7 +2,7 @@
 # 
 # <file system> <mount point>            <type>       <options>       <dump>  <pass>
 
-rootfs               /                    auto       rw,noatime,discard    0  0
+rootfs               /                    auto       ro,noatime,discard    0  0
 /dev/sdb2            /home                auto       defaults,noatime      0  0 
 proc                 /proc                proc       defaults              0  0
 devpts               /dev/pts             devpts     mode=0620,gid=5       0  0

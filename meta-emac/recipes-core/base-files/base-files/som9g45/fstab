@@ -2,7 +2,7 @@
 #
 # <file system> <mount point>            <type>       <options>       <dump>  <pass>
 
-/dev/mtdblock0       /                    jffs2      rw,noatime            0  0
+/dev/mtdblock0       /                    jffs2      ro,noatime            0  0
 /dev/mtdblock1       /home                jffs2      rw,noatime            0  0
 proc                 /proc                proc       defaults              0  0
 devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
