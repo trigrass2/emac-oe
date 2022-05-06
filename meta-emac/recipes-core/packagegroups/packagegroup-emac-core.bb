@@ -66,7 +66,6 @@ RRECOMMENDS_${PN}-util = " \
     libgpiod \
     libgpiod-tools \
     sudo \
-    emac-users \
     usbutils \
 "
 
@@ -76,8 +75,8 @@ RRECOMMENDS_${PN}-networking = " \
     openssh \
     rsync \
     ntp ntpdc ntpq ntp-tickadj ntp-utils ntpdate \
-    ${@bb.utils.contains("EMAC_NETWORKMANGER", "connman", " connman connman-conf  connman-tools connman-client ", " ", d)} \
-    ${@bb.utils.contains("EMAC_NETWORKMANGER", "networkmanager", " networkmanager networkmanager-nmtui networkmanager-bash-completion ", " ", d)} \
+    ${@bb.utils.contains("EMAC_NETWORKMANAGER", "connman", " connman connman-conf  connman-tools connman-client ", " ", d)} \
+    ${@bb.utils.contains("EMAC_NETWORKMANAGER", "networkmanager", " networkmanager networkmanager-nmtui networkmanager-bash-completion ", " ", d)} \
 "
 
 

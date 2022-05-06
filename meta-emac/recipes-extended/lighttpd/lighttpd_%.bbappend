@@ -1,9 +1,5 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/${BPN}:"
 
-## remove just for now.
-# DEPENDS += "harden-web-servers"
-# chown -R www:www ${D}/www/
-
 SRC_URI += " \
 		file://index.html.lighttpd \
 		file://about.html \
@@ -11,7 +7,7 @@ SRC_URI += " \
 		file://x86.html \
 		file://EMAC_LOGO.png \
 		file://webwriter.sh \
-	"
+"
 
 do_install_append () {
 	install -d ${D}/www/pages/images/

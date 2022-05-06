@@ -107,19 +107,19 @@ EMAC_DISPLAY_HW ?= "none"
 EMAC_DISPLAY ?= "none"
 
 ## coreutils, busybox
-EMAC_SHELLMANAGER ?= "coreutils"
+EMAC_SHELLMANAGER ?= "busybox"
 
 ## systemd, sysvinit
-EMAC_INITMANAGER ?= "systemd"
+EMAC_INITMANAGER ?= "sysvinit"
 
 ## connman, networkmanager, legacy
-EMAC_NETWORKMANGER ?= "networkmanager"
+EMAC_NETWORKMANAGER ?= "legacy"
 
 ## alsa, pulseaudio
 EMAC_AUDIOMANAGER ?= "alsa"
 
 ## deb, rpm, ipk
-EMAC_PACKAGEMANAGER ?= "rpm"
+EMAC_PACKAGEMANAGER ?= "ipk"
 
 ###########################################
 ## INTERNAL DO NOT CHANGE
