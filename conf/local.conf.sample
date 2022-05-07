@@ -1,17 +1,10 @@
 DISTRO_CODENAME ?= "spike"
-# Where to place downloads
 DL_DIR = "/srv/emac-oe/downloads"
 STAMPS_DIR = "/srv/emac-oe/${DISTRO_CODENAME}/stamps"
-# Where to place shared-state files
 SSTATE_DIR = "/srv/emac-oe/${DISTRO_CODENAME}/sstate-cache/"
-
-# SSTATE_MIRRORS ?= "
-# file://.* file:///srv/emac-oe/sstate-cache
-# "
-
 DISTRO ?= "emac"
-# Add this if you are building for nvidia
-#DISTRO = "emactegra"
+# DISTRO = "emactegra"
+# DISTRO = "emactiny"
 
 PACKAGE_CLASSES ?= "package_rpm package_ipk package_deb"
 
@@ -34,16 +27,11 @@ BB_DISKMON_DIRS ??= "\
     HALT,/tmp,10M,1K"
 
 
-CONF_VERSION = "1"
-
-# Enable build info & testing
-INHERIT:append  = " buildhistory image-buildinfo testimage rm_work"
-
+CONF_VERSION = "2"
+INHERIT:append  = " buildhistory image-buildinfo rm_work"
 BUILDHISTORY_COMMIT = "1"
-
-## Set these when building locally
-#BB_NUMBER_THREADS ?= "20"
-#PARALLEL_MAKE ?= "-j 12"
+BB_NUMBER_THREADS ?= "20"
+PARALLEL_MAKE ?= "-j 12"
 
 BBMULTICONFIG = " \
     qemu-x86-64 \
@@ -93,25 +81,18 @@ MACHINE ??= "somimx6"
 ######################
 ## EMAC SETTINGS
 #######################
-
 ## none, opengl, vulkan
 EMAC_DISPLAY_HW ?= "none"
-
 ## none, linuxfb, wayland, x11
 EMAC_DISPLAY ?= "none"
-
 ## coreutils, busybox
 EMAC_SHELLMANAGER ?= "coreutils"
-
 ## systemd, sysvinit
 EMAC_INITMANAGER ?= "systemd"
-
 ## connman, networkmanager, legacy
 EMAC_NETWORKMANGER ?= "networkmanager"
-
 ## alsa, pulseaudio
 EMAC_AUDIOMANAGER ?= "alsa"
-
 ## deb, rpm, ipk
 EMAC_PACKAGEMANAGER ?= "rpm"
 
@@ -135,4 +116,4 @@ DEPLOY_DIR_RPM    = "${DEPLOY_DIR}/rpm"
 # TEST_TARGET_IP = "<10.0.X.XXX>"
 # TEST_SERVER_IP = "<10.0.X.XXX>"
 
-## needs MACHINE, EMAC_CLIENT_NAME, and EMAC_IMAGE exported to env before run
+## needs MACHINE, EMAC_CLIENT_NAME, and EMAC_IMAGE exported to env before run (AUTO BUILDER ONLY)

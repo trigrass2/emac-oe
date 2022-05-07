@@ -48,6 +48,8 @@ TI_RECIPES = " \
     ##OEROOT##/meta-ti \
     ##OEROOT##/meta-arm/meta-arm \
     ##OEROOT##/meta-arm/meta-arm-toolchain \
+    ##OEROOT##/meta-arago/meta-arago-distro \
+    ##OEROOT##/meta-arago/meta-arago-extras \
 "
  
 QT5_RECIPES = " \
@@ -69,6 +71,15 @@ WEBSERVER_RECIPES += " \
 XENOMAI_RECIPES += " \
     ##OEROOT##/emac-oe/meta-emac-xenomai \
 "
+
+STM_RECIPES += " \
+    ##OEROOT##/meta-st-stm32mp-addons \
+    ##OEROOT##/meta-st-stm32mpu-app-logicanalyser \
+    ##OEROOT##/meta-st-stm32mp-oss \
+    ##OEROOT##/meta-st-stm32mpu-ai \
+    ##OEROOT##/meta-st-stm32mp \
+"
+
 
 #Change this to fit your needs
 BBLAYERS ?= " \

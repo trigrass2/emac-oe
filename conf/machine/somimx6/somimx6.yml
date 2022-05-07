@@ -2,8 +2,10 @@ emac-image-somimx6:
   extends: .build-emac-image
   variables:
     MACHINE: somimx6
+    REPO_TOOL_GROUPS: default,nxp
 
 emac-image-sdk-somimx6:
   extends: .build-emac-image-sdk
   variables:
     MACHINE: somimx6
+    REPO_TOOL_GROUPS: default,nxp
