@@ -45,7 +45,8 @@ TEGRA_RECIPES = " \
 
 TI_RECIPES = " \
     ##OEROOT##/emac-oe/meta-emac-ti \
-    ##OEROOT##/meta-ti \
+    ##OEROOT##/meta-ti/meta-ti-bsp \
+    ##OEROOT##/meta-ti/meta-ti-extras \
     ##OEROOT##/meta-arm/meta-arm \
     ##OEROOT##/meta-arm/meta-arm-toolchain \
     ##OEROOT##/meta-arago/meta-arago-distro \

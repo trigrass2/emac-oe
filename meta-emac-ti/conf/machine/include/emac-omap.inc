@@ -1,7 +1,7 @@
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
-PREFERRED_VERSION_linux-emac ?= "4.19%"
-PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-emac"
-PREFERRED_VERSION_u-boot-emac ?= "v2020.04%"
+PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
+PREFERRED_VERSION_linux-emac = "4.19%"
+PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
+PREFERRED_VERSION_u-boot-emac = "v2020.04%"
 
 PREFERRED_PROVIDER_virtual/xserver = "xserver-xorg"
 
@@ -23,6 +23,8 @@ EXTRA_IMAGEDEPENDS:append = " \
     u-boot-emac \
     linux-emac \
 "
+
+KERNEL_IMAGETYPE = "zImage"
 
 MACHINE_FEATURES:append = " arm "
 SERIAL_CONSOLE ?= "115200 ttyO0"

@@ -3,7 +3,6 @@ LICENSE = "CLOSED"
 PR = "r0"
 
 # PACKAGE_ARCH = "${SDK_ARCH}"
-inherit nativesdk packagegroup
 
 MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""
 
@@ -29,5 +28,6 @@ RDEPENDS:${PN}:append = " \
     ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "nativesdk-wayland-dev", "", d)} \
     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-qtwayland-tools', '', d)} \
 "
-    
-    
+
+
+inherit nativesdk packagegroup
