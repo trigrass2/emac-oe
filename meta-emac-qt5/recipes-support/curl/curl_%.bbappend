@@ -19,6 +19,6 @@
 ############################################################################
 
 PACKAGECONFIG:append = " nghttp2 libssh2 libidn "
-PACKAGECONFIG:remove_class-native = " nghttp2 "
-PACKAGECONFIG:remove_class-nativesdk = " nghttp2 libssh2 "
+PACKAGECONFIG:remove:class-native = " nghttp2 "
+PACKAGECONFIG:remove:class-nativesdk = " nghttp2 libssh2 "
 
