@@ -1,15 +1,15 @@
 {
   "device": "/dev/dri/card0",
-  "hwcursor": false,
+  "hwcursor": true,
   "pbuffers": true,
   "outputs": [
     {
       "name": "VGA1",
-      "mode": "off"
+      "mode": "720x480"
     },
     {
       "name": "HDMI1",
-      "mode": "1024x768"
+      "mode": "off"
     }
   ]
 }

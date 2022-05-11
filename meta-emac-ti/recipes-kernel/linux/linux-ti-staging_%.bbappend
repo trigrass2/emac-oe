@@ -3,9 +3,9 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}/${MACHINE}:"
 # SRCREV = "33574931b48f50c37abb58e0a9c617cbec472b01"
 # PV = "5.10.65+git${SRCPV}"
 
-KERNEL_GIT_URI = "git://git.emacinc.com/linux-kernel/ti-linux-kernel.git"
-KERNEL_GIT_BRANCH = "ti-linux-5.10.y"
-KERNEL_GIT_PROTOCOL = "http"
+#KERNEL_GIT_URI = "git://git.emacinc.com/linux-kernel/ti-linux-kernel.git"
+#KERNEL_GIT_BRANCH = "ti-linux-5.10.y"
+#KERNEL_GIT_PROTOCOL = "http"
 
 
 # RDEPENDS:${KERNEL_PACKAGE_NAME}-base:remove:ti33x = " prueth-fw pruhsr-fw pruprp-fw"
@@ -18,7 +18,7 @@ KDEF:som3517 = "som3517_defconfig"
 
 SRC_URI:remove = " file://defconfig"
 # 
-SRC_URI:append:som5728: = " \
+SRC_URI:append:som5728 = " \
      file://som-5728-5228.dts \
      file://som5728-mmc-iodelay.dtsi \
      file://som-5728.dtsi \
@@ -27,7 +27,7 @@ SRC_URI:append:som5728: = " \
      file://ti_defconfig \
 "
 
-SRC_URI:append:som3354: = " \
+SRC_URI:append:som3354 = " \
     file://defconfig \
     file://som-3354-200es.dts \
     file://som-3354-200gs.dts \

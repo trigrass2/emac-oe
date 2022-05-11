@@ -30,4 +30,4 @@ RDEPENDS:${PN}:append = " \
 "
 
 
-inherit nativesdk packagegroup
+inherit packagegroup nativesdk
