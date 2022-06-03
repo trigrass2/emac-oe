@@ -47,6 +47,6 @@ include conf/machine/include/x86-base.inc
 
 ## IMAGE
 IMAGE_FSTYPES = "tar.gz wic wic.bmap iso live"
-WKS_FILE = "x86.wks.in"
+WKS_FILE = "x86-efi.wks.in"
 do_image_wic[depends] += "gptfdisk-native:do_populate_sysroot"
 do_image_wic[recrdeptask] += "do_bootimg"
