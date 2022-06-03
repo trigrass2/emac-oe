@@ -1,0 +1,4 @@
+## Included from machine/som9x25/som9x25.bblayers.conf.sample
+BBLAYERS = " \
+  ${CORE_RECIPES} \
+"

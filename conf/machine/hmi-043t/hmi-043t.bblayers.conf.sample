@@ -1,0 +1,4 @@
+## Included from machine/hmi-043t/hmi-043t.bblayers.conf.sample
+BBLAYERS = " \
+  ${CORE_RECIPES} \
+"
