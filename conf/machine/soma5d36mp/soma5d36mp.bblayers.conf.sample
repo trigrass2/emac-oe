@@ -1,0 +1,5 @@
+## Included from machine/soma5d36mp/soma5d36mp.bblayers.conf.sample
+
+BBLAYERS = " \
+  ${CORE_RECIPES} \
+"
