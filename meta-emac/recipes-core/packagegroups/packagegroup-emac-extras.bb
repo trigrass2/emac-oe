@@ -85,6 +85,21 @@ RRECOMMENDS_${PN}-timezone = " \
 "
 
 
+PACKAGES_soma5d36mp += "\
+    ${PN}-ptp \
+"
+
+RRECOMMENDS_${PN}_soma5d36mp += "\
+    ${PN}-ptp \
+"
+
+SUMMARY_${PN}-ptp = "EMAC OE Precision Time Utilities"
+RRECOMMENDS_${PN}-ptp = " \
+    ptpd \
+    pps-tools \
+"
+
+
 # parted
 # i2c-tools
 # spidev-test

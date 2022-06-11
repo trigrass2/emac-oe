@@ -1,0 +1,17 @@
+diff --git a/drivers/mfd/at91-usart.c b/drivers/mfd/at91-usart.c
+index 6a8351a4588e..939bd2332a4f 100644
+--- a/drivers/mfd/at91-usart.c
++++ b/drivers/mfd/at91-usart.c
+@@ -17,12 +17,10 @@
+ 
+ static const struct mfd_cell at91_usart_spi_subdev = {
+ 	.name = "at91_usart_spi",
+-	.of_compatible = "microchip,at91sam9g45-usart-spi",
+ };
+ 
+ static const struct mfd_cell at91_usart_serial_subdev = {
+ 	.name = "atmel_usart_serial",
+-	.of_compatible = "atmel,at91rm9200-usart-serial",
+ };
+ 
+ static int at91_usart_mode_probe(struct platform_device *pdev)
