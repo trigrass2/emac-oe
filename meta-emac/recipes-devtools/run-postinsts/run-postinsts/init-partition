@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ ! -d /home/root ]; then
+    echo "Creating /home/root "
+    mkdir -p /home/root
+fi
+
 echo "Running init-partition"
 if [ -x /usr/sbin/fbset ]; 
 then
