@@ -35,7 +35,7 @@ EXTRA_OEMESON = " \
 
 
 
-do_install_append(){
+do_install:append(){
     install -d ${D}/usr/include/gstreamer-1.0/gst/gl/viv-fb
     cp -f ${WORKDIR}/git/gst-libs/gst/gl/viv-fb/gstgldisplay_viv_fb.h ${D}/usr/include/gstreamer-1.0/gst/gl/viv-fb/
     cp -f ${WORKDIR}/git/gst-libs/gst/gl/viv-fb/gstglwindow_viv_fb_egl.h ${D}/usr/include/gstreamer-1.0/gst/gl/viv-fb/
