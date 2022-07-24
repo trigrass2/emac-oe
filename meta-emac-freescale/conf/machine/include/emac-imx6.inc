@@ -1,31 +1,23 @@
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
-PREFERRED_VERSION_linux-emac ?= "4.19%"
-PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-fslc-imx"
+PREFERRED_VERSION_linux-fslc-imx ?= "5.15%"
 
-EXTRA_IMAGEDEPENDS = " u-boot-emac linux-emac "
+PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-fslc"
 
-PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
+require conf/machine/include/imx-base.inc
 
-MACHINE_FEATURES:append = " arm"
+EXTRA_IMAGEDEPENDS = " u-boot-fslc linux-fslc-imx "
+MACHINE_FEATURES:append = " arm mtd "
 
-SERIAL_CONSOLE ?= "115200 ttymxc1"
-KERNEL_IMAGETYPE ?= "zImage"
+IMX_DEFAULT_BSP = "nxp"
+
+IMX_DEFAULT_KERNEL = "linux-fslc-imx"
+
+KERNEL_IMAGETYPE = "zImage"
+
+IMX_DEFAULT_BOOTLOADER = "u-boot-fslc"
 UBOOT_SUFFIX = "img"
-UBOOT_MACHINE ?= "somimx6dq_defconfig"
 
-
+SERIAL_CONSOLES = "115200;ttymxc1"
 IMAGE_FSTYPES ?= "tar.gz"
 
-XSERVER ?= " \
-xserver-xorg \
-    xserver-xorg-extension-dri2 \
-    xserver-xorg-extension-glx \
-    xserver-xorg-extension-extmod \
-    xserver-xorg-extension-dbe \
-    xf86-input-evdev \
-    xf86-input-mouse \
-    xf86-video-omapfb \
-    xf86-video-fbdev \
-    xf86-input-keyboard \
-    xf86-input-tslib \
-"
+

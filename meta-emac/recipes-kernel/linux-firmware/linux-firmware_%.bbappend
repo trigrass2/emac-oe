@@ -1,8 +1,8 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/linux-firmware:"
 
 SRC_URI:append = " \
     file://TIInit_11.8.32.bts \
-    file://BCM43s430A1.hcd \
+    file://BCM43430A1.hcd \
     file://brcmfmac43430-sdio.txt \
 "
 
