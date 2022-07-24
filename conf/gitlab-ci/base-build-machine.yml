@@ -50,7 +50,8 @@
   rules:
     - if: $INCLUDE_SDK == "true"
   variables:
-    BITBAKE_CMD: 'bitbake -c do_populate_sdk'
+    RECIPE_NAME: $EMAC_IMAGE
+    BITBAKE_CMD: 'bitbake -c do_populate_sdk $RECIPE_NAME'
   artifacts:
     paths:
       - deploy/sdk/

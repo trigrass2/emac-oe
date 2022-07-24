@@ -6,8 +6,8 @@ EXTRA_PKGS ?= ""
 FS_NUMBER ?= "00"
 
 inherit image
-
 inherit extrausers
+
 EXTRA_USERS_PARAMS:append = " \
     usermod -p '\$1\$toNMNUq8\$73DgW8yu5SZeY5PRzleI.0' root; \
     usermod -d /root root; \

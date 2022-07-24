@@ -1,0 +1,55 @@
+/*
+ * som-3354-210es.dts - Device Tree file for the SOM-3354M with SOM-210ES.
+ *
+ * Copyright (C) 2015 EMAC Inc.
+ * Copyright (C) 2015 QWERTY Embedded Design
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+/dts-v1/;
+
+#include "som-3354.dtsi"
+
+/ {
+	model = "EMAC SOM-3354M SOM-210ES";
+
+	vmmc: fixedregulator@1 {
+		pinctrl-names = "default";
+		pinctrl-0 = <&vmmc_pins>;
+
+		compatible = "regulator-fixed";
+		regulator-name = "vmmc";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&gpio3 7 GPIO_ACTIVE_LOW>;
+		regulator-boot-on;
+	};
+
+	leds {
+		led@1 {
+			label = "carrier-led";
+			gpios = <&mcp23s08 7 GPIO_ACTIVE_LOW>;
+			default-state = "on";
+			linux,default-trigger = "mmc1";
+		};
+	};
+};
+
+&spi0 {
+	spidev2: spidev@2 {
+		compatible = "emac,spidev";
+		reg = <2>;
+		spi-max-frequency = <40000000>;
+		status = "okay";
+	};
+
+	spidev3: spidev@3 {
+		compatible = "emac,spidev";
+		reg = <3>;
+		spi-max-frequency = <40000000>;
+		status = "okay";
+	};
+};
