@@ -1,5 +1,4 @@
 # TODO 
-## closed caption (DONE)
 ## opencv
 ## openh264 
 ## ADD libde265
@@ -19,7 +18,7 @@ RDEPENDS:append:${PN} = " \
     imx-codec \
 "
 
-PACKAGECONFIG:append += " \
+PACKAGECONFIG:append = " \
     bz2 \
     bluez \
 "
@@ -27,5 +26,4 @@ PACKAGECONFIG:append += " \
 ## FIXME make this check against x11 and wayland 
 CXXFLAGS:append  = " -DEGL_API_FB "
 
-
-COMPATIBLE_MACHINE = "(mx6dl|mx6q|mx6sl|mx6sx|mx6ul|mx6ull|mx7d)"
+COMPATIBLE_MACHINE = "(mx6dl|mx6q|mx6sl|mx6sx|mx7d|somimx6)"
