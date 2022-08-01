@@ -1,9 +1,10 @@
 
 python do_concat_dtbs() {
     dtbs = d.getVar("KERNEL_DEVICETREE").replace('\t', '').split(" ")
+    dtbs = [i for n, i in enumerate(dtbs) if i not in dtbs[:n]]
     deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
     for dtb in dtbs:
-        if dtb is '': continue
+        if dtb == '': continue
         kernel_file = f'{deploy_dir}/zImage'
         dtb_file = f'{deploy_dir}/{dtb}'
         concat_file = f'{deploy_dir}/zImage_{dtb.replace(".dtb", "")}'
@@ -17,6 +18,7 @@ addtask concat_dtbs after do_deploy before do_build
 
 python do_concat_dtbs_clean() {
     dtbs = d.getVar("KERNEL_DEVICETREE").replace('\t', '').split(" ")
+    dtbs = [i for n, i in enumerate(dtbs) if i not in dtbs[:n]]
     deploy_dir = d.getVar("DEPLOY_DIR_IMAGE")
     for dtb in dtbs:
         if dtb is '': continue
