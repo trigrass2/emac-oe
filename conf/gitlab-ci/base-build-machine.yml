@@ -1,0 +1,59 @@
+.initenv-script: &initenv-script
+  - git submodule sync --recursive
+  - git submodule update --init --recursive
+  - cd repo-tool
+  - ./init-build.sh -c
+  - ./init-build.sh -g "$REPO_TOOL_GROUPS"
+  - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/${DISTRO_CODENAME}/conf/bblayers.conf
+  - |
+    export BB_ENV_PASSTHROUGH_ADDITIONS="$BB_ENV_PASSTHROUGH_ADDITIONS \
+      EMAC_CLIENT_NAME \
+      EMAC_IMAGE \
+      EMAC_DISPLAY_HW \
+      EMAC_DISPLAY \
+      EMAC_SHELLMANAGER \
+      EMAC_INITMANAGER \
+      EMAC_NETWORKMANGER \
+      EMAC_AUDIOMANAGER \
+      EMAC_PACKAGEMANAGER"
+  - source setup_env.sh
+  - export
+
+.create-links-for-deploy: &create-links-for-deploy
+  - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
+  - ln -sf /srv/emac-oe/$DISTRO_CODENAME/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$MACHINE ${CI_PROJECT_DIR}/deploy
+
+.build-recipe:
+  variables:
+    GIT_STRATEGY: fetch
+    BITBAKE_CMD: 'bitbake'
+    RECIPE_NAME: $EMAC_IMAGE
+  tags:
+    - oe-builder
+    - bitbake
+  timeout: 6hr
+  script:
+    - *initenv-script
+    - $BITBAKE_CMD $RECIPE_NAME
+    - *create-links-for-deploy
+
+.build-emac-image:
+  stage: build
+  extends: .build-recipe
+  artifacts:
+    paths:
+      - deploy/image/
+
+.build-emac-image-sdk:
+  stage: build
+  extends: .build-recipe
+  rules:
+    - if: $INCLUDE_SDK == "true"
+  variables:
+    RECIPE_NAME: $EMAC_IMAGE
+    BITBAKE_CMD: 'bitbake -c do_populate_sdk $RECIPE_NAME'
+  artifacts:
+    paths:
+      - deploy/sdk/
+
+

@@ -1,0 +1,141 @@
+/*
+ * som-3354-200es.dts - Device Tree file for the SOM-3354M with SOM-200ES.
+ *
+ * Copyright (C) 2015 EMAC Inc.
+ * Copyright (C) 2015 QWERTY Embedded Design
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+/dts-v1/;
+
+#include "som-3354.dtsi"
+
+/ {
+	model = "EMAC SOM-3354M SOM-200ES";
+
+	vmmc: fixedregulator@1 {
+		pinctrl-names = "default";
+		pinctrl-0 = <&vmmc_pins>;
+
+		compatible = "regulator-fixed";
+		regulator-name = "vmmc";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		gpio = <&gpio3 7 GPIO_ACTIVE_LOW>;
+		regulator-boot-on;
+	};
+
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,name = "cs4271 @ SOM3354";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,bitclock-master = <&codec_master>;
+		simple-audio-card,frame-master = <&codec_master>;
+		simple-audio-card,widgets =
+			"Line", "Line In",
+			"Line", "Line Out";
+		simple-audio-card,routing =
+			"Line In", "Capture",
+			"Line Out", "Playback";
+
+		cpu_master: simple-audio-card,cpu {
+			sound-dai = <&mcasp0>;
+		};
+
+		codec_master: simple-audio-card,codec {
+			sound-dai = <&cs4271>;
+			clocks = <&si5351 2>;
+		};
+	};
+
+	leds {
+		led@1 {
+			label = "carrier-led";
+			gpios = <&mcp23s08 7 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "mmc1";
+		};
+	};
+};
+
+&gpmc {
+	portc: cpld@portc {
+		compatible = "emac,mmio-gpio";
+		reg-names = "dat";
+		reg = <0x4 0x4 0x1>;
+		no-input;
+		#gpio-cells = <2>;
+
+		gpmc,mux-add-data = <0>;
+		gpmc,device-width = <1>;
+		gpmc,wait-pin = <0>;
+		gpmc,cycle2cycle-samecsen = <1>;
+		gpmc,cycle2cycle-diffcsen = <1>;
+		gpmc,cs-on-ns = <20>;
+		gpmc,cs-rd-off-ns = <300>;
+		gpmc,cs-wr-off-ns = <300>;
+		gpmc,adv-on-ns = <80>;
+		gpmc,adv-rd-off-ns = <100>;
+		gpmc,adv-wr-off-ns = <110>;
+		gpmc,oe-on-ns = <110>;
+		gpmc,oe-off-ns = <300>;
+		gpmc,we-on-ns = <100>;
+		gpmc,we-off-ns = <300>;
+		gpmc,rd-cycle-ns = <300>;
+		gpmc,wr-cycle-ns = <300>;
+		gpmc,access-ns = <280>;
+		gpmc,page-burst-access-ns = <20>;
+		gpmc,bus-turnaround-ns = <20>;
+		gpmc,cycle2cycle-delay-ns = <20>;
+		gpmc,wr-access-ns = <280>;
+	};
+
+	portb: cpld@portb {
+		compatible = "emac,mmio-gpio";
+		reg-names = "dat", "dirout";
+		reg = <0x4 0x2 0x1>, <0x4 0x3 0x1>;
+		#gpio-cells = <2>;
+	};
+
+	porta: cpld@porta {
+		compatible = "emac,mmio-gpio";
+		reg-names = "dat", "dirout";
+		reg = <0x4 0x0 0x1>, <0x4 0x1 0x1>;
+		#gpio-cells = <2>;
+	};
+
+	control: cpld@comshtdn {
+		compatible = "emac,mmio-gpio";
+		reg-names = "dat";
+		reg = <0x4 0x6 0x1>;
+		no-input;
+		#gpio-cells = <2>;
+	};
+
+	gpio: cpld@handy {
+		compatible = "emac,mmio-gpio";
+		reg-names = "dat", "dirout";
+		reg = <0x4 0x8 0x1>, <0x4 0x9 0x1>;
+		#gpio-cells = <2>;
+	};
+
+	id: cpld@id {
+		compatible = "emac,emac-cpld-id";
+		reg = <0x4 0x7 0x1>;
+	};
+};
+
+&spi0 {
+	cs4271: cs4271@2 {
+		#sound-dai-cells = <0>;
+		compatible = "cirrus,cs4271";
+		spi-cpol;
+		spi-cpha;
+		reg = <2>;
+		spi-max-frequency = <1000000>;
+		status = "okay";
+	};
+
+};

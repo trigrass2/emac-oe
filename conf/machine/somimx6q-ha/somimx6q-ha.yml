@@ -1,0 +1,11 @@
+emac-image-somimx6q-ha:
+  extends: .build-emac-image
+  variables:
+    MACHINE: somimx6q-ha
+    REPO_TOOL_GROUPS: default,nxp
+
+emac-image-sdk-somimx6q-ha:
+  extends: .build-emac-image-sdk
+  variables:
+    MACHINE: somimx6q-ha
+    REPO_TOOL_GROUPS: default,nxp

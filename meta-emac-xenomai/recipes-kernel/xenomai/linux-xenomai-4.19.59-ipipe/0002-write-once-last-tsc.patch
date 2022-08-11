@@ -1,0 +1,13 @@
+diff --git a/arch/arm/kernel/ipipe_tsc.c b/arch/arm/kernel/ipipe_tsc.c
+index 0a8f79a0f24f..192ffed93ef4 100644
+--- a/arch/arm/kernel/ipipe_tsc.c
++++ b/arch/arm/kernel/ipipe_tsc.c
+@@ -195,7 +195,7 @@ void __ipipe_tsc_update(void)
+ 
+ 	/* Update last_tsc, in order to remain compatible with legacy
+ 	   user-space 32 bits free-running counter implementation */
+-	ipipe_tsc_value->last_tsc = __ipipe_tsc_get() - 1;
++	WRITE_ONCE(ipipe_tsc_value->last_tsc, __ipipe_tsc_get() - 1);
+ }
+ EXPORT_SYMBOL(__ipipe_tsc_get);
+ 

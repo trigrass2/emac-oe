@@ -1,0 +1,13 @@
+diff --git a/src/gui/embedded/qscreentransformed_qws.cpp b/src/gui/embedded/qscreentransformed_qws.cpp
+index 96ae2ca26c..1375bcad45 100644
+--- a/src/gui/embedded/qscreentransformed_qws.cpp
++++ b/src/gui/embedded/qscreentransformed_qws.cpp
+@@ -454,7 +454,7 @@ void QTransformedScreen::blit(const QImage &image, const QPoint &topLeft,
+         default:
+             break;
+         }
+-        func(this, image, r.translated(-topLeft), dst);
++        func(this, image.rgbSwapped(), r.translated(-topLeft), dst);
+     }
+     QWSDisplay::ungrab();
+ 

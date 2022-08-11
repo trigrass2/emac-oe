@@ -1,0 +1,6 @@
+## Included from machine/somimx6/somimx6.bblayers.conf.sample
+
+BBLAYERS = " \
+  ${CORE_RECIPES} \
+  ${NXP_RECIPES} \
+"

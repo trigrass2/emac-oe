@@ -1,0 +1,51 @@
+.default-no-fetch-manual: &default-no-fetch-manual
+  variables:
+    GIT_STRATEGY: none
+  tags:
+    - oe-builder
+    - bitbake
+  when: manual
+  allow_failure: true
+
+.start-bb-after-close: &start-bb-after-close
+  - cd repo-tool
+  - source start_afterclose.sh
+  - |
+    export BB_ENV_PASSTHROUGH_ADDITIONS="$BB_ENV_PASSTHROUGH_ADDITIONS \
+      EMAC_CLIENT_NAME \
+      EMAC_IMAGE \
+      EMAC_DISPLAY_HW \
+      EMAC_DISPLAY \
+      EMAC_SHELLMANAGER \
+      EMAC_INITMANAGER \
+      EMAC_NETWORKMANGER \
+      EMAC_AUDIOMANAGER \
+      EMAC_PACKAGEMANAGER"
+
+.build-standard-qemu:
+  <<: *default-no-fetch-manual
+  script:
+    - *start-bb-after-close
+    - echo $BITBAKE_CMD
+    - $BITBAKE_CMD
+    - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
+    - ln -sf /srv/emac-oe/$DISTRO_CODENAME/deploy/$EMAC_CLIENT_NAME/$EMAC_IMAGE/$QEMU_MACHINE ${CI_PROJECT_DIR}/deploy
+  artifacts:
+    paths:
+      - deploy/image/
+
+build-emac-image-qemu-arm:
+  stage: build
+  extends: .build-standard-qemu
+  variables:
+    EMAC_IMAGE: 'emac-image'
+    BITBAKE_CMD: bitbake mc:qemu-armv7:$EMAC_IMAGE
+    QEMU_MACHINE: qemuarm
+
+build-emac-image-qemu-x86:
+  stage: build
+  extends: .build-standard-qemu
+  variables:
+    EMAC_IMAGE: 'emac-image'
+    BITBAKE_CMD: bitbake mc:qemu-x86-64:$EMAC_IMAGE
+    QEMU_MACHINE: qemux86-64

@@ -1,0 +1,119 @@
+DISTRO_CODENAME ?= "spike"
+DL_DIR = "/srv/emac-oe/downloads"
+STAMPS_DIR = "/srv/emac-oe/${DISTRO_CODENAME}/stamps"
+SSTATE_DIR = "/srv/emac-oe/${DISTRO_CODENAME}/sstate-cache/"
+DISTRO ?= "emac"
+# DISTRO = "emactegra"
+# DISTRO = "emactiny"
+
+PACKAGE_CLASSES ?= "package_rpm package_ipk package_deb"
+
+SDKMACHINE ?= "x86_64"
+
+USER_CLASSES ?= "buildstats"
+
+OE_TERMINAL = "auto"
+
+PATCHRESOLVE = "noop"
+
+BB_DISKMON_DIRS ??= "\
+    STOPTASKS,${TMPDIR},1G,100K \
+    STOPTASKS,${DL_DIR},1G,100K \
+    STOPTASKS,${SSTATE_DIR},1G,100K \
+    STOPTASKS,/tmp,100M,100K \
+    HALT,${TMPDIR},100M,1K \
+    HALT,${DL_DIR},100M,1K \
+    HALT,${SSTATE_DIR},100M,1K \
+    HALT,/tmp,10M,1K"
+
+
+CONF_VERSION = "2"
+INHERIT:append  = " buildhistory image-buildinfo rm_work"
+BUILDHISTORY_COMMIT = "1"
+BB_NUMBER_THREADS ?= "20"
+PARALLEL_MAKE ?= "-j 12"
+
+BBMULTICONFIG = " \
+    qemu-x86-64 \
+    qemu-armv7 \
+"
+
+######################
+## EMAC arm boards
+#######################
+## EMAC's NXP
+# MACHINE ?= "somimx6-ha"
+MACHINE ??= "somimx6"
+# MACHINE ?= "somimx6-rt"
+# MACHINE ?= "somimx6ul"
+
+## EMAC's TI
+# MACHINE ?= "som3517"
+# MACHINE ?= "som3354"
+
+## EMAC's Microchip
+# MACHINE ?= "soma5d36"
+# MACHINE ?= "soma5d35"
+# MACHINE ?= "som9x25"
+# MACHINE ?= "som9g45"
+# MACHINE ?= "som9g25"
+# MACHINE ?= "som9g20"
+# MACHINE ?= "ipac9x25"
+
+## EMAC x86 boards
+# MACHINE ?= "vdx-632x-xenomai"
+# MACHINE ?= "vortex-sbc"
+# MACHINE ?= "vox-150"
+# MACHINE ?= "pmx"
+# MACHINE ?= "pcm-9375"
+# MACHINE ?= "pcm-3356"
+# MACHINE ?= "ppc-150t"
+# MACHINE ?= "hmi-043t"
+# MACHINE ?= "ppc-150t"
+# MACHINE ?= "ft10270"
+# MACHINE ?= "ft8270"
+# MACHINE ?= "atom-sbc-ia64"
+# MACHINE ?= "atom-sbc-64"
+# MACHINE ?= "atom-sbc-64-x32"
+# MACHINE ?= "atom-sbc-32"
+# MACHINE ?= "aimb-214"
+
+######################
+## EMAC SETTINGS
+#######################
+## none, opengl, vulkan
+EMAC_DISPLAY_HW ?= "none"
+## none, linuxfb, wayland, x11
+EMAC_DISPLAY ?= "none"
+## coreutils, busybox
+EMAC_SHELLMANAGER ?= "coreutils"
+## systemd, sysvinit
+EMAC_INITMANAGER ?= "systemd"
+## connman, networkmanager, legacy
+EMAC_NETWORKMANGER ?= "networkmanager"
+## alsa, pulseaudio
+EMAC_AUDIOMANAGER ?= "alsa"
+## deb, rpm, ipk
+EMAC_PACKAGEMANAGER ?= "rpm"
+
+###########################################
+## INTERNAL DO NOT CHANGE
+###########################################
+EMAC_CLIENT_NAME ?= "emac"
+EMAC_IMAGE ?= "emac-image"
+
+DEPLOY_DIR        = "/srv/emac-oe/${DISTRO_CODENAME}/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}/${MACHINE}"
+DEPLOY_DIR_IMAGE  = "${DEPLOY_DIR}/image"
+
+## SSTATE_DUPWHITELIST is set to this, if needing to change license dirs add it to this var
+LICENSE_DIRECTORY = "${DEPLOY_DIR}/licenses" 
+
+DEPLOY_DIR_DEB    = "${DEPLOY_DIR}/deb"
+DEPLOY_DIR_IPK    = "${DEPLOY_DIR}/ipk"
+DEPLOY_DIR_RPM    = "${DEPLOY_DIR}/rpm"
+
+# TEST_TARGET = "emac-image"
+# TEST_TARGET_IP = "<10.0.X.XXX>"
+# TEST_SERVER_IP = "<10.0.X.XXX>"
+
+## needs MACHINE, EMAC_CLIENT_NAME, and EMAC_IMAGE exported to env before run (AUTO BUILDER ONLY)

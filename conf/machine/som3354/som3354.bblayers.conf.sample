@@ -1,0 +1,7 @@
+## Included from machine/som3354/som3354.bblayers.conf.sample
+
+BBLAYERS = " \
+  ${CORE_RECIPES} \
+  ${TI_RECIPES} \
+  ${QT5_RECIPES} \
+"

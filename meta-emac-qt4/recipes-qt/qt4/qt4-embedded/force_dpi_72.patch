@@ -1,0 +1,23 @@
+diff --git a/src/gui/embedded/qscreenlinuxfb_qws.cpp b/src/gui/embedded/qscreenlinuxfb_qws.cpp
+index a86687d8e4..521b07c0b1 100644
+--- a/src/gui/embedded/qscreenlinuxfb_qws.cpp
++++ b/src/gui/embedded/qscreenlinuxfb_qws.cpp
+@@ -426,15 +426,9 @@ bool QLinuxFbScreen::connect(const QString &displaySpec)
+             physWidth = dw*physHeight/dh;
+     }
+     if (dimIdxW < 0 && dimIdxH < 0) {
+-        if (vinfo.width != 0 && vinfo.height != 0
+-            && vinfo.width != UINT_MAX && vinfo.height != UINT_MAX) {
+-            physWidth = vinfo.width;
+-            physHeight = vinfo.height;
+-        } else {
+-            const int dpi = 72;
+-            physWidth = qRound(dw * 25.4 / dpi);
+-            physHeight = qRound(dh * 25.4 / dpi);
+-        }
++        const int dpi = 72;
++        physWidth = qRound(dw * 25.4 / dpi);
++        physHeight = qRound(dh * 25.4 / dpi);
+     }
+ 
+     dataoffset = yoff * lstep + xoff * d / 8;

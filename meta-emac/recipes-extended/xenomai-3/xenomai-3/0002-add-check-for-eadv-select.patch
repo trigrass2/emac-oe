@@ -1,0 +1,17 @@
+diff --git a/lib/cobalt/select.c b/lib/cobalt/select.c
+index 362a18238..e6b74aa82 100644
+--- a/lib/cobalt/select.c
++++ b/lib/cobalt/select.c
+@@ -35,8 +35,10 @@ COBALT_IMPL(int, select, (int __nfds, fd_set *__restrict __readfds,
+ 			       __readfds, __writefds, __exceptfds, __timeout);
+ 
+ 	pthread_setcanceltype(oldtype, NULL);
+-
+-	if (err == -EBADF || err == -EPERM || err == -ENOSYS)
++	/*
++	 * SDFreyder 2021/06/06 - also check for -EADV
++	 */
++	if (err == -EADV || err == -EBADF || err == -EPERM || err == -ENOSYS)
+ 		return __STD(select(__nfds, __readfds,
+ 				    __writefds, __exceptfds, __timeout));
+ 

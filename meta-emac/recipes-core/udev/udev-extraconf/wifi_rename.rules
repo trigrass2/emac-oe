@@ -1,0 +1,1 @@
+SUBSYSTEM=="net",DRIVERS=="mwifiex_sdio",ATTRS{vendor}=="0x02df",ATTRS{device}=="0x9119",KERNEL=="mlan0",NAME="wlan0"
