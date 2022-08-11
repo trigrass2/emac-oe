@@ -1,0 +1,281 @@
+/*
+ * som-3354-250gs-7.dts - Device Tree file for the SOM-3354M with SOM-250GS
+ *                        w/ 7 inch display
+ *
+ * Copyright (C) 2017 EMAC Inc.
+ * Copyright (C) 2017 QWERTY Embedded Design
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+/dts-v1/;
+
+#include "som-3354.dtsi"
+
+/ {
+	model = "EMAC SOM-3354M SOM-250GS-7";
+	
+	compatible = "emac,som3354-250gs", "emac,som3354", "ti,am33xx";
+
+	chosen {
+		stdout-path = &uart0;
+	};
+
+	beeper {
+		compatible = "gpio-beeper";
+		pinctrl-names = "default";
+		pinctrl-0 = <&beeper_pin>;
+		gpios = <&gpio2 2 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+	
+	bkl_pwr: fixedregulator1 {
+		compatible = "regulator-fixed";
+		regulator-name = "lvds-backlight";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		regulator-always-on;
+		enable-active-high;
+		gpio = <&gpio1 13 GPIO_ACTIVE_HIGH>;
+	};
+
+	lvds3p3v_pwr: fixedregulator2 {
+		compatible = "regulator-fixed";
+		regulator-name = "lvds3p3_en";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+		enable-active-high;
+		gpio = <&gpio0 20 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <70000>;
+		// lvds_3p3_en_pin
+	};
+
+	leds {
+		pinctrl-names = "default";
+		pinctrl-0 = <&status_led_gpio_pin &som250_status_leds_pins>;
+
+		led@1 {
+			label = "green-led";
+			gpios = <&gpio0 7 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+
+		led@2 {
+			label = "red-led";
+			gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+	};
+
+	backlight: backlightbackloi{
+		compatible = "pwm-backlight";
+		pwms = <&ecap0 0 50000 0>;
+		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
+		default-brightness-level = <9>;
+		
+	};
+
+	panel: lcd_panel {
+		// compatible = "fema,ttx2nlwhtl";
+		// FIXME
+		compatible = "tfc,s9700rtwv43tr-01b";
+		pinctrl-names = "default";
+		pinctrl-0 = <&lcd_pins>;
+		backlight = <&backlight>;
+		port {
+			panel_in_lcd: endpoint {
+				remote-endpoint = <&lcdc_out>;
+			};
+		};
+	};
+
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "som-250gs sgtl5000";
+		simple-audio-card,widgets =
+			"Microphone", "Microphone Jack",
+			"Headphone", "Headphone Jack",
+			"Speaker", "Speaker Ext",
+			"Line", "Line In Jack";
+		simple-audio-card,routing =
+			"MIC_IN", "Microphone Jack",
+			"Microphone Jack", "Mic Bias",
+			"LINE_IN", "Line In Jack",
+			"Headphone Jack", "HP_OUT",
+			"Speaker Ext", "LINE_OUT";
+
+		simple-audio-card,cpu {
+			sound-dai = <&mcasp0>;
+		};
+
+		sound_master: simple-audio-card,codec {
+			sound-dai = <&codec>;
+			frame-master;
+			bitclock-master;
+		};
+	};
+};
+
+&i2c0 {
+	status = "okay";
+
+	codec: sgtl5000@10 {
+		#sound-dai-cells = <0>;
+		compatible = "fsl,sgtl5000";
+		reg = <0x10>;
+		VDDA-supply = <&vmain>;
+		VDDIO-supply = <&vmain>;
+		clocks = <&si5351 2>;
+	};
+
+	eeprom@50 {
+		compatible = "st,24c32";
+		reg = <0x50>;
+		pagesize = <32>;
+	};
+};
+
+&spi0 {
+	spidev1@3 {
+		compatible = "emac,spidev";
+		spi-max-frequency = <40000000>;
+		status = "okay";
+	};
+
+	spidev3@5 {
+		compatible = "emac,spidev";
+		spi-max-frequency = <40000000>;
+		status = "okay";
+	};
+};
+
+&mmc2 { 
+	vmmc-supply = <&vmmc_reg>;
+	status = "okay";
+};
+
+&mcasp0 {
+	status = "okay";
+};
+
+
+&epwmss0 {
+	status = "okay";
+
+	ecap0: pwm@100 {
+		status = "okay";
+		pinctrl-names = "default";
+		pinctrl-0 = <&backlight_en_pin>;
+	};
+};
+
+
+&tscadc {
+	status = "okay";
+};
+
+&lcdc {
+	status = "okay";
+	port {
+		lcdc_out: endpoint {
+			remote-endpoint = <&panel_in_lcd>;
+		};
+	};
+};
+
+
+&dcan0 {
+	status = "okay";
+};
+
+&uart0 {
+        status = "okay";
+};
+
+&uart1 {
+	status = "okay";
+};
+
+&uart6 {
+	status = "okay";
+};
+
+/*
+&uart7 {
+	status = "okay";
+};
+*/
+
+&usb {
+	status = "okay";
+};
+&usb_ctrl_mod {
+	status = "okay";
+};
+
+&usb0 {
+	pinctrl-0 = <&usb_otg_pins &usb_otg_pwr_en>;
+	status = "okay";
+};
+
+&usb1 {
+	status = "okay";
+};
+&usb0_phy {
+	status = "okay";
+};
+&usb1_phy {
+	status = "okay";
+};
+
+
+
+&am33xx_pinmux {
+        /delete-node/ spi1_pins;
+        gpio0_pins {
+                pinctrl-single,pins = <
+                        AM33XX_IOPAD(0x9b0, PIN_INPUT_PULLDOWN | MUX_MODE7) /* IRQA (A15) xdma_event_intr0.gpio0[19] */
+                >;
+        };
+        /delete-node/ gpio1_pins;
+        /delete-node/ timer4_pins;
+
+        som250_status_leds_pins: som250_status_leds_pins {
+                pinctrl-single,pins = <
+                        AM33XX_IOPAD(0x964, PIN_OUTPUT_PULLUP | MUX_MODE7) /* (C18) eCAP0_in_PWM0_out.gpio0[7] */
+                        AM33XX_IOPAD(0x96c, PIN_OUTPUT_PULLUP | MUX_MODE7) /* (E17) uart0_rtsn.gpio1[9] */
+                >;
+        };
+        lvds_3p3_en_pin: lvds_3p3_en_pin {
+                pinctrl-single,pins = <
+                        AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO15 (D14) xdma_event_intr1.gpio0[20] */
+                >;
+        };
+        backlight_en_pin: backlight_en_pin {
+                pinctrl-single,pins = <
+                        AM33XX_IOPAD(0x834, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO0 (R12) gpmc_ad13.gpio1[13] */
+                #define BACKLIGHT_GPIO  <&gpio1 13 GPIO_ACTIVE_HIGH>;
+                >;
+        };
+        beeper_pin: beeper_pin{
+                pinctrl-single,pins = <
+                        AM33XX_IOPAD(0x890, PIN_INPUT_PULLDOWN | MUX_MODE7) /* GPIO14 (R7) gpmc_advn_ale.timer4 */
+                >;
+        };
+        usb_otg_pwr_en: usb_otg_pwr_en {
+                pinctrl-single,pins = <
+                        AM33XX_IOPAD(0x968, PIN_INPUT_PULLUP | MUX_MODE4) /* (E18) uart0_ctsn.spi1_d0 */
+                >;
+        };
+       // lcdtest_pins: lcdtest_pins {
+       //         pinctrl-single,pins = <
+       //                 AM33XX_IOPAD(0x834, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO0 (R12) gpmc_ad13.gpio1[13] */
+       //                 AM33XX_IOPAD(0x99c, PIN_OUTPUT_PULLUP | MUX_MODE7) /* (C12) mcasp0_ahclkr.gpio3[17] */
+       //                 AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO15 (D14) xdma_event_intr1.gpio0[20] */
+       //         >;
+       // };
+};

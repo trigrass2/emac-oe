@@ -1,0 +1,20 @@
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 774b20efb112..b56514c35b81 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -825,7 +825,14 @@ dtb-$(CONFIG_SOC_AM33XX) += \
+ 	am335x-sbc-t335.dtb \
+ 	am335x-sl50.dtb \
+ 	am335x-wega-rdk.dtb \
+-	am335x-osd3358-sm-red.dtb
++	am335x-osd3358-sm-red.dtb \
++	som-3354-200es.dtb \
++	som-3354-200gs.dtb \
++	som-3354-210es.dtb \
++	som-3354-212es.dtb \
++	som-3354-250es-10.dtb \
++	som-3354-250es-7.dtb \
++	som-3354-250gs-7.dtb
+ dtb-$(CONFIG_ARCH_OMAP4) += \
+ 	omap4-droid-bionic-xt875.dtb \
+ 	omap4-droid4-xt894.dtb \

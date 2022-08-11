@@ -1,0 +1,514 @@
+/*
+ * som-3354.dtsi - Device Tree inclue file for the SOM-3354M with SOM-2xx carriers.
+ *
+ * Copyright (C) 2015 EMAC Inc.
+ * Copyright (C) 2015 QWERTY Embedded Design
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+
+#include "am33xx.dtsi"
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/input/input.h>
+
+#include "som-3354-pinmux.dtsi"
+
+/ {
+	compatible = "emac,som3354", "ti,am33xx";
+	chosen { 
+		stdout-path = &uart0;
+	};
+	aliases {
+		uart6 = &uart6;
+		uart7 = &uart7;
+	};
+
+	cpus {
+		cpu@0 {
+			cpu0-supply = <&vdd1_reg>;
+		};
+	};
+
+	memory {
+		device_type = "memory";
+		reg = <0x80000000 0x20000000>; /* 512 MB */
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&status_led_gpio_pin>;
+
+		led@0 {
+			label = "status";
+			gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+	};
+	vmain: fixedregulator@0 {
+		compatible = "regulator-fixed";
+		regulator-name = "vmain";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+	};
+
+	// add more regs here for the sd/wifi ect to run to the edge	
+
+	clocks {
+		ref27: ref27 {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <27000000>;
+		};
+	};
+};
+
+&gpmc {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&gpmc_pins &gpmc_gpio_pins>;
+
+	ranges = <0x3 0 0x08000000 0x1000000    /* CS3: DUART */
+		  0x4 0 0x09000000 0x1000000>;	/* CS4: CPLD */
+
+	uart6: uart6@3,0 {
+		compatible = "ns16550a";
+		reg = <0x3 0x0 0x8>;
+		clock-frequency = <18432000>;
+		bank-width = <1>;
+		reg-shift = <0>;
+		reg-io-width = <1>;
+		fifo-size = <16>;
+		interrupt-parent = <&gpio3>;
+		interrupts = <9 1>;
+		gpmc,mux-add-data = <0>;
+		gpmc,device-width = <1>;
+		gpmc,wait-pin = <0>;
+		gpmc,cycle2cycle-samecsen = <1>;
+		gpmc,cycle2cycle-diffcsen = <1>;
+		gpmc,cs-on-ns = <18>;
+		gpmc,cs-rd-off-ns = <295>;
+		gpmc,cs-wr-off-ns = <295>;
+		gpmc,adv-on-ns = <73>;
+		gpmc,adv-rd-off-ns = <92>;
+		gpmc,adv-wr-off-ns = <110>;
+		gpmc,oe-on-ns = <110>;
+		gpmc,oe-off-ns = <295>;
+		gpmc,we-on-ns = <92>;
+		gpmc,we-off-ns = <295>;
+		gpmc,rd-cycle-ns = <300>;
+		gpmc,wr-cycle-ns = <300>;
+		gpmc,access-ns = <276>;
+		gpmc,page-burst-access-ns = <18>;
+		gpmc,bus-turnaround-ns = <20>;
+		gpmc,cycle2cycle-delay-ns = <20>;
+		gpmc,wr-access-ns = <276>;
+		status = "disabled";
+	};
+
+	uart7: uart7@3,8 {
+		compatible = "ns16550a";
+		reg = <0x3 0x8 0x8>;
+		interrupt-parent = <&gpio3>;
+		interrupts = <10 1>;
+		clock-frequency = <18432000>;
+		bank-width = <1>;
+		reg-shift = <0>;
+		reg-io-width = <1>;
+		fifo-size = <16>;
+		gpmc,mux-add-data = <0>;
+		gpmc,device-width = <1>;
+		gpmc,wait-pin = <0>;
+		gpmc,cycle2cycle-samecsen = <1>;
+		gpmc,cycle2cycle-diffcsen = <1>;
+		gpmc,cs-on-ns = <18>;
+		gpmc,cs-rd-off-ns = <295>;
+		gpmc,cs-wr-off-ns = <295>;
+		gpmc,adv-on-ns = <73>;
+		gpmc,adv-rd-off-ns = <92>;
+		gpmc,adv-wr-off-ns = <110>;
+		gpmc,oe-on-ns = <110>;
+		gpmc,oe-off-ns = <295>;
+		gpmc,we-on-ns = <92>;
+		gpmc,we-off-ns = <295>;
+		gpmc,rd-cycle-ns = <300>;
+		gpmc,wr-cycle-ns = <300>;
+		gpmc,access-ns = <276>;
+		gpmc,page-burst-access-ns = <18>;
+		gpmc,bus-turnaround-ns = <20>;
+		gpmc,cycle2cycle-delay-ns = <20>;
+		gpmc,wr-access-ns = <276>;
+		status = "disabled";
+	};
+};
+
+&mcasp0 {
+	#sound-dai-cells = <0>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2s_pins>;
+
+	status = "disabled";
+
+	op-mode = <0>;          /* MCASP_IIS_MODE */
+	tdm-slots = <2>;
+	/* 4 serializers */
+	serial-dir = <  /* 0: INACTIVE, 1: TX, 2: RX */
+		2 1 0 0
+		>;
+	tx-num-evt = <2>;
+	rx-num-evt = <2>;
+};
+
+
+&tscadc {
+	status = "disabled";
+	tsc {
+		ti,wires = <4>;
+		ti,x-plate-resistance = <200>;
+		ti,coordinate-readouts = <5>;
+		ti,wire-config = <0x00 0x11 0x22 0x33>;
+		ti,charge-delay = <0x4000>;
+		ti,open-delay = <0x1000>;
+	};
+
+	adc {
+		ti,adc-channels = <4 5 6 7>;
+	};
+
+};
+
+&mac {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&ksz804_rmii_pins &ksz804_rmii_gpio_pins>;
+	slaves = <1>;
+};
+
+&davinci_mdio {
+	pinctrl-names = "default";
+	pinctrl-0 = <&ksz804_mdio_pins>;
+	status = "okay";
+};
+
+&cpsw_emac0 {
+	vmmc-supply = <&vmmc_reg>;
+	phy_id = <&davinci_mdio>,<0>;
+	phy-mode = "rmii";
+};
+
+&phy_gmii_sel {
+	compatible = "ti,am3352-cpsw-phy-sel";
+	reg-names = "gmii-sel";
+	rmii-clock-ext;
+};
+
+&elm {
+	status = "okay";
+};
+
+&spi0 {
+	ti,spi-num-cs = <6>;
+	dmas = <&edma 16 0
+		&edma 17 0
+		&edma 18 0
+		&edma 19 0
+		&edma 20 0
+		&edma 21 0
+		&edma 22 0
+		&edma 23 0
+		&edma 32 0
+		&edma 33 0
+		&edma 34 0
+		&edma 35 0>;
+	dma-names = "tx0", "rx0", "tx1", "rx1", "tx2", "rx2", "tx3", "rx3", "tx4", "rx4", "tx5", "rx5";
+	pinctrl-names = "default";
+	pinctrl-0 = <&spi0_pins &spi_carrier_cs_gpio_pins &mcp23s08_interrupt_gpio_pin>;
+	status = "okay";
+	cs-gpios = <&gpio0 5 0>, <&gpio0 6 0>, <&gpio1 15 0>, <&gpio3 8 0>, <&gpio1 14 0>, <&gpio3 18 0>;
+
+	flash: n25q128a13@0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "n25q128a13", "jedec,spi-nor";
+		reg = <0>; /* Chip select 0 */
+		spi-max-frequency = <108000000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+			partition@20000 {
+				label = "U-Boot";
+				reg = <0 020000>;
+			};
+			partition@10000 {
+				label = "Kernel";
+				reg = <0x100000 0xc00000>;
+			};
+		};
+	};
+
+	mcp23s08: mcp23s08@1 {
+		compatible = "microchip,mcp23s08";
+		gpio-controller;
+		#gpio-cells = <2>;
+		reg = <1>;
+
+		microchip,spi-present-mask = <0x01>;
+		spi-max-frequency = <1000000>;
+		
+		/*
+		* interrupt-parent = <&gpio3>;
+		* interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
+		* interrupt-names = "mcp23s08@1 irq";
+		* interrupt-controller;
+		* #interrupt-cells=<2>;
+		* microchip,irq-mirror;
+		*/
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpiopullups>;
+		
+		status = "okay";
+
+		gpiopullups: pinmux {
+			pins =	"gpio0", "gpio1", "gpio2", "gpio3",
+				"gpio4", "gpio5", "gpio6", "gpio7";
+			bias-pull-up;
+		};
+	};
+
+};
+
+&dcan0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&can_pins>;
+};
+
+&i2c0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c0_pins>;
+
+	clock-frequency = <100000>;
+
+	tps: tps@2d {
+		compatible = "ti,tps65910";
+		clock-frequency = <400000>;
+		reg = <0x2d>;
+	};
+
+	si5351: clock-generator@60 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		#clock-cells = <1>;
+		compatible = "silabs,si5351a-msop";
+		reg = <0x60>;
+		status = "okay";
+
+		/* connect xtal input to 27MHz reference */
+		clocks = <&ref27>;
+		clock-names = "xtal";
+
+		/* connect xtal input as source of pll0 and pll1 */
+		silabs,pll-source = <0 0>, <1 0>;
+
+		clkout0: clkout0 {
+			reg = <0>;
+			silabs,drive-strength = <8>;
+			silabs,multisynth-source = <1>;
+			silabs,clock-source = <0>;
+			silabs,pll-master;
+			silabs,disable-state = <3>;
+			clock-frequency = <18432000>;
+		 };
+
+		clkout1: clkout1 {
+			reg = <1>;
+			silabs,drive-strength = <8>;
+			silabs,multisynth-source = <0>;
+			silabs,clock-source = <0>;
+			silabs,pll-master;
+			silabs,disable-state = <3>;
+			clock-frequency = <8000000>;
+		};
+
+		clkout2: clkout2 {
+			reg = <2>;
+			silabs,drive-strength = <8>;
+			silabs,multisynth-source = <1>;
+			silabs,clock-source = <0>;
+			silabs,disable-state = <3>;
+			clock-frequency = <12288000>;
+			silabs,pll-reset;
+		};
+	};
+};
+
+&mmc1 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc0_pins>;
+	vmmc-supply = <&vmain>;
+	bus-width = <4>;
+	ti,non-removable;
+};
+
+&mmc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc1_pins &mmc1_card_detect_gpio_pin>;
+	bus-width = <4>;
+	cd-gpios = <&gpio1 12 GPIO_ACTIVE_LOW>;
+};
+
+&uart0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart0_pins>;
+	/* wakeirq = 0; //omap-serial.c (optional) */
+	status = "okay";
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins>;
+	rs485-rts-active-high;
+	rs485-rts-delay = <1 1>;
+	/* wakeirq = 0; //omap-serial.c (optional) */
+	status = "okay";
+};
+
+&usb {
+	status = "okay";
+};
+
+&usb_ctrl_mod {
+	status = "okay";
+};
+
+&usb0_phy {
+	vmmc-supply = <&vmmc_reg>;
+	status = "okay";
+};
+
+&usb1_phy {
+	vmmc-supply = <&vmmc_reg>;
+	status = "okay";
+};
+
+&usb0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb_otg_pins>;
+	/* drv-gpios = <&gpio0 18 GPIO_ACTIVE_HIGH>; */
+	status = "okay";
+};
+
+&usb1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&usb1_pins>;
+	dr_mode = "host";
+	status = "okay";
+};
+
+&cppi41dma  {
+	status = "okay";
+};
+
+#include "tps65910.dtsi"
+
+&tps {
+	vcc1-supply = <&vmain>;
+	vcc2-supply = <&vmain>;
+	vcc3-supply = <&vmain>;
+	vcc4-supply = <&vmain>;
+	vcc5-supply = <&vmain>;
+	vcc6-supply = <&vmain>;
+	vcc7-supply = <&vmain>;
+	vccio-supply = <&vmain>;
+	regulators {
+
+	        // NC
+		vrtc_reg: regulator@0 {
+			status = "disabled";
+		};
+
+
+		vio_reg: regulator@1 {
+			reg = <1>;
+			regulator-min-microvolt = <1500000>;
+			regulator-max-microvolt = <1500000>;
+			regulator-always-on;
+			regulator-boot-on;
+			// ti,regulator-ext-sleep-control = <1>;
+		};
+
+
+		vdd1_reg: regulator@2 {
+			regulator-min-microvolt = <912500>;
+			regulator-max-microvolt = <1312500>;
+			regulator-boot-on;
+			regulator-always-on;
+		};
+
+		vdd2_reg: regulator@3 {
+			regulator-min-microvolt = <912500>;
+			regulator-max-microvolt = <1150000>;
+			regulator-boot-on;
+			regulator-always-on;
+		};
+
+		vdd3_reg: regulator@4 {
+			regulator-always-on;
+		};
+
+		// NC 
+		vdig1_reg: regulator@5 {
+			status = "disabled";
+		};
+
+		//NC
+		vdig2_reg: regulator@6 {
+			status = "disabled";
+		};
+
+		//NC
+		vpll_reg: regulator@7 {
+			status = "disabled";
+		};
+
+		//NC
+		vdac_reg: regulator@8 {
+			status = "disabled";
+		};
+
+		// NC
+		vaux1_reg: regulator@9 {
+			status = "disabled";
+		};
+		// NC
+		vaux2_reg: regulator@10 {
+			status = "disabled";
+		};
+
+		//NC	
+		vaux33_reg: regulator@11 {
+			status = "disabled";
+		};
+		
+		vmmc_reg: regulator@12 {
+			/* most peripherals power rail */
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
+		};
+
+		vbb_reg: regulator@13 {
+			status = "disabled";
+		};
+
+	};
+};

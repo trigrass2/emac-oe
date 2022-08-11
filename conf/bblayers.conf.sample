@@ -44,13 +44,14 @@ TEGRA_RECIPES = " \
 "
 
 TI_RECIPES = " \
-    ##OEROOT##/emac-oe/meta-emac-ti \
-    ##OEROOT##/meta-ti/meta-ti-bsp \
+    ##OEROOT##/emac-oe/meta-emac-ti/meta-emac-ti-bsp \
+    ##OEROOT##/emac-oe/meta-emac-ti/meta-emac-ti-extras \
+    ##OEROOT##/emac-oe/meta-emac-ti/meta-emac-arago-distro \
+    ##OEROOT##/emac-oe/meta-emac-ti/meta-emac-arago-extras \
+    #OEROOT##/meta-ti/meta-ti-bsp \
     ##OEROOT##/meta-ti/meta-ti-extras \
     ##OEROOT##/meta-arm/meta-arm \
     ##OEROOT##/meta-arm/meta-arm-toolchain \
-    ##OEROOT##/meta-arago/meta-arago-distro \
-    ##OEROOT##/meta-arago/meta-arago-extras \
 "
  
 QT5_RECIPES = " \

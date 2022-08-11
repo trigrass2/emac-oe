@@ -1,0 +1,6 @@
+QMAKE_LIBS_EGL          = -lEGL -lIMGegl -lsrv_um
+QMAKE_LIBS_OPENGL_ES2   = -lGLESv2 $${QMAKE_LIBS_EGL}
+QMAKE_LIBS_OPENVG       = -lOpenVG $${QMAKE_LIBS_EGL}
+
+QMAKE_PLATFORM         += linux
+QT_QPA_DEFAULT_PLATFORM = eglfs
