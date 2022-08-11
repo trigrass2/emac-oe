@@ -1,7 +1,6 @@
 DESCRIPTION = "Image that has custom browser from emac along with various intel software"
 
 require recipes-core/images/emac-qt5-image.bb
-require recipes-core/images/emac-x-image.bb
 
 IMAGE_INSTALL:append = " \
     grub-efi grub efibootmgr \
@@ -18,6 +17,12 @@ IMAGE_INSTALL:append = " \
     thermald \
     intel-media-driver intel-mediasdk \
     mesa-driver-i915 \
+    \
+    packagegroup-core-x11 \
+    xserver-xf86-config \
+    liberation-fonts \
+    xkbcomp \
+    xkeyboard-config \
 "
 
 change_hostname () {

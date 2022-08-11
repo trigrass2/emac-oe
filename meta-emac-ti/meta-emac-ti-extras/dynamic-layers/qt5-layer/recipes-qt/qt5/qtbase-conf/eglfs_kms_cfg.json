@@ -1,0 +1,10 @@
+{
+	"device": "/dev/dri/card0",
+	"hwcursor": false,
+	"pbuffers": true,
+	"outputs": [{
+		"name": "LVDS1",
+		"format": "xrgb888",
+		"primary": true
+	}]
+}

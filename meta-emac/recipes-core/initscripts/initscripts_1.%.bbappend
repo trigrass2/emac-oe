@@ -19,7 +19,6 @@ SRC_URI = "file://functions \
            file://sysfs.sh \
            file://populate-volatile.sh \
            file://volatiles \
-           file://GPLv2.patch \
 "
 
 SRC_URI:append:arm = " file://alignment.sh"
