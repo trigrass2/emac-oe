@@ -1,0 +1,406 @@
+/*
+ * Copyright (C) 2014-2016 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+
+ 
+// SPI ADD for the 5228
+// SPI1 -> MCP23S18
+// SPI3 -> DAC80501
+// SPI3 -> MAX11161
+ 
+#include "som-5728.dtsi"
+
+/ {
+	model = "EMAC SOM-5728 with SOM-350ES";
+	
+	aliases {
+		display0 = &panel;
+		display1 = &hdmi;
+	};
+	
+	//regulators {
+	wlan_en: wlan_en_reg  {
+		compatible = "regulator-fixed";
+	//	reg = <3>;
+		regulator-name = "wlan-en-regulator";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		gpio = <&gpio8 2 GPIO_ACTIVE_HIGH>;
+
+		startup-delay-us = <70000>;
+		enable-active-high;
+	};
+
+	lvds_3p3v: lvds_3p3v_reg {
+		compatible = "regulator-fixed";
+	//	reg = <4>;
+		regulator-name = "LVDS 3P3V";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+		regulator-boot-on;
+		enable-active-high;
+		gpio = <&gpio6 28 GPIO_ACTIVE_HIGH>;
+		};
+
+	bl_pwr: bl_pwr_reg {
+		compatible = "regulator-fixed";
+	//	reg = <5>;
+		regulator-name = "LVDS ABL";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+		gpio = <&gpio4 31 GPIO_ACTIVE_LOW>;
+	};
+	//};
+	
+	hdmi_conn: connector {
+		compatible = "hdmi-connector";
+		label = "hdmi";
+
+		type = "a";
+	};
+
+	beeper: beeper {
+		compatible = "gpio-beeper";
+		gpios = <&gpio8 12 GPIO_ACTIVE_HIGH>;
+	};
+
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		pwms = <&ecap0 0 50000 0>;
+		//enable-gpios = <&gpio6 28 GPIO_ACTIVE_HIGH>;
+		power-supply = <&bl_pwr>;
+		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
+		default-brightness-level = <9>;
+	};
+	
+	panel: panel {
+		compatible = "innolux,at070tn92", "simple-panel";
+		backlight = <&backlight>;
+		power-supply = <&lvds_3p3v>;
+
+		enable-gpios = <&gpio8 11 GPIO_ACTIVE_HIGH>;
+		
+		port {
+			panel_in: endpoint {
+				remote-endpoint = <&lvds_encoder_output>;
+			};
+		};
+	};
+	
+	lvds-encoder {
+		compatible = "lvds-encoder";
+
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+
+				lvds_encoder_input: endpoint {
+					remote-endpoint = <&lcd_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				lvds_encoder_output: endpoint {
+					remote-endpoint = <&panel_in>;
+				};
+			};
+		};
+	};
+	
+	clocks {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		tlv320_mclk: tlv320_mclk {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <12000000>;
+			clock-output-names = "mclk";
+		};
+	};
+	
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "tlv320aic32x4";
+		simple-audio-card,bitclock-master = <&codec_master>;
+		simple-audio-card,frame-master = <&codec_master>;
+		simple-audio-card,bitclock-inversion;
+		simple-audio-card,widgets =
+			"Microphone", "Microphone Jack",
+			"Headphone", "Headphone Jack";
+		simple-audio-card,routing =
+			"Headphone Jack", "HPL",
+			"Headphone Jack", "HPR",
+			"IN1_L", "Microphone Jack",
+			"IN1_R", "Microphone Jack",
+			"Microphone Jack", "Mic Bias";
+
+		cpu_master: simple-audio-card,cpu {
+			sound-dai = <&mcasp8>;
+		};
+
+		codec_master: simple-audio-card,codec {
+			sound-dai = <&codec>;
+			clocks = <&tlv320_mclk>;
+		};
+	};
+};
+
+//&tpd12s015 {
+//	gpios = <&gpio7 10 GPIO_ACTIVE_HIGH>,	/* gpio7_10, CT CP HPD */
+//		<&gpio6 28 GPIO_ACTIVE_HIGH>,	/* gpio6_28, LS OE */
+//		<&gpio7 12 GPIO_ACTIVE_HIGH>;	/* gpio7_12/sp1_cs2, HPD */
+//};
+
+&dra7_pmx_core {
+	dcan1_pins_default: dcan1_pins_default {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x37d0, PIN_OUTPUT_PULLUP | MUX_MODE0)	/* dcan1_tx */
+			DRA7XX_CORE_IOPAD(0x37d4, PIN_INPUT_PULLUP | MUX_MODE0)		/* dcan1_rx */
+		>;
+	};
+
+	dcan1_pins_sleep: dcan1_pins_sleep {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x37d0, MUX_MODE15 | PULL_UP)	/* dcan1_tx.off */
+			DRA7XX_CORE_IOPAD(0x37d4, MUX_MODE15 | PULL_UP)	/* dcan1_rx.off */
+		>;
+	};
+	
+	lcd_pins_default: lcd_pins_default {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x3564, PIN_OUTPUT | MUX_MODE14)      /* vin2a_vsync0.gpio4_0 */
+		>;
+	};
+	
+	wlan_pins_default: wlan_pins_default {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x358c, PIN_INPUT | MUX_MODE14)      /* vin2a_d9.gpio4_10 */
+			DRA7XX_CORE_IOPAD(0x35e4, PIN_OUTPUT_PULLDOWN | MUX_MODE14)      /* vout1_d2.gpio8_2 */
+		>;
+	};
+};
+
+
+// carrier
+&mmc1 {
+	status = "okay";
+
+	bus-width = <4>;
+	pinctrl-names = "default", "hs";
+	pinctrl-0 = <&mmc1_pins_default>;
+	pinctrl-1 = <&mmc1_pins_hs>;
+
+	vmmc-supply = <&v3_3d>;
+	vqmmc-supply = <&ldo1_reg>;
+	cd-gpios = <&gpio6 27 GPIO_ACTIVE_LOW>;
+	//disable-wp;
+	//wp-gpios = <&gpio6 28 GPIO_ACTIVE_HIGH>;
+	max-frequency = <48000000>;
+	//no-1-8-v;
+};
+
+
+// carrier
+&mmc4 {
+	status = "okay";
+	
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc4_pins_sdr25 &wlan_pins_default>;
+	//pinctrl-1 = <&mmc4_pins_default &mmc4_iodelay_ds_rev20_conf &wlan_pins_default>;
+	//pinctrl-2 = <&mmc4_pins_hs &mmc4_iodelay_sdr12_hs_sdr25_rev11_conf>;
+	//pinctrl-3 = <&mmc4_pins_hs &mmc4_iodelay_sdr12_hs_sdr25_rev20_conf>;
+	//pinctrl-4 = <&mmc4_pins_sdr12 &mmc4_iodelay_sdr12_hs_sdr25_rev11_conf>;
+	//pinctrl-5 = <&mmc4_pins_sdr12 &mmc4_iodelay_sdr12_hs_sdr25_rev20_conf>;
+	//pinctrl-6 = <&mmc4_pins_sdr25 &mmc4_iodelay_sdr12_hs_sdr25_rev11_conf>;
+	//pinctrl-7 = <&mmc4_pins_sdr25 &mmc4_iodelay_sdr12_hs_sdr25_rev20_conf>;
+
+	vqmmc-supply = <&reg_1p8v>;
+	vmmc-supply = <&wlan_en>;
+	bus-width = <4>;
+	cap-power-off-card;
+	//keep-power-in-suspend;
+	//enable-sdio-wakeup;
+	//ti,needs-special-hs-handling;
+	ti,needs-special-reset;
+	non-removable;
+	ti,non-removable;
+	max-frequency = <1000000>;
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+	wlcore: wlcore@2 {
+		compatible = "ti,wl1835";
+		reg = <0x2>;
+		interrupt-parent = <&gpio4>;
+		interrupts = <10 IRQ_TYPE_LEVEL_HIGH>;
+		//interrupts-extended = <&gpio4 10 IRQ_TYPE_EDGE_RISING>;
+		//ref-clock-frequency = <32768>;
+	};
+};
+
+
+// remove for the 5228  KEEP FOR 350
+// fix FOR THE 5228 UCBC MUX 
+// hd3SS3220 -> TI
+&i2c3 {
+	eeprom@50 {
+		compatible = "st,24c32";
+		reg = <0x50>;
+		pagesize = <32>;
+	};
+	
+	// fixme 
+	// add util header
+	// sata socket
+	// dsi connector
+};
+
+
+
+&i2c4 {
+    // audio 350 only
+	codec: tlv320aic32x4@18{
+		#sound-dai-cells = <0>;
+		compatible = "ti,tlv320aic32x4";
+		reg = <0x18>;
+		clocks = <&tlv320_mclk>;
+		clock-names = "mclk";
+		iov-supply = <&v3_3d>;
+		ldoin-supply = <&v3_3d>;
+		input-use = <1 1 0 0 0 0>;
+		cmode = <0x11 0>;
+		status = "okay";
+	};
+	
+	// fixme 350 only
+	// add util header
+	// pcie socket
+	// csi connector	
+	
+	
+	// FIXME 5228  add for the 
+	// add for the bus4 of the 5228  
+	// temp sensor(si , si7055-a20)
+	// 
+	
+};
+
+// one two one on both the 350 and the
+&dcan1 {
+	status = "okay";
+	pinctrl-names = "default", "sleep", "active";
+	pinctrl-0 = <&dcan1_pins_sleep>;
+	pinctrl-1 = <&dcan1_pins_sleep>;
+	pinctrl-2 = <&dcan1_pins_default>;
+};
+// 5228 disabled ?  
+&dcan2 {
+	status = "okay";
+};
+
+// 350 keep but remove for the 5228
+&pcie1_rc {
+	status = "ok";
+	gpios = <&gpio7 14 GPIO_ACTIVE_HIGH>;
+};
+
+// DISABLE 5228 and 350
+&pcie2_rc {
+	status = "ok";
+};
+
+
+// MOVE TO THE SOM
+&dss {
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@2 {
+			reg = <2>;
+			lcd_out: endpoint {
+				remote-endpoint = <&lvds_encoder_input>;
+				data-lines = <18>;
+			};
+		};
+	};
+};
+
+/*&lcd0 {
+	//pinctrl-names = "default";
+	//pinctrl-0 = <&lcd_pins_default>;
+
+	//enable-gpios = <&pca9555 14 GPIO_ACTIVE_HIGH
+	//		&gpio4 0 GPIO_ACTIVE_HIGH>;
+
+	port {
+		lcd_in: endpoint {
+			remote-endpoint = <&dpi_lcd_out>;
+			data-lines = <18>;
+		};
+	};
+};*/
+
+
+&ecap0 {
+	status = "okay";
+};
+
+&epwmss0 {
+	status = "okay";
+};
+
+&ecap1 {
+	status = "okay";
+};
+
+&epwmss1 {
+	status = "okay";
+};
+
+&ecap2 {
+	status = "okay";
+};
+
+&epwmss2 {
+	status = "okay";
+};
+
+
+
+
+&hdmi {
+	status = "ok";
+	vdda-supply = <&ldo4_reg>;
+
+	port {
+			hdmi_out: endpoint {
+				remote-endpoint = <&hdmi_connector_in>;
+				//lanes = <1 0 3 2 5 4 7 6>;
+			};
+	};
+};
+
+&hdmi_conn {
+	pinctrl-names = "default";
+	pinctrl-0 = <&hdmi_conn_pins>;
+
+	hpd-gpios = <&gpio7 12 GPIO_ACTIVE_HIGH>;
+	
+	port {
+			hdmi_connector_in: endpoint {
+				remote-endpoint = <&hdmi_out>;
+			};
+	};
+};
