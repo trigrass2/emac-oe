@@ -1,4 +1,3 @@
-## this is only used when building qtvirtualkeyboard.
 DESCRIPTION = "Hunspell is the spell checker"
 LICENSE = "GPL-2.0 & (GPL-2.0|LGPL-2.1|MPL-1.1)"
 LIC_FILES_CHKSUM = " \
@@ -6,7 +5,7 @@ LIC_FILES_CHKSUM = " \
     file://ar/COPYING.txt;md5=ccafd10563b9ffba693011bf470062c6 \
 "
 
-SRC_URI = "git://github.com/libreoffice/dictionaries.git;branch=libreoffice-5-4-2"
+SRC_URI = "git://github.com/libreoffice/dictionaries.git;branch=libreoffice-5-4-2;protocol=https"
 
 S = "${WORKDIR}/git"
 
@@ -19,8 +18,13 @@ FILES:${PN} = "${datadir}/hunspell"
 
 do_install() {
     install -m 0755 -d ${D}${datadir}/hunspell
+    
     install -m 0755 ${S}/en/en_GB.dic ${D}${datadir}/hunspell
     install -m 0755 ${S}/en/en_GB.aff ${D}${datadir}/hunspell
+    
+    install -m 0755 ${S}/en/en_US.aff ${D}${datadir}/hunspell
+    install -m 0755 ${S}/en/en_US.dic ${D}${datadir}/hunspell
+    
     install -m 0755 ${S}/ar/ar.dic ${D}${datadir}/hunspell/ar_EG.dic
     install -m 0755 ${S}/ar/ar.aff ${D}${datadir}/hunspell/ar_EG.aff
 }

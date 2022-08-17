@@ -38,7 +38,6 @@
 		regulator-max-microvolt = <5000000>;
 		regulator-always-on;
 		enable-active-high;
-		gpio = <&gpio1 13 GPIO_ACTIVE_HIGH>;
 	};
 
 	lvds3p3v_pwr: fixedregulator2 {
@@ -48,9 +47,6 @@
 		regulator-max-microvolt = <3300000>;
 		regulator-always-on;
 		enable-active-high;
-		gpio = <&gpio0 20 GPIO_ACTIVE_HIGH>;
-		startup-delay-us = <70000>;
-		// lvds_3p3_en_pin
 	};
 
 	leds {
@@ -75,16 +71,18 @@
 		pwms = <&ecap0 0 50000 0>;
 		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 		default-brightness-level = <9>;
-		
+		enable-gpios = <&gpio1 13 GPIO_ACTIVE_HIGH>;
+		power-supply = <&bkl_pwr>;
 	};
 
 	panel: lcd_panel {
-		// compatible = "fema,ttx2nlwhtl";
-		// FIXME
-		compatible = "tfc,s9700rtwv43tr-01b";
+		status = "okay";
+		compatible = "fema,ttx2nlwhtl";
 		pinctrl-names = "default";
-		pinctrl-0 = <&lcd_pins>;
+		pinctrl-0 = <&lcd_pins &extra_lcd_pins>;
 		backlight = <&backlight>;
+		enable-gpios = <&gpio0 20 GPIO_ACTIVE_HIGH>;
+		power-supply = <&lvds3p3v_pwr>;
 		port {
 			panel_in_lcd: endpoint {
 				remote-endpoint = <&lcdc_out>;
@@ -176,6 +174,13 @@
 
 &tscadc {
 	status = "okay";
+	tsc{
+		touchscreen-inverted-x;
+		touchscreen-swapped-x-y;
+		// change when not the 7 inch
+		touchscreen-x-mm = <152>;
+		touchscreen-y-mm = <91>;
+	};
 };
 
 &lcdc {
@@ -250,15 +255,9 @@
                         AM33XX_IOPAD(0x96c, PIN_OUTPUT_PULLUP | MUX_MODE7) /* (E17) uart0_rtsn.gpio1[9] */
                 >;
         };
-        lvds_3p3_en_pin: lvds_3p3_en_pin {
-                pinctrl-single,pins = <
-                        AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO15 (D14) xdma_event_intr1.gpio0[20] */
-                >;
-        };
         backlight_en_pin: backlight_en_pin {
                 pinctrl-single,pins = <
                         AM33XX_IOPAD(0x834, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO0 (R12) gpmc_ad13.gpio1[13] */
-                #define BACKLIGHT_GPIO  <&gpio1 13 GPIO_ACTIVE_HIGH>;
                 >;
         };
         beeper_pin: beeper_pin{
@@ -271,11 +270,10 @@
                         AM33XX_IOPAD(0x968, PIN_INPUT_PULLUP | MUX_MODE4) /* (E18) uart0_ctsn.spi1_d0 */
                 >;
         };
-       // lcdtest_pins: lcdtest_pins {
-       //         pinctrl-single,pins = <
-       //                 AM33XX_IOPAD(0x834, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO0 (R12) gpmc_ad13.gpio1[13] */
-       //                 AM33XX_IOPAD(0x99c, PIN_OUTPUT_PULLUP | MUX_MODE7) /* (C12) mcasp0_ahclkr.gpio3[17] */
-       //                 AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO15 (D14) xdma_event_intr1.gpio0[20] */
-       //         >;
-       // };
+       extra_lcd_pins: extra_lcd_pins {
+               pinctrl-single,pins = <
+                       AM33XX_IOPAD(0x99c, PIN_OUTPUT_PULLUP | MUX_MODE7) /* (C12) mcasp0_ahclkr.gpio3[17] */
+                       AM33XX_IOPAD(0x9b4, PIN_OUTPUT_PULLUP | MUX_MODE7) /* GPIO15 (D14) xdma_event_intr1.gpio0[20] */
+               >;
+       };
 };

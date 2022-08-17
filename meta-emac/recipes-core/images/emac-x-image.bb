@@ -9,8 +9,7 @@ IMAGE_INSTALL:append = " \
     liberation-fonts \
     xkbcomp \
     xkeyboard-config \
-    libegl-mesa \
-    libgles2-mesa \
+    libegl-mesa libgles2-mesa \
 "
 
 IMAGE_TYPE = "X11 Basic"

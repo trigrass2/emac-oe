@@ -7,7 +7,6 @@ PACKAGE_EXCLUDE = "linux-dummy-dev lighttpd linux-firmware kernel-modules packag
 
 IMAGE_INSTALL:append = " \
     packagegroup-qte-toolchain-target \
-    xenomai-3 \
     libusb1 \
     confuse \
     xmlrpc-c \

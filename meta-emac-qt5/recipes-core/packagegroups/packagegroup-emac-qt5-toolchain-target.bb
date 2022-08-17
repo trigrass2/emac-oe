@@ -11,15 +11,16 @@ MACHINE_EXTRA_INSTALL_SDK ?= " "
 
 OGL_RUNTIME_DEV ?= " ogl-runtime-dev "
 OGL_RUNTIME_DEV_mipsarch ?= ""
+
 GCC-SANITIZERS ?= "gcc-sanitizers"
 GCC-SANITIZERS_mipsarch = ""
 GCC-SANITIZERS_libc-musl = ""
+#     ${OGL_RUNTIME_DEV} 
 
 RDEPENDS:${PN}:append = " \
     ${MACHINE_EXTRA_INSTALL_SDK} \
     packagegroup-core-standalone-sdk-target \
     ${GCC-SANITIZERS} \
-    ${OGL_RUNTIME_DEV} \
     qt3d-dev \
     qtbase-dev \
     qtbase-staticdev \
@@ -57,3 +58,6 @@ RDEPENDS:${PN}:append = " \
 RDEPENDS:${PN}:atom-sbc:append = " \
     qtwebengine-dev \
 "
+
+
+RDEPENDS:ti33x:remove = "${OGL_RUNTIME_DEV}"

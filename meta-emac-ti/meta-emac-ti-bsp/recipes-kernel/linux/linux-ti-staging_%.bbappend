@@ -27,8 +27,15 @@ SRC_URI:append:som5728 = " \
     file://som5728_defconfig \
 "
 
+# the som3354 does not have the pins for the PRU
+SRC_URI:remove:som3354 = " file://am335x-pru-uio.dtsi"
 SRC_URI:append:som3354 = " \
+    file://0001-dts-makefile-som3354.patch \
+    file://0002-add-lvds-panels.patch \
+    file://0003-am335x-add-touchscreenreport.patch \
+    \
     file://som3354_defconfig \
+    \
     file://som-3354-200es.dts \
     file://som-3354-200gs.dts \
     file://som-3354-210es.dts \
@@ -38,7 +45,6 @@ SRC_URI:append:som3354 = " \
     file://som-3354-250gs-7.dts \
     file://som-3354.dtsi \
     file://som-3354-pinmux.dtsi \
-    file://0001-dts-makefile-som3354.patch \
 "
 
 SRC_URI:append:som3517 = " \
@@ -63,7 +69,6 @@ do_configure() {
     cd ${B}
     oe_runmake -C ${S} O=${B} ${KDEF}
 }
-
 
 do_configure:prepend() {
     mkdir -p ${S}/arch/arm/boot/dts

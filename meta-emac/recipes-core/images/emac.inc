@@ -14,6 +14,7 @@ EXTRA_USERS_PARAMS:append = " \
     useradd -p '\$1\$UMtWLrpz\$Hpp1KSgg5zCwcxMZW1FsP1' emac; \
     usermod -aG sudo emac; \
     usermod -aG dialout emac; \
+    usermod -aG video emac; \
     usermod -d /home/emac emac; \
 "
 

@@ -15,26 +15,27 @@ PACKAGECONFIG_GL = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 egl
 PACKAGECONFIG_GL:x86-64 = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl gles2 eglfs', 'no-opengl', d )}"
 
 PACKAGECONFIG:append = " \
+    accessibility \
     cups \
     fontconfig \
     getentropy \
-    gif \
     glib \
     harfbuzz \
     ico \
     icu \
-    libinput \
     linuxfb \
     sql-sqlite \
     tslib \
-    evdev \
-    libinput \
     xkbcommon \
     openssl \
     freetype \
     zlib \
     dbus \
     pcre \
+    gif jpeg libpng \
+    udev \
+    libinput evdev \
+    widgets \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'journald', '', d)} \
 "
 
