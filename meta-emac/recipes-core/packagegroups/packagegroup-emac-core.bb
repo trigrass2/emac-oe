@@ -16,7 +16,6 @@ PROVIDES = " \
     ${PN}-networking \
     ${PN}-packagemanagement \
     ${PN}-wifi  \
-    ${PN}-screen \
     ${PN}-x86 \
     ${PN}-arm \
     ${PN}-touch \
@@ -38,14 +37,11 @@ PACKAGES = " \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", " packagegroup-emac-core-wifi ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "sound", " packagegroup-emac-core-sound ", '',d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "mtd", " packagegroup-emac-core-mtd ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "screen", " packagegroup-emac-core-screen ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", " packagegroup-emac-core-can ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", " packagegroup-emac-core-pci ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "rt", " packagegroup-emac-core-rt ", "", d)} \
 "
 
-#    eudev-hwdb
-#    kernel-devicetree 
 SUMMARY:${PN} = "EMAC OE Core Utilities"
 RRECOMMENDS:${PN} = " \
     e2fsprogs \
@@ -56,8 +52,6 @@ RRECOMMENDS:${PN} = " \
     udev-extraconf \
     util-linux-mount \
     tzcode \
-    libgpiodcxx \
-    libgpiod \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
@@ -68,8 +62,10 @@ RRECOMMENDS:${PN}-util = " \
     bash \
     libgpiod \
     libgpiod-tools \
+    libgpiodcxx \
     sudo \
     usbutils \
+    rng-tools \
 "
 
 SUMMARY:${PN}-networking = "EMAC OE Networking Utilities"
@@ -134,17 +130,6 @@ RRECOMMENDS:${PN}-arm = " \
     serial-control \
     apm \
     libubootenv-bin \
-"
-
-#    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "graphics-demos", "", d)} 
-#     gstreamer1.0-plugins-base 
-#     gstreamer1.0-plugins-good 
-#     fbida 
-# !! YIKES !!
-SUMMARY:${PN}-screen = "EMAC OE Screen Packages."
-RRECOMMENDS:${PN}-screen = " \
-    psplash \
-    fbset \
 "
 
 SUMMARY:${PN}-can = "EMAC OE CAN Packages."

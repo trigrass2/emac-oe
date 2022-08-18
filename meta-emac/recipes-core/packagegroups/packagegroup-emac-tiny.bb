@@ -25,4 +25,3 @@ RRECOMMENDS:${PN} = " ${PN}-util "
 
 SUMMARY:${PN}-util = "EMAC Tiny Core Utilities"
 RRECOMMENDS:${PN}-util = " ifplugd "
-

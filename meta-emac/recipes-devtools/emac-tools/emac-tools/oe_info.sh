@@ -245,12 +245,12 @@ else
 	bootRev=$(echo $boot | cut -d '_' -f2 | cut -d '+' -f2 | cut -d ' ' -f1)
 	soc=$(fw_printenv soc | cut -d '=' -f2)
 	if [[ $soc = "at91" ]]; then
-        	bootStrap=$(strings /dev/$mtdNum | grep 'AT91Boot' -m1 | cut -d '(' -f1)
+        	bootStrap="AT91Boot"
 		if [[ -z ${bootStrap} ]]; then
-			bootStrap=$(strings /dev/$mtdNum | grep 'U-Boot SPL' -m1)
+			bootStrap="U-Boot"
 		fi
 	else
-		bootStrap=$(strings /dev/$mtdNum | grep 'U-Boot SPL' -m1)
+		bootStrap=$("U-Boot SPL")
 	fi
 
 	bootStrapVers=$(echo $bootStrap | cut -d '_' -f1)

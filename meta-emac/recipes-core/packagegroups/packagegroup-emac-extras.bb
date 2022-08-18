@@ -83,8 +83,3 @@ RRECOMMENDS:${PN}-timezone = " \
     tzdata-europe \
     tzdata-pacific \
 "
-
-
-# parted
-# i2c-tools
-# spidev-test

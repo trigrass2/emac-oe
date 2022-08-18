@@ -6,7 +6,6 @@ inherit packagegroup
 PROVIDES = "${PACKAGES}"
 PACKAGES = "\
     packagegroup-no-busybox \
-    packagegroup-no-busybox-libs \
     packagegroup-no-busybox-utils \
     packagegroup-no-busybox-networking \
     packagegroup-no-busybox-dev-utils \
@@ -17,7 +16,6 @@ PACKAGES = "\
 
 
 RRECOMMENDS:packagegroup-no-busybox = "\
-    packagegroup-no-busybox-libs \
     packagegroup-no-busybox-utils \
     packagegroup-no-busybox-networking \
     packagegroup-no-busybox-dev-utils \
@@ -27,11 +25,11 @@ RRECOMMENDS:packagegroup-no-busybox = "\
 "
 
 # gcc-sanitizers
-RRECOMMENDS:packagegroup-no-busybox-libs = "\
-    binutils \
-    binutils-symlinks \
-    glib-2.0 \
-"
+#RRECOMMENDS:packagegroup-no-busybox-libs = "
+#    binutils 
+#    binutils-symlinks 
+#    glib-2.0 
+#"
 
 RRECOMMENDS:packagegroup-no-busybox-utils = "\
     acl \
@@ -103,7 +101,7 @@ RRECOMMENDS:packagegroup-no-busybox-initscripts = "\
     ${VIRTUAL-RUNTIME_init_manager} \
     ${VIRTUAL-RUNTIME_login_manager} \
     ${VIRTUAL-RUNTIME_syslog} \
-    "
+"
 
 RRECOMMENDS:packagegroup-no-busybox-multiuser = "\
     cracklib \
