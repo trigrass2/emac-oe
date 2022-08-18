@@ -34,7 +34,6 @@ RRECOMMENDS:packagegroup-no-busybox = "\
 RRECOMMENDS:packagegroup-no-busybox-utils = "\
     acl \
     attr \
-    bash \
     bc \
     bzip2 \
     coreutils \

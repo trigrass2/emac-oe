@@ -46,11 +46,14 @@ SUMMARY:${PN} = "EMAC OE Core Utilities"
 RRECOMMENDS:${PN} = " \
     e2fsprogs \
     e2fsprogs-tune2fs \
-    kernel-modules \
-    kernel-base \
+    kernel-modules kernel-base \
     sysfsutils \
     udev-extraconf \
     util-linux-mount \
+    libgpiod libgpiod-tools libgpiodcxx \
+    spidev-test \
+    libiio \
+    i2c-tools \
     tzcode \
     ${PN}-util \
     ${PN}-networking \
@@ -60,9 +63,6 @@ RRECOMMENDS:${PN} = " \
 SUMMARY:${PN}-util = "EMAC OE Core Utilities"
 RRECOMMENDS:${PN}-util = " \
     bash \
-    libgpiod \
-    libgpiod-tools \
-    libgpiodcxx \
     sudo \
     usbutils \
     rng-tools \
