@@ -96,7 +96,8 @@ RRECOMMENDS:packagegroup-no-busybox-dev-utils = "\
     patch \
 "
 
-VIRTUAL-RUNTIME_syslog ?= "sysklogd"
+
+VIRTUAL-RUNTIME_syslog = "sysklogd"
 RRECOMMENDS:packagegroup-no-busybox-initscripts = "\
     ${VIRTUAL-RUNTIME_initscripts} \
     ${VIRTUAL-RUNTIME_init_manager} \

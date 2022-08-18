@@ -41,4 +41,6 @@ do_install() {
 }
 
 PACKAGES = "${PN}"
-FILES:${PN}:append = "${datadir}/fonts/truetype/lohit"
+FILES:${PN} += " \
+	/usr/share/fonts/truetype/lohit/Lohit-Devanagari.ttf \
+"

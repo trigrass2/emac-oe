@@ -56,6 +56,8 @@ RRECOMMENDS:${PN} = " \
     udev-extraconf \
     util-linux-mount \
     tzcode \
+    libgpiodcxx \
+    libgpiod \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
@@ -67,7 +69,6 @@ RRECOMMENDS:${PN}-util = " \
     libgpiod \
     libgpiod-tools \
     sudo \
-    emac-users \
     usbutils \
 "
 

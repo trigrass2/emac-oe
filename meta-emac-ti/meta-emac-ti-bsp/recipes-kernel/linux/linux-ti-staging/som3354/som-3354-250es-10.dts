@@ -10,11 +10,15 @@
  * published by the Free Software Foundation.
  */
 
+ 
+ // what ? 
 #include "som-3354-250es-7.dts"
 
 / {
 	model = "EMAC SOM-3354M SOM-250ES-10";
 
+	
+	// This needs to be added to simple-panel so that we get the drm -> lvds
 	panel {
 		display-timings {
 			native-mode = <&timing2>;

@@ -1,4 +1,2 @@
-PACKAGECONFIG:append = " hunspell"
-
-RDEPENDS:append:${PN} = " hunspell-dicts "
-
+PACKAGECONFIG:append = " hunspell "
+DEPENDS:append = " hunspell-dicts "

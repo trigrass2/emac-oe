@@ -7,6 +7,7 @@ MACHINE_EXTRA_RDEPENDS ?= ""
 MACHINE_EXTRA_RRECOMMENDS ?= ""
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
 MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+VIRTUAL-RUNTIME_syslog ?= '${@bb.utils.contains("EMAC_SHELLMANAGER", "busybox", " ", " sysklogd ", d)}'
 
 IMAGE_INSTALL:append = " \
     ${@bb.utils.contains("EMAC_SHELLMANAGER", "busybox", " packagegroup-core-boot ", " packagegroup-no-busybox ", d)} \

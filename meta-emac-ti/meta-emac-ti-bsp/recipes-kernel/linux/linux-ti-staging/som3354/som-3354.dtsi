@@ -21,11 +21,6 @@
 	chosen { 
 		stdout-path = &uart0;
 	};
-	aliases {
-		uart6 = &uart6;
-		uart7 = &uart7;
-	};
-
 	cpus {
 		cpu@0 {
 			cpu0-supply = <&vdd1_reg>;
@@ -228,29 +223,16 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&spi0_pins &spi_carrier_cs_gpio_pins &mcp23s08_interrupt_gpio_pin>;
 	status = "okay";
-	cs-gpios = <&gpio0 5 0>, <&gpio0 6 0>, <&gpio1 15 0>, <&gpio3 8 0>, <&gpio1 14 0>, <&gpio3 18 0>;
+	cs-gpios = <&gpio0 5 GPIO_ACTIVE_LOW>, <&gpio0 6 GPIO_ACTIVE_LOW>, 
+	<&gpio1 15 GPIO_ACTIVE_LOW>, <&gpio3 8 GPIO_ACTIVE_LOW>,
+	<&gpio1 14 GPIO_ACTIVE_LOW>, <&gpio3 18 GPIO_ACTIVE_LOW>;
 
 	flash: n25q128a13@0 {
 		#address-cells = <1>;
 		#size-cells = <1>;
-		compatible = "n25q128a13", "jedec,spi-nor";
+		compatible = "micron,n25q128a13", "jedec,spi-nor";
 		reg = <0>; /* Chip select 0 */
 		spi-max-frequency = <108000000>;
-
-		partitions {
-			compatible = "fixed-partitions";
-			#address-cells = <1>;
-			#size-cells = <1>;
-
-			partition@20000 {
-				label = "U-Boot";
-				reg = <0 020000>;
-			};
-			partition@10000 {
-				label = "Kernel";
-				reg = <0x100000 0xc00000>;
-			};
-		};
 	};
 
 	mcp23s08: mcp23s08@1 {
@@ -431,7 +413,6 @@
 	vccio-supply = <&vmain>;
 	regulators {
 
-	        // NC
 		vrtc_reg: regulator@0 {
 			status = "disabled";
 		};
@@ -467,36 +448,36 @@
 
 		// NC 
 		vdig1_reg: regulator@5 {
-			status = "disabled";
+			regulator-always-on;
 		};
 
 		//NC
 		vdig2_reg: regulator@6 {
-			status = "disabled";
+			regulator-always-on;
 		};
 
 		//NC
 		vpll_reg: regulator@7 {
-			status = "disabled";
+			regulator-always-on;
 		};
 
 		//NC
 		vdac_reg: regulator@8 {
-			status = "disabled";
+			regulator-always-on;
 		};
 
 		// NC
 		vaux1_reg: regulator@9 {
-			status = "disabled";
+			regulator-always-on;
 		};
 		// NC
 		vaux2_reg: regulator@10 {
-			status = "disabled";
+			regulator-always-on;
 		};
 
 		//NC	
 		vaux33_reg: regulator@11 {
-			status = "disabled";
+			regulator-always-on;
 		};
 		
 		vmmc_reg: regulator@12 {
@@ -507,7 +488,7 @@
 		};
 
 		vbb_reg: regulator@13 {
-			status = "disabled";
+			regulator-always-on;
 		};
 
 	};
