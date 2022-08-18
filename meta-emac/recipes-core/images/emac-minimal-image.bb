@@ -20,8 +20,6 @@ IMAGE_INSTALL:append = " \
 "
 IMAGE_FEATURES:append = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", " package-management ", "", d)}"
 
-
-
 PACKAGE_FEED_URIS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "http://10.0.3.188/repo/${DISTRO_CODENAME}", "", d)}"
 PACKAGE_FEED_BASE_PATHS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "${EMAC_PACKAGEMANAGER}", "", d)}"
 #PACKAGE_FEED_ARCHS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "${PACKAGE_ARCHS}", "", d)}"

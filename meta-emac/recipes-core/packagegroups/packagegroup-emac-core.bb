@@ -52,7 +52,6 @@ RRECOMMENDS:${PN} = " \
     util-linux-mount \
     libgpiod libgpiod-tools libgpiodcxx \
     spidev-test \
-    libiio \
     i2c-tools \
     tzcode \
     ${PN}-util \
