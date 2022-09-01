@@ -2,32 +2,23 @@ DESCRIPTION = "EMACS Host packages for a embedded Qt5 image"
 LICENSE = "CLOSED"
 PR = "r0"
 
-# PACKAGE_ARCH = "${SDK_ARCH}"
+inherit packagegroup nativesdk
 
 MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""
 
+PACKAGE_ARCH = "${SDK_ARCH}"
+
 RDEPENDS:${PN}:append = " \
+    nativesdk-packagegroup-sdk-host \
+    nativesdk-packagegroup-qt5-toolchain-host \
     nativesdk-cmake \
     nativesdk-make \
+    nativesdk-ninja \
     nativesdk-python3-modules \
     nativesdk-python3-misc \
-    nativesdk-perl-modules \
+    nativesdk-qt3d-tools \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', ' nativesdk-wayland-dev nativesdk-qtwayland-tools ', '' , d)} \
     ${MACHINE_EXTRA_INSTALL_SDK_HOST} \
 "
 
-RDEPENDS:${PN}:append = " \
-    nativesdk-qt3d-tools \
-    nativesdk-qtbase \
-    nativesdk-qtbase-dev \
-    nativesdk-qtbase-staticdev \
-    nativesdk-qtdeclarative-staticdev \
-    nativesdk-qtdeclarative-tools \
-    nativesdk-qtremoteobjects-tools \
-    nativesdk-qtscxml-tools \
-    nativesdk-qttools-tools \
-    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "nativesdk-wayland-dev", "", d)} \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'nativesdk-qtwayland-tools', '', d)} \
-"
 
-
-inherit packagegroup nativesdk

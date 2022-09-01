@@ -10,8 +10,8 @@ PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
 MACHINE_EXTRA_INSTALL_SDK ?= " "
 
 OGL_RUNTIME_DEV ?= " ogl-runtime-dev "
-OGL_RUNTIME_DEV_mipsarch ?= ""
-
+OGL_RUNTIME_DEV:mipsarch ?= ""
+OGL_RUNTIME_DEV:ti33x: = " ti-sgx-ddk-um "
 GCC-SANITIZERS ?= "gcc-sanitizers"
 GCC-SANITIZERS_mipsarch = ""
 GCC-SANITIZERS_libc-musl = ""
@@ -59,5 +59,3 @@ RDEPENDS:${PN}:atom-sbc:append = " \
     qtwebengine-dev \
 "
 
-
-RDEPENDS:ti33x:remove = "${OGL_RUNTIME_DEV}"

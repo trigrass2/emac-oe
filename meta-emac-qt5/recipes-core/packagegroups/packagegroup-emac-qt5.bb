@@ -11,7 +11,9 @@ PACKAGES = " \
     ${PN} \
     ${PN}-base-extras \
     ${PN}-tools \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' ${PN}-gstreamer  ', '', d)} \
+    ${PN}-weblibs \
+    ${PN}-extraslibs \
+    ${@bb.utils.contains('EMAC_DISPLAY_HW', 'opengl', ' ${PN}-gstreamer  ', '', d)} \
 "
 
 # QT MODS
@@ -36,22 +38,43 @@ RDEPENDS:${PN}:append = " \
     qtsvg \
     qttools \
     qttools-tools \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'qtwayland', '', d)} \
+    qtimageformats \
+    qtmqtt \
+    ${@bb.utils.contains('EMAC_DISPLAY', 'wayland', ' qtwayland ', '', d)} \
     qtwebsockets \
     qtwebchannel \
     qtxmlpatterns \
     qtvirtualkeyboard \
-	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' \
-	    ${PN}-gstreamer \
-	    qt3d \
-	    qtdatavis3d \
-	    qtgraphicaleffects \
-	    qtlocation \
-	    qtmultimedia \
-	    qtquick3d \
-	    qtwebglplugin ', '', d)} \
+    ${@bb.utils.contains('EMAC_DISPLAY_HW', ' opengl ', ' \
+        ${PN}-gstreamer \
+        qt3d \
+        qtdatavis3d \
+        qtgraphicaleffects \
+        qtlocation \
+        qtmultimedia \
+        qtquick3d \
+        qtwebglplugin ', '', d)} \
 "
 
+
+SUMMARY:${PN}-weblibs = "Extra qt libs that are not on the standard sysetm"
+RDEPENDS:${PN}-weblibs:append = " \
+    qtwebview \
+    qtwebengine \
+"
+
+SUMMARY:${PN}-extraslibs = "Extra qt libs that are not on the standard sysetm"
+RDEPENDS:${PN}-extraslibs:append = " \
+    qttranslations \
+    qtsystems \
+    qtscxml \
+    qtscript \
+    qtquicktimeline \
+    qtpurchasing \
+    qtopcua \
+    qtnetworkauth \
+    qtlottie \
+"
 
 
 SUMMARY:${PN}-base-extras = "Extra tools fonts and tz data for emac qt based boards"
@@ -71,9 +94,8 @@ RDEPENDS:${PN}-base-extras:append = " \
     tzdata-asia \
     tzdata-europe \
     rng-tools \
-    ${@bb.utils.contains("DISTRO_FEATURES", "pulseaudio", "pulseaudio-server pulseaudio-misc", "", d)} \
+    ${@bb.utils.contains("EMAC_AUDIOMANAGER", "pulseaudio", "pulseaudio-server pulseaudio-misc", "", d)} \
 "
-#     ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "weston weston-init", "", d)} 
 
 SUMMARY:${PN}-tools = "Extra Tools for a qtbased company"
 RDEPENDS:${PN}-tools:append = " \

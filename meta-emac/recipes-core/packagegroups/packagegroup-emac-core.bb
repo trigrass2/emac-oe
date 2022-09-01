@@ -73,8 +73,8 @@ RRECOMMENDS:${PN}-networking = " \
     openssh \
     rsync \
     ntpdate sntp ntpdc ntpq ntp-tickadj ntp-utils ntp ppp \
-    ${@bb.utils.contains("EMAC_NETWORKMANGER", "connman", " connman connman-conf  connman-tools connman-client ", " ", d)} \
-    ${@bb.utils.contains("EMAC_NETWORKMANGER", "networkmanager", " networkmanager networkmanager-nmcli networkmanager-wifi networkmanager-nmtui networkmanager-bash-completion", " ", d)} \
+    ${@bb.utils.contains("EMAC_NETWORKMANAGER", "connman", " connman connman-conf  connman-tools connman-client ", " ", d)} \
+    ${@bb.utils.contains("EMAC_NETWORKMANAGER", "networkmanager", " networkmanager networkmanager-nmcli networkmanager-wifi networkmanager-nmtui networkmanager-bash-completion", " ", d)} \
 "
 
 
@@ -99,7 +99,7 @@ RRECOMMENDS:${PN}-wifi = " \
     wpa-supplicant \
     wireless-tools \
     bluez5 \
-    ${@bb.utils.contains("EMAC_NETWORKMANGER", "networkmanager", " modemmanager ", " ", d)} \
+    ${@bb.utils.contains("EMAC_NETWORKMANAGER", "networkmanager", " modemmanager ", " ", d)} \
 "
 
 #    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", " audio-demos ", "", d)} 

@@ -1,5 +1,4 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
-FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}/${MACHINE}:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${PN}/${MACHINE}:${THISDIR}/${BPN}:"
 
 SRC_URI:append = " \
     file://oe-device-extra.pri \
@@ -7,12 +6,12 @@ SRC_URI:append = " \
 
 # dbus and x11 want atk
 DEPENDS:append:x86-64 = " \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' at-spi2-atk ', '', d )} \
+    ${@bb.utils.contains('EMAC_DISPLAY', 'x11', ' at-spi2-atk ', '', d )} \
 "
 
 # arm wants gles2 and eglfs for the HA  
-PACKAGECONFIG_GL = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gles2 eglfs', 'no-opengl', d )}"
-PACKAGECONFIG_GL:x86-64 = "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl gles2 eglfs', 'no-opengl', d )}"
+PACKAGECONFIG_GL = "${@bb.utils.contains('EMAC_DISPLAY_HW', 'opengl', 'gles2 eglfs', 'no-opengl', d )}"
+PACKAGECONFIG_GL:x86-64 = "${@bb.utils.contains('EMAC_DISPLAY_HW', 'opengl', 'gl gles2 eglfs', 'no-opengl', d )}"
 
 PACKAGECONFIG:append = " \
     accessibility \
@@ -36,7 +35,6 @@ PACKAGECONFIG:append = " \
     udev \
     libinput evdev \
     widgets \
-    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'journald', '', d)} \
 "
 
 PACKAGECONFIG:append:x86-64 = " \
@@ -48,7 +46,9 @@ PACKAGECONFIG:append:x86-64 = " \
     gbm \
 "
 
+#    ${@bb.utils.contains('EMAC_INITMANAGER', 'systemd', 'journald', '', d)} 
 # PACKAGECONFIG_CONFARGS_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '-syslog', '', d)}"
+
 PACKAGECONFIG:remove = "tests"
 
 do_configure:prepend(){
