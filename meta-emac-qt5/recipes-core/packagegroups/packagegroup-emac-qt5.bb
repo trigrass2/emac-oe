@@ -9,8 +9,7 @@ PROVIDES = "${PACKAGES}"
 
 PACKAGES = " \
     ${PN} \
-    ${PN}-base-extras \
-    ${PN}-tools \
+    ${PN}-fonts \
     ${PN}-weblibs \
     ${PN}-extraslibs \
     ${@bb.utils.contains('EMAC_DISPLAY_HW', 'opengl', ' ${PN}-gstreamer  ', '', d)} \
@@ -19,8 +18,7 @@ PACKAGES = " \
 # QT MODS
 # SUMMARY_${PN}-qt5 = "Qt5(Full) meta package"
 RDEPENDS:${PN}:append = " \
-    ${PN}-base-extras \
-    ${PN}-tools \
+    ${PN}-fonts \
     qtbase \
     qtcharts \
     qtconnectivity \
@@ -57,13 +55,13 @@ RDEPENDS:${PN}:append = " \
 "
 
 
-SUMMARY:${PN}-weblibs = "Extra qt libs that are not on the standard sysetm"
+SUMMARY:${PN}-weblibs = "Extra qt libs that are not on the standard system"
 RDEPENDS:${PN}-weblibs:append = " \
     qtwebview \
     qtwebengine \
 "
 
-SUMMARY:${PN}-extraslibs = "Extra qt libs that are not on the standard sysetm"
+SUMMARY:${PN}-extraslibs = "Extra qt libs that are not on the standard system"
 RDEPENDS:${PN}-extraslibs:append = " \
     qttranslations \
     qtsystems \
@@ -77,10 +75,8 @@ RDEPENDS:${PN}-extraslibs:append = " \
 "
 
 
-SUMMARY:${PN}-base-extras = "Extra tools fonts and tz data for emac qt based boards"
-RDEPENDS:${PN}-base-extras:append = " \
-    kernel-modules \
-    ca-certificates \
+SUMMARY:${PN}-fonts = "Extra fonts for EMAC Qt boards"
+RDEPENDS:${PN}-fonts:append = " \
     liberation-fonts \
     ttf-devanagari \
     ttf-opensans \
@@ -89,31 +85,6 @@ RDEPENDS:${PN}-base-extras:append = " \
     ttf-freefont-mono \
     ttf-tlwg \
     otf-noto \
-    tzdata \
-    tzdata-americas \
-    tzdata-asia \
-    tzdata-europe \
-    rng-tools \
-    ${@bb.utils.contains("EMAC_AUDIOMANAGER", "pulseaudio", "pulseaudio-server pulseaudio-misc", "", d)} \
-"
-
-SUMMARY:${PN}-tools = "Extra Tools for a qtbased company"
-RDEPENDS:${PN}-tools:append = " \
-    alsa-utils-amixer \
-    binutils \
-    binutils-symlinks \
-    gcc-sanitizers \
-    e2fsprogs-resize2fs \
-    i2c-tools \
-    iproute2 \
-    ldd \
-    mtd-utils \
-    openssh-sftp-server \
-    parted \
-    procps \
-    rsync \
-    tslib-calibrate \
-    ${@bb.utils.contains("DISTRO_FEATURES", "systemd", "systemd-analyze", "", d)} \
 "
 
 

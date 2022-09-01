@@ -6,7 +6,7 @@ inherit packagegroup nativesdk
 
 MACHINE_EXTRA_INSTALL_SDK_HOST ?= ""
 
-PACKAGE_ARCH = "${SDK_ARCH}"
+PACKAGE_ARCH = ""
 
 RDEPENDS:${PN}:append = " \
     nativesdk-packagegroup-sdk-host \

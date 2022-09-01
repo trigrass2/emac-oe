@@ -5,33 +5,33 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 inherit packagegroup
 PROVIDES = "${PACKAGES}"
 PACKAGES = "\
-    packagegroup-no-busybox \
-    packagegroup-no-busybox-utils \
-    packagegroup-no-busybox-networking \
-    packagegroup-no-busybox-dev-utils \
-    packagegroup-no-busybox-multiuser \
-    packagegroup-no-busybox-initscripts \
-    packagegroup-no-busybox-sys-services \
+    ${PN} \
+    ${PN}-utils \
+    ${PN}-networking \
+    ${PN}-dev-utils \
+    ${PN}-multiuser \
+    ${PN}-initscripts \
+    ${PN}-sys-services \
 "
 
 
-RRECOMMENDS:packagegroup-no-busybox = "\
-    packagegroup-no-busybox-utils \
-    packagegroup-no-busybox-networking \
-    packagegroup-no-busybox-dev-utils \
-    packagegroup-no-busybox-multiuser \
-    packagegroup-no-busybox-initscripts \
-    packagegroup-no-busybox-sys-services \
+RRECOMMENDS:${PN} = "\
+    ${PN}-utils \
+    ${PN}-networking \
+    ${PN}-dev-utils \
+    ${PN}-multiuser \
+    ${PN}-initscripts \
+    ${PN}-sys-services \
 "
 
 # gcc-sanitizers
-#RRECOMMENDS:packagegroup-no-busybox-libs = "
+#RRECOMMENDS:${PN}-libs = "
 #    binutils 
 #    binutils-symlinks 
 #    glib-2.0 
 #"
 
-RRECOMMENDS:packagegroup-no-busybox-utils = "\
+RRECOMMENDS:${PN}-utils = "\
     acl \
     attr \
     bc \
@@ -75,7 +75,7 @@ RRECOMMENDS:packagegroup-no-busybox-utils = "\
     xz \
 "
 
-RRECOMMENDS:packagegroup-no-busybox-networking = "\
+RRECOMMENDS:${PN}-networking = "\
     iproute2 \
     iputils \
     iptables \
@@ -85,7 +85,7 @@ RRECOMMENDS:packagegroup-no-busybox-networking = "\
     ca-certificates \
 "
 
-RRECOMMENDS:packagegroup-no-busybox-dev-utils = "\
+RRECOMMENDS:${PN}-dev-utils = "\
     ${@bb.utils.contains("EMAC_AUDIOMANAGER", "alsa", " alsa-utils-amixer ", "", d)} \
     diffutils \
     m4 \
@@ -95,20 +95,20 @@ RRECOMMENDS:packagegroup-no-busybox-dev-utils = "\
 
 
 VIRTUAL-RUNTIME_syslog = "sysklogd"
-RRECOMMENDS:packagegroup-no-busybox-initscripts = "\
+RRECOMMENDS:${PN}-initscripts = "\
     ${VIRTUAL-RUNTIME_initscripts} \
     ${VIRTUAL-RUNTIME_init_manager} \
     ${VIRTUAL-RUNTIME_login_manager} \
     ${VIRTUAL-RUNTIME_syslog} \
 "
 
-RRECOMMENDS:packagegroup-no-busybox-multiuser = "\
+RRECOMMENDS:${PN}-multiuser = "\
     cracklib \
     shadow \
     sudo \
 "
 
-RRECOMMENDS:packagegroup-no-busybox-sys-services = "\
+RRECOMMENDS:${PN}-sys-services = "\
     at \
     cronie \
     logrotate \

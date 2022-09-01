@@ -56,6 +56,7 @@ RRECOMMENDS:${PN}-util-debug = " \
     evtest \
     htop \
     minicom \
+    nano \
     vim-tiny \
     openssh-sftp \
     openssh-sftp-server \
@@ -63,10 +64,11 @@ RRECOMMENDS:${PN}-util-debug = " \
     emac-tools \
     sshpass \
     procps \
-    nano \
     md5deep \
     ldd \
     i2c-tools \
+    mtd-utils \
+    parted \
 "
 
 
