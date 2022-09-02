@@ -4,8 +4,6 @@ DESCRIPTION = "Qt5 Image extends emac-image."
 IMAGE_FSTYPES ?= " ext4 tar.gz"
 IMAGE_INSTALL:append = " \
     packagegroup-emac-qt5 \
-    ${MACHINE_EXTRA_RRECOMMENDS} \
-    ${MACHINE_EXTRA_RDEPENDS} \
 "
 
 IMAGE_TYPE = "Qt 5 Embedded"
