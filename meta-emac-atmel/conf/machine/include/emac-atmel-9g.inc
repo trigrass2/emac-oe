@@ -1,6 +1,14 @@
 include conf/machine/include/at91sam9.inc
 
-EXTRA_IMAGEDEPENDS = " u-boot-emac-at91 at91bootstrap linux-emac "
+# Essential for booting the board
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " \
+    kernel-image \
+    kernel-devicetree \
+    ${@bb.utils.contains('KERNEL_DEVICETREE_BUNDLE','1', 'kernel-image-zimage-bundle','',d)} \
+"
+KERNEL_DEVICETREE_BUNDLE = "1"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " ${PREFERRED_PROVIDER_virtual/bootloader}"
+MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " at91bootstrap"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 XSERVER ?= " \

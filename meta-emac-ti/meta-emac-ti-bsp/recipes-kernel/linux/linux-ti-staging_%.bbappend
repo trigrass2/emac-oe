@@ -7,6 +7,7 @@ KERNEL_GIT_URI = "git://git.emacinc.com/linux-kernel/ti-linux-kernel.git"
 BRANCH="ti-linux-5.10.y"
 KERNEL_GIT_BRANCH = "ti-linux-5.10.y"
 KERNEL_GIT_PROTOCOL = "http"
+KERNEL_DEVICETREE_BUNDLE="1"
 
 
 # RDEPENDS:${KERNEL_PACKAGE_NAME}-base:remove:ti33x = " prueth-fw pruhsr-fw pruprp-fw"

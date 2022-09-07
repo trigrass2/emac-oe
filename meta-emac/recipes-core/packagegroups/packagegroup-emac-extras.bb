@@ -11,18 +11,18 @@ inherit packagegroup
 
 PROVIDES = "${PACKAGES}"
 
+PV = "${MAJOR_DISTRO_VERSION}.${MINOR_DISTRO_VERSION}.${PATCH_DISTRO_VERSION}"
+
 PACKAGES = "\
     ${PN} \
     ${PN}-util-base \
     ${PN}-util-networking \
-    ${PN}-util-debug \
     ${PN}-timezone \
 "
 
 RRECOMMENDS:${PN} = "\
     ${PN}-util-base \
     ${PN}-util-networking \
-    ${PN}-util-debug \
     ${PN}-timezone \
 "
 

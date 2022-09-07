@@ -1,8 +1,6 @@
 KBRANCH ?= "emac-4.9-stable-rt"
 SRCREV_machine ?= "5a2e9482789a2992bf1b522d91982aa0515b6083"
 
-inherit concatdtbs
-
 require recipes-kernel/linux/linux-yocto.inc
 
 PROVIDES += "virtual/kernel kernel-modules"
@@ -16,3 +14,4 @@ FIRST_SRCREV = "${@'${SRCREV_machine}'[:10]}"
 LINUX_VERSION_EXTENSION = "${EMAC_LINUX_VERSION_EXTENSION}+${FIRST_SRCREV}"
 EMAC_LINUX_VERSION_EXTENSION_arm ?= "_${EMAC_LINUX_VERSION}X${SOM_NUMBER}A${KERNEL_REV}.zimg"
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
+KERNEL_DEVICETREE_BUNDLE="1"

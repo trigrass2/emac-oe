@@ -1,8 +1,6 @@
 KBRANCH ?= "v5.10-rt"
 SRCREV_machine ?= "4c057b136b69269dbcd4318dd18ff93ddef1a29b"
 
-inherit concatdtbs
-
 require recipes-kernel/linux/linux-yocto.inc
 
 SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/rt/linux-stable-rt.git;bareclone=1;branch=${KBRANCH};name=machine;protocol=http"
@@ -20,3 +18,4 @@ LINUX_VERSION_EXTENSION = "${EMAC_LINUX_VERSION_EXTENSION}+${FIRST_SRCREV}"
 EMAC_LINUX_VERSION_EXTENSION:arm ?= "_${EMAC_LINUX_VERSION}X${SOM_NUMBER}A${KERNEL_REV}.zimg"
 EMAC_LINUX_VERSION_EXTENSION:ipac9x25 ?= "_${EMAC_LINUX_VERSION}S${SOM_NUMBER}A${KERNEL_REV}.zimg"
 KERNEL_MODULE_PACKAGE_SUFFIX = ""
+KERNEL_DEVICETREE_BUNDLE="1"
