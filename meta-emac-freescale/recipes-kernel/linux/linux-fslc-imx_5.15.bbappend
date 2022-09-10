@@ -1,6 +1,6 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-fslc-imx/${MACHINE}:" 
 
-KBRANCH = "5.15-1.0.x-imx-pmb"
+KBRANCH = "5.15-1.0.x-imx-pmb-350"
 KERNEL_IMAGETYPE = "zImage"
 SRCREV = "36e2b746031034d830ad9e30f27de14445bc982f"
 LINUX_VERSION = "5.15.48"
