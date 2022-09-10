@@ -51,9 +51,6 @@ include:
   - local: "conf/machine/somimx6/somimx6.yml"
     rules:
       - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'somimx6'
-  - local: "conf/machine/somimx6q-ha/somimx6q-ha.yml"
-    rules:
-      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'somimx6q-ha'
   - local: "conf/machine/somimx6ul/somimx6ul.yml"
     rules:
       - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'somimx6ul'
