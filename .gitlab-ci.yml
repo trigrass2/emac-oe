@@ -33,7 +33,7 @@ include:
   - local: "conf/gitlab-ci/debugging-jobs.yml"
     rules:
       - if: $DEBUG == "true"
-  - local: "conf/machine/intel-x86/intel-x86.yml"
+  - local: "conf/machine/atom-i7-browser/atom-i7-browser.yml"
     rules:
       - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'intel-x86'
   - local: "conf/machine/ipac9x25/ipac9x25.yml"
