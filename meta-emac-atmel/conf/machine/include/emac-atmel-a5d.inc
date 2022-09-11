@@ -9,6 +9,8 @@ KERNEL_DEVICETREE_BUNDLE = "1"
 PREFERRED_PROVIDER_virtual/bootloader:sama5 = "u-boot-emac"
 PREFERRED_PROVIDER_u-boot:sama5 = "u-boot-emac"
 
+EXTRA_IMAGEDEPENDS:remove = "at91bootstrap-sam-ba"
+
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " \
     kernel-image \
     kernel-devicetree \
