@@ -1,0 +1,22 @@
+diff --git a/Makefile b/Makefile
+index dfc90b3..d46f2e2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -239,7 +239,7 @@ include	fs/src/fat.mk
+ 
+ GC_SECTIONS=--gc-sections
+ 
+-NOSTDINC_FLAGS=-nostdinc -isystem $(shell $(CC) -print-file-name=include)
++NOSTDINC_FLAGS=-nostartfiles -nostdinc -isystem $(shell $(CC) -print-file-name=include)
+ 
+ CPPFLAGS=$(NOSTDINC_FLAGS) -ffunction-sections -g -Os -Wall \
+ 	-mno-unaligned-access \
+@@ -275,7 +275,7 @@ endif
+ #    --cref:    add cross reference to map file
+ #  -lc 	   : 	tells the linker to tie in newlib
+ #  -lgcc   : 	tells the linker to tie in newlib
+-LDFLAGS=-nostartfiles -Map=$(BINDIR)/$(BOOT_NAME).map --cref -static
++LDFLAGS=-Map=$(BINDIR)/$(BOOT_NAME).map --cref -static
+ LDFLAGS+=-T $(link_script) $(GC_SECTIONS) -Ttext $(LINK_ADDR)
+ 
+ ifneq ($(DATA_SECTION_ADDR),)

@@ -21,7 +21,11 @@ BSBRANCH = "emac-bootstrap-3.9.3"
 SRCREV = "4a055866e29f25bac8a26d14d20f89bb2451858c"
 PV = "v3.9.3+git${SRCPV}"
 
-SRC_URI = "git://git.emacinc.com/bootloader/at91-bootstrap.git;branch=${BSBRANCH};protocol=http"
+SRC_URI = " \
+    git://git.emacinc.com/bootloader/at91-bootstrap.git;branch=${BSBRANCH};protocol=http \
+    file://0001-flagstorightplace.patch \
+"
+
 S = "${WORKDIR}/git"
 
 AT91BOOTSTRAP_MACHINE ??= "${MACHINE}"
