@@ -1,10 +1,15 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/linux-fslc-imx/${MACHINE}:" 
 
-KBRANCH = "5.15-1.0.x-imx-pmb-350"
 KERNEL_IMAGETYPE = "zImage"
-SRCREV = "36e2b746031034d830ad9e30f27de14445bc982f"
+
+KBRANCH:somimx6 = "5.15-1.0.x-imx-pmb-350"
+KBRANCH:somimx6ul = "5.15-1.0.x-imx-pmb"
+
 LINUX_VERSION = "5.15.48"
 LOCALVERSION = "-5.15.5-1.0.0"
+
+SRCREV:somimx6 = "36e2b746031034d830ad9e30f27de14445bc982f"
+SRCREV:somimx6ul = "a9e37844667eba375e1a87d81dca620fde4d9bfd"
 
 SRC_URI:remove = "file://defconfig" 
 SRC_URI = "git://git.emacinc.com/linux-kernel/linux-fslc.git;branch=${KBRANCH};protocol=http "
