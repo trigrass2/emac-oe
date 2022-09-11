@@ -1,21 +1,21 @@
 MACHINEOVERRIDES =. "sama5:sama5d3:"
 
+KERNEL_IMAGETYPE ?= "zImage"
+KERNEL_DEVICETREE_BUNDLE ?= "1"
+
+AT91BOOTSTRAP_MACHINE ?= "${MACHINE}"
+UBOOT_MACHINE ?= "soma5d35_spiflash_config"
+
 require conf/machine/include/sama5d3.inc
 
 PREFERRED_PROVIDER_virtual/kernel:sama5 = "linux-emac"
 PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
-
 PREFERRED_VERSION_linux-emac:sama5 = "4.19%"
 PREFERRED_VERSION_linux-emac = "4.19%"
-
-KERNEL_DEVICETREE_BUNDLE = "1"
-
 PREFERRED_PROVIDER_virtual/bootloader:sama5 = "u-boot-emac"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
-
 PREFERRED_PROVIDER_u-boot:sama5 = "u-boot-emac"
 PREFERRED_PROVIDER_u-boot = "u-boot-emac"
-
 PREFERRED_VERSION_at91bootstrap = "v3.9.3+git4a055866e29f25bac8a26d14d20f89bb2451858c"
 
 EXTRA_IMAGEDEPENDS:remove = "at91bootstrap-sam-ba"
@@ -40,10 +40,7 @@ XSERVER ?= " \
     xf86-input-tslib \
 "
 
-MACHINE_FEATURES:prepend = " arm "
+MACHINE_FEATURES:prepend = " arm mtd "
 SERIAL_CONSOLE ?= "115200 ttyS0"
-KERNEL_IMAGETYPE ?= "zImage"
-
-UBOOT_MACHINE ?= "soma5d35_spiflash_config"
 
 IMAGE_FSTYPES ?= "tar.gz"
