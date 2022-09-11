@@ -26,9 +26,9 @@ S = "${WORKDIR}/git"
 
 AT91BOOTSTRAP_MACHINE ??= "${MACHINE}"
 
-AT91BOOTSTRAP_IMAGE ?= "${config}-${PV}.bin"
-AT91BOOTSTRAP_BINARY ?= "at91bootstrap.bin"
-AT91BOOTSTRAP_SYMLINK ?= "at91bootstrap-${config}.bin"
+AT91BOOTSTRAP_IMAGE = "${config}-${PV}.bin"
+AT91BOOTSTRAP_BINARY = "at91bootstrap.bin"
+AT91BOOTSTRAP_SYMLINK = "at91bootstrap-${config}.bin"
 
 EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
 
