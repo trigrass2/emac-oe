@@ -16,9 +16,7 @@ PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
 PREFERRED_PROVIDER_u-boot:sama5 = "u-boot-emac"
 PREFERRED_PROVIDER_u-boot = "u-boot-emac"
 
-PREFERRED_PROVIDER_at91bootstrap:sama5 = "at91bootstrap-emac"
-PREFERRED_PROVIDER_at91bootstrap = "at91bootstrap-emac"
-PREFERRED_VERSION_at91bootstrap-emac = "v3.9.3%"
+PREFERRED_VERSION_at91bootstrap = "v3.9.3+git4a055866e29f25bac8a26d14d20f89bb2451858c"
 
 EXTRA_IMAGEDEPENDS:remove = "at91bootstrap-sam-ba"
 
