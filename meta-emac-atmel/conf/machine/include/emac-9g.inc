@@ -1,4 +1,4 @@
-include conf/machine/include/at91sam9.inc
+require conf/machine/include/at91sam9.inc
 
 # Essential for booting the board
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " \

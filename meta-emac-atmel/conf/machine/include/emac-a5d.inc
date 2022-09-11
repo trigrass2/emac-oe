@@ -1,6 +1,6 @@
 MACHINEOVERRIDES =. "sama5:sama5d3:"
 
-include conf/machine/include/sama5d3.inc
+require conf/machine/include/sama5d3.inc
 
 PREFERRED_PROVIDER_virtual/kernel:sama5 = "linux-emac"
 PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
