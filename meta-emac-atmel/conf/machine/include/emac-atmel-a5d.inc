@@ -2,13 +2,19 @@ MACHINEOVERRIDES =. "sama5:sama5d3:"
 
 include conf/machine/include/sama5d3.inc
 
+PREFERRED_PROVIDER_virtual/kernel:sama5 = "linux-emac"
 PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
+
+PREFERRED_VERSION_linux-emac:sama5 = "4.19%"
 PREFERRED_VERSION_linux-emac = "4.19%"
 
 KERNEL_DEVICETREE_BUNDLE = "1"
 
+PREFERRED_PROVIDER_virtual/bootloader:sama5 = "u-boot-emac"
 PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac"
+
 PREFERRED_PROVIDER_u-boot:sama5 = "u-boot-emac"
+PREFERRED_PROVIDER_u-boot = "u-boot-emac"
 
 EXTRA_IMAGEDEPENDS:remove = "at91bootstrap-sam-ba"
 
