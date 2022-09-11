@@ -18,13 +18,13 @@ PREFERRED_PROVIDER_u-boot = "u-boot-emac"
 
 EXTRA_IMAGEDEPENDS:remove = "at91bootstrap-sam-ba"
 
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " \
-    kernel-image \
-    kernel-devicetree \
-    ${@bb.utils.contains('KERNEL_DEVICETREE_BUNDLE','1', 'kernel-image-zimage-bundle','',d)} \
+EXTRA_IMAGEDEPENDS:append = " \
     u-boot-emac \
     at91bootstrap \
     linux-emac \
+    kernel-image \
+    kernel-devicetree \
+    ${@bb.utils.contains('KERNEL_DEVICETREE_BUNDLE','1', 'kernel-image-zimage-bundle','',d)} \
 "
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
