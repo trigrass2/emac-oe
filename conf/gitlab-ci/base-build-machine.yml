@@ -17,7 +17,7 @@
       EMAC_AUDIOMANAGER \
       EMAC_PACKAGEMANAGER"
   - source setup_env.sh
-  - export
+  - env | uniq | sort
 
 .create-links-for-deploy: &create-links-for-deploy
   - test -e ${CI_PROJECT_DIR}/deploy && unlink ${CI_PROJECT_DIR}/deploy; 
@@ -36,6 +36,7 @@
     - *initenv-script
     - $BITBAKE_CMD $RECIPE_NAME
     - *create-links-for-deploy
+    - $BITBAKE_CMD package-index
 
 .build-emac-image:
   stage: build
