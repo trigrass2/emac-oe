@@ -1,14 +1,39 @@
 require conf/machine/include/at91sam9.inc
 
-# Essential for booting the board
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " \
-    kernel-image \
-    kernel-devicetree \
-    ${@bb.utils.contains('KERNEL_DEVICETREE_BUNDLE','1', 'kernel-image-zimage-bundle','',d)} \
+MACHINE_FEATURES:prepend = " arm "
+
+## BOOTLOADER
+UBOOT_MACHINE ?= "som9x25_config"
+UBOOT_ENTRYPOINT ?= "0x70008000"
+
+PREFERRED_PROVIDER_virtual/bootloader:sama5 = "u-boot-emac-at91"
+PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac-at91"
+
+PREFERRED_PROVIDER_u-boot:sama5 = "u-boot-emac-at91"
+
+PREFERRED_PROVIDER_at91bootstrap = "at91bootstrap-emac"
+PREFERRED_VERSION_at91bootstrap = "3.9.3%"
+
+## KERNEL
+KERNEL_IMAGETYPE ?= "zImage"
+
+PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
+PREFERRED_VERSION_linux-emac = "4.9%"
+
+PREFERRED_PROVIDER_virtual/kernel:sama5 = "linux-emac"
+PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
+
+PREFERRED_VERSION_linux-emac:sama5 = "4.9%"
+PREFERRED_VERSION_linux-emac = "4.9%"
+
+
+
+EXTRA_IMAGEDEPENDS:remove = "at91bootstrap-sam-ba"
+EXTRA_IMAGEDEPENDS:append = " \
+    u-boot-emac-at91 \
+    at91bootstrap \
+    linux-emac \
 "
-KERNEL_DEVICETREE_BUNDLE = "1"
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " ${PREFERRED_PROVIDER_virtual/bootloader}"
-MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " at91bootstrap"
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 XSERVER ?= " \
@@ -24,17 +49,5 @@ XSERVER ?= " \
     xf86-input-tslib \
 "
 
-MACHINE_FEATURES:prepend = " arm "
-
 SERIAL_CONSOLE ?= "115200 ttyS0"
-
-KERNEL_IMAGETYPE ?= "zImage"
-
-UBOOT_ENTRYPOINT ?= "0x70008000"
-UBOOT_MACHINE ?= "som9x25_config"
-
 IMAGE_FSTYPES ?= "tar.gz"
-
-PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
-PREFERRED_VERSION_linux-emac = "4.9%"
-PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac-at91"
