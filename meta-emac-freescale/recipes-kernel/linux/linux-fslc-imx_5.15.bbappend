@@ -3,7 +3,7 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-fslc-imx/${MACHINE}:"
 KERNEL_IMAGETYPE = "zImage"
 
 KBRANCH:somimx6 = "5.15-1.0.x-imx-pmb-350"
-KBRANCH:somimx6ul = "5.15-1.0.x-imx-pmb"
+KBRANCH:somimx6ul = "5.15-1.0.x-imx-emac"
 
 LINUX_VERSION = "5.15.48"
 LOCALVERSION = "-5.15.5-1.0.0"
