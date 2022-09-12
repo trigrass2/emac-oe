@@ -11,9 +11,8 @@ DEPENDS:append = " \
     gmp-native \
     libmpc-native \
     zstd-native \
+    ${@bb.utils.contains('ARCH', 'x86', 'elfutils-native pahole-native ', '', d)} \
 "
-
-DEPENDS:append = "${@bb.utils.contains('EMAC_INITMANAGER', 'systemd', ' elfutils-native pahole-native ', '', d)}"
 
 EXTRA_OEMAKE:append = " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}" "
 
