@@ -14,7 +14,7 @@ PREFERRED_PROVIDER_virtual/bootloader = "u-boot-emac-at91"
 PREFERRED_PROVIDER_u-boot:sama5 = "u-boot-emac-at91"
 
 PREFERRED_PROVIDER_at91bootstrap = "at91bootstrap-emac"
-PREFERRED_VERSION_at91bootstrap = "3.9.3%"
+PREFERRED_VERSION_at91bootstrap = "v3.9.3+gitAUTOINC+4a055866e2"
 
 ## KERNEL
 PREFERRED_PROVIDER_virtual/kernel = "linux-emac"
