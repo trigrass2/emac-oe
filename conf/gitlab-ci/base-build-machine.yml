@@ -34,7 +34,7 @@
   timeout: 6hr
   script:
     - *initenv-script
-    - export DEPLOY_DIR="$($BITBAKE_CMD -e $RECIPE_NAME | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}')"
+    - export DEPLOY_DIR="$($BITBAKE_CMD -e $RECIPE_NAME | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')"
     - echo $DEPLOY_DIR
     - $BITBAKE_CMD $RECIPE_NAME
     - $BITBAKE_CMD -c do_populate_sdk $RECIPE_NAME
