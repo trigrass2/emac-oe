@@ -11,6 +11,7 @@ variables:
   INCLUDE_SDK: "false"
   INCLUDE_QEMU: "false"
   INCLUDE_DEBUG: "false"
+  OE_DEPLOYMENT: "false"
 
 stages:
   - debug
