@@ -34,10 +34,9 @@
   timeout: 6hr
   script:
     - *initenv-script
-    - $BITBAKE_CMD $RECIPE_NAME
-    - *create-links-for-deploy
-    - $BITBAKE_CMD package-index
-
+    - export DEPLOY_DIR=$($BITBAKE_CMD -e $RECIPE_NAME | grep ^DEPLOY_DIR=)
+    - echo $DEPLOY_DIR
+    
 .build-emac-image:
   stage: build
   extends: .build-recipe
