@@ -1,0 +1,5 @@
+emac-image-soma5d36mp:
+  extends: .build-emac-image
+  variables:
+    MACHINE: soma5d36mp
+    REPO_TOOL_GROUPS: default

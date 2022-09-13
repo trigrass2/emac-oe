@@ -1,0 +1,5 @@
+emac-image-som9g45:
+  extends: .build-emac-image
+  variables:
+    MACHINE: som9g45
+    REPO_TOOL_GROUPS: default

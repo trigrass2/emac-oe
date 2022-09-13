@@ -1,0 +1,5 @@
+emac-image-ppc-150t:
+  extends: .build-emac-image
+  variables:
+    MACHINE: ppc-150t
+    REPO_TOOL_GROUPS: default

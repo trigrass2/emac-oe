@@ -1,0 +1,5 @@
+emac-image-hmi-043t:
+  extends: .build-emac-image
+  variables:
+    MACHINE: hmi-043t
+    REPO_TOOL_GROUPS: default

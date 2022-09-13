@@ -1,0 +1,8 @@
+emac-image-intel-x86:
+  extends: .build-emac-image
+  variables:
+    MACHINE: intel-x86
+    REPO_TOOL_GROUPS: default,name:meta-intel
+    EMAC_DISPLAY_HW: opengl
+    EMAC_DISPLAY: x11
+    EMAC_AUDIOMANAGER: alsa pulseaudio

@@ -1,0 +1,9 @@
+emac-image-somimx6q-ha-qt5:
+  extends: .build-emac-image
+  variables:
+    MACHINE: somimx6q-ha
+    REPO_TOOL_GROUPS: default,nxp,qt5
+    EMAC_DISPLAY_HW: opengl
+    EMAC_DISPLAY: linuxfb
+    EMAC_AUDIOMANAGER: alsa pulseaudio
+    EMAC_IMAGE: emac-qt5-image

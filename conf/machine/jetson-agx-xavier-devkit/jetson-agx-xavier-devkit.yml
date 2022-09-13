@@ -1,0 +1,7 @@
+emac-image-jetson-agx-xavier-devkit:
+  extends: .build-emac-image
+  variables:
+    MACHINE: jetson-agx-xavier-devkit
+    REPO_TOOL_GROUPS: default,nvidia
+    DISTRO: emactegra
+

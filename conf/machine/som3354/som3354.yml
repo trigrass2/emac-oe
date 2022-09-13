@@ -1,0 +1,5 @@
+emac-image-som3354:
+  extends: .build-emac-image
+  variables:
+    MACHINE: som3354
+    REPO_TOOL_GROUPS: default
