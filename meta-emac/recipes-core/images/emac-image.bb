@@ -24,5 +24,8 @@ IMAGE_FEATURES:append = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ip
 PACKAGE_FEED_URIS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "http://ftp.emacinc.com/ota/${MACHINE}/${DISTRO_CODENAME}", "", d)}"
 PACKAGE_FEED_BASE_PATHS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "${EMAC_PACKAGEMANAGER}", "", d)}"
 #PACKAGE_FEED_ARCHS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "${PACKAGE_ARCHS}", "", d)}"
+
+# FIXME this needs to just append the machine name stuff now a days after the
+# change to not using repo-manager and jsut using package-index
 PACKAGE_FEED_ARCHS = "${@remove_duplicate_values(d, "PACKAGE_ARCHS", "ALL_MULTILIB_PACKAGE_ARCHS")}"
 

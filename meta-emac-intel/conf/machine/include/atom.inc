@@ -11,11 +11,6 @@ MACHINE_FEATURES += " \
     atom-sbc \
 "
 
-#PREFERRED_PROVIDER_virtual/kernel = "linux-intel"
-#PREFERRED_VERSION_linux-intel = "4.19%"
-#BSP_SUBTYPE = "leafhill"
-
-
 PREFERRED_PROVIDER_libva = "libva-intel"
 PREFERRED_PROVIDER_libva-native = "libva-intel-native"
 PREFERRED_PROVIDER_nativesdk-libva = "nativesdk-libva-intel"

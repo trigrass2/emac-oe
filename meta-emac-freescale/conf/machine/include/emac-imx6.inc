@@ -26,6 +26,7 @@ IMX_DEFAULT_BOOTLOADER = "u-boot-fslc"
 UBOOT_SUFFIX:pn-u-boot-fslc = "img"
 
 SERIAL_CONSOLES = "115200;ttymxc1"
-IMAGE_FSTYPES ?= "tar.gz"
 
+IMAGE_FSTYPES:append = " tar.gz "
+WKS_FILE = "imx6-spl-sdio.wks.in"
 
