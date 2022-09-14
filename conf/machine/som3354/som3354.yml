@@ -5,11 +5,3 @@ emac-image-som3354:
     REPO_TOOL_GROUPS: default,ti
     EMAC_DISPLAY_HW: opengl
     EMAC_DISPLAY:  wayland
-
-emac-image-sdk-som3354:
-  extends: .build-emac-image-sdk
-  variables:
-    MACHINE: som3354
-    REPO_TOOL_GROUPS: default,ti
-    EMAC_DISPLAY_HW: opengl
-    EMAC_DISPLAY:  wayland

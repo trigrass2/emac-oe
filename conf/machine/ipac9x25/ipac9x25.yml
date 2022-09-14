@@ -3,9 +3,3 @@ emac-image-ipac9x25:
   variables:
     MACHINE: ipac9x25
     REPO_TOOL_GROUPS: default,atmel
-
-emac-image-sdk-ipac9x25:
-  extends: .build-emac-image-sdk
-  variables:
-    MACHINE: ipac9x25
-    REPO_TOOL_GROUPS: default,atmel

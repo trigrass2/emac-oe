@@ -3,9 +3,3 @@ emac-image-somimx6ul:
   variables:
     MACHINE: somimx6ul
     REPO_TOOL_GROUPS: default,nxp
-
-emac-image-sdk-somimx6ul:
-  extends: .build-emac-image-sdk
-  variables:
-    MACHINE: somimx6ul
-    REPO_TOOL_GROUPS: default,nxp

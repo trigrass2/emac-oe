@@ -6,10 +6,3 @@ emac-image-atom-i7-browser:
     EMAC_DISPLAY_HW: opengl
     EMAC_DISPLAY:  wayland
 
-emac-image-sdk-atom-i7-browser:
-  extends: .build-emac-image-sdk
-  variables:
-    MACHINE: atom-i7-browser
-    REPO_TOOL_GROUPS: default,intel
-    EMAC_DISPLAY_HW: opengl
-    EMAC_DISPLAY:  wayland
