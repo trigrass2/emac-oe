@@ -24,8 +24,9 @@ KERNEL_IMAGETYPE = "zImage"
 
 IMX_DEFAULT_BOOTLOADER = "u-boot-fslc"
 UBOOT_SUFFIX:pn-u-boot-fslc = "img"
+SPL_BINARY:pn-u-boot-fslc = "SPL"
 
-SERIAL_CONSOLES = "115200;ttymxc1"
+SERIAL_CONSOLES ?= "115200;ttymxc1"
 
 IMAGE_FSTYPES:append = " tar.gz "
 WKS_FILE = "imx6-spl-sdio.wks.in"
