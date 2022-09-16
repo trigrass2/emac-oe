@@ -5,3 +5,11 @@ emac-image-somimx6:
     REPO_TOOL_GROUPS: default,nxp
     EMAC_DISPLAY_HW: opengl
     EMAC_DISPLAY:  wayland
+
+emac-image-sdk-somimx6:
+  extends: .build-emac-image-sdk
+  variables:
+    MACHINE: somimx6
+    REPO_TOOL_GROUPS: default,nxp
+    EMAC_DISPLAY_HW: opengl
+    EMAC_DISPLAY:  wayland

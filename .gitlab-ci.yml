@@ -10,8 +10,7 @@ variables:
   GIT_CLEAN_FLAGS: none
   INCLUDE_SDK: "false"
   INCLUDE_QEMU: "false"
-  INCLUDE_DEBUG: "false"
-  OE_DEPLOYMENT: "false"
+  DEBUG: "false"
 
 stages:
   - debug
@@ -23,8 +22,6 @@ emac-image-manual:
   extends: .build-emac-image
   variables:
     MACHINE: ipac9x25
-  rules:
-    - if: $GIT_MACHINE == "none"
   when: manual
   allow_failure: true
 
@@ -35,7 +32,7 @@ include:
       - if: $INCLUDE_QEMU == "true"
   - local: "conf/gitlab-ci/debugging-jobs.yml"
     rules:
-      - if: $INCLUDE_DEBUG == "true"
+      - if: $DEBUG == "true"
   - local: "conf/machine/atom-i7-browser/atom-i7-browser.yml"
     rules:
       - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'intel-x86'

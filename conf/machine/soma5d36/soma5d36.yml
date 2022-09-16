@@ -4,3 +4,8 @@ emac-image-soma5d36:
     MACHINE: soma5d36
     REPO_TOOL_GROUPS: default,atmel
 
+emac-image-sdk-soma5d36:
+  extends: .build-emac-image-sdk
+  variables:
+    MACHINE: soma5d36
+    REPO_TOOL_GROUPS: default,atmel
