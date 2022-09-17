@@ -6,7 +6,7 @@
   - ./init-build.sh -g "$REPO_TOOL_GROUPS"
   - cat ${CI_PROJECT_DIR}/conf/bblayers.conf.sample $LAYERS_SAMPLE > ${CI_PROJECT_DIR}/repo-tool/build/${DISTRO_CODENAME}/conf/bblayers.conf
   - |
-    export BB_ENV_PASSTHROUGH_ADDITIONS="$BB_ENV_PASSTHROUGH_ADDITIONS \
+    export BB_ENV_EXTRAWHITE="$BB_ENV_EXTRAWHITE \
       EMAC_CLIENT_NAME \
       EMAC_IMAGE \
       EMAC_DISPLAY_HW \
