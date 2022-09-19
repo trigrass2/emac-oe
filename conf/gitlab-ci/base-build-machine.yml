@@ -49,10 +49,12 @@
     - test "$INCLUDE_SDK" == "true" && $BITBAKE_CMD -c do_populate_sdk $RECIPE_NAME
     - test "$OE_DEPLOYMENT" == "true" && $BITBAKE_CMD package-index
     - test "$OE_DEPLOYMENT" == "true" && upload_oe
-    - test "$OE_DEPLOYMENT" == "false" && ln -sf ${DEPLOY_DIR} ${CI_PROJECT_DIR}/deploy_artifacts
+    - test "$OE_DEPLOYMENT" == "false" && test -e ${CI_PROJECT_DIR}/artifacts && unlink ${CI_PROJECT_DIR}/artifacts; 
+    - test "$OE_DEPLOYMENT" == "false" && ln -sf ${DEPLOY_DIR}/.. ${CI_PROJECT_DIR}/artifacts
+
   artifacts:
     paths:
-      - deploy_artifacts/
+      - artifacts/deploy/
 
 
 

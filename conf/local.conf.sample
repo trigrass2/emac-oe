@@ -127,7 +127,7 @@ EMAC_PACKAGEMANAGER ?= "ipk"
 EMAC_CLIENT_NAME ?= "emac"
 EMAC_IMAGE ?= "emac-image"
 
-DEPLOY_DIR        = "/srv/emac-oe/${DISTRO_CODENAME}/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}/${MACHINE}"
+DEPLOY_DIR        = "/srv/emac-oe/${DISTRO_CODENAME}/deploy/${EMAC_CLIENT_NAME}/${EMAC_IMAGE}/${MACHINE}/deploy"
 DEPLOY_DIR_IMAGE  = "${DEPLOY_DIR}/image"
 
 ## SSTATE_DUPWHITELIST is set to this, if needing to change license dirs add it to this var
