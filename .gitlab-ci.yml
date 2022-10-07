@@ -47,7 +47,7 @@ include:
       - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'ipac9x25'
   - local: "conf/machine/jetson-agx-xavier-devkit/jetson-agx-xavier-devkit.yml"
     rules:
-      - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'jetson-agx-xavier-devkit'
+      - if: $GIT_MACHINE == 'jetson-agx-xavier-devkit'
   - local: "conf/machine/ppc-150t/ppc-150t.yml"
     rules:
       - if: $GIT_MACHINE == 'all' || $GIT_MACHINE == 'ppc-150t'
