@@ -18,7 +18,7 @@ GLIBC_ADDONS = "nptl"
 
 ## KERNEL
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
-REFERRED_VERSION_linux-emac ?= "5.10%"
+PREFERRED_VERSION_linux-emac ?= "5.4%"
 
 #PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
 #PREFERRED_VERSION_linux-emac ?= "5.15%"
