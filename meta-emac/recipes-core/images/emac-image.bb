@@ -4,6 +4,7 @@ DESCRIPTION = "Headless development image from which other EMAC images will be e
 
 IMAGE_INSTALL_append = " \
     packagegroup-emac-extras \
+    ${@bb.utils.contains("MACHINE_FEATURES", "pci", " packagegroup-emac-core-pci ", "", d)} \
 "
 
 QB_OPT_APPEND = "-nographic"
