@@ -20,21 +20,15 @@ RDEPENDS_${PN} += " \
     packagegroup-core-standalone-sdk-target \
     ${GCC-SANITIZERS} \
     ${OGL_RUNTIME_DEV} \
-    qt3d-dev \
     qtbase-dev \
     qtbase-staticdev \
     qtbase-doc \
     qtcharts-dev \
     qtconnectivity-dev \
-    qtdatavis3d-dev \
     qtdeclarative-dev \
     qtdeclarative-staticdev \
     qtgamepad-dev \
-    qtgraphicaleffects-dev \
     qtimageformats-dev \
-    qtlocation-dev \
-    qtmultimedia-dev \
-    qtquick3d-dev \
     qtquickcontrols-dev \
     qtquickcontrols2-dev \
     qtquicktimeline-dev \
@@ -51,6 +45,13 @@ RDEPENDS_${PN} += " \
     qtwebsockets-dev \
     qtwebchannel-dev \
     qtxmlpatterns-dev \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', ' \
+	    qt3d-dev \
+	    qtdatavis3d-dev \
+	    qtgraphicaleffects-dev \
+	    qtlocation-dev \
+	    qtmultimedia-dev \
+	    qtquick3d-dev ', '', d)} \
 "
 
 # qtwebview-dev
