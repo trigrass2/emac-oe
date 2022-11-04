@@ -3,6 +3,6 @@ PACKAGECONFIG += " \
     geoservices_here \
     geoservices_itemsoverlay \
     geoservices_mapbox \
-    geoservices_mapboxgl \
+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'geoservices_mapboxgl', '', d)} \
     geoservices_osm \
 "
