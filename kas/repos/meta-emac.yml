@@ -5,7 +5,6 @@ repos:
   meta-emac:
     url: http://git.emacinc.com/OE/emac-oe
     path: build/layers/meta-atmel
-    refspec: $CI_COMMIT_BRANCH
     layers:
       meta-emac:
         
