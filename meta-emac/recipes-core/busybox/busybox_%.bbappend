@@ -19,7 +19,7 @@ INITSCRIPT_PARAMS_${PN}-ifplugd = "start 41 S . stop 41 0 1 6 ."
 
 CONFFILES_${PN}-ifplugd = "${sysconfdir}/ifplugd/ifplugd.conf"
 
-do_install() {
+do_install_append() {
     if grep -q "CONFIG_IFPLUGD=y" ${B}/.config; then
         install -d ${D}${sysconfdir}/ifplugd/
         install -d ${D}${sysconfdir}/init.d/
