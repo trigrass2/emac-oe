@@ -17,7 +17,7 @@ env:
 repos:
   poky:
     url: https://git.yoctoproject.org/git/poky
-    path: layers/poky
+    path: build/layers/poky
     layers:
       meta:
   

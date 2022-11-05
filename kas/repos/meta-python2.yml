@@ -4,4 +4,4 @@ header:
 repos:
   meta-python2:
     url: https://git.openembedded.org/meta-python2
-    path: layers/meta-python2
+    path: build/layers/meta-python2

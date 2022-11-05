@@ -8,13 +8,13 @@ repos:
       meta-emac-tegra:
   meta-tegra:
     url: https://github.com/OE4T/meta-tegra
-    path: layers/meta-tegra
+    path: build/layers/meta-tegra
     layers:
   meta-tegra-contrib:
     url: https://github.com/OE4T/meta-tegra
-    path: layers/meta-tegra
+    path: build/layers/meta-tegra
     layers:
       contrib:
   meta-virtualization:
     url: https://git.yoctoproject.org/meta-virtualization
-    path: layers/meta-virtualization
+    path: build/layers/meta-virtualization

@@ -8,8 +8,8 @@ repos:
       meta-emac-web/meta-chromium:
   meta-clang:
     url: https://github.com/kraj/meta-clang
-    path: layers/meta-clang
+    path: build/layers/meta-clang
   meta-browser:
     url: https://github.com/OSSystems/meta-browser
-    path: layers/meta-browser
+    path: build/layers/meta-browser
     refspec: master

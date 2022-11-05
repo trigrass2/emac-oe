@@ -10,4 +10,4 @@ repos:
       meta-emac-ti:
   meta-ti:
     url: http://git.ti.com/git/arago-project/meta-ti.git
-    path: layers/meta-ti
+    path: build/layers/meta-ti

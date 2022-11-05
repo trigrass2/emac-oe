@@ -9,5 +9,5 @@ repos:
       meta-emac-atmel:
   meta-atmel:
     url: https://github.com/linux4sam/meta-atmel
-    path: layers/meta-atmel
+    path: build/layers/meta-atmel
     refspec: master

@@ -9,7 +9,7 @@ repos:
       meta-emac-freescale:
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale
-    path: layers/meta-freescale
+    path: build/layers/meta-freescale
   meta-freescale-3rdparty:
     url: https://github.com/Freescale/meta-freescale-3rdparty
-    path: layers/meta-freescale-3rdparty
+    path: build/layers/meta-freescale-3rdparty
