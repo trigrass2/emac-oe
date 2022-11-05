@@ -1,0 +1,63 @@
+.kas-build:
+  stage: build
+  variables:
+    KASFILES: kas/machine/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
+  tags:
+    - oe-builder
+  script:
+    - kas build --update --force-checkout $KASFILES
+    - |
+      if test "$INCLUDE_SDK" == "true"; \
+        export KAS_TASK=do_populate_sdk; \
+        kas build $KASFILES; \
+        unset KAS_TASK; \
+      fi
+    - |
+      if [ "$OE_DEPLOYMENT" == "true" ]; then \
+        export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')"; \
+        export MACHINE=$KAS_MACHINE
+        export DISTRO_CODENAME="$(kas shell $KASFILES -c "bitbake -e" | grep ^DISTRO_CODENAME= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')"; \
+        kas shell $KASFILES -c "bitbake package-index"; upload_oe; \
+      else \
+        tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .; \
+      fi
+  after_script:
+    - rm -rf build/tmp*; sync
+
+  artifacts:
+    paths:
+      - build/conf
+      - deploy_dir.tar.gz
+
+wipe-arena:
+  stage: clean
+  dependencies: []
+  tags:
+    - oe-builder
+  when: manual
+  allow_failure: true
+  script:
+    - rm -rf build; sync
+
+wipe-all:
+  stage: clean
+  dependencies: []
+  tags:
+    - oe-builder
+  when: manual
+  allow_failure: true
+  script:
+    - git clean -f
+    - git clean -f -x
+
+wipe-sstate:
+  stage: clean
+  dependencies: []
+  variables:
+    KASFILES: kas/machine/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
+  tags:
+    - oe-builder
+  when: manual
+  allow_failure: true
+  script:
+    - kas shell $KASFILES -c "bitbake world -k -c cleanall"

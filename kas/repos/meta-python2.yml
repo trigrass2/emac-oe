@@ -1,0 +1,7 @@
+header:
+  version: 12
+
+repos:
+  meta-python2:
+    url: https://git.openembedded.org/meta-python2
+    path: layers/meta-python2

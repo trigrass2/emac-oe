@@ -1,0 +1,57 @@
+header:
+  version: 12
+
+distro: poky
+machine: unset
+
+target: core-image-base
+
+defaults:
+  repos:
+    refspec: kirkstone
+
+env:
+  CI_REPOSITORY_URL: "Not built via Gitlab CI/CD"
+  CI_COMMIT_BRANCH: "Not built via Gitlab CI/CD"
+
+repos:
+  poky:
+    url: https://git.yoctoproject.org/git/poky
+    path: layers/poky
+    layers:
+      meta:
+  
+local_conf_header:
+  base: |
+    CONF_VERSION = "2"
+    BB_SERVER_TIMEOUT = "240"
+    BB_DISKMON_DIRS ??= "\
+      STOPTASKS,${TMPDIR},1G,100K \
+      STOPTASKS,${DL_DIR},1G,100K \
+      STOPTASKS,${SSTATE_DIR},1G,100K \
+      STOPTASKS,/tmp,100M,100K \
+      HALT,${TMPDIR},100M,1K \
+      HALT,${DL_DIR},100M,1K \
+      HALT,${SSTATE_DIR},100M,1K \
+      HALT,/tmp,10M,1K"
+
+  setup: |
+    PACKAGE_CLASSES ?= "package_deb package_ipk package_rpm"
+    BUILDHISTORY_COMMIT = "1"
+    INHERIT:append = " rm_work buildhistory image-buildinfo"
+    OE_TERMINAL = "auto"
+    PATCHRESOLVE = "noop"
+  base_extra_build_info: |
+    IMAGE_BUILDINFO_VARS:append = " CI_REPOSITORY_URL CI_COMMIT_BRANCH CLIENT_NAME "
+
+  sshkeys: |
+    CORE_IMAGE_EXTRA_INSTALL += "ssh-pregen-hostkeys"
+
+  sdk: |
+    SDKMACHINE ?= "x86_64"
+
+
+
+  
+
+
