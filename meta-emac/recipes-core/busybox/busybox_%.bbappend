@@ -6,7 +6,7 @@ SRC_URI += "\
     file://ifplugd/ifplugd.conf \
 "
 
-PACKAGES += " ${PN}-ifplugd "
+PACKAGES =+ " ${PN}-ifplugd "
 FILES_${PN}-ifplugd = "\
     ${sysconfdir}/init.d/ifplugd \
     ${sysconfdir}/ifplugd/ifplugd.conf \
