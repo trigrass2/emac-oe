@@ -1,6 +1,0 @@
-## Included from machine/jetson-agx-xavier-devkit/jetson-agx-xavier-devkit.bblayers.conf.sample
-
-BBLAYERS = " \
-  ${TEGRA_RECIPES} \
-  ${CORE_RECIPES} \
-"

@@ -1,5 +1,0 @@
-emac-image-vox-150:
-  extends: .build-emac-image
-  variables:
-    MACHINE: vox-150
-    REPO_TOOL_GROUPS: default

@@ -1,5 +1,0 @@
-emac-image-vortex-sbc:
-  extends: .build-emac-image
-  variables:
-    MACHINE: vortex-sbc
-    REPO_TOOL_GROUPS: default

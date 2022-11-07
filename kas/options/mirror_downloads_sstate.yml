@@ -1,0 +1,12 @@
+header:
+  version: 12
+
+local_conf_header:
+  distro_codename: DISTRO_CODENAME ?= "duncan"
+  downloads: |
+    SOURCE_MIRROR_URL ?= "file:///srv/emac-oe/downloads/"
+    INHERIT += " own-mirrors "
+  sstate_cache: |
+    SSTATE_MIRRORS := "\
+    file://.* file:///srv/emac-oe/${DISTRO_CODENAME}/sstate-cache \
+    "

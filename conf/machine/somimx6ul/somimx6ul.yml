@@ -1,5 +1,0 @@
-emac-image-somimx6ul:
-  extends: .build-emac-image
-  variables:
-    MACHINE: somimx6ul
-    REPO_TOOL_GROUPS: default

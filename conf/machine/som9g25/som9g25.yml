@@ -1,6 +1,0 @@
-emac-image-som9g25:
-  extends: .build-emac-image
-  variables:
-    MACHINE: som9g25
-    REPO_TOOL_GROUPS: default
-

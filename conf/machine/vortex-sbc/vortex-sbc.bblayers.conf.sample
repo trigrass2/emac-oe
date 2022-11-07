@@ -1,4 +1,0 @@
-## Included from machine/vortex-sbc/vortex-sbc.bblayers.conf.sample
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-"

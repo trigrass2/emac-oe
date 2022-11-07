@@ -1,0 +1,34 @@
+build-intel-x86:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: intel-x86
+  rules:
+    - if: $GIT_MACHINE == "intel-x86" || $GIT_MACHINE == "all"
+
+build-hmi-043t:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: hmi-043t
+  rules:
+    - if: $GIT_MACHINE == "hmi-043t" || $GIT_MACHINE == "all"
+
+build-ppc-150t:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: ppc-150t
+  rules:
+    - if: $GIT_MACHINE == "ppc-150t" || $GIT_MACHINE == "all"
+
+build-vortex-sbc:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: vortex-sbc
+  rules:
+    - if: $GIT_MACHINE == "vortex-sbc" || $GIT_MACHINE == "all"
+
+build-vox-150:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: vox-150
+  rules:
+    - if: $GIT_MACHINE == "vox-150" || $GIT_MACHINE == "all"

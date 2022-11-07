@@ -1,4 +1,0 @@
-## Included from machine/som9g45/som9g45.bblayers.conf.sample
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-"

@@ -1,0 +1,6 @@
+header:
+  version: 12
+  includes:
+    - kas/emac-core.yml
+
+machine: som3517

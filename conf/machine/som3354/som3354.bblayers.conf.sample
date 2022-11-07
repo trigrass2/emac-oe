@@ -1,5 +1,0 @@
-## Included from machine/som3354/som3354.bblayers.conf.sample
-
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-"

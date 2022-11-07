@@ -1,6 +1,0 @@
-## Included from machine/
-
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-  ${INTEL_RECIPES} \
-"

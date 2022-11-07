@@ -1,5 +1,0 @@
-## Included from machine/soma5d36/soma5d36.bblayers.conf.sample
-
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-"

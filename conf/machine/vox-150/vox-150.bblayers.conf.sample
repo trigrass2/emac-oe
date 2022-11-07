@@ -1,4 +1,0 @@
-## Included from machine/vox-150/vox-150.bblayers.conf.sample
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-"

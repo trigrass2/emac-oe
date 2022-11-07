@@ -1,4 +1,0 @@
-## Included from machine/ppc-150t/ppc-150t.bblayers.conf.sample
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-"
