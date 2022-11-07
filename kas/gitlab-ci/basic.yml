@@ -5,6 +5,7 @@
   tags:
     - oe-builder
   script:
+    - echo $KASFILES
     - kas build --update --force-checkout $KASFILES
     - |
       if test "$INCLUDE_SDK" == "true"; \
