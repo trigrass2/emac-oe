@@ -1,7 +1,7 @@
 .kas-build:
   stage: build
   variables:
-    KASFILES: kas/machine/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
+    KASFILES: kas/machines/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
   tags:
     - oe-builder
   script:
