@@ -8,7 +8,7 @@
     - echo $KASFILES
     - kas build --update --force-checkout $KASFILES
     - |
-      if test "$INCLUDE_SDK" == "true"; \
+      if test "$INCLUDE_SDK" == "true"; then \
         export KAS_TASK=do_populate_sdk; \
         kas build $KASFILES; \
         unset KAS_TASK; \
