@@ -7,6 +7,6 @@ local_conf_header:
     SOURCE_MIRROR_URL ?= "file:///srv/emac-oe/downloads/"
     INHERIT:append = " own-mirrors "
   sstate_cache: |
-    SSTATE_MIRRORS := "\
-    file://.* file:///srv/emac-oe/${DISTRO_CODENAME}/sstate-cache \
+    SSTATE_MIRRORS ?= "\
+    file://.* file:///srv/emac-oe/${DISTRO_CODENAME}/sstate-cache/PATH \
     "

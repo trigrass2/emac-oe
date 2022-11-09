@@ -1,5 +1,7 @@
 header:
   version: 12
+  includes:
+   - kas/repos/poky.yml
 
 distro: poky
 machine: unset
@@ -13,13 +15,6 @@ defaults:
 env:
   CI_REPOSITORY_URL: "Not built via Gitlab CI/CD"
   CI_COMMIT_BRANCH: "Not built via Gitlab CI/CD"
-
-repos:
-  poky:
-    url: https://git.yoctoproject.org/git/poky
-    path: build/layers/poky
-    layers:
-      meta:
   
 local_conf_header:
   base: |

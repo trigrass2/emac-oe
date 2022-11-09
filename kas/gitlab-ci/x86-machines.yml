@@ -1,0 +1,6 @@
+build-atom-i7-browser:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: atom-i7-browser
+  rules:
+    - if: $GIT_MACHINE == "atom-i7-browser" || $GIT_MACHINE == "all"

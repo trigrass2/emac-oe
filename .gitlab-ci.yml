@@ -6,6 +6,8 @@ variables:
 
 include:
   - local: "kas/gitlab-ci/basic.yml"
+  - local: "kas/gitlab-ci/arm-machines.yml"
+  - local: "kas/gitlab-ci/x86-machines.yml"
 
 stages:
   - build
@@ -19,59 +21,3 @@ emac-image-manual: # allow this if to be skipped
     - if: $GIT_MACHINE == "none"
   when: manual
   allow_failure: true
-
-build-atom-i7-browser:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: atom-i7-browser
-  rules:
-    - if: $GIT_MACHINE == "atom-i7-browser" || $GIT_MACHINE == "all"
-
-build-ipac9x25:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: ipac9x25
-  rules:
-    - if: $GIT_MACHINE == "ipac9x25" || $GIT_MACHINE == "all"
-
-build-som3354:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: som3354
-  rules:
-    - if: $GIT_MACHINE == "som3354" || $GIT_MACHINE == "all"
-
-build-som3517:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: som3517
-  rules:
-    - if: $GIT_MACHINE == "som3517" || $GIT_MACHINE == "all"
-
-build-soma5d36:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: soma5d36
-  rules:
-    - if: $GIT_MACHINE == "soma5d36" || $GIT_MACHINE == "all"
-
-build-somimx6:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: somimx6
-  rules:
-    - if: $GIT_MACHINE == "somimx6" || $GIT_MACHINE == "all"
-
-build-somimx6q-ha:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: somimx6q-ha
-  rules:
-    - if: $GIT_MACHINE == "somimx6q-ha" || $GIT_MACHINE == "all"
-
-build-somimx6ul:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: somimx6ul
-  rules:
-    - if: $GIT_MACHINE == "somimx6ul" || $GIT_MACHINE == "all"

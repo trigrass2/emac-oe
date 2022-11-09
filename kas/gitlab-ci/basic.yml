@@ -1,25 +1,33 @@
 .kas-build:
   stage: build
   variables:
-    KASFILES: kas/machine/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
+    KASFILES: kas/machines/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
   tags:
     - oe-builder
   script:
+    - echo $KASFILES
     - kas build --update --force-checkout $KASFILES
     - |
-      if test "$INCLUDE_SDK" == "true"; \
-        export KAS_TASK=do_populate_sdk; \
-        kas build $KASFILES; \
-        unset KAS_TASK; \
+      if test "$INCLUDE_SDK" == "true"; then
+        export KAS_TASK=do_populate_sdk;
+        kas build $KASFILES;
+        unset KAS_TASK;
       fi
     - |
-      if [ "$OE_DEPLOYMENT" == "true" ]; then \
-        export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')"; \
-        export MACHINE=$KAS_MACHINE
-        export DISTRO_CODENAME="$(kas shell $KASFILES -c "bitbake -e" | grep ^DISTRO_CODENAME= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')"; \
-        kas shell $KASFILES -c "bitbake package-index"; upload_oe; \
-      else \
-        tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .; \
+      if [ "$OE_DEPLOYMENT" == "true" ]; then
+        kas shell $KASFILES -c "bitbake package-index"; 
+        export DEPLOY_DIR_IPK="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_IPK= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export DEPLOY_DIR_DEB="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_DEB= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export DEPLOY_DIR_RPM="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_RPM= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export DEPLOY_DIR_IMAGE="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_IMAGE= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export LICENSE_DIRECTORY="$(kas shell $KASFILES -c "bitbake -e" | grep ^LICENSE_DIRECTORY= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export TMPDIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^TMPDIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export DISTRO_CODENAME="$(kas shell $KASFILES -c "bitbake -e" | grep ^DISTRO_CODENAME= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export MACHINE=$KAS_MACHINE;
+        upload_oe;
+      else
+        export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .;
       fi
   after_script:
     - rm -rf build/tmp*; sync
