@@ -20,8 +20,8 @@
         export DEPLOY_DIR_DEB="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_DEB= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export DEPLOY_DIR_RPM="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_RPM= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export DEPLOY_DIR_IMAGE="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_IMAGE= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export TMPDIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^TMPDIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export LICENSE_DIRECTORY="$(kas shell $KASFILES -c "bitbake -e" | grep ^LICENSE_DIRECTORY= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export TMPDIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^TMPDIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export DISTRO_CODENAME="$(kas shell $KASFILES -c "bitbake -e" | grep ^DISTRO_CODENAME= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export MACHINE=$KAS_MACHINE;
         upload_oe;
