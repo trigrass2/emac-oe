@@ -1,5 +1,6 @@
 .kas-build:
   stage: build
+  dependencies: []
   variables:
     KASFILES: kas/machines/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
   tags:
