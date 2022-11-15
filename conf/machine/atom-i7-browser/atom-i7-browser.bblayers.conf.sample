@@ -1,6 +1,0 @@
-## Included from machine/atom-i7-browser.bblayers.conf.sample
-
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-  ${INTEL_RECIPES} \
-"

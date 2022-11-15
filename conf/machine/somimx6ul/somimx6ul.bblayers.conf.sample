@@ -1,6 +1,0 @@
-## Included from machine/somimx6ul/somimx6ul.bblayers.conf.sample
-
-BBLAYERS = " \
-  ${CORE_RECIPES} \
-  ${NXP_RECIPES} \
-"

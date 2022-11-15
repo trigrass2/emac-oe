@@ -10,7 +10,7 @@ PREFERRED_PROVIDER_virtual/base-utils =   "${@bb.utils.contains('EMAC_SHELLMANAG
 
 PREFERRED_PROVIDER_virtual/update-alternatives = "${@bb.utils.contains('EMAC_PACKAGEMANAGER', 'deb', 'dpkg', 'opkg-utils', d )}"
 
-PREFERRED_PROVIDER_virtual/update-alternatives-native = "${@bb.utils.contains('EMAC_PACKAGEMANAGER', 'deb', 'dpkg-native', 'opkg-utils-native', d )}"
+PREFERRED_PROVIDER_virtual/update-alternatives-native = "opkg-utils-native"
 
 
 ## run time

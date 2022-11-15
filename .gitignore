@@ -1,3 +1,2 @@
-*.old
-meta-emac-bsp/conf/machine/*.conf
-.repo/*
+layers/
+build/

@@ -1,0 +1,11 @@
+header:
+  version: 12
+
+repos:
+  meta-emac:
+    url: http://git.emacinc.com/OE/emac-oe
+    path: build/layers/emac-oe
+    refspec: btisler/kirkstone-next
+    layers:
+      meta-emac:
+        

@@ -1,0 +1,7 @@
+header:
+  version: 12
+  includes:
+    - kas/emac-core.yml
+    - kas/repos/meta-intel.yml
+
+machine: atom-i7-browser

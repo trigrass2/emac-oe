@@ -1,0 +1,7 @@
+header:
+  version: 12
+  includes:
+    - kas/emac-core.yml
+    - kas/repos/meta-atmel.yml
+
+machine: ipac9x25
