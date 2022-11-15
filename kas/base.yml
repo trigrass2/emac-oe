@@ -36,7 +36,7 @@ local_conf_header:
     PATCHRESOLVE = "noop"
     
   base_extra_build_info: |
-    IMAGE_BUILDINFO_VARS += " CI_REPOSITORY_URL CI_COMMIT_BRANCH CLIENT_NAME "
+    IMAGE_BUILDINFO_VARS_append = " CI_REPOSITORY_URL CI_COMMIT_BRANCH CLIENT_NAME "
 
   sshkeys: |
     CORE_IMAGE_EXTRA_INSTALL += "ssh-pregen-hostkeys"
