@@ -3,4 +3,4 @@ build-atom-i7-browser:
   variables:
     KAS_MACHINE: atom-i7-browser
   rules:
-    - if: $GIT_MACHINE == "atom-i7-browser" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "atom-i7-browser" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"

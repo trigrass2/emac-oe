@@ -6,7 +6,9 @@ variables:
 
 include:
   - local: "kas/gitlab-ci/basic.yml"
-  - local: "kas/gitlab-ci/arm-machines.yml"
+  - local: "kas/gitlab-ci/atmel-machines.yml"
+  - local: "kas/gitlab-ci/nxp-machines.yml"
+  - local: "kas/gitlab-ci/ti-machines.yml"
   - local: "kas/gitlab-ci/x86-machines.yml"
 
 stages:
