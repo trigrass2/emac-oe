@@ -3,5 +3,6 @@ header:
   includes:
     - kas/emac-core.yml
     - kas/repos/meta-freescale.yml
+    - kas/repos/meta-qt5.yml
 
-machine: somimx6
+machine: somimx6q-ha

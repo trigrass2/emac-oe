@@ -5,9 +5,9 @@ build-som3354:
   rules:
     - if: $GIT_MACHINE == "som3354" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "all"
 
-build-som3517:
+build-som5728:
   extends: .kas-build
   variables:
-    KAS_MACHINE: som3517
+    KAS_MACHINE: som5728
   rules:
-    - if: $GIT_MACHINE == "som3517" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "som5728" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "all"

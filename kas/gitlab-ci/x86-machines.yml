@@ -1,6 +1,27 @@
-build-atom-i7-browser:
+build-genericx86:
   extends: .kas-build
   variables:
-    KAS_MACHINE: atom-i7-browser
+    KAS_MACHINE: genericx86
   rules:
-    - if: $GIT_MACHINE == "atom-i7-browser" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "genericx86" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-genericx86-64:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: genericx86-64
+  rules:
+    - if: $GIT_MACHINE == "genericx86-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-intel-core2-32:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: intel-core2-32
+  rules:
+    - if: $GIT_MACHINE == "intel-core2-32" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-intel-corei7-64:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: intel-corei7-64
+  rules:
+    - if: $GIT_MACHINE == "intel-corei7-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"

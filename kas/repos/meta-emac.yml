@@ -6,5 +6,5 @@ repos:
     url: http://git.emacinc.com/OE/emac-oe
     path: build/layers/emac-oe
     layers:
-      meta-emac:
+      .: excluded
         

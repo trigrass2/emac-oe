@@ -7,6 +7,7 @@ header:
 repos:
   meta-emac:
     layers:
+      meta-emac-bsp:
       meta-emac-ti:
   meta-ti:
     url: http://git.ti.com/git/arago-project/meta-ti.git

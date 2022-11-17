@@ -6,6 +6,7 @@ header:
 repos:
   meta-emac:
     layers:
+      meta-emac-bsp:
       meta-emac-atmel:
   meta-atmel:
     url: https://github.com/linux4sam/meta-atmel

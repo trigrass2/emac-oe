@@ -5,13 +5,6 @@ build-somimx6:
   rules:
     - if: $GIT_MACHINE == "somimx6" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"
 
-build-somimx6q-ha:
-  extends: .kas-build
-  variables:
-    KAS_MACHINE: somimx6q-ha
-  rules:
-    - if: $GIT_MACHINE == "somimx6q-ha" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"
-
 build-somimx6ul:
   extends: .kas-build
   variables:

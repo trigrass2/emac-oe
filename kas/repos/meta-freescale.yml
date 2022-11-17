@@ -6,6 +6,7 @@ header:
 repos:
   meta-emac:
     layers:
+      meta-emac-bsp:
       meta-emac-freescale:
   meta-freescale:
     url: https://github.com/Freescale/meta-freescale

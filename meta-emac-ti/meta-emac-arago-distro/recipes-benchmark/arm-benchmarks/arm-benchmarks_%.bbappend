@@ -1,1 +1,0 @@
-SRCIPK_SRC_DIR = "${S}/${PLATFORM_ARCH}"

@@ -5,6 +5,13 @@ build-ipac9x25:
   rules:
     - if: $GIT_MACHINE == "ipac9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
 
+build-som9x25:
+  extends: .kas-build
+  variables:
+    KAS_MACHINE: som9x25
+  rules:
+    - if: $GIT_MACHINE == "som9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+
 build-soma5d36:
   extends: .kas-build
   variables:
