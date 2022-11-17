@@ -2,10 +2,7 @@ header:
   version: 12
   includes:
     - kas/emac-core.yml
+    - kas/repos/meta-yocto-bsp.yml
 
 machine: genericx86
-
-repos:
-  poky:
-    layers:
-      meta-yocto-bsp:
+target: core-image-base

@@ -29,8 +29,8 @@ local_conf_header:
   emac_display: EMAC_DISPLAY ?= "none"
   emac_shellmanager: EMAC_SHELLMANAGER ?= "coreutils"
   emac_initmanager: EMAC_INITMANAGER ?= "systemd"
-  emac_networkmanger: EMAC_NETWORKMANGER ?= "networkmanager"
+  emac_networkmanger: EMAC_NETWORKMANGER ?= "systemd-networkd"
   emac_audiomanager: EMAC_AUDIOMANAGER ?= "alsa"
-  emac_packagemanager: EMAC_PACKAGEMANAGER ?= "deb"
+  emac_packagemanager: EMAC_PACKAGEMANAGER ?= "ipk"
 
   client_name: CLIENT_NAME ?= "emac"

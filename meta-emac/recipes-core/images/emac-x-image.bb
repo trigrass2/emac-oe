@@ -14,5 +14,3 @@ IMAGE_INSTALL:append = " \
 
 IMAGE_TYPE = "X11 Basic"
 BUILD_TYPE = "x11"
-
-PART_NUMBER = "x windows"

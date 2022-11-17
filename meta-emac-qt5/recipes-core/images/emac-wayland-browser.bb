@@ -13,5 +13,5 @@ change_hostname () {
 }
 
 ROOTFS_POSTPROCESS_COMMAND += "change_hostname;"
-PART_NUMBER = "SL054-01LS10-002.tgz"
+
 

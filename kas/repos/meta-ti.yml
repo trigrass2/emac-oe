@@ -12,3 +12,5 @@ repos:
   meta-ti:
     url: http://git.ti.com/git/arago-project/meta-ti.git
     path: build/layers/meta-ti
+    layers:
+      meta-ti-bsp:
