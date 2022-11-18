@@ -5,12 +5,22 @@ build-genericx86:
   rules:
     - if: $GIT_MACHINE == "genericx86" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
 
-build-genericx86-64:
+build-genericx86-i586:
   extends: .kas-build
   variables:
-    KAS_MACHINE: genericx86-64
+    KAS_MACHINE: genericx86-i586
   rules:
-    - if: $GIT_MACHINE == "genericx86-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "genericx86-i586" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+# only build the i586 for legacy support
+# all newer product is x86_64 with EFI
+# all legacy product is x86-i586 with pcbios/efi
+# build-genericx86-64:
+#   extends: .kas-build
+#   variables:
+#     KAS_MACHINE: genericx86-64
+#   rules:
+#     - if: $GIT_MACHINE == "genericx86-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
 
 build-intel-core2-32:
   extends: .kas-build

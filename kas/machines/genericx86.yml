@@ -6,3 +6,7 @@ header:
 
 machine: genericx86
 target: core-image-base
+
+local_conf_header:
+  legacy_boot_wks: |
+    WKS_FILE="genericx86-legacyboot.wks"
