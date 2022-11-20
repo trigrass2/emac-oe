@@ -58,6 +58,8 @@ RRECOMMENDS_${PN} = " \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
+    ${@bb.utils.contains("MACHINE_FEATURES", "sound", " ${PN}-sound ", '',d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "can", " ${PN}-can ", "", d)} \
 "
 
 SUMMARY_${PN}-util = "EMAC OE Core Utilities"
