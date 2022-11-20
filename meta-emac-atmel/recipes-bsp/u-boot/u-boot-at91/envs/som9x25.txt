@@ -1,0 +1,11 @@
+som9x25_112_test=test -n $carrier && test $carrier = 112 && setenv board_name som9x25-112
+som9x25_150_test=test -n $carrier && test $carrier = 150 && setenv board_name som9x25-150
+bootcmd=run at91_test; run bootcmd_boot;
+at91_test=run som9x25_112_test; run som9x25_150_test; setenv at91_dtb_config '#'${board_name};
+bootargs=console=ttyS0,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 rootwait
+bootcmd_boot=fatload mmc 0:1 0x24000000 at91sam9x5ek.itb; bootm 0x24000000${at91_dtb_config}
+bootdelay=1
+ethact=gmac0
+stderr=serial
+stdin=serial
+stdout=serial
