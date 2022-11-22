@@ -2,7 +2,7 @@ header:
   version: 12
 
 repos:
-  meta-emac:
+  emac-oe:
     url: http://git.emacinc.com/OE/emac-oe
     path: build/layers/emac-oe
     refspec: kirkstone-next

@@ -1,25 +1,13 @@
 header:
   version: 12
   includes:
-    - kas/base.yml
-    - kas/repos/meta-openembedded.yml
-    - kas/repos/meta-emac.yml
+    - kas/layers/meta-emac.yml
 
 distro: emac
-target: emac-image
+target: core-image-base
 
 env:
   DISTRO_CODENAME: "spike"
-
-repos:
-  meta-emac:
-    layers:
-      meta-emac:
-  meta-openembedded:
-    layers:
-      meta-multimedia:
-      meta-perl:
-
 
 local_conf_header:
   

@@ -2,7 +2,10 @@
   stage: build
   dependencies: []
   variables:
-    KASFILES: kas/machines/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
+    KAS_MACHINES_FILE: genericx86.yml
+    KAS_DISTROS_FILE: emac.yml
+    KAS_OPTION_FILES: kas/options/persistent_downloads_sstate.yml
+    KASFILES: kas/distros/$KAS_DISTROS_FILE:kas/machines/$KAS_MACHINES_FILE:$KAS_OPTION_FILES
   tags:
     - oe-builder
   script:
@@ -24,7 +27,7 @@
         export LICENSE_DIRECTORY="$(kas shell $KASFILES -c "bitbake -e" | grep ^LICENSE_DIRECTORY= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export TMPDIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^TMPDIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export DISTRO_CODENAME="$(kas shell $KASFILES -c "bitbake -e" | grep ^DISTRO_CODENAME= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export MACHINE=$KAS_MACHINE;
+        export MACHINE="$(kas shell $KASFILES -c "bitbake -e" | grep ^MACHINE= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         upload_oe;
       else
         export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";

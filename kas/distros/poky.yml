@@ -1,0 +1,20 @@
+# Poky Distro Layer
+header:
+  version: 12
+  includes:
+    - kas/core.yml
+
+distro: poky
+
+target: core-image-base
+
+repos:
+  poky:
+    layers:
+      meta-poky:
+
+env:
+  DISTRO_CODENAME: "kirkstone"
+
+local_conf_header:
+  _distro_codename: DISTRO_CODENAME ?= "kirkstone"

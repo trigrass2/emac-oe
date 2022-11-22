@@ -6,5 +6,4 @@ repos:
     url: https://git.yoctoproject.org/meta-arm
     path: build/layers/meta-arm
     layers:
-      meta-arm:
-      meta-arm-toolchain:
+      .: excluded

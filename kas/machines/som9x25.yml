@@ -1,7 +1,6 @@
 header:
   version: 12
   includes:
-    - kas/emac-core.yml
-    - kas/repos/meta-atmel.yml
+    - kas/layers/meta-emac-atmel.yml
 
 machine: som9x25

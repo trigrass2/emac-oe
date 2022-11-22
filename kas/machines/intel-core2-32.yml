@@ -1,7 +1,6 @@
 header:
   version: 12
   includes:
-    - kas/emac-core.yml
-    - kas/repos/meta-intel.yml
+    - kas/layers/meta-emac-intel.yml
 
 machine: intel-core2-32

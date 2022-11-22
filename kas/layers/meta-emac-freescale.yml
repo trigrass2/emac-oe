@@ -1,0 +1,11 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/meta-freescale.yml
+    - kas/repos/emac-oe.yml
+    - kas/layers/meta-emac-bsp.yml
+
+repos:
+  emac-oe:
+    layers:
+      meta-emac-freescale:

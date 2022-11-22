@@ -1,16 +1,17 @@
+# OE core poky/meta
 header:
   version: 12
   includes:
    - kas/repos/poky.yml
 
-distro: poky
-machine: unset
-
-target: core-image-base
-
 defaults:
   repos:
     refspec: kirkstone
+
+repos:
+  poky:
+    layers:
+      meta:
 
 env:
   CI_REPOSITORY_URL: "Not built via Gitlab CI/CD"

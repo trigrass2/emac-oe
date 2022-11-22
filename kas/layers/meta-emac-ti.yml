@@ -1,0 +1,14 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/meta-ti.yml
+    - kas/repos/emac-oe.yml
+    - kas/layers/meta-emac-bsp.yml
+
+repos:
+  emac-oe:
+    layers:
+      meta-emac-ti:
+  meta-ti:
+    layers:
+      meta-ti-bsp:

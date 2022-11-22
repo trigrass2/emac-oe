@@ -1,19 +1,13 @@
 header:
   version: 12
   includes:
-    - kas/repos/meta-emac.yml
+    - kas/repos/meta-arm.yml
 
 repos:
-  meta-emac:
-    layers:
-      meta-emac-bsp:
-      meta-emac-atmel:
   meta-atmel:
     url: https://github.com/linux4sam/meta-atmel
     path: build/layers/meta-atmel
   meta-arm:
-    url: https://git.yoctoproject.org/meta-arm
-    path: build/layers/meta-arm
     layers:
       meta-arm:
       meta-arm-toolchain:

@@ -6,7 +6,4 @@ repos:
     url: https://git.openembedded.org/meta-openembedded
     path: build/layers/meta-openembedded
     layers:
-      meta-filesystems:
-      meta-networking:
-      meta-oe:
-      meta-python:
+      .: excluded
