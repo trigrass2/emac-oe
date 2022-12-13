@@ -1,5 +1,5 @@
 /*
- * som-a5d35.dtsi - Device Tree Include file for the SoM-A5D35.
+ * som-a5d35-150es.dtsi - Device Tree file for the SoM-A5D35 with SoM-150ES.
  *
  *  Copyright (C) 2022 EMAC Inc.
  *
@@ -71,6 +71,7 @@
 			regulator-name = "3P3_VCC";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
+            vin-supply = <&carrier_5v_vcc>;
 		};
         som_3v3_vcc: som-3v3-vcc {
             vin-supply = <&carrier_3v3_vcc>;
@@ -285,6 +286,7 @@
 &ebi {
     pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_ebi_addr_6>;
+    status = "okay";
     pldioA: cpld@3,2 {
         compatible = "brcm,bcm6345-gpio";
         reg-names = "dat", "dirout";
@@ -500,23 +502,23 @@
 		"",
 		"",
 		"",
-		"HDR4-23 I2C0-SDA",	// PA30 / TWD0 / URXD1
-		"HDR4-21 I2C0-SCL";	// PA31 / TWCK0 / UTXD1
+		"HDR4-23",	// PA30 / TWD0 / URXD1
+		"HDR4-21";	// PA31 / TWCK0 / UTXD1
 };
 &pioB {
 	gpio-line-names = 
 		"",
 		"",
-		"SCLK-5 cs4271",	// PB2 / TK1
-		"LRCK-4 cs4271",	// PB3 / TF1
+		"I2S_SCK",	// PB2 / TK1
+		"I2S_LRCLK",	// PB3 / TF1
 		"",
 		"",
-		"SDIN-7 cs4271",	// PB6 / TD1
+		"I2C_DOUT",	// PB6 / TD1
 		"HDR4-35",	// PB7 / RK1
 		"COM-C DTR1",	// PB8 / PWMH2
 		"",
 		"",	// PB10 / RF1 //  no rfsync of ssc
-		"SDOUT-6 cs4271",	// PB11 / RD1
+		"I2S_DIN",	// PB11 / RD1
 		"COM-C RI1",	// PB12 / PWMH3
 		"",
 		"CANRX1",	// PB14 / CANRX1
@@ -571,7 +573,7 @@
 		"",
 		"",
 		"",
-		"HDR4-19",	// PC31 / FIQ / PWMFI1
+		"HDR4-19";	// PC31 / FIQ / PWMFI1
 };
 &pioD {
 	gpio-line-names = 
@@ -606,7 +608,7 @@
 		"",
 		"",
 		"USB_VBUS",	// PD30 / AD10 / PCK0
-		"",
+		"";
 };
 &pioE {
 	gpio-line-names = 
@@ -641,5 +643,5 @@
 		"",
 		"",
 		"",
-		"CPLD IRQ",	// PE31 / IRQ / PWML1
+		"CPLD IRQ";	// PE31 / IRQ / PWML1
 };

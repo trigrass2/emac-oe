@@ -1,5 +1,5 @@
 /*
- * som-a5d35.dtsi - Device Tree Include file for the SoM-A5D35.
+ * som-a5d35.dtsi - Device Tree file for the SoM-A5D35.
  *
  *  Copyright (C) 2022 EMAC Inc.
  *
@@ -421,7 +421,7 @@
 		"",
 		"",
 		"",
-		"pin-75",	// PC31 / FIQ / PWMFI1
+		"pin-75";	// PC31 / FIQ / PWMFI1
 };
 &pioD {
 	gpio-line-names = 
@@ -456,7 +456,7 @@
 		"",
 		"",
 		"pin-45",	// PD30 / AD10 / PCK0
-		"",
+		"";
 };
 &pioE {
 	gpio-line-names = 
@@ -491,5 +491,5 @@
 		"pin-98",	// PE28 / EBI_NCS2 / TIOB2
 		"",
 		"",
-		"pin-32",	// PE31 / IRQ / PWML1
+		"pin-32";	// PE31 / IRQ / PWML1
 };
