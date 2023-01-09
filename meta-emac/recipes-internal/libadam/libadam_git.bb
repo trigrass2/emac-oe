@@ -15,7 +15,14 @@ do_install() {
     cp ${S}/libadammod.a ${D}${libdir}/
 }
 
-FILES:${PN} = " \
-    ${includedir}/adam-module.h \
+FILES:${PN}-staticdev = " \
     ${libdir}/libadammod.a \
 "
+FILES:${PN}-dev = " \
+    ${includedir}/adam-module.h \
+"
+PACKAGES = "${PN} ${PN}-dev ${PN}-dbg ${PN}-staticdev"
+
+RDEPENDS_${PN}-staticdev = "${PN}-dev"
+RDEPENDS_${PN}-dev = ""
+RDEPENDS_${PN}-dbg = ""
