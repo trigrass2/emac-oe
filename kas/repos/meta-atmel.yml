@@ -2,6 +2,7 @@ header:
   version: 12
   includes:
     - kas/repos/meta-arm.yml
+    - kas/repos/meta-openembedded.yml
 
 repos:
   meta-atmel:
@@ -11,3 +12,6 @@ repos:
     layers:
       meta-arm:
       meta-arm-toolchain:
+  meta-openembedded:
+    layers:
+      meta-oe:

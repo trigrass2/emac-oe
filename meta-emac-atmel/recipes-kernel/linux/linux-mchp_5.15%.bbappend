@@ -7,7 +7,7 @@ SRC_URI:append = " \
     file://dts/ \
 "
 
-COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25|soma5d36)"
+COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25|soma5d35|soma5d36)"
 
 do_configure:prepend(){
     for ext_dts in ${WORKDIR}/dts/${ARCH}/*.dts*; do

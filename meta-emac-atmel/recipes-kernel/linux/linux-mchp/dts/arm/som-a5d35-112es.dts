@@ -215,25 +215,25 @@
 
 		channel@4 {
 			reg = <4>;
-			adi,mode = <CH_MODE_DAC_AND_ADC>;
+			adi,mode = <CH_MODE_GPIO>;
 			adi,off-state = <CH_OFFSTATE_PULLDOWN>;
 		};
 
 		channel@5 {
 			reg = <5>;
-			adi,mode = <CH_MODE_DAC_AND_ADC>;
+			adi,mode = <CH_MODE_GPIO>;
 			adi,off-state = <CH_OFFSTATE_PULLDOWN>;
 		};
 
 		channel@6 {
 			reg = <6>;
-			adi,mode = <CH_MODE_DAC_AND_ADC>;
+			adi,mode = <CH_MODE_GPIO>;
 			adi,off-state = <CH_OFFSTATE_PULLDOWN>;
 		};
 
 		channel@7 {
 			reg = <7>;
-			adi,mode = <CH_MODE_DAC_AND_ADC>;
+			adi,mode = <CH_MODE_GPIO>;
 			adi,off-state = <CH_OFFSTATE_PULLDOWN>;
 		};
 
