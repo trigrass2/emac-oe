@@ -19,7 +19,7 @@ UUT_SRCREV = "15d4ca9e34cd75881578bd524bc3ab407ecda5c6"
 NANOPB_SRCREV = "605b44c0e9d24e1bf8ff94abf5d863e5f7beb4e6"
 
 SRC_URI = "\
-    git://git@git.emacinc.com/OE/applications/uut-server.git;protocol=https;branch=main;rev=${UUT_SRCREV};destsuffix=git \
+    git://git.emacinc.com/OE/applications/uut-server.git;protocol=http;branch=main;rev=${UUT_SRCREV};destsuffix=git \
     git://github.com/nanopb/nanopb.git;protocol=https;branch=master;rev=${NANOPB_SRCREV};destsuffix=nanopb \
 "
 
