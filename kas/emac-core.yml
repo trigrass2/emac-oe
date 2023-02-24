@@ -21,6 +21,8 @@ repos:
 local_conf_header:
   
   _distro_codename: DISTRO_CODENAME ?= "duncan"
+
+  prserver_host: PRSERV_HOST = "localhost:0"
   
   emac_display_hw: EMAC_DISPLAY_HW ?= "none"
   emac_display: EMAC_DISPLAY ?= "none"
