@@ -17,15 +17,10 @@
     - |
       if [ "$OE_DEPLOYMENT" == "true" ]; then
         kas shell $KASFILES -c "bitbake package-index"; 
-        export DEPLOY_DIR_IPK="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_IPK= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DEPLOY_DIR_DEB="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_DEB= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DEPLOY_DIR_RPM="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_RPM= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DEPLOY_DIR_IMAGE="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_IMAGE= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export LICENSE_DIRECTORY="$(kas shell $KASFILES -c "bitbake -e" | grep ^LICENSE_DIRECTORY= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export TMPDIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^TMPDIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DISTRO_CODENAME="$(kas shell $KASFILES -c "bitbake -e" | grep ^DISTRO_CODENAME= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export MACHINE=$KAS_MACHINE;
+        export ARCHIVE_PATH="$(kas shell $KASFILES -c "bitbake -e" | grep ^ARCHIVE_PATH= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         upload_oe;
+        upload_oe_archive;
       else
         export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .;

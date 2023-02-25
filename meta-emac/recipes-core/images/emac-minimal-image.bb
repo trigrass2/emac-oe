@@ -21,7 +21,8 @@ IMAGE_INSTALL_append = " \
 "
 IMAGE_FEATURES += "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", " package-management ", "", d)}"
 
-
-PACKAGE_FEED_URIS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "http://ftp.emacinc.com/ota/${MACHINE}/${DISTRO_CODENAME}", "", d)}"
+PACKAGE_ARCHIVE_PATH ??="nightly"
+ARCHIVE_PATH = "${DISTRO_CODENAME}-${DISTRO_VERSION}/${PACKAGE_ARCHIVE_PATH}/${MACHINE}"
+PACKAGE_FEED_URIS ?= "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "http://ftp.emacinc.com/openembedded-sw/${ARCHIVE_PATH}", "", d)}"
 PACKAGE_FEED_BASE_PATHS = "${@bb.utils.contains_any("EMAC_PACKAGEMANAGER", "deb ipk rpm", "${EMAC_PACKAGEMANAGER}", "", d)}"
-PACKAGE_FEED_ARCHS = "${@remove_duplicate_values(d, "PACKAGE_ARCHS", "ALL_MULTILIB_PACKAGE_ARCHS")}"
+PACKAGE_FEED_ARCHS ?= "${@remove_duplicate_values(d, "PACKAGE_ARCHS", "ALL_MULTILIB_PACKAGE_ARCHS")}"
