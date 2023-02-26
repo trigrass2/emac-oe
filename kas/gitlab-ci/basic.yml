@@ -7,11 +7,14 @@
     - oe-builder
   script:
     - echo $KASFILES
+    - export ARCHIVE_PATH="$(kas shell $KASFILES -c "bitbake -e" | grep ^ARCHIVE_PATH= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+    - rm -rf build/buildhistory/ build/cache/
+    - rm -rf build/tmp*
     - |
-      if [ -f "/srv/yocto/prserv/${KAS_MACHINE}-prserv.sqlite3" ]; then
-        echo "Found PR Service";
-        mkdir -p build/cache/;
-        cp /srv/yocto/prserv/${KAS_MACHINE}-prserv.sqlite3 build/cache/prserv.sqlite3;
+      if [ -f "/srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar" ]; then
+        echo "Found Persistent Data";
+        mkdir -p build/;
+        tar xf /srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar -C build/;
       fi
     - kas build --update --force-checkout $KASFILES
     - |
@@ -23,7 +26,6 @@
     - |
       if [ "$OE_DEPLOYMENT" == "true" ]; then
         kas shell $KASFILES -c "bitbake package-index"; 
-        export ARCHIVE_PATH="$(kas shell $KASFILES -c "bitbake -e" | grep ^ARCHIVE_PATH= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         upload_oe;
         upload_oe_archive;
@@ -31,8 +33,10 @@
         export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .;
       fi
-    - cp build/cache/prserv.sqlite3 /srv/yocto/prserv/${KAS_MACHINE}-prserv.sqlite3
+    - mkdir -p /srv/yocto/persist/${ARCHIVE_PATH}
+    - tar cf /srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar -C build/ buildhistory/ cache/
   after_script:
+    - rm -rf build/buildhistory/ build/cache/; sync
     - rm -rf build/tmp*; sync
 
   artifacts:
