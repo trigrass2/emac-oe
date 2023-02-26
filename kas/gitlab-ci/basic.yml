@@ -7,7 +7,12 @@
     - oe-builder
   script:
     - echo $KASFILES
-    - if [ -n "$(docker container ls | grep docker-prserv-dunfell)" ]; then echo "Found PR Service"; export PRSERV_HOST="127.0.0.1:8585"; fi
+    - |
+      if [ -f "/srv/yocto/prserv/${KAS_MACHINE}-prserv.sqlite3" ]; then
+        echo "Found PR Service";
+        mkdir -p build/cache/;
+        cp /srv/yocto/prserv/${KAS_MACHINE}-prserv.sqlite3 build/cache/prserv.sqlite3;
+      fi
     - kas build --update --force-checkout $KASFILES
     - |
       if test "$INCLUDE_SDK" == "true"; then
@@ -26,6 +31,7 @@
         export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .;
       fi
+    - cp build/cache/prserv.sqlite3 /srv/yocto/prserv/${KAS_MACHINE}-prserv.sqlite3
   after_script:
     - rm -rf build/tmp*; sync
 
