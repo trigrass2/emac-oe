@@ -7,6 +7,7 @@
     - oe-builder
   script:
     - echo $KASFILES
+    - if [ -n "$(docker container ls | grep docker-prserv-dunfell)" ]; then echo "Found PR Service"; export PRSERV_HOST="127.0.0.1:8585"; fi
     - kas build --update --force-checkout $KASFILES
     - |
       if test "$INCLUDE_SDK" == "true"; then

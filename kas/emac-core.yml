@@ -10,6 +10,7 @@ target: emac-image
 
 env:
   DISTRO_CODENAME: "duncan"
+  PRSERV_HOST: "localhost:0"
 
 repos:
   meta-openembedded:
@@ -22,7 +23,7 @@ local_conf_header:
   
   _distro_codename: DISTRO_CODENAME ?= "duncan"
 
-  prserver_host: PRSERV_HOST = "localhost:0"
+  prserver_host: PRSERV_HOST ?= "localhost:0"
   archive_path: |
     PACKAGE_ARCHIVE_PATH ??="nightly"
     ARCHIVE_PATH ?= "${DISTRO_CODENAME}-${DISTRO_VERSION}/${PACKAGE_ARCHIVE_PATH}/${MACHINE}"
