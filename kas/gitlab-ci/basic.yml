@@ -36,6 +36,7 @@
     - mkdir -p /srv/yocto/persist/${ARCHIVE_PATH}
     - tar cf /srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar -C build/ buildhistory/ cache/
   after_script:
+    - rm -rf build/buildhistory/.git/
     - rm -rf build/buildhistory/ build/cache/; sync
     - rm -rf build/tmp*; sync
 
