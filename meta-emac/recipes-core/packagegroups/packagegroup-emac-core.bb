@@ -14,6 +14,7 @@ inherit packagegroup
 PROVIDES = " \
     ${PN} \
     ${PN}-util \
+    ${PN}-user-utils \
     ${PN}-networking \
     ${PN}-packagemanagement \
     ${PN}-wifi  \
@@ -30,6 +31,7 @@ PROVIDES = " \
 PACKAGES = " \
     ${PN} \
     ${PN}-util \
+    ${PN}-user-utils \
     ${PN}-networking \
     ${PN}-packagemanagement \
     ${@bb.utils.contains("MACHINE_FEATURES", "x86", " packagegroup-emac-core-x86 ", "", d)} \
@@ -56,6 +58,7 @@ RRECOMMENDS:${PN} = " \
     i2c-tools \
     tzcode \
     ${PN}-util \
+    ${PN}-user-utils \
     ${PN}-networking \
     ${PN}-packagemanagement \
 "
@@ -66,6 +69,11 @@ RRECOMMENDS:${PN}-util = " \
     sudo \
     usbutils \
     rng-tools \
+"
+SUMMARY:${PN}-user-utils = "EMAC OE Core User Utilities"
+RRECOMMENDS:${PN}-user-utils = " \
+    nano \
+    vim-tiny \
 "
 
 SUMMARY:${PN}-networking = "EMAC OE Networking Utilities"
