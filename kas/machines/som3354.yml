@@ -1,6 +1,13 @@
 header:
   version: 12
   includes:
-    - kas/layers/meta-emac-ti.yml
+    - kas/repos/meta-ti.yml
+    - kas/layers/meta-emac-bsp.yml
 
 machine: som3354
+
+repos:
+  meta-ti:
+    layers:
+      meta-ti-bsp:
+      meta-ti-extras:

@@ -2,54 +2,66 @@
   stage: build
   dependencies: []
   variables:
-    KAS_MACHINES_FILE: genericx86.yml
-    KAS_DISTROS_FILE: emac.yml
-    KAS_OPTION_FILES: kas/options/persistent_downloads_sstate.yml
-    KASFILES: kas/distros/$KAS_DISTROS_FILE:kas/machines/$KAS_MACHINES_FILE:$KAS_OPTION_FILES
+    KAS_MACHINES_FILE: "kas/machines/genericx86.yml:"
+    KAS_DISTROS_FILE: "kas/distros/poky.yml:"
+    KAS_OPTION_FILES: "kas/options/persistent_downloads_sstate.yml:"
+    KAS_SOFTWARE_STACK: ""
+    KASFILES: "${KAS_DISTROS_FILE}${KAS_MACHINES_FILE}${KAS_SOFTWARE_STACK}${KAS_OPTION_FILES}kas/gitlab-ci/current-branch.yml"
   tags:
     - oe-builder
   script:
-    - echo $KASFILES
+    - export ARCHIVE_PATH="$(kas shell $KASFILES -c "bitbake -e" | grep ^ARCHIVE_PATH= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+    - rm -rf build/buildhistory/ build/cache/
+    - rm -rf build/tmp*
+    - |
+      if [ -f "/srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar" ]; then
+        echo "Found Persistent Data";
+        mkdir -p build/;
+        tar xf /srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar -C build/;
+      fi
+    - |
+      if [ -n "$CI_COMMIT_BRANCH" ]; then
+        echo "KAS: $CI_COMMIT_BRANCH"
+        sed -i "s|CURRENTREF|$CI_COMMIT_BRANCH|g" kas/gitlab-ci/current-branch.yml
+      else
+        if [ -n "$CI_COMMIT_TAG" ]; then
+          echo "KAS: $CI_COMMIT_TAG"
+          sed -i "s|CURRENTREF|$CI_COMMIT_TAG|g" kas/gitlab-ci/current-branch.yml
+        else
+          echo "KAS: $CI_COMMIT_SHA"
+          sed -i "s|CURRENTREF|$CI_COMMIT_SHA|g" kas/gitlab-ci/current-branch.yml
+        fi;
+      fi
     - kas build --update --force-checkout $KASFILES
+    - if [ -f build/bitbake.lock ]; then rm build/bitbake.*; fi
     - |
       if test "$INCLUDE_SDK" == "true"; then
         export KAS_TASK=do_populate_sdk;
         kas build $KASFILES;
         unset KAS_TASK;
+        if [ -f build/bitbake.lock ]; then rm build/bitbake.*; fi
       fi
     - |
       if [ "$OE_DEPLOYMENT" == "true" ]; then
         kas shell $KASFILES -c "bitbake package-index"; 
-        export DEPLOY_DIR_IPK="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_IPK= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DEPLOY_DIR_DEB="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_DEB= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DEPLOY_DIR_RPM="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_RPM= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DEPLOY_DIR_IMAGE="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR_IMAGE= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export LICENSE_DIRECTORY="$(kas shell $KASFILES -c "bitbake -e" | grep ^LICENSE_DIRECTORY= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export TMPDIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^TMPDIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export DISTRO_CODENAME="$(kas shell $KASFILES -c "bitbake -e" | grep ^DISTRO_CODENAME= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        export MACHINE="$(kas shell $KASFILES -c "bitbake -e" | grep ^MACHINE= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
+        export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         upload_oe;
+        upload_oe_archive;
       else
         export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .;
       fi
-  after_script:
-    - rm -rf build/tmp*; sync
+    - mkdir -p /srv/yocto/persist/${ARCHIVE_PATH}
+    - tar cf /srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar -C build/ buildhistory/ cache/
 
+  after_script:
+    - git restore .
+    - if [ -f build/bitbake.lock ]; then rm build/bitbake.*; fi
+    - rm -rf build/tmp*; sync
   artifacts:
     paths:
       - build/conf
       - deploy_dir.tar.gz
-
-wipe-arena:
-  stage: clean
-  dependencies: []
-  tags:
-    - oe-builder
-  when: manual
-  allow_failure: true
-  script:
-    - rm -rf build; sync
 
 wipe-all:
   stage: clean
@@ -59,17 +71,4 @@ wipe-all:
   when: manual
   allow_failure: true
   script:
-    - git clean -f
-    - git clean -f -x
-
-wipe-sstate:
-  stage: clean
-  dependencies: []
-  variables:
-    KASFILES: kas/machine/$KAS_MACHINE.yml:kas/options/persistent_downloads_sstate.yml
-  tags:
-    - oe-builder
-  when: manual
-  allow_failure: true
-  script:
-    - kas shell $KASFILES -c "bitbake world -k -c cleanall"
+    - git clean -fX

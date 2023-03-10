@@ -1,0 +1,7 @@
+header:
+  version: 12
+
+repos:
+  meta-gplv2:
+    url: https://git.yoctoproject.org/meta-gplv2
+    path: build/layers/meta-gplv2

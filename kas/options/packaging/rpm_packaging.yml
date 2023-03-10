@@ -2,5 +2,4 @@ header:
   version: 12
 
 local_conf_header:
-    emac_packagemanager: EMAC_PACKAGEMANAGER ?= "rpm"
     packaging: PACKAGE_CLASSES = "package_rpm"

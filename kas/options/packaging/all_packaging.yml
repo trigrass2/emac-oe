@@ -1,0 +1,5 @@
+header:
+  version: 12
+
+local_conf_header:
+    packaging: PACKAGE_CLASSES = "package_deb package_ipk package_rpm"

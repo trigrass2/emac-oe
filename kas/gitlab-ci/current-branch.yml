@@ -1,0 +1,6 @@
+header:
+  version: 12
+
+repos:
+  emac-oe:
+    refspec: CURRENTREF

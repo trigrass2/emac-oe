@@ -1,9 +1,15 @@
 header:
   version: 12
   includes:
+    - kas/repos/poky.yml
     - kas/layers/meta-emac-bsp.yml
 
 machine: genericx86
+
+repos:
+  poky:
+    layers:
+      meta-yocto-bsp:
 
 local_conf_header:
   legacy_boot_wks: |

@@ -1,0 +1,13 @@
+header:
+  version: 12
+  includes:
+    - kas/base.yml
+
+local_conf_header:
+
+  prserver_host: PRSERV_HOST = "localhost:0"
+  archive_path: |
+    PACKAGE_ARCHIVE_PATH ??="nightly"
+    ARCHIVE_PATH ?= "${DISTRO}-${DISTRO_VERSION}-${DISTRO_CODENAME}/${PACKAGE_ARCHIVE_PATH}/${MACHINE}"
+
+  client_name: CLIENT_NAME ?= "emac"

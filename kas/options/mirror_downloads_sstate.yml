@@ -3,9 +3,9 @@ header:
 
 local_conf_header:
   downloads: |
-    SOURCE_MIRROR_URL ?= "file:///srv/emac-oe/downloads/"
+    SOURCE_MIRROR_URL ?= "file:///srv/yocto/downloads/"
     INHERIT:append = " own-mirrors "
   sstate_cache: |
     SSTATE_MIRRORS ?= "\
-    file://.* file:///srv/emac-oe/${DISTRO_CODENAME}/sstate-cache/PATH \
+    file://.* file:///srv/yocto/sstate-cache/PATH \
     "

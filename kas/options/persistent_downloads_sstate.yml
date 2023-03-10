@@ -3,6 +3,6 @@ header:
 
 local_conf_header:
   downloads: |
-    DL_DIR ?= "/srv/emac-oe/downloads"
+    DL_DIR ?= "/srv/yocto/downloads"
     BB_GENERATE_MIRROR_TARBALLS ?= "1"
-  sstate_cache: SSTATE_DIR ?= "/srv/emac-oe/${DISTRO_CODENAME}/sstate-cache/"
+  sstate_cache: SSTATE_DIR ?= "/srv/yocto/sstate-cache/"
