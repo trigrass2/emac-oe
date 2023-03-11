@@ -13,9 +13,3 @@ repos:
   poky:
     layers:
       meta-poky:
-
-env:
-  DISTRO_CODENAME: "kirkstone"
-
-local_conf_header:
-  _distro_codename: DISTRO_CODENAME ?= "kirkstone"

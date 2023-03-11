@@ -1,13 +1,13 @@
 build-som3354:
   extends: .kas-build
   variables:
-    KAS_MACHINES_FILE: som3354.yml
+    KAS_MACHINES_FILE: "kas/machines/som3354.yml:"
   rules:
     - if: $GIT_MACHINE == "som3354" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "all"
 
 build-som5728:
   extends: .kas-build
   variables:
-    KAS_MACHINES_FILE: som5728.yml
+    KAS_MACHINES_FILE: "kas/machines/som5728.yml:"
   rules:
     - if: $GIT_MACHINE == "som5728" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "all"

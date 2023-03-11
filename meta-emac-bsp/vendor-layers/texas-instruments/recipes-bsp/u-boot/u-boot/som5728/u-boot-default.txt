@@ -1,0 +1,2 @@
+console=ttyS0
+vendor=emac

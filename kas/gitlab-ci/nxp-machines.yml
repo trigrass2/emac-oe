@@ -1,13 +1,13 @@
 build-somimx6:
   extends: .kas-build
   variables:
-    KAS_MACHINES_FILE: somimx6.yml
+    KAS_MACHINES_FILE: "kas/machines/somimx6.yml:"
   rules:
     - if: $GIT_MACHINE == "somimx6" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"
 
 build-somimx6ul:
   extends: .kas-build
   variables:
-    KAS_MACHINES_FILE: somimx6ul.yml
+    KAS_MACHINES_FILE: "kas/machines/somimx6ul.yml:"
   rules:
     - if: $GIT_MACHINE == "somimx6ul" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"

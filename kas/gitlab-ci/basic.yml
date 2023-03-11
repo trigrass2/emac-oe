@@ -3,7 +3,7 @@
   dependencies: []
   variables:
     KAS_MACHINES_FILE: "kas/machines/genericx86.yml:"
-    KAS_DISTROS_FILE: "kas/distros/poky.yml:"
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_OPTION_FILES: "kas/options/persistent_downloads_sstate.yml:"
     KAS_SOFTWARE_STACK: ""
     KASFILES: "${KAS_DISTROS_FILE}${KAS_MACHINES_FILE}${KAS_SOFTWARE_STACK}${KAS_OPTION_FILES}kas/gitlab-ci/current-branch.yml"
