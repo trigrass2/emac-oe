@@ -355,7 +355,7 @@
 	status = "okay";
 	spi-max-frequency = <76800000>;
 	m25p80@0 {
-		compatible = "w25q128jv", "jedec,spi-nor";
+		compatible = "w25q128", "jedec,spi-nor";
 		spi-max-frequency = <76800000>;
 		reg = <0>;
 		spi-tx-bus-width = <1>;
@@ -417,7 +417,8 @@
 		qca,keep-pll-enabled;
 		vddio-supply = <&vddio>;
 		reset-gpios = <&gpio4 25 GPIO_ACTIVE_LOW>;
-    	reset-delay-us = <2>;
+    	reset-assert-us = <500000>;
+		reset-deassert-us = <500000>;
 
 		vddio: vddio-regulator {
 			regulator-min-microvolt = <1500000>;

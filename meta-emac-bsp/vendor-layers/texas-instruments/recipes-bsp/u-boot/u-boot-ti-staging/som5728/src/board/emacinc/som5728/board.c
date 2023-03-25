@@ -526,6 +526,20 @@ static struct cpsw_platform_data cpsw_data = {
 	.version		= CPSW_CTRL_VERSION_2,
 };
 
+int board_phy_config(struct phy_device *phydev)
+{
+#define GPIO_PHY_RST GPIO_TO_PIN(4, 25)
+	int ret = 0;
+	if (phydev->drv->config)
+		ret = phydev->drv->config(phydev);
+	gpio_request(GPIO_PHY_RST, "phy_rst");
+	gpio_direction_output(GPIO_PHY_RST, 0);
+	udelay(500*1000);
+	gpio_direction_output(GPIO_PHY_RST, 1);
+	udelay(500*1000);
+	return ret;
+}
+
 static u64 mac_to_u64(u8 mac[6])
 {
 	int i;
