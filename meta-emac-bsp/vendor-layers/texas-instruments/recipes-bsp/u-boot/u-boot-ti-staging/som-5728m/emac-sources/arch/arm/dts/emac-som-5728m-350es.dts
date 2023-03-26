@@ -1,0 +1,103 @@
+/*
+ * Copyright (C) 2014-2016 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+
+#include "emac-som-5728m.dtsi"
+
+/ {
+	model = "EMAC Inc. SoM-5728M w/ 350ES";
+	compatible = "emac,som-5728m-350es", "emac,som-5728m", "ti,am5728", "ti,dra742", "ti,dra74", "ti,dra7";
+
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		pwms = <&ecap0 0 50000 0>;
+		//enable-gpios = <&gpio6 28 GPIO_ACTIVE_HIGH>;
+		power-supply = <&bl_pwr>;
+		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
+		default-brightness-level = <9>;
+	};
+	panel: display {
+		compatible = "innolux,at070tn92", "simple-panel";
+		backlight = <&backlight>;
+		power-supply = <&vdd_3v3_reg>;
+
+		enable-gpios = <&gpio8 11 GPIO_ACTIVE_HIGH>;
+
+		port {
+			lcd_in: endpoint {
+				remote-endpoint = <&lvds_out>;
+			};
+		};
+	};
+};
+
+// SD Card
+&mmc1 {
+    status = "okay";
+};
+
+// Enable SATA
+&sata_phy {
+	status = "okay";
+};
+&sata {
+	status = "okay";
+};
+
+// usb3.x interface
+&usb1 { 
+	status = "okay";
+};
+&usb2_phy1 {
+	status = "okay";
+};
+
+// usb2.x interface
+&usb2 { 
+	status = "okay";
+};
+&usb2_phy2 {
+	status = "okay";
+};
+
+&mac{
+	status = "okay";
+};
+
+&davinci_mdio {
+    status = "okay";
+};
+
+&cpsw_emac0 {
+    status = "okay";
+};
+
+
+// Display info
+&dss {
+	status = "okay";
+};
+&lvds_out {
+	remote-endpoint = <&lcd_in>;
+};
+&hdmi {
+	status = "okay";
+};
+&tpd12s015_enc {
+	status = "okay";
+};
+&hdmi0_conn {
+	status = "okay";
+};
+
+
+
+
+
+
+

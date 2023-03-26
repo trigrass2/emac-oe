@@ -1,6 +1,0 @@
-EMAC SoM-5728
-M:	Brenden Tisler <support@emacinc.com.com>
-S:	Maintained
-F:	board/emacinc/som5728/
-F:	include/configs/emac-som5728.h
-F:	configs/som5728_defconfig
