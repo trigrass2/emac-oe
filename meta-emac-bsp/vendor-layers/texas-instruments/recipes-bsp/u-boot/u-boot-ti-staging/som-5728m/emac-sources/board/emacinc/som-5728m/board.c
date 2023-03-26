@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-2.0+
 /*
- * Copyright (C) 2014 Texas Instruments Incorporated - http://www.ti.com
+ * Copyright (C) 2023 EMAC Incorporated - http://www.emacinc.com
  *
- * Author: Felipe Balbi <balbi@ti.com>
+ * Author: Brenden Tisler <support@emacinc.com>
  *
- * Based on board/ti/dra7xx/evm.c
+ * Based on board/ti/am57xx/board.c
  */
 
 #include <common.h>

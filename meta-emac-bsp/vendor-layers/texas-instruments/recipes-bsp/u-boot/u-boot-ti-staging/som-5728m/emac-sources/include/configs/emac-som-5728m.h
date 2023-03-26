@@ -1,11 +1,12 @@
 /* SPDX-License-Identifier: GPL-2.0+ */
 /*
- * (C) Copyright 2014
- * Texas Instruments Incorporated.
- * Felipe Balbi <balbi@ti.com>
+ * (C) Copyright 2023
+ * EMAC Incorporated.
+ * Brenden Tisler <support@emacinc.com>
  *
- * Configuration settings for the TI Beagle x15 board.
+ * Configuration settings for the EMAC SoM-5728M board.
  * See ti_omap5_common.h for omap5 common settings.
+ * Based on include/configs/am57xx_evm.h
  */
 
 #ifndef __CONFIG_AM57XX_SOM_5728M_H
