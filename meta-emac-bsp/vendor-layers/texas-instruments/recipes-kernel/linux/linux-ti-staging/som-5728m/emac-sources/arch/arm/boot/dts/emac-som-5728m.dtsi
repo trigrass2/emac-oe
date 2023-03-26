@@ -10,6 +10,8 @@
 #include "am5728.dtsi"
 #include "am57xx-commercial-grade.dtsi"
 
+#include "dra74x-mmc-iodelay.dtsi"
+
 #include "dra74-ipu-dsp-common.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -102,22 +104,9 @@
 		};
 	};
 
-	hdmi0_conn: connector {
-		compatible = "hdmi-connector";
-		label = "hdmi";
-		status = "disabled";
-		type = "a";
-
-		port {
-			hdmi_connector_in: endpoint {
-				remote-endpoint = <&tpd12s015_out>;
-			};
-		};
-	};
-
 	tpd12s015_enc: encoder {
 		compatible = "ti,tpd12s015";
-		status = "disabled";
+		status = "okay";
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -134,7 +123,7 @@
 				reg = <1>;
 
 				tpd12s015_out: endpoint {
-					remote-endpoint = <&hdmi_connector_in>;
+					remote-endpoint = <0>;
 				};
 			};
 		};
@@ -458,6 +447,35 @@
     };
 };
 
+&mcspi3 {
+	status = "disabled";
+	/* CS0 - native (vout1_clk) 
+	 * CS1 - native (vout1_fld) 
+	 * CS2 - native (vout1_d0) 
+	 */
+	cs-gpios = <0>,<0>,<0>;
+	num-cs = <3>;
+
+	pinctrl-names = "default";
+    pinctrl-0 = <&mcspi3_pins_default>;
+};
+
+&mcspi4 {
+	status = "disabled";
+	/* CS0 - native (vin2a_d1) 
+	 * CS1 - native (gpmc_a12) 
+	 * CS2 - nc
+	 * CS3 - native (gpmc_a14) 
+	 */
+	cs-gpios = <0>,<0>,<0>,<0>;
+	num-cs = <4>;
+
+	pinctrl-names = "default";
+    pinctrl-0 = <&mcspi4_pins_default>;
+
+	no-device@2 {/* Do Not Use */};
+};
+
 &mmc1 {
     status = "disabled";
     bus-width = <4>;
@@ -466,8 +484,9 @@
     max-frequency = <48000000>;
     no-1-8-v;
 
-    pinctrl-names = "default";
-    pinctrl-0 = <&mmc1_pins_default>;
+    pinctrl-names = "default", "hs";
+	pinctrl-0 = <&mmc1_pins_default>;
+	pinctrl-1 = <&mmc1_pins_hs>;
 };
 
 
@@ -478,9 +497,11 @@
     bus-width = <8>;
     non-removable;
     max-frequency = <96000000>;
+	no-1-8-v;
     
-	pinctrl-names = "default";
-    pinctrl-0 = <&mmc2_pins_default>;
+	pinctrl-names = "default", "hs";
+	pinctrl-0 = <&mmc2_pins_default>;
+	pinctrl-1 = <&mmc2_pins_hs>;
 };
 
 &mmc4 {
@@ -491,8 +512,9 @@
     max-frequency = <48000000>;
     no-1-8-v;
 
-    pinctrl-names = "default";
-    pinctrl-0 = <&mmc4_pins_default>;
+    pinctrl-names = "default", "hs";
+	pinctrl-0 = <&mmc4_pins_default>;
+	pinctrl-1 = <&mmc4_pins_hs>;
 };
 
 // usb3.x interface
@@ -545,7 +567,7 @@
 };
 
 &dss {
-	status = "disabled";
+	status = "okay";
 	vdda_video-supply = <&ldoln_1v8_pll_reg>;
 	ports {
 		#address-cells = <1>;
@@ -554,6 +576,7 @@
 			reg = <2>;
 			lvds_out: endpoint {
 				data-lines = <18>;
+				status = "disabled";
 			};
 		};
 	};
@@ -582,41 +605,6 @@
 		pinctrl-single,pins = <
 			DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE15) 	/* (Errata i893) gpio6_15.dcan2_rx */
 			DRA7XX_CORE_IOPAD(0x3688, PIN_OUTPUT | MUX_MODE2) 	/* gpio6_14.dcan2_tx */
-		>;
-	};
-
-	mmc1_pins_default: mmc1_pins_default {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x3754, PIN_INPUT | MUX_MODE0) /* mmc1_clk.clk */
-			DRA7XX_CORE_IOPAD(0x3758, PIN_INPUT | MUX_MODE0) /* mmc1_cmd.cmd */
-			DRA7XX_CORE_IOPAD(0x375c, PIN_INPUT | MUX_MODE0) /* mmc1_dat0.dat0 */
-			DRA7XX_CORE_IOPAD(0x3760, PIN_INPUT | MUX_MODE0) /* mmc1_dat1.dat1 */
-			DRA7XX_CORE_IOPAD(0x3764, PIN_INPUT | MUX_MODE0) /* mmc1_dat2.dat2 */
-			DRA7XX_CORE_IOPAD(0x3768, PIN_INPUT | MUX_MODE0) /* mmc1_dat3.dat3 */
-		>;
-	};
-	mmc2_pins_default: mmc2_pins_default {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x349c, PIN_INPUT | MUX_MODE1) /* gpmc_a23.mmc2_clk */
-			DRA7XX_CORE_IOPAD(0x34b0, PIN_INPUT | MUX_MODE1) /* gpmc_cs1.mmc2_cmd */
-			DRA7XX_CORE_IOPAD(0x34a0, PIN_INPUT | MUX_MODE1) /* gpmc_a24.mmc2_dat0 */
-			DRA7XX_CORE_IOPAD(0x34a4, PIN_INPUT | MUX_MODE1) /* gpmc_a25.mmc2_dat1 */
-			DRA7XX_CORE_IOPAD(0x34a8, PIN_INPUT | MUX_MODE1) /* gpmc_a26.mmc2_dat2 */
-			DRA7XX_CORE_IOPAD(0x34ac, PIN_INPUT | MUX_MODE1) /* gpmc_a27.mmc2_dat3 */
-			DRA7XX_CORE_IOPAD(0x348c, PIN_INPUT | MUX_MODE1) /* gpmc_a19.mmc2_dat4 */
-			DRA7XX_CORE_IOPAD(0x3490, PIN_INPUT | MUX_MODE1) /* gpmc_a20.mmc2_dat5 */
-			DRA7XX_CORE_IOPAD(0x3494, PIN_INPUT | MUX_MODE1) /* gpmc_a21.mmc2_dat6 */
-			DRA7XX_CORE_IOPAD(0x3498, PIN_INPUT | MUX_MODE1) /* gpmc_a22.mmc2_dat7 */
-		>;
-	};
-	mmc4_pins_default: mmc4_pins_default {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x37e8, PIN_INPUT_PULLUP | MODE_SELECT | MUX_MODE3) /* uart1_ctsn.mmc4_clk */
-			DRA7XX_CORE_IOPAD(0x37ec, PIN_INPUT_PULLUP | MODE_SELECT | MUX_MODE3) /* uart1_rtsn.mmc4_cmd */
-			DRA7XX_CORE_IOPAD(0x37f0, PIN_INPUT_PULLUP | MODE_SELECT | MUX_MODE3) /* uart2_rxd.mmc4_dat0 */
-			DRA7XX_CORE_IOPAD(0x37f4, PIN_INPUT_PULLUP | MODE_SELECT | MUX_MODE3) /* uart2_txd.mmc4_dat1 */
-			DRA7XX_CORE_IOPAD(0x37f8, PIN_INPUT_PULLUP | MODE_SELECT | MUX_MODE3) /* uart2_ctsn.mmc4_dat2 */
-			DRA7XX_CORE_IOPAD(0x37fc, PIN_INPUT_PULLUP | MODE_SELECT | MUX_MODE3) /* uart2_rtsn.mmc4_dat3 */
 		>;
 	};
 	uart5_pins: pinmux_uart5_pins {
@@ -649,6 +637,26 @@
 			DRA7XX_CORE_IOPAD(0x3458, PIN_INPUT | MUX_MODE7) /* gpmc_a6.uart8_rxd */
 			DRA7XX_CORE_IOPAD(0x373c, PIN_INPUT | MUX_MODE3) /* mcasp4_axr0.uart8_cts */
 			DRA7XX_CORE_IOPAD(0x3740, PIN_OUTPUT | MUX_MODE3) /* mcasp4_axr1.uart8_rts */
+		>;
+	};
+	mcspi3_pins_default: mcspi3_pins_default {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x35d4, PIN_INPUT | MUX_MODE8) /* vout1_hsync.spi3_d0 */
+			DRA7XX_CORE_IOPAD(0x35cc, PIN_INPUT | MUX_MODE8) /* vout1_de.spi3_d1 */
+			DRA7XX_CORE_IOPAD(0x35d8, PIN_INPUT | MUX_MODE8) /* vout1_vsync.spi3_clk */
+			DRA7XX_CORE_IOPAD(0x35c8, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vout1_clk.spi3_cs0 */
+			DRA7XX_CORE_IOPAD(0x35d0, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vout1_fld.spi3_cs1 */
+			DRA7XX_CORE_IOPAD(0x35dc, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vout1_d0.spi3_cs2 */
+		>;
+	};
+	mcspi4_pins_default: mcspi4_pins_default {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x3568, PIN_INPUT | MUX_MODE8) /* vin2a_d0.spi4_d0 */
+			DRA7XX_CORE_IOPAD(0x3564, PIN_INPUT | MUX_MODE8) /* vin2a_vsync0.spi4_d1 */
+			DRA7XX_CORE_IOPAD(0x3560, PIN_INPUT | MUX_MODE8) /* vin2a_hsync0.spi4_clk */
+			DRA7XX_CORE_IOPAD(0x356c, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vin2a_d1.spi4_cs0 */
+			DRA7XX_CORE_IOPAD(0x3470, PIN_OUTPUT_PULLUP | MUX_MODE8) /* gpmc_a12.spi4_cs1 */
+			DRA7XX_CORE_IOPAD(0x3478, PIN_OUTPUT_PULLUP | MUX_MODE8) /* gpmc_a14.spi4_cs3 */
 		>;
 	};
 };
@@ -699,7 +707,7 @@
 /*
  * Can
  */
-&dcan2 {
+&dcan1 {
     status = "disabled";
     pinctrl-names = "default";
     pinctrl-0 = <&dcan1_pins_default>;
