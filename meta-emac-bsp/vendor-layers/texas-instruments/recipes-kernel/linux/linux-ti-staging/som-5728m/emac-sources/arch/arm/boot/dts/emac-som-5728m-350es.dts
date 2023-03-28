@@ -19,7 +19,7 @@
 		com-c = &uart6;
 		com-d = &uart7;
 		display0 = &lvds_panel;
-		display1 = &hdmi;
+		display1 = &hdmi0_conn;
 	};
 
 	wlan_en_reg: wlan-en-regulator {
@@ -28,7 +28,7 @@
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		vin-supply = <&vdd_3v3_reg>;
-		gpio = <&gpio8 2 GPIO_ACTIVE_HIGH>;
+		gpios = <&gpio8 2 GPIO_ACTIVE_HIGH>;
 		startup-delay-us = <100000>;
       	enable-active-high;
 	};
@@ -53,7 +53,8 @@
 	backlight: backlight {
 		compatible = "pwm-backlight";
 		pwms = <&ecap0 0 50000 0>;
-		power-supply = <&bl_pwr>;
+		power-supply = <&vdd_3v3_reg>;
+		enable-gpios = <&gpio4 31 GPIO_ACTIVE_LOW>;
 		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 		default-brightness-level = <9>;
 	};
@@ -77,6 +78,9 @@
 		label = "hdmi";
 		status = "okay";
 		type = "a";
+
+		//native?
+		hpd-gpios = <0>;
 
 		port {
 			hdmi_connector_in: endpoint {
@@ -119,6 +123,7 @@
 
 // SD Card
 &mmc1 {
+	disable-wp;
     status = "okay";
 };
 
@@ -180,6 +185,11 @@
 &hdmi {
 	status = "okay";
 };
+&tpd12s015_enc {
+	gpios = <0>, /* optional CT_CP_HPD */
+			<0>, /* optional LS_OE */
+			<&gpio7 12 GPIO_ACTIVE_HIGH>;	/* HPD */
+};
 &tpd12s015_out {
 	remote-endpoint = <&hdmi_connector_in>;
 };
@@ -209,7 +219,8 @@
 // Wifi
 &mmc4 {
     status = "okay";
-
+	disable-wp;
+	non-removable;
 	#address-cells = <1>;
 	#size-cells = <0>;
 	wlcore: wlcore@2 {

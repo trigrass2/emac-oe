@@ -8,7 +8,7 @@
 /dts-v1/;
 
 #include "am5728.dtsi"
-#include "am57xx-commercial-grade.dtsi"
+#include "am57xx-industrial-grade.dtsi"
 
 #include "dra74x-mmc-iodelay.dtsi"
 
@@ -84,17 +84,6 @@
 		regulator-boot-on;
 	};
 
-	bl_pwr: backlight-pwr-en {
-		compatible = "regulator-fixed";
-		regulator-name = "LVDS ABL EN";
-		regulator-min-microvolt = <3300000>;
-		regulator-max-microvolt = <3300000>;
-		regulator-boot-on;
-		vin-supply = <&vdd_3v3_reg>;
-		gpio = <&gpio4 31 GPIO_ACTIVE_LOW>;
-		startup-delay-us = <1000>;
-	};
-
 	leds {
 		compatible = "gpio-leds";
 		led0 {
@@ -107,6 +96,9 @@
 	tpd12s015_enc: encoder {
 		compatible = "ti,tpd12s015";
 		status = "okay";
+		gpios = <0>, /* optional CT_CP_HPD */
+			<0>, /* optional LS_OE */
+			<&gpio7 12 GPIO_ACTIVE_HIGH>;	/* HPD */
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -174,6 +166,7 @@
 &cpu0 {
 	vdd-supply = <&vdd_mpu_reg>;
 	voltage-tolerance = <1>;
+	clock-frequency = <1000000000>;
 };
 
 &cpu_trips {
@@ -399,6 +392,7 @@
 		interrupt-parent = <&gpio6>;
 		interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
 		interrupt-controller;
+		irq-gpio = <&gpio6 16 IRQ_TYPE_LEVEL_LOW>;
 		id = <0>;
 		blocks = <0x5>;
 		irq-trigger = <0x1>;
@@ -444,6 +438,7 @@
 		spi-rx-bus-width = <1>;
 		#address-cells = <1>;
 		#size-cells = <1>;
+		wp-gpios = <0>;
     };
 };
 
@@ -484,9 +479,12 @@
     max-frequency = <48000000>;
     no-1-8-v;
 
+	//native?
+	cd-gpios = <0>;
+
     pinctrl-names = "default", "hs";
-	pinctrl-0 = <&mmc1_pins_default>;
-	pinctrl-1 = <&mmc1_pins_hs>;
+	pinctrl-0 = <&mmc1_pins_default &mmc1_pins_carddetect>;
+	pinctrl-1 = <&mmc1_pins_hs &mmc1_pins_carddetect>;
 };
 
 
@@ -496,12 +494,14 @@
     vqmmc-supply = <&vdd_3v3_reg>;
     bus-width = <8>;
     non-removable;
+	disable-wp;
     max-frequency = <96000000>;
 	no-1-8-v;
     
-	pinctrl-names = "default", "hs";
+	pinctrl-names = "default", "hs", "ddr_3_3v";
 	pinctrl-0 = <&mmc2_pins_default>;
 	pinctrl-1 = <&mmc2_pins_hs>;
+	pinctrl-2 = <&mmc2_pins_ddr_3_3v_rev11 &mmc2_iodelay_ddr_3_3v_rev11_conf>;
 };
 
 &mmc4 {
@@ -512,9 +512,12 @@
     max-frequency = <48000000>;
     no-1-8-v;
 
+	//native?
+	cd-gpios = <0>;
+
     pinctrl-names = "default", "hs";
-	pinctrl-0 = <&mmc4_pins_default>;
-	pinctrl-1 = <&mmc4_pins_hs>;
+	pinctrl-0 = <&mmc4_pins_default &mmc4_pins_carddetect>;
+	pinctrl-1 = <&mmc4_pins_hs &mmc4_pins_carddetect>;
 };
 
 // usb3.x interface
@@ -533,14 +536,13 @@
 };
 
 &davinci_mdio_sw {
+	reset-gpios = <&gpio4 25 GPIO_ACTIVE_LOW>;
+	reset-assert-us = <500000>;
     ethphy4: ethernet-phy@4 {
         reg = <4>;
 		qca,clk-out-frequency = <50000000>;
 		qca,keep-pll-enabled;
 		vddio-supply = <&vddio>;
-		reset-gpios = <&gpio4 25 GPIO_ACTIVE_LOW>;
-    	reset-assert-us = <500000>;
-		reset-deassert-us = <500000>;
 		vddio: vddio-regulator {
 			regulator-min-microvolt = <1500000>;
 			regulator-max-microvolt = <1500000>;
@@ -607,6 +609,19 @@
 			DRA7XX_CORE_IOPAD(0x3688, PIN_OUTPUT | MUX_MODE2) 	/* gpio6_14.dcan2_tx */
 		>;
 	};
+
+	mmc1_pins_carddetect: mmc1_pins_carddetect {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x376c, PIN_INPUT | MUX_MODE0) 	/* uart1_rxd.mmc4_sdcd */
+		>;
+	};
+
+	mmc4_pins_carddetect: mmc4_pins_carddetect {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x37e0, PIN_INPUT | MUX_MODE3) 	/* uart1_rxd.mmc4_sdcd */
+		>;
+	};
+
 	uart5_pins: pinmux_uart5_pins {
 		pinctrl-single,pins = <
 			DRA7XX_CORE_IOPAD(0x35e0, PIN_INPUT | MUX_MODE2) /* vout1_d1.uart5_txd */
