@@ -7,15 +7,6 @@
     - oe-builder
   script:
     - echo $KASFILES
-    - export ARCHIVE_PATH="$(kas shell $KASFILES -c "bitbake -e" | grep ^ARCHIVE_PATH= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-    - rm -rf build/buildhistory/ build/cache/
-    - rm -rf build/tmp*
-    - |
-      if [ -f "/srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar" ]; then
-        echo "Found Persistent Data";
-        mkdir -p build/;
-        tar xf /srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar -C build/;
-      fi
     - kas build --update --force-checkout $KASFILES
     - |
       if test "$INCLUDE_SDK" == "true"; then
@@ -33,11 +24,7 @@
         export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
         tar zxf ${CI_PROJECT_DIR}/deploy_dir.tar.gz -C ${DEPLOY_DIR} .;
       fi
-    - mkdir -p /srv/yocto/persist/${ARCHIVE_PATH}
-    - tar cf /srv/yocto/persist/${ARCHIVE_PATH}/persist-data.tar -C build/ buildhistory/ cache/
   after_script:
-    - rm -rf build/buildhistory/.git/
-    - rm -rf build/buildhistory/ build/cache/; sync
     - rm -rf build/tmp*; sync
 
   artifacts:

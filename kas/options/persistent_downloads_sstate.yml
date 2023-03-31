@@ -6,3 +6,5 @@ local_conf_header:
     DL_DIR ?= "/srv/yocto/downloads"
     BB_GENERATE_MIRROR_TARBALLS ?= "1"
   sstate_cache: SSTATE_DIR ?= "/srv/yocto/sstate-cache/"
+  buildhistory_dir: BUILDHISTORY_DIR ?= "/srv/yocto/persist/${ARCHIVE_PATH}/buildhistory"
+  persist_dir: PERSISTENT_DIR ?= "/srv/yocto/persist/${ARCHIVE_PATH}/cache"
