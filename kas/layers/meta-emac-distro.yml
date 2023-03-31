@@ -1,0 +1,14 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/emac-oe.yml
+    - kas/repos/meta-openembedded.yml
+
+repos:
+  meta-openembedded:
+    layers:
+      meta-oe:
+  emac-oe:
+    layers:
+      meta-emac-distro:
+  
