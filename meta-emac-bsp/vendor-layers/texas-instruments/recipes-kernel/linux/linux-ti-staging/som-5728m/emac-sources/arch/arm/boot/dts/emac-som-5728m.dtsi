@@ -536,10 +536,10 @@
 };
 
 &davinci_mdio_sw {
-	reset-gpios = <&gpio4 25 GPIO_ACTIVE_LOW>;
-	reset-assert-us = <500000>;
     ethphy4: ethernet-phy@4 {
         reg = <4>;
+		reset-gpios = <&gpio4 25 GPIO_ACTIVE_LOW>;
+		reset-assert-us = <500000>;
 		qca,clk-out-frequency = <50000000>;
 		qca,keep-pll-enabled;
 		vddio-supply = <&vddio>;
