@@ -450,9 +450,6 @@
 	 */
 	cs-gpios = <0>,<0>,<0>;
 	num-cs = <3>;
-
-	pinctrl-names = "default";
-    pinctrl-0 = <&mcspi3_pins_default>;
 };
 
 &mcspi4 {
@@ -464,9 +461,6 @@
 	 */
 	cs-gpios = <0>,<0>,<0>,<0>;
 	num-cs = <4>;
-
-	pinctrl-names = "default";
-    pinctrl-0 = <&mcspi4_pins_default>;
 
 	no-device@2 {/* Do Not Use */};
 };
@@ -483,8 +477,8 @@
 	cd-gpios = <0>;
 
     pinctrl-names = "default", "hs";
-	pinctrl-0 = <&mmc1_pins_default &mmc1_pins_carddetect>;
-	pinctrl-1 = <&mmc1_pins_hs &mmc1_pins_carddetect>;
+	pinctrl-0 = <&mmc1_pins_default>;
+	pinctrl-1 = <&mmc1_pins_hs>;
 };
 
 
@@ -516,8 +510,8 @@
 	cd-gpios = <0>;
 
     pinctrl-names = "default", "hs";
-	pinctrl-0 = <&mmc4_pins_default &mmc4_pins_carddetect>;
-	pinctrl-1 = <&mmc4_pins_hs &mmc4_pins_carddetect>;
+	pinctrl-0 = <&mmc4_pins_default>;
+	pinctrl-1 = <&mmc4_pins_hs>;
 };
 
 // usb3.x interface
@@ -607,71 +601,6 @@
 		pinctrl-single,pins = <
 			DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE15) 	/* (Errata i893) gpio6_15.dcan2_rx */
 			DRA7XX_CORE_IOPAD(0x3688, PIN_OUTPUT | MUX_MODE2) 	/* gpio6_14.dcan2_tx */
-		>;
-	};
-
-	mmc1_pins_carddetect: mmc1_pins_carddetect {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x376c, PIN_INPUT | MUX_MODE0) 	/* uart1_rxd.mmc4_sdcd */
-		>;
-	};
-
-	mmc4_pins_carddetect: mmc4_pins_carddetect {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x37e0, PIN_INPUT | MUX_MODE3) 	/* uart1_rxd.mmc4_sdcd */
-		>;
-	};
-
-	uart5_pins: pinmux_uart5_pins {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x35e0, PIN_INPUT | MUX_MODE2) /* vout1_d1.uart5_txd */
-			DRA7XX_CORE_IOPAD(0x37c8, PIN_INPUT | MUX_MODE2) /* spi2_d0.uart5_rxd */
-			DRA7XX_CORE_IOPAD(0x3448, PIN_INPUT | MUX_MODE8) /* gpmc_a2.uart5_cts */
-			DRA7XX_CORE_IOPAD(0x344c, PIN_OUTPUT | MUX_MODE8) /* gpmc_a3.uart5_rts */
-		>;
-	};
-	uart6_pins: pinmux_uart6_pins {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x3600, PIN_INPUT | MUX_MODE2) /* vout1_d9.uart6_txd */
-			DRA7XX_CORE_IOPAD(0x35fc, PIN_INPUT | MUX_MODE2) /* vout1_d8.uart6_rxd */
-			DRA7XX_CORE_IOPAD(0x36bc, PIN_INPUT | MUX_MODE3) /* mcasp1_axr2.uart6_cts */
-			DRA7XX_CORE_IOPAD(0x36c0, PIN_OUTPUT | MUX_MODE3) /* mcasp1_axr3.uart6_rts */
-		>;
-	};
-	uart7_pins: pinmux_uart7_pins {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x3620, PIN_INPUT | MUX_MODE2) /* vout1_d17.uart7_txd */
-			DRA7XX_CORE_IOPAD(0x361c, PIN_INPUT | MUX_MODE2) /* vout1_d16.uart7_rxd */
-			DRA7XX_CORE_IOPAD(0x34ec, PIN_INPUT | MUX_MODE5) /* vin1a_hsync0.uart7_cts */
-			DRA7XX_CORE_IOPAD(0x34f0, PIN_OUTPUT | MUX_MODE5) /* vin1a_vsync0.uart7_rts */
-		>;
-	};
-	uart8_pins: pinmux_uart8_pins {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x345c, PIN_INPUT | MUX_MODE7) /* gpmc_a7.uart8_txd */
-			DRA7XX_CORE_IOPAD(0x3458, PIN_INPUT | MUX_MODE7) /* gpmc_a6.uart8_rxd */
-			DRA7XX_CORE_IOPAD(0x373c, PIN_INPUT | MUX_MODE3) /* mcasp4_axr0.uart8_cts */
-			DRA7XX_CORE_IOPAD(0x3740, PIN_OUTPUT | MUX_MODE3) /* mcasp4_axr1.uart8_rts */
-		>;
-	};
-	mcspi3_pins_default: mcspi3_pins_default {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x35d4, PIN_INPUT | MUX_MODE8) /* vout1_hsync.spi3_d0 */
-			DRA7XX_CORE_IOPAD(0x35cc, PIN_INPUT | MUX_MODE8) /* vout1_de.spi3_d1 */
-			DRA7XX_CORE_IOPAD(0x35d8, PIN_INPUT | MUX_MODE8) /* vout1_vsync.spi3_clk */
-			DRA7XX_CORE_IOPAD(0x35c8, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vout1_clk.spi3_cs0 */
-			DRA7XX_CORE_IOPAD(0x35d0, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vout1_fld.spi3_cs1 */
-			DRA7XX_CORE_IOPAD(0x35dc, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vout1_d0.spi3_cs2 */
-		>;
-	};
-	mcspi4_pins_default: mcspi4_pins_default {
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x3568, PIN_INPUT | MUX_MODE8) /* vin2a_d0.spi4_d0 */
-			DRA7XX_CORE_IOPAD(0x3564, PIN_INPUT | MUX_MODE8) /* vin2a_vsync0.spi4_d1 */
-			DRA7XX_CORE_IOPAD(0x3560, PIN_INPUT | MUX_MODE8) /* vin2a_hsync0.spi4_clk */
-			DRA7XX_CORE_IOPAD(0x356c, PIN_OUTPUT_PULLUP | MUX_MODE8) /* vin2a_d1.spi4_cs0 */
-			DRA7XX_CORE_IOPAD(0x3470, PIN_OUTPUT_PULLUP | MUX_MODE8) /* gpmc_a12.spi4_cs1 */
-			DRA7XX_CORE_IOPAD(0x3478, PIN_OUTPUT_PULLUP | MUX_MODE8) /* gpmc_a14.spi4_cs3 */
 		>;
 	};
 };
