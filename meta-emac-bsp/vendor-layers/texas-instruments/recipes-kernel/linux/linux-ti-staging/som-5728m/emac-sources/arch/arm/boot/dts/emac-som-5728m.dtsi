@@ -681,26 +681,6 @@
 	interrupts-extended = <&crossbar_mpu GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>, <&dra7_pmx_core 0x3f8>;
 };
 
-&uart5 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart5_pins>;
-};
-
-&uart6 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart6_pins>;
-};
-
-&uart7 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart7_pins>;
-};
-
-&uart8 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&uart8_pins>;
-};
-
 &mcasp5 {
     #sound-dai-cells = <0>;
     assigned-clocks = <&l4per_clkctrl DRA7_MCASP5_CLKCTRL 24>;
