@@ -3,7 +3,6 @@ header:
   version: 12
   includes:
     - kas/base.yml
-    - kas/emac-core.yml
 
 distro: poky
 

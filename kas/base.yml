@@ -31,7 +31,7 @@ local_conf_header:
     OE_TERMINAL = "auto"
     PATCHRESOLVE = "noop"
 
-  packaging: PACKAGE_CLASSES ?= "package_deb package_ipk package_rpm"
+  packaging: PACKAGE_CLASSES ?= "package_ipk package_deb package_rpm"
     
   base_extra_build_info: |
     IMAGE_BUILDINFO_VARS:append = " CI_REPOSITORY_URL CI_COMMIT_BRANCH CLIENT_NAME "

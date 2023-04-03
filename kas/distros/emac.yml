@@ -3,6 +3,7 @@ header:
   version: 12
   includes:
     - kas/distros/poky.yml
+    - kas/emac-core.yml
     - kas/layers/meta-emac-distro.yml
 
 distro: emac
