@@ -7,6 +7,7 @@
     - oe-builder
   script:
     - echo $KASFILES
+    - export ARCHIVE_PATH="$(kas shell $KASFILES -c "bitbake -e" | grep ^ARCHIVE_PATH= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
     - kas build --update --force-checkout $KASFILES
     - |
       if test "$INCLUDE_SDK" == "true"; then
