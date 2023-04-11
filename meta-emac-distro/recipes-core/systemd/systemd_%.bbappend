@@ -13,6 +13,7 @@ SRC_URI:append = " \
     file://10-eth.network \
     file://15-eth.network \
     file://30-wlan.network \
+    file://80-can.network \
     file://60-usb.network \
     file://sync-clocks.service \
 "
@@ -30,6 +31,7 @@ do_install:append() {
     install -m 0644 ${WORKDIR}/15-eth.network ${D}${sysconfdir}/systemd/network/
     install -m 0644 ${WORKDIR}/30-wlan.network ${D}${sysconfdir}/systemd/network/
     install -m 0644 ${WORKDIR}/60-usb.network ${D}${sysconfdir}/systemd/network/
+    install -m 0644 ${WORKDIR}/80-can.network ${D}${sysconfdir}/systemd/network/
 
     install -d ${D}${sysconfdir}/systemd/system/sysinit.target.wants
     install -m 0644 ${WORKDIR}/sync-clocks.service ${D}${sysconfdir}/systemd/system/

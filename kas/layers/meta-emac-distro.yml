@@ -5,10 +5,14 @@ header:
     - kas/repos/meta-openembedded.yml
 
 repos:
-  meta-openembedded:
-    layers:
-      meta-oe:
   emac-oe:
     layers:
       meta-emac-distro:
+
+  meta-openembedded:
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+      meta-perl:
   

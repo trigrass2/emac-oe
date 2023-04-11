@@ -7,3 +7,5 @@ header:
     - kas/layers/meta-emac-distro.yml
 
 distro: emac
+
+target: core-image-emac
