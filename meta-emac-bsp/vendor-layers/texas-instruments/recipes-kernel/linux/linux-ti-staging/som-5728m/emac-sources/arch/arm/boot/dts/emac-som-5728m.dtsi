@@ -30,6 +30,14 @@
         mmcblk1 = &mmc2;
 		spi1 = &mcspi3;
 		spi2 = &mcspi4;
+		gpio0 = &gpio1;
+		gpio1 = &gpio2;
+		gpio2 = &gpio3;
+		gpio3 = &gpio4;
+		gpio4 = &gpio5;
+		gpio5 = &gpio6;
+		gpio6 = &gpio7;
+		gpio7 = &gpio8;
 	};
 
 	chosen {
@@ -448,7 +456,9 @@
 	 * CS1 - native (vout1_fld) 
 	 * CS2 - native (vout1_d0) 
 	 */
-	cs-gpios = <0>,<0>,<0>;
+	cs-gpios = <&gpio4 19 GPIO_ACTIVE_LOW>,
+		<&gpio4 21 GPIO_ACTIVE_LOW>,
+		<&gpio8 0 GPIO_ACTIVE_LOW>;
 	num-cs = <3>;
 };
 
@@ -459,7 +469,10 @@
 	 * CS2 - nc
 	 * CS3 - native (gpmc_a14) 
 	 */
-	cs-gpios = <0>,<0>,<0>,<0>;
+	cs-gpios = <&gpio4 2 GPIO_ACTIVE_LOW>,
+		<&gpio2 2 GPIO_ACTIVE_LOW>,
+		<0>,
+		<&gpio2 4 GPIO_ACTIVE_LOW>;
 	num-cs = <4>;
 
 	no-device@2 {/* Do Not Use */};
@@ -472,9 +485,6 @@
     vqmmc-supply = <&ldo1_3v3_sd_reg>;
     max-frequency = <48000000>;
     no-1-8-v;
-
-	//native?
-	cd-gpios = <0>;
 
     pinctrl-names = "default", "hs";
 	pinctrl-0 = <&mmc1_pins_default>;
@@ -495,7 +505,7 @@
 	pinctrl-names = "default", "hs", "ddr_3_3v";
 	pinctrl-0 = <&mmc2_pins_default>;
 	pinctrl-1 = <&mmc2_pins_hs>;
-	pinctrl-2 = <&mmc2_pins_ddr_3_3v_rev11 &mmc2_iodelay_ddr_3_3v_rev11_conf>;
+	pinctrl-2 = <&mmc2_pins_default>;
 };
 
 &mmc4 {
@@ -506,12 +516,9 @@
     max-frequency = <48000000>;
     no-1-8-v;
 
-	//native?
-	cd-gpios = <0>;
-
     pinctrl-names = "default", "hs";
-	pinctrl-0 = <&mmc4_pins_default>;
-	pinctrl-1 = <&mmc4_pins_hs>;
+	pinctrl-0 = <&mmc4_pins_default &mmc4_iodelay_ds_rev20_conf>;
+	pinctrl-1 = <&mmc4_pins_hs &mmc4_iodelay_sdr12_hs_sdr25_rev20_conf>;
 };
 
 // usb3.x interface
@@ -678,7 +685,18 @@
 // console
 &uart3 {
 	status = "okay";
+	uart-has-rtscts;
 	interrupts-extended = <&crossbar_mpu GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>, <&dra7_pmx_core 0x3f8>;
+};
+
+&uart5 {
+	uart-has-rtscts;
+};
+&uart6 {
+	uart-has-rtscts;
+};
+&uart7 {
+	uart-has-rtscts;
 };
 
 &mcasp5 {

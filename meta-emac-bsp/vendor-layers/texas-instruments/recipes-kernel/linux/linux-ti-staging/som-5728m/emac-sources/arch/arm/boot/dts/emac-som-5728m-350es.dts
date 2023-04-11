@@ -18,8 +18,9 @@
 		com-b = &uart5;
 		com-c = &uart6;
 		com-d = &uart7;
-		display0 = &lvds_panel;
+		display0 = &lvds_panel_7in;
 		display1 = &hdmi0_conn;
+		display0 = &lvds_panel_10in;
 	};
 
 	wlan_en_reg: wlan-en-regulator {
@@ -29,6 +30,28 @@
 		regulator-max-microvolt = <3300000>;
 		vin-supply = <&vdd_3v3_reg>;
 		gpios = <&gpio8 2 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <100000>;
+      	enable-active-high;
+	};
+
+	lvds3v3_en_reg: lvds3v3-en-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "lvds3v3-en-regulator";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&vdd_3v3_reg>;
+		gpios = <&gpio6 28 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <100000>;
+      	enable-active-high;
+	};
+
+	lvds5v_en_reg: lvds5v-en-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "lvds5v-en-regulator";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vmain>;
+		gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
 		startup-delay-us = <100000>;
       	enable-active-high;
 	};
@@ -54,18 +77,28 @@
 		compatible = "pwm-backlight";
 		pwms = <&ecap0 0 50000 0>;
 		power-supply = <&vdd_3v3_reg>;
-		enable-gpios = <&gpio4 31 GPIO_ACTIVE_LOW>;
+		enable-gpios = <&gpio4 31 GPIO_ACTIVE_LOW>, <&gpio8 11 GPIO_ACTIVE_HIGH>;
 		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 		default-brightness-level = <9>;
 	};
 
-	lvds_panel: display {
+	lvds_panel_7in: display {
 		compatible = "innolux,at070tn92", "simple-panel";
 		backlight = <&backlight>;
-		power-supply = <&vdd_3v3_reg>;
+		power-supply = <&lvds3v3_en_reg>;
 		ddc-i2c-bus = <&i2c5>;
-		enable-gpios = <&gpio8 11 GPIO_ACTIVE_HIGH>;
-
+		port {
+			lcd_in: endpoint {
+				remote-endpoint = <&lvds_out>;
+			};
+		};
+	};
+	lvds_panel_10in: display {
+		compatible = "innolux,at070tn92", "simple-panel";
+		backlight = <&backlight>;
+		power-supply = <&lvds5v_en_reg>;
+		ddc-i2c-bus = <&i2c5>;
+		status = "disabled";
 		port {
 			lcd_in: endpoint {
 				remote-endpoint = <&lvds_out>;
@@ -223,6 +256,9 @@
 	non-removable;
 	#address-cells = <1>;
 	#size-cells = <0>;
+	vmmc-supply = <&wlan_en_reg>;
+	cap-power-off-card;
+	keep-power-in-suspend;
 	wlcore: wlcore@2 {
 		compatible = "ti,wl1835";
 		reg = <0x2>;
@@ -245,6 +281,10 @@
 
 &uart7 {
 	status = "okay";
+	bluetooth {
+		compatible = "ti,wl1835-st";
+		enable-gpios = <&gpio8 10 GPIO_ACTIVE_HIGH>;
+	};
 };
 
 /*
@@ -261,16 +301,4 @@
 &pcie1_rc {
 	gpios = <&gpio7 15 GPIO_ACTIVE_LOW>;
 	status = "okay";
-};
-
-&dra7_pmx_core {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pcie1_pins_default>;
-
-	pcie1_pins_default: pcie1_pins_default {  
-		pinctrl-single,pins = <
-			DRA7XX_CORE_IOPAD(0x37c0, PIN_OUTPUT_PULLUP | MUX_MODE14) 	/* spi2_sclk.gpio7_14 (pcie_rst) */
-			DRA7XX_CORE_IOPAD(0x37c4, PIN_OUTPUT_PULLUP | MUX_MODE14) 	/* spi2_d1.gpio7_15 (pcie_prst) */
-		>;
-	};
 };
