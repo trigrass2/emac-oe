@@ -1,0 +1,9 @@
+header:
+  version: 12
+
+repos:
+  meta-imx:
+    url: https://github.com/nxp-imx/meta-imx.git
+    path: build/layers/meta-imx
+    layers:
+      .: excluded

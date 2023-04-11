@@ -1,0 +1,9 @@
+header:
+  version: 12
+
+repos:
+  meta-browser:
+    url: https://github.com/OSSystems/meta-browser.git
+    path: build/layers/meta-browser
+    layers:
+      .: excluded

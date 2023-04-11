@@ -1,0 +1,8 @@
+header:
+  version: 12
+
+repos:
+  meta-freescale:
+    url: https://github.com/Freescale/meta-freescale.git
+    path: build/layers/meta-freescale
+

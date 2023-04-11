@@ -1,0 +1,13 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-openembedded.yml
+    - kas/repos/upstream/meta-freescale.yml
+
+repos:
+  meta-freescale-distro:
+    url: https://github.com/Freescale/meta-freescale-distro.git
+    path: build/layers/meta-freescale-distro
+  meta-openembedded:
+    layers:
+      meta-oe:

@@ -1,0 +1,14 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-openembedded.yml
+
+repos:
+  meta-python2:
+    url: https://git.openembedded.org/meta-python2
+    path: build/layers/meta-python2
+  meta-openembedded:
+    layers:
+      meta-oe:
+
+# Layer depends on core and meta-oe

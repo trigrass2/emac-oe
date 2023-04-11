@@ -1,0 +1,12 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-freescale.yml
+
+repos:
+  meta-freescale-3rdparty:
+    url: https://github.com/Freescale/meta-freescale-3rdparty.git
+    path: build/layers/meta-freescale-3rdparty
+
+# Layer
+# Depends on core and freescale-layer

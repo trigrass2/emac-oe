@@ -1,0 +1,16 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-imx.yml
+    - kas/repos/upstream/meta-qt5.yml
+
+repos:
+  meta-nxp-demo-experience:
+    url: https://github.com/nxp-imx-support/meta-nxp-demo-experience.git
+    path: build/layers/meta-nxp-demo-experience
+  meta-imx:
+    layers:
+      meta-sdk:
+  # meta-qt5: is layer
+
+# Layer depends on qt5 layer and meta-imx/meta-sdk
