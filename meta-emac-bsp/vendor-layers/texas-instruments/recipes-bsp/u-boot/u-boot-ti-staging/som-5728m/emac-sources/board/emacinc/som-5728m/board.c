@@ -44,7 +44,6 @@
 
 #include "../common/board_detect.h"
 #include "mux_data.h"
-#include "mux_data_350.h"
 
 #ifdef CONFIG_SUPPORT_EMMC_BOOT
 static int board_bootmode_has_emmc(void);
@@ -408,8 +407,8 @@ void recalibrate_iodelay(void)
 	int pconf_sz, iod_sz, delta_iod_sz = 0;
 	int ret;
 
-	// iod = iodelay_cfg_array_x15_sr2_0;
-	// iod_sz = ARRAY_SIZE(iodelay_cfg_array_x15_sr2_0);
+	iod = iodelay_cfg_array_som_5728m;
+	iod_sz = ARRAY_SIZE(iodelay_cfg_array_som_5728m);
 
 	/* Setup I/O isolation */
 	ret = __recalibrate_iodelay_start();
@@ -422,18 +421,13 @@ void recalibrate_iodelay(void)
 		pconf = core_padconf_array_essential_som_5728m;
 		pconf_sz = ARRAY_SIZE(core_padconf_array_essential_som_5728m);
 		do_set_mux32((*ctrl)->control_padconf_core_base, pconf, pconf_sz);
-		if (board_has_som350()){
-			pconf = core_padconf_array_essential_som_5728m_350es;
-			pconf_sz = ARRAY_SIZE(core_padconf_array_essential_som_5728m_350es);
-			do_set_mux32((*ctrl)->control_padconf_core_base, pconf, pconf_sz);
-		}
 	}
 
 	/* Setup IOdelay configuration */
-	// ret = do_set_iodelay((*ctrl)->iodelay_config_base, iod, iod_sz);
-	// if (delta_iod_sz)
-	// 	ret = do_set_iodelay((*ctrl)->iodelay_config_base, delta_iod,
-	// 			     delta_iod_sz);
+	ret = do_set_iodelay((*ctrl)->iodelay_config_base, iod, iod_sz);
+	if (delta_iod_sz)
+		ret = do_set_iodelay((*ctrl)->iodelay_config_base, delta_iod,
+				     delta_iod_sz);
 
 err:
 	/* Closeup.. remove isolation */

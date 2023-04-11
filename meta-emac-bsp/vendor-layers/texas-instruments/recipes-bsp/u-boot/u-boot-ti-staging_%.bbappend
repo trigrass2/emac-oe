@@ -17,7 +17,6 @@ EMAC_SRC_FILES:append:som-5728m = " \
     file://emac-sources/board/emacinc/som-5728m/Kconfig \
     file://emac-sources/board/emacinc/som-5728m/MAINTAINERS \
     file://emac-sources/board/emacinc/som-5728m/board.c \
-    file://emac-sources/board/emacinc/som-5728m/mux_data_350.h \
     file://emac-sources/board/emacinc/som-5728m/Makefile \
     file://emac-sources/board/emacinc/som-5728m/mux_data.h \
 "
