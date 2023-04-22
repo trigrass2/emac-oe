@@ -1,3 +1,4 @@
 Common targets are:
-    core-base-image (Poky Image)
+    core-image-base (Poky Image)
+    core-image-emac (EMAC Standard Headless Image)
 
