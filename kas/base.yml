@@ -14,7 +14,7 @@ env:
 local_conf_header:
   base: |
     CONF_VERSION = "2"
-    BB_SERVER_TIMEOUT = "240"
+    BB_SERVER_TIMEOUT = "30"
     BB_DISKMON_DIRS ??= "\
       STOPTASKS,${TMPDIR},1G,100K \
       STOPTASKS,${DL_DIR},1G,100K \
