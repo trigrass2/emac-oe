@@ -21,11 +21,6 @@ repos:
 local_conf_header:
   
   _distro_codename: DISTRO_CODENAME ?= "duncan"
-
-  prserver_host: PRSERV_HOST = "localhost:0"
-  archive_path: |
-    PACKAGE_ARCHIVE_PATH ??="nightly"
-    ARCHIVE_PATH ?= "${DISTRO_CODENAME}-${DISTRO_VERSION}/${PACKAGE_ARCHIVE_PATH}/${MACHINE}"
   
   emac_display_hw: EMAC_DISPLAY_HW ?= "none"
   emac_display: EMAC_DISPLAY ?= "none"

@@ -2,9 +2,14 @@ header:
   version: 12
 
 local_conf_header:
+  prserver_host: PRSERV_HOST = "localhost:0"
+  archive_path: |
+    PACKAGE_ARCHIVE_PATH ??="nightly"
+    ARCHIVE_PATH ?= "${DISTRO_CODENAME}-${DISTRO_VERSION}/${PACKAGE_ARCHIVE_PATH}/${MACHINE}"
+
   downloads: |
     DL_DIR ?= "/srv/yocto/downloads"
     BB_GENERATE_MIRROR_TARBALLS ?= "1"
-  sstate_cache: SSTATE_DIR ?= "/srv/yocto/sstate-cache/"
+  sstate_cache: SSTATE_DIR ?= "/srv/yocto/persist/${ARCHIVE_PATH}/sstate-cache/"
   buildhistory_dir: BUILDHISTORY_DIR = "/srv/yocto/persist/${ARCHIVE_PATH}/buildhistory"
   persist_dir: PERSISTENT_DIR = "/srv/yocto/persist/${ARCHIVE_PATH}/cache"

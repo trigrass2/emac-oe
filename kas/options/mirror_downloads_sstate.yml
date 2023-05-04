@@ -2,10 +2,13 @@ header:
   version: 12
 
 local_conf_header:
+  archive_path: |
+    PACKAGE_ARCHIVE_PATH ??="nightly"
+    ARCHIVE_PATH ?= "${DISTRO_CODENAME}-${DISTRO_VERSION}/${PACKAGE_ARCHIVE_PATH}/${MACHINE}"
   downloads: |
     SOURCE_MIRROR_URL ?= "file:///srv/yocto/downloads/"
     INHERIT += " own-mirrors "
   sstate_cache: |
     SSTATE_MIRRORS ?= "\
-    file://.* file:///srv/yocto/sstate-cache/PATH \
+    file://.* file:///srv/yocto/persist/${ARCHIVE_PATH}/sstate-cache/PATH \
     "
