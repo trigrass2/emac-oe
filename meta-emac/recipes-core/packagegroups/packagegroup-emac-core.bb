@@ -75,7 +75,7 @@ RRECOMMENDS_${PN}-util = " \
 
 SUMMARY_${PN}-networking = "EMAC OE Networking Utilities"
 RRECOMMENDS_${PN}-networking = " \
-    ${@bb.utils.contains("EMAC_SHELLMANAGER", "busybox", "busybox-ifplugd", " ifplugd ", d)} \
+    ${@bb.utils.contains("EMAC_SHELLMANAGER", "busybox", "busybox-ifplugd resolvconf", " ifplugd", d)} \
     openssh \
     rsync \
     ntp ntpdc ntpq ntp-tickadj ntp-utils ntpdate \
