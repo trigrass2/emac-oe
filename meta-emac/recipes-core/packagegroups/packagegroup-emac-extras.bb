@@ -67,6 +67,7 @@ RRECOMMENDS_${PN}-util-debug = " \
     md5deep \
     ldd \
     i2c-tools \
+    ${@bb.utils.contains("MACHINE_FEATURES", "spi", " spidev-test ", "", d)} \
 "
 
 
