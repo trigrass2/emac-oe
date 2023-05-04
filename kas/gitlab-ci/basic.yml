@@ -38,7 +38,7 @@
         tail --pid=$(cat build/bitbake.lock) -f /dev/null || true
         kas shell $KASFILES -c "../kas/gitlab-ci/emac-deployment.sh";
       fi
-    - if test "`date '+%d'`" == "01"; then kas shell $KASFILES -c "../kas/gitlab-ci/emac-sstate-management.sh"; fi
+    - kas shell $KASFILES -c "../kas/gitlab-ci/emac-sstate-management.sh"
 
 
   after_script:
