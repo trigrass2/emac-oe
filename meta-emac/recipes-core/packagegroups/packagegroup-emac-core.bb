@@ -19,6 +19,7 @@ PROVIDES = " \
     ${PN}-screen \
     ${PN}-x86 \
     ${PN}-arm \
+    ${PN}-uboot \
     ${PN}-touch \
     ${PN}-sound \
     ${PN}-mtd \
@@ -31,16 +32,17 @@ PACKAGES = " \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
-    ${@bb.utils.contains("MACHINE_FEATURES", "x86", " packagegroup-emac-core-x86 ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "arm", " packagegroup-emac-core-arm ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", " packagegroup-emac-core-touch ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "wifi", " packagegroup-emac-core-wifi ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "sound", " packagegroup-emac-core-sound ", '',d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "mtd", " packagegroup-emac-core-mtd ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "screen", " packagegroup-emac-core-screen ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "can", " packagegroup-emac-core-can ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "pci", " packagegroup-emac-core-pci ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "rt", " packagegroup-emac-core-rt ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "uboot", " ${PN}-uboot ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "x86", " ${PN}-x86 ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "arm", " ${PN}-arm ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", " ${PN}-touch ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "wifi", " ${PN}-wifi ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "sound", " ${PN}-sound ", '',d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "mtd", " ${PN}-mtd ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "screen", " ${PN}-screen ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "can", " ${PN}-can ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "pci", " ${PN}-pci ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "rt", " ${PN}-rt ", "", d)} \
 "
 
 #    eudev-hwdb
@@ -61,7 +63,8 @@ RRECOMMENDS_${PN} = " \
     ${@bb.utils.contains("MACHINE_FEATURES", "sound", " ${PN}-sound ", '',d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "can", " ${PN}-can ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "pci", " ${PN}-pci ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "touch", " ${PN}-touch ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "uboot", " ${PN}-uboot ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", " ${PN}-touch ", "", d)} \
 "
 
 SUMMARY_${PN}-util = "EMAC OE Core Utilities"
@@ -75,7 +78,7 @@ RRECOMMENDS_${PN}-util = " \
 
 SUMMARY_${PN}-networking = "EMAC OE Networking Utilities"
 RRECOMMENDS_${PN}-networking = " \
-    ${@bb.utils.contains("EMAC_SHELLMANAGER", "busybox", "busybox-ifplugd resolvconf", " ifplugd", d)} \
+    ${@bb.utils.contains("EMAC_SHELLMANAGER", "busybox", "busybox-ifplugd", " ifplugd ", d)} \
     openssh \
     rsync \
     ntp ntpdc ntpq ntp-tickadj ntp-utils ntpdate \
@@ -133,14 +136,14 @@ SUMMARY_${PN}-arm = "EMAC OE Arm 32 Packages."
 RRECOMMENDS_${PN}-arm = " \
     serial-control \
     apm \
+    ${PN}-uboot \
+"
+
+SUMMARY_${PN}-uboot = "Packages to install if machine features the U-Boot Bootloader."
+RRECOMMENDS_${PN}-uboot = " \
     libubootenv-bin \
 "
 
-#    ${@bb.utils.contains("MACHINE_FEATURES", "bigflash", "graphics-demos", "", d)} 
-#     gstreamer1.0-plugins-base 
-#     gstreamer1.0-plugins-good 
-
-# !! YIKES !!
 SUMMARY_${PN}-screen = "EMAC OE Screen Packages."
 RRECOMMENDS_${PN}-screen = " \
     psplash \
