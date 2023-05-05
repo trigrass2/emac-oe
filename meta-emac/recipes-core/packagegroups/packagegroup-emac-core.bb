@@ -32,9 +32,9 @@ PACKAGES = " \
     ${PN}-util \
     ${PN}-networking \
     ${PN}-packagemanagement \
-    ${@bb.utils.contains("MACHINE_FEATURES", "uboot", " ${PN}-uboot ", "", d)} \
-    ${@bb.utils.contains("MACHINE_FEATURES", "x86", " ${PN}-x86 ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "arm", " ${PN}-arm ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "arm", " ${PN}-uboot ", "", d)} \
+    ${@bb.utils.contains("MACHINE_FEATURES", "x86", " ${PN}-x86 ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "touchscreen", " ${PN}-touch ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "wifi", " ${PN}-wifi ", "", d)} \
     ${@bb.utils.contains("MACHINE_FEATURES", "sound", " ${PN}-sound ", '',d)} \
