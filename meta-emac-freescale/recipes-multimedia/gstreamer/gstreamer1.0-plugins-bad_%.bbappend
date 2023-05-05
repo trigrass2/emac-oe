@@ -4,6 +4,8 @@
 ## openh264 
 ## ADD libde265
 
+## Redirect source to EMAC mirror of upstream repository
+GST1.0-PLUGINS-BAD_SRC = "git://git.emacinc.com/nxp-sources/gst-plugins-bad.git;protocol=http"
 
 DEPENDS += " \
     bzip2 \

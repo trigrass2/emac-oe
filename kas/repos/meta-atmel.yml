@@ -1,0 +1,12 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/meta-emac.yml
+
+repos:
+  meta-emac:
+    layers:
+      meta-emac-atmel:
+  meta-atmel:
+    url: https://github.com/linux4sam/meta-atmel
+    path: build/layers/meta-atmel

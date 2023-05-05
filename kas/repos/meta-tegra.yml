@@ -1,0 +1,15 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/meta-emac.yml
+repos:
+  meta-emac:
+    layers:
+      meta-emac-tegra:
+  meta-tegra:
+    url: https://github.com/OE4T/meta-tegra
+    path: build/layers/meta-tegra
+    layers:
+  meta-virtualization:
+    url: https://git.yoctoproject.org/meta-virtualization
+    path: build/layers/meta-virtualization

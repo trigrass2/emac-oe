@@ -6,3 +6,9 @@ PREFERRED_PROVIDER_jpeg-native ?= "libjpeg-turbo-native"
 PREFERRED_PROVIDER_libjson = "json-c"
 
 
+PREFERRED_PROVIDER_virtual/base-utils =   "${@bb.utils.contains('EMAC_SHELLMANAGER', 'busybox', 'busybox', 'coreutils', d )}"
+
+PREFERRED_PROVIDER_virtual/update-alternatives = "${@bb.utils.contains('EMAC_PACKAGEMANAGER', 'deb', 'dpkg', 'opkg-utils', d )}"
+PREFERRED_PROVIDER_virtual/update-alternatives-native = "${@bb.utils.contains('EMAC_PACKAGEMANAGER', 'deb', 'dpkg-native', 'opkg-utils-native', d )}"
+
+

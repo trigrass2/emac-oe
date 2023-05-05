@@ -1,6 +1,7 @@
 require recipes-core/images/emac-image.bb
 DESCRIPTION = "Qt5 Image extends emac-image."
 
+IMAGE_FSTYPES ?= " ext4 tar.gz"
 IMAGE_INSTALL = " \
     packagegroup-emac-qt5 \
     ${MACHINE_EXTRA_RRECOMMENDS} \

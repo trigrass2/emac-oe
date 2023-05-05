@@ -6,14 +6,14 @@ IMAGE_FEATURES_append = "dev-pkgs"
 PACKAGE_EXCLUDE = "linux-dummy-dev lighttpd linux-firmware kernel-modules packagegroup-core-boot"
 
 IMAGE_INSTALL_append = " \
-	packagegroup-qte-toolchain-target \
-	xenomai-3 \
-	libusb1 \
-	confuse \
-	xmlrpc-c \
-	libmodbus \
-	boost \
-	"
+    packagegroup-qte-toolchain-target \
+    xenomai-3 \
+    libusb1 \
+    confuse \
+    xmlrpc-c \
+    libmodbus \
+    boost \
+"
 
 IMAGE_TYPE = "SDK"
 BUILD_TYPE = "sdk"

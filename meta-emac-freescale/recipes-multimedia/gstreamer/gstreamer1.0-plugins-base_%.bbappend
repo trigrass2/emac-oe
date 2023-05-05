@@ -1,5 +1,7 @@
 DEPENDS += " libdrm "
 
+## Redirect source to EMAC mirror of upstream repository
+GST1.0-PLUGINS-BASE_SRC = "git://git.emacinc.com/nxp-sources/gst-plugins-base.git;protocol=http"
 
 ## HACKY but it works.
 EXTRA_OEMESON = " \

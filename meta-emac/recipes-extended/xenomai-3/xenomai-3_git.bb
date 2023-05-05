@@ -25,10 +25,11 @@ inherit autotools pkgconfig
 #Make it MACHINE specific
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 
-FILES_${PN} += "\
-	${libdir}/cobalt.wrappers ${libdir}/modechk.wrappers \
+FILES_${PN} += " \
+	${libdir}/cobalt.wrappers \
+	${libdir}/modechk.wrappers \
 	${libdir}/dynlist.ld \
-	"
+"
 
 S = "${WORKDIR}/git"
 

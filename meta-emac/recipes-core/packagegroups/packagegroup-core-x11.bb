@@ -4,6 +4,8 @@
 
 PR = "r40"
 
+PACKAGE_ARCH = "${MACHINE_ARCH}"
+
 inherit packagegroup features_check
 REQUIRED_DISTRO_FEATURES = "x11"
 
@@ -22,7 +24,7 @@ RDEPENDS_${PN} = "\
     "
 
 SUMMARY_${PN}-utils = "X11 basic utilities and init"
-RDEPENDS_${PN}-utils = "\
+RDEPENDS_${PN}-utils = " \
     ${VIRTUAL-RUNTIME_xserver_common} \
     ${VIRTUAL-RUNTIME_graphical_init_manager} \
     xauth \
@@ -32,4 +34,4 @@ RDEPENDS_${PN}-utils = "\
     xmodmap \
     xdpyinfo \
     dbus-x11 \
-    "
+"

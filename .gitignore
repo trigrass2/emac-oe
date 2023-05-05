@@ -1,2 +1,2 @@
-*.old
-meta-emac-bsp/conf/machine/*.conf
+build/
+local-kas.yml

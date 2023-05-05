@@ -1,6 +1,9 @@
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
 PREFERRED_VERSION_linux-emac ?= "4.9%"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot-emac-at91"
+PREFERRED_VERSION_at91bootstrap ?= "v3.7%"
+
+EXTRA_IMAGEDEPENDS = " u-boot-emac-at91 at91bootstrap linux-emac "
 
 PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
 XSERVER ?= " \

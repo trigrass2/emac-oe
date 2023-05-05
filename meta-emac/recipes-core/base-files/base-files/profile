@@ -2,7 +2,7 @@
 # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
 
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
-EDITOR="/bin/vi"			# needed for packages like cron
+EDITOR="/bin/vi-tiny"			# needed for packages like cron
 TERM="linux"
 
 if [ "$PS1" ]; then
@@ -17,7 +17,7 @@ if [ "$PS1" ]; then
 fi
 
 if [ -d /etc/profile.d ]; then
-  for i in /etc/profile.d/* ; do
+  for i in /etc/profile.d/*.sh ; do
     . $i
   done
   unset i
@@ -35,7 +35,10 @@ fi
 
 if [ ${TERMINAL:5:4} == ttyS ] || [ ${TERMINAL:5:4} == ttyO ] || [ ${TERMINAL:5:6} == ttymxc ]
 then
-        resize > /dev/null
+    if [ -x /usr/bin/resize ];
+    then
+        resize > /dev/null;
+    fi
 fi
 
 alias minicom='minicom -con'
@@ -45,6 +48,7 @@ then
 	alias nano='TERM=vt102 nano'
 	alias rnano='TERM=vt102 rnano'
 	alias htop='TERM=xterm htop'
-	alias vi='TERM=xterm vi'
+	alias vi='TERM=xterm vi-tiny'
 	alias vim='TERM=xterm vim'
+	alias vim.tiny='TERM=xterm vim.tiny'
 fi

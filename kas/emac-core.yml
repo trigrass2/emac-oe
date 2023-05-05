@@ -1,0 +1,33 @@
+header:
+  version: 12
+  includes:
+    - kas/base.yml
+    - kas/repos/meta-emac.yml
+    - kas/repos/meta-openembedded.yml
+
+distro: emac
+target: emac-image
+
+env:
+  DISTRO_CODENAME: "duncan"
+
+repos:
+  meta-openembedded:
+    layers:
+      meta-multimedia:
+      meta-perl:
+
+
+local_conf_header:
+  
+  _distro_codename: DISTRO_CODENAME ?= "duncan"
+  
+  emac_display_hw: EMAC_DISPLAY_HW ?= "none"
+  emac_display: EMAC_DISPLAY ?= "none"
+  emac_shellmanager: EMAC_SHELLMANAGER ?= "busybox"
+  emac_initmanager: EMAC_INITMANAGER ?= "sysvinit"
+  emac_networkmanger: EMAC_NETWORKMANGER ?= "legacy"
+  emac_audiomanager: EMAC_AUDIOMANAGER ?= "alsa"
+  emac_packagemanager: EMAC_PACKAGEMANAGER ?= "ipk"
+
+  client_name: CLIENT_NAME ?= "emac"

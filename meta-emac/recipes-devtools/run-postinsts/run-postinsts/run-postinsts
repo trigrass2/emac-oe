@@ -9,44 +9,57 @@
 # #SYSCONFDIR#/ipk-postinsts or #SYSCONFDIR#/rpm-posinsts.
 
 LOGFILE="/var/log/postinst"
-
 pi_dir="#SYSCONFDIR#/ipk-postinsts"
 
+## FIXME for system d and also packagetype
 remove_rcsd_link () {
-	if [ -n "`which update-rc.d`" ]; then
-		update-rc.d -f run-postinsts remove
-	fi
-	[ -h "#SYSCONFDIR#/rcS.d/S99postinsts" ] && rm "#SYSCONFDIR#/rcS.d/S99postinsts"
+    if [ -e "$(which update-rc.d)" ];
+    then
+        update-rc.d -f run-postinsts remove
+    fi
+
+    if [ -f "#SYSCONFDIR#/rcS.d/S99postinsts" ];
+    then
+        rm "#SYSCONFDIR#/rcS.d/S99postinsts"
+    fi
 }
 
 append_log=">>$LOGFILE 2>&1"
 
 remove_pi_dir=1
 exec_postinst_scriptlets() {
-	for i in `ls $pi_dir`; do
-		i=$pi_dir/$i
-		echo "Running postinst $i..."
-		eval echo "Running postinst $i..." $append_log
-		if [ -x $i ]; then
-			eval sh -c $i $append_log
-			rm $i
-		else
-			echo "ERROR: postinst $i failed."
-			eval echo "ERROR: postinst $i failed." $append_log
-			remove_pi_dir=0
-		fi
-	done
+    for i in `ls $pi_dir`; 
+    do
+        i=$pi_dir/$i
+        echo "Running postinst $i..."
+        eval echo "Running postinst $i..." $append_log
+        if [ -x $i ];
+        then
+            eval sh -c $i $append_log
+            rm $i
+        else
+            echo "ERROR: postinst $i failed."
+            eval echo "ERROR: postinst $i failed." $append_log
+            remove_pi_dir=0
+        fi
+    done
 }
 
-eval opkg configure $append_log
-[ -d $pi_dir ] && exec_postinst_scriptlets
 
-cat $LOGFILE
+if [ -d "$pi_dir" ];
+then
+    exec_postinst_scriptlets
+    cat $LOGFILE
+fi
 
 # since all postinstalls executed successfully, remove the postinstalls directory
 # and the rcS.d link
-if [ $remove_pi_dir = 1 ]; then
-	rm -rf $pi_dir
-	remove_rcsd_link
+if [ $remove_pi_dir = 1 ];
+then
+    if [ -d $pi_dir ];
+    then
+        rm -rf $pi_dir
+        remove_rcsd_link
+    fi
 fi
 

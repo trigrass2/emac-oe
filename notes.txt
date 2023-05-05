@@ -1,6 +1,0 @@
-Here is some internal versions revs as emac movess more to yocto's branching schema
-
-dunfell = 5.4 
-dunfell-next = 5.5
-
-

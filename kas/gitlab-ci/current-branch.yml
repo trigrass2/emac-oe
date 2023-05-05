@@ -1,0 +1,6 @@
+header:
+  version: 12
+
+repos:
+  meta-emac:
+    refspec: CURRENTREF

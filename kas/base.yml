@@ -1,0 +1,51 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/poky.yml
+
+distro: poky
+machine: unset
+
+target: core-image-base
+
+defaults:
+  repos:
+    refspec: dunfell
+
+env:
+  CI_REPOSITORY_URL: "Not built via Gitlab CI/CD"
+  CI_COMMIT_BRANCH: "Not built via Gitlab CI/CD"
+  
+local_conf_header:
+  base: |
+    CONF_VERSION = "1"
+    BB_SERVER_TIMEOUT = "30"
+    BB_DISKMON_DIRS ??= "\
+      STOPTASKS,${TMPDIR},1G,100K \
+      STOPTASKS,${DL_DIR},1G,100K \
+      STOPTASKS,${SSTATE_DIR},1G,100K \
+      ABORT,${TMPDIR},100M,1K \
+      ABORT,${DL_DIR},100M,1K \
+      ABORT,${SSTATE_DIR},100M,1K"
+
+  setup: |
+    PACKAGE_CLASSES ?= "package_ipk package_rpm package_deb"
+    BUILDHISTORY_COMMIT = "1"
+    INHERIT += " rm_work buildhistory image-buildinfo"
+    OE_TERMINAL = "auto"
+    PATCHRESOLVE = "noop"
+    
+  base_extra_build_info: |
+    IMAGE_BUILDINFO_VARS_append = " CI_REPOSITORY_URL CI_COMMIT_BRANCH CLIENT_NAME "
+
+  sshkeys: |
+    CORE_IMAGE_EXTRA_INSTALL += "ssh-pregen-hostkeys"
+
+  sdk: |
+    SDKMACHINE ?= "x86_64"
+
+
+
+  
+
+

@@ -7,13 +7,19 @@ FS_NUMBER ?= "00"
 
 inherit image
 
+inherit extrausers
+EXTRA_USERS_PARAMS += " \
+    usermod -p '\$1\$UMtWLrpz\$Hpp1KSgg5zCwcxMZW1FsP1' root; \
+"
+
+
 IMAGE_ROOTFS_SIZE = "8192"
 IMAGE_BUILDINFO_VARS = "DATE DISTRO_NAME DISTRO_VERSION IMAGE_BASENAME MACHINE TUNE_PKGARCH PART_NUMBER EXTRA_PKGS"
 
+IMAGE_FSTYPES ?= " ext4 tar.gz"
+IMAGE_FSTYPES_remove = "tar.xz wic.xz"
+
 fix_rootfs() {
-
-    sed -i -e "s|^root:.*$|root:4fkNNeH5j4zNk::0:99999:7:::|" ${IMAGE_ROOTFS}${sysconfdir}/shadow
-
     echo "${DISTRO_NAME} ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue
     echo "${DISTRO_NAME} - ${DISTRO_VERSION} - ${DISTRO_RELEASE}" > ${IMAGE_ROOTFS}${sysconfdir}/issue.net
 
@@ -37,10 +43,11 @@ fix_rootfs() {
     if [ -x ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh ]; then
         ${IMAGE_ROOTFS}/etc/init.d/populate-volatile.sh
     fi
-    if [ -e ${IMAGE_ROOTFS}${datadir}/applications/htop.desktop ];then
-        rm -f ${IMAGE_ROOTFS}${datadir}/applications/htop.desktop
+    
+    if [ "${EMAC_INITMANAGER}" -eq "sysvinit" ]; 
+    then
+        ln -s ../init.d/run-postinsts ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S99postinsts
     fi
-    ln -s ../init.d/run-postinsts ${IMAGE_ROOTFS}${sysconfdir}/rcS.d/S99postinsts
 }
 
 ROOTFS_POSTPROCESS_COMMAND += " fix_rootfs; "

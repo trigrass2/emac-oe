@@ -1,60 +1,54 @@
-#
-# Base machine settings for X86 architecture BSPs
-#
+MACHINE_FEATURES = " \
+    acpi \
+    alsa \
+    bluetooth \
+    efi \
+    keyboard \
+    pci \
+    pcbios \
+    screen \
+    serial \
+    usbgadget \
+    usbhost \
+    wifi \
+"
 
+## GLIB 
+GLIBC_ADDONS = "nptl"
+
+## KERNEL
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-emac"
-PREFERRED_VERSION_linux-emac ?= "4.19%"
+PREFERRED_VERSION_linux-emac ?= "5.10%"
 
-PREFERRED_PROVIDER_virtual/xserver ?= "xserver-xorg"
-XSERVER ?= "${XSERVER_X86_BASE} \
-            ${XSERVER_X86_EXT} \
-            ${XSERVER_X86_I915} \
-            ${XSERVER_X86_I965} \
-            ${XSERVER_X86_FBDEV} \
-            ${XSERVER_X86_VESA} \
-            ${XSERVER_X86_MODESETTING} \
-            ${XSERVER_X86_TOUCH} \
-           "
-
-MACHINE_FEATURES += "screen pci x86 sound bigflash wifi"
-
-BAD_RECOMMENDATIONS += " linux-firmware "
+#PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+#PREFERRED_VERSION_linux-emac ?= "5.15%"
 
 KERNEL_IMAGETYPE ?= "bzImage"
-IMAGE_FSTYPES ?= "tar.gz"
-
-SERIAL_CONSOLE ?= "115200 ttyS0"
-
 EMAC_LINUX_VERSION_EXTENSION = "_${EMAC_LINUX_VERSION}${MACHINE_NUMBER}X${KERNEL_REV}.bzimg"
 
-#
-# XSERVER subcomponents, used to build the XSERVER variable
-#
-XSERVER_X86_BASE = "xserver-xorg \
-           xf86-input-mouse \
-           xf86-input-keyboard \
-           xf86-input-evdev \
-           xf86-input-synaptics \
-           "
+MACHINE_EXTRA_RRECOMMENDS += " \
+    kernel-modules \
+    linux-firmware \
+"
 
-XSERVER_X86_EXT = " \
-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'xserver-xorg-extension-glx', '', d)} \
-           xserver-xorg-module-libint10 \
-           "
+## BOOTLOADER 
+PREFERRED_PROVIDER_virtual/bootloader ?= "grub-efi"
+MACHINE_EXTRA_RDEPENDS += " \
+    grub-efi \
+    efibootmgr \
+"
 
-XSERVER_X86_I915 = "xf86-video-intel \
-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i915', '', d)} \
-           "
+## SERIAL 
+SERIAL_CONSOLE = "115200 ttyS0"
+SERIAL_CONSOLES_CHECK = "ttyS0"
 
-XSERVER_X86_I965 = "xf86-video-intel \
-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'mesa-driver-i965', '', d)} \
-           "
+MACHINEOVERRIDES ??= "x86"
+include conf/machine/include/x86-base.inc
 
-XSERVER_X86_VESA = "xf86-video-vesa"
-XSERVER_X86_FBDEV = "xf86-video-fbdev"
+EFI_PROVIDER ??= "grub-efi"
 
-XSERVER_X86_TOUCH = " \
-           ${@bb.utils.contains('MACHINE_FEATURES', 'touchscreen', 'xf86-input-tslib', '', d)} \
-           "
-
-XSERVER_X86_MODESETTING = "xf86-video-modesetting"
+## IMAGE
+IMAGE_FSTYPES ?= "tar.gz wic wic.bmap iso live"
+WKS_FILE ?= "x86-efi.wks.in"
+do_image_wic[depends] += "gptfdisk-native:do_populate_sysroot"
+do_image_wic[recrdeptask] += "do_bootimg"

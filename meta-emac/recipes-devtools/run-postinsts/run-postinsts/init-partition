@@ -1,28 +1,16 @@
 #!/bin/sh
 
-echo "Running init-partition"
 if [ ! -d /home/root ]; then
     echo "Creating /home/root "
     mkdir -p /home/root
-
-    if [ -x /usr/sbin/fbset ]; then
-        fbresH=$(fbset | grep geometry | cut -d " " -f6)
-        fbresV=$(fbset | grep geometry | cut -d " " -f7)
-        if [ -x /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz ]; then
-            echo "Extracting graphics demos"
-            mkdir -p /home/root/Demos/graphics
-            tar zxf /etc/emac/demos/${fbresH}x${fbresV}_ppm.tar.gz -C /home/root/Demos/graphics
-        fi
-    fi
-    if [ -x /etc/emac/demos/audio_demos.tar.gz ]; then
-        echo "Extracting audio demos"
-        mkdir -p /home/root/Demos/audio
-        tar zxf /etc/emac/demos/audio_demos.tar.gz -C /home/root/Demos/audio
-    fi
 fi
 
-[ -d /etc/emac/demos ] && rm -rf /etc/emac/demos
+echo "Running init-partition"
+if [ -x /usr/sbin/fbset ]; 
+then
+    fbresH=$(fbset | grep geometry | cut -d " " -f6)
+    fbresV=$(fbset | grep geometry | cut -d " " -f7)
+fi
 
 [ -e /etc/init.d/dbus-1 ] && echo "Running D-Bus init" && /etc/init.d/dbus-1 start
-
 [ -x /usr/bin/oe_info.sh ] && /usr/bin/oe_info.sh

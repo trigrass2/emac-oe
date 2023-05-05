@@ -1,0 +1,12 @@
+header:
+  version: 12
+  includes:
+    - kas/emac-core.yml
+    - kas/repos/meta-intel.yml
+
+machine: intel-x86
+
+local_conf_header:  
+  emac_display_hw: EMAC_DISPLAY_HW ?= "opengl"
+  emac_display: EMAC_DISPLAY ?= "x11"
+  emac_audiomanager: EMAC_AUDIOMANAGER ?= "alsa pulseaudio"
