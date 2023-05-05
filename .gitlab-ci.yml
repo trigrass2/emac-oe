@@ -12,11 +12,11 @@ include:
 
 stages:
   - build
-  - clean
 
 emac-image-manual: # allow this if to be skipped
   extends: .kas-build
   variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/ipac9x25.yml:"
   rules:
     - if: $GIT_MACHINE == "none"

@@ -2,10 +2,10 @@
   stage: build
   dependencies: []
   variables:
-    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
-    KAS_MACHINES_FILE: "kas/machines/genericx86.yml:"
+    KAS_DISTROS_FILE: ""
+    KAS_MACHINES_FILE: ""
     KAS_SOFTWARE_STACK: ""
-    KAS_OPTION_FILES: "kas/options/persistent_downloads_sstate.yml:"
+    KAS_OPTION_FILES: "kas/options/downloads.yml:kas/options/emac-uploads.yml:"
     KASFILES: "${KAS_DISTROS_FILE}${KAS_MACHINES_FILE}${KAS_SOFTWARE_STACK}${KAS_OPTION_FILES}kas/gitlab-ci/current-branch.yml"
   tags:
     - oe-builder
@@ -38,13 +38,9 @@
       if [ "$OE_DEPLOYMENT" == "true" ]; then
         kas shell $KASFILES -c "bitbake package-index"; 
         tail --pid=$(cat build/bitbake.lock) -f /dev/null || true
-        export ARCHIVE_PATH="$(kas shell $KASFILES -c "bitbake -e" | grep ^ARCHIVE_PATH= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        tail --pid=$(cat build/bitbake.lock) -f /dev/null || true
-        export DEPLOY_DIR="$(kas shell $KASFILES -c "bitbake -e" | grep ^DEPLOY_DIR= | sed 's|=| |g' | awk '{print $2}' | sed 's|\"||g')";
-        tail --pid=$(cat build/bitbake.lock) -f /dev/null || true
-        upload_oe;
-        upload_oe_archive;
+        kas shell $KASFILES -c "../kas/gitlab-ci/emac-deployment.sh";
       fi
+    - kas shell $KASFILES -c "../kas/gitlab-ci/emac-sstate-management.sh"
 
   after_script:
     - git restore .
