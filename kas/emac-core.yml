@@ -1,0 +1,5 @@
+header:
+  version: 12
+
+local_conf_header:
+  client_name: CLIENT_NAME ?= "emac"

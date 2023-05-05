@@ -1,0 +1,9 @@
+header:
+  version: 12
+  
+repos:
+  meta-intel:
+    url: https://git.yoctoproject.org/meta-intel
+    path: build/layers/meta-intel
+
+# Layer depends on core

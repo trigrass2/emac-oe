@@ -1,6 +1,12 @@
 header:
   version: 12
   includes:
+    - kas/repos/upstream/poky.yml
     - kas/layers/meta-emac-bsp.yml
 
 machine: genericx86-64
+
+repos:
+  poky:
+    layers:
+      meta-yocto-bsp:

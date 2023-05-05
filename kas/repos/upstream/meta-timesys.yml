@@ -1,0 +1,9 @@
+header:
+  version: 12
+
+repos:
+  meta-timesys:
+    url: https://github.com/TimesysGit/meta-timesys.git
+    path: build/layers/meta-timesys
+
+# Layer depends on core

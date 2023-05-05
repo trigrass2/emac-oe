@@ -1,6 +1,0 @@
-header:
-  version: 12
-  includes:
-    - kas/layers/meta-emac-ti.yml
-
-machine: som5728

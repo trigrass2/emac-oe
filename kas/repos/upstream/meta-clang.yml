@@ -1,0 +1,10 @@
+header:
+  version: 12
+
+repos:
+  meta-clang:
+    url: https://github.com/kraj/meta-clang.git
+    path: build/layers/meta-clang
+
+# Layer
+# depends on core

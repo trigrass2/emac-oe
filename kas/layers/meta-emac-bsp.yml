@@ -1,14 +1,10 @@
 header:
   version: 12
   includes:
-    - kas/repos/poky.yml
     - kas/repos/emac-oe.yml
 
 repos:
   emac-oe:
     layers:
       meta-emac-bsp:
-  poky:
-    layers:
-      meta-yocto-bsp:
   

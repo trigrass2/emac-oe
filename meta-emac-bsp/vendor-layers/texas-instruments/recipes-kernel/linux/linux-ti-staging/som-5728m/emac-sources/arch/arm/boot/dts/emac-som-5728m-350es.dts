@@ -1,0 +1,304 @@
+/*
+ * Copyright (C) 2023 EMAC Incorporated - http://www.emacinc.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+
+#include "emac-som-5728m.dtsi"
+
+/ {
+	model = "EMAC Inc. SoM-5728M w/ 350ES";
+	compatible = "emac,som-5728m-350es", "emac,som-5728m", "ti,am5728", "ti,dra742", "ti,dra74", "ti,dra7";
+	
+	aliases {
+		com-a = &uart3;
+		com-b = &uart5;
+		com-c = &uart6;
+		com-d = &uart7;
+		display0 = &lvds_panel_7in;
+		display1 = &hdmi0_conn;
+		display0 = &lvds_panel_10in;
+	};
+
+	wlan_en_reg: wlan-en-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "wlan-en-regulator";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&vdd_3v3_reg>;
+		gpios = <&gpio8 2 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <100000>;
+      	enable-active-high;
+	};
+
+	lvds3v3_en_reg: lvds3v3-en-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "lvds3v3-en-regulator";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		vin-supply = <&vdd_3v3_reg>;
+		gpios = <&gpio6 28 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <100000>;
+      	enable-active-high;
+	};
+
+	lvds5v_en_reg: lvds5v-en-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "lvds5v-en-regulator";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		vin-supply = <&vmain>;
+		gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
+		startup-delay-us = <100000>;
+      	enable-active-high;
+	};
+
+	clocks {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		tlv320_mclk: tlv320_mclk {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <12000000>;
+			clock-output-names = "mclk";
+		};
+	};
+	
+	beeper: beeper {
+		compatible = "gpio-beeper";
+		gpios = <&gpio8 12 GPIO_ACTIVE_HIGH>;
+	};
+
+	backlight: backlight {
+		compatible = "pwm-backlight";
+		pwms = <&ecap0 0 50000 0>;
+		power-supply = <&vdd_3v3_reg>;
+		enable-gpios = <&gpio4 31 GPIO_ACTIVE_LOW>, <&gpio8 11 GPIO_ACTIVE_HIGH>;
+		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
+		default-brightness-level = <9>;
+	};
+
+	lvds_panel_7in: display {
+		compatible = "innolux,at070tn92", "simple-panel";
+		backlight = <&backlight>;
+		power-supply = <&lvds3v3_en_reg>;
+		ddc-i2c-bus = <&i2c5>;
+		port {
+			lcd_in: endpoint {
+				remote-endpoint = <&lvds_out>;
+			};
+		};
+	};
+	lvds_panel_10in: display {
+		compatible = "innolux,at070tn92", "simple-panel";
+		backlight = <&backlight>;
+		power-supply = <&lvds5v_en_reg>;
+		ddc-i2c-bus = <&i2c5>;
+		status = "disabled";
+		port {
+			lcd_in: endpoint {
+				remote-endpoint = <&lvds_out>;
+			};
+		};
+	};
+
+	hdmi0_conn: connector {
+		compatible = "hdmi-connector";
+		label = "hdmi";
+		status = "okay";
+		type = "a";
+
+		//native?
+		hpd-gpios = <0>;
+
+		port {
+			hdmi_connector_in: endpoint {
+				remote-endpoint = <&tpd12s015_out>;
+			};
+		};
+	};
+
+	sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "tlv320aic32x4";
+		simple-audio-card,bitclock-master = <&codec_master>;
+		simple-audio-card,frame-master = <&codec_master>;
+		simple-audio-card,bitclock-inversion;
+		simple-audio-card,widgets =
+			"Microphone", "Microphone Jack",
+			"Headphone", "Headphone Jack";
+		simple-audio-card,routing =
+			"Headphone Jack", "HPL",
+			"Headphone Jack", "HPR",
+			"IN1_L", "Microphone Jack",
+			"IN1_R", "Microphone Jack",
+			"Microphone Jack", "Mic Bias";
+
+		cpu_master: simple-audio-card,cpu {
+			sound-dai = <&mcasp8>;
+		};
+
+		codec_master: simple-audio-card,codec {
+			sound-dai = <&codec>;
+			clocks = <&tlv320_mclk>;
+		};
+	};
+};
+
+&i2c5 {
+	status = "okay";
+};
+
+// SD Card
+&mmc1 {
+	disable-wp;
+    status = "okay";
+};
+
+// Enable SATA
+&sata_phy {
+	status = "okay";
+};
+&sata {
+	status = "okay";
+};
+
+// usb3.x interface
+&usb1 { 
+	status = "okay";
+};
+&usb2_phy1 {
+	status = "okay";
+};
+
+// usb2.x interface
+&usb2 { 
+	status = "okay";
+};
+&usb2_phy2 {
+	status = "okay";
+};
+
+// Gig ETH
+&mac_sw{
+	status = "okay";
+};
+
+&davinci_mdio_sw {
+    status = "okay";
+};
+
+&cpsw_port1 {
+    status = "okay";
+};
+
+
+// Display info
+
+&lvds_out {
+	remote-endpoint = <&lcd_in>;
+	status = "okay";
+};
+&touch {
+	status = "okay";
+};
+&ecap0 {
+	status = "okay";
+};
+&epwmss0 {
+	status = "okay";
+};
+
+// HDMI
+&hdmi {
+	status = "okay";
+};
+&tpd12s015_enc {
+	gpios = <0>, /* optional CT_CP_HPD */
+			<0>, /* optional LS_OE */
+			<&gpio7 12 GPIO_ACTIVE_HIGH>;	/* HPD */
+};
+&tpd12s015_out {
+	remote-endpoint = <&hdmi_connector_in>;
+};
+
+
+// Sound
+&mcasp8 {
+	status = "okay";
+};
+
+&i2c4 {
+	status = "okay";
+	codec: tlv320aic32x4@18{
+		#sound-dai-cells = <0>;
+		compatible = "ti,tlv320aic32x4";
+		reg = <0x18>;
+		clocks = <&tlv320_mclk>;
+		clock-names = "mclk";
+		iov-supply = <&vdd_3v3_reg>;
+		ldoin-supply = <&vdd_3v3_reg>;
+		input-use = <1 1 0 0 0 0>;
+		cmode = <0x11 0>;
+		status = "okay";
+	};	
+};
+
+// Wifi
+&mmc4 {
+    status = "okay";
+	disable-wp;
+	non-removable;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	vmmc-supply = <&wlan_en_reg>;
+	cap-power-off-card;
+	keep-power-in-suspend;
+	wlcore: wlcore@2 {
+		compatible = "ti,wl1835";
+		reg = <0x2>;
+		interrupt-parent = <&gpio4>;
+		interrupts = <10 IRQ_TYPE_LEVEL_HIGH>;
+	};
+};
+
+
+// uarts
+&uart5 {
+	status = "okay";
+	// DCD, DTR, DSR, and RI pings invalid
+	// Pins DTR and RI do not have gpio muxings, instead provide uart 8
+};
+
+&uart6 {
+	status = "okay";
+};
+
+&uart7 {
+	status = "okay";
+	bluetooth {
+		compatible = "ti,wl1835-st";
+		enable-gpios = <&gpio8 10 GPIO_ACTIVE_HIGH>;
+	};
+};
+
+/*
+ * Can
+ */
+&dcan1 {
+    status = "okay";
+};
+
+&dcan2 {
+    status = "okay";
+};
+
+&pcie1_rc {
+	gpios = <&gpio7 15 GPIO_ACTIVE_LOW>;
+	status = "okay";
+};

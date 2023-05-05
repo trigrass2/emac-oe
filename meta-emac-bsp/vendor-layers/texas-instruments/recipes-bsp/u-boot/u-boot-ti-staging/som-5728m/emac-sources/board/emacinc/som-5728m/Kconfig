@@ -1,0 +1,14 @@
+if TARGET_EMAC_SOM_5728M
+
+config SYS_BOARD
+	default "som-5728m"
+
+config SYS_VENDOR
+	default "emacinc"
+
+config SYS_CONFIG_NAME
+	default "emac-som-5728m"
+
+source "board/emacinc/common/Kconfig"
+
+endif
