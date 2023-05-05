@@ -1,2 +1,0 @@
-PACKAGECONFIG:remove = "x264"
-LICENSE_FLAGS = ""

@@ -1,0 +1,5 @@
+console=ttyS2,115200n8
+vendor=emac
+loadaddr=0x82000000
+kernel_addr_r=0x82000000
+fdt_addr_r=0x82800000

@@ -1,0 +1,10 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/emac-oe.yml
+
+repos:
+  emac-oe:
+    layers:
+      meta-emac-bsp:
+  

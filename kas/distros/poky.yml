@@ -1,0 +1,14 @@
+# Poky Distro Layer
+header:
+  version: 12
+  includes:
+    - kas/base.yml
+
+distro: poky
+
+target: core-image-base
+
+repos:
+  poky:
+    layers:
+      meta-poky:

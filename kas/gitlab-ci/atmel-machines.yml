@@ -1,13 +1,23 @@
 build-ipac9x25:
   extends: .kas-build
   variables:
-    KAS_MACHINE: ipac9x25
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/ipac9x25.yml:"
   rules:
     - if: $GIT_MACHINE == "ipac9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+
+build-som9x25:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/som9x25.yml:"
+  rules:
+    - if: $GIT_MACHINE == "som9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
 
 build-soma5d36:
   extends: .kas-build
   variables:
-    KAS_MACHINE: soma5d36
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/soma5d36.yml:"
   rules:
     - if: $GIT_MACHINE == "soma5d36" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"

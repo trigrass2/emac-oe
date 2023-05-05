@@ -1,0 +1,626 @@
+/*
+ * Copyright (C) 2014-2016 Texas Instruments Incorporated - http://www.ti.com/
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+
+#include "dra74x.dtsi"
+#include "am57xx-commercial-grade.dtsi"
+
+#include "dra74x-mmc-iodelay.dtsi"
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/net/qca-ar803x.h>
+
+/ {
+	model = "EMAC Inc. SoM-5728M";
+	compatible = "emac,som-5728m", "ti,dra742", "ti,dra74", "ti,dra7";
+
+	aliases {
+		rtc0 = &rtc_rx8803;
+		rtc1 = &tps659038_rtc;
+		rtc2 = &rtc;
+        mmcblk0 = &mmc1;
+        mmcblk1 = &mmc2;
+		spi1 = &mcspi3;
+		spi2 = &mcspi4;
+	};
+
+	chosen {
+		stdout-path = &uart3;
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x80000000 0x0 0x40000000>; /* 1GB configuration */
+	};
+
+	vmain: fixedregulator-vmain {
+		compatible = "regulator-fixed";
+		regulator-name = "VMAIN";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		regulator-always-on;
+		regulator-boot-on;
+	};
+
+	bl_pwr: backlight-pwr-en {
+		compatible = "regulator-fixed";
+		regulator-name = "LVDS ABL EN";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+		vin-supply = <&vdd_3v3_reg>;
+		gpio = <&gpio4 31 GPIO_ACTIVE_LOW>;
+		startup-delay-us = <1000>;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		led0 {
+			label = "status";
+			gpios = <&gpio3 0 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "heartbeat";
+		};
+	};
+
+	tpd12s015_enc: encoder {
+		compatible = "ti,tpd12s015";
+		status = "okay";
+		ports {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			port@0 {
+				reg = <0>;
+
+				tpd12s015_in: endpoint {
+					remote-endpoint = <&hdmi_out>;
+				};
+			};
+
+			port@1 {
+				reg = <1>;
+
+				tpd12s015_out: endpoint {
+					remote-endpoint = <0>;
+				};
+			};
+		};
+	};
+};
+
+&cpu0 {
+	vdd-supply = <&vdd_mpu_reg>;
+	voltage-tolerance = <1>;
+};
+
+&cpu_trips {
+	cpu_alert1: cpu_alert1 {
+		temperature = <50000>; /* millicelsius */
+		hysteresis = <2000>; /* millicelsius */
+		type = "active";
+	};
+};
+
+/*
+ * i2c
+ */
+&i2c1 {
+	status = "okay";
+	clock-frequency = <400000>;
+        // pmic
+	tps659038: tps659038@58 {
+		compatible = "ti,tps659038";
+		reg = <0x58>;
+		interrupt-parent = <&gpio4>;
+		interrupts = <29 IRQ_TYPE_LEVEL_LOW>;
+		#interrupt-cells = <2>;
+		interrupt-controller;
+
+		ti,palmas-override-powerhold;
+		ti,system-power-controller;
+
+		tps659038_pmic {
+			compatible = "ti,tps659038-pmic";
+			smps12-in-supply = <&vmain>;
+			smps3-in-supply = <&vmain>;
+			smps45-in-supply = <&vmain>;
+			smps6-in-supply = <&vmain>;
+			smps7-in-supply = <&vmain>;
+			smps8-in-supply = <&vmain>;
+			smps9-in-supply = <&vmain>;
+			ldo1-in-supply = <&vmain>;
+			ldo2-in-supply = <&vmain>;
+			ldo3-in-supply = <&vmain>;
+			ldo4-in-supply = <&vmain>;
+			ldo9-in-supply = <&vmain>;
+			ldoln-in-supply = <&vmain>;
+			ldousb-in-supply = <&vmain>;
+			ldortc-in-supply = <&vmain>;
+
+			regulators {
+				vdd_mpu_reg: smps12 {
+					regulator-name = "smps12";
+					regulator-min-microvolt = < 850000>;
+					regulator-max-microvolt = <1250000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				vdd_ddr_reg: smps3 {
+					/* VDD_DDR */
+					regulator-name = "smps3";
+					regulator-min-microvolt = <1350000>;
+					regulator-max-microvolt = <1350000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				vdd_dspeve_reg: smps45 {
+					/* VDD_DSPEVE */
+					regulator-name = "smps45";
+					regulator-min-microvolt = < 850000>;
+					regulator-max-microvolt = <1250000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				vdd_gpu_reg: smps6 {
+					/* VDD_GPU */
+					regulator-name = "smps6";
+					regulator-min-microvolt = <850000>;
+					regulator-max-microvolt = <1250000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				vdd_core_reg: smps7 {
+					/* VDD_CORE */
+					regulator-name = "smps7";
+					regulator-min-microvolt = <850000>;
+					regulator-max-microvolt = <1150000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				vdd_iva_reg: smps8 {
+					/* VDD_IVA */
+					regulator-name = "smps8";
+					//regulator-min-microvolt = <1800000>;
+					//regulator-max-microvolt = <1800000>;
+					//regulator-always-on;
+					//regulator-boot-on;
+				};
+
+				vdd_3v3_reg: smps9 {
+					/* VDD_3V3 */
+					regulator-name = "smps9";
+					regulator-min-microvolt = <3300000>;
+					regulator-max-microvolt = <3300000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				ldo1_3v3_sd_reg: ldo1 {
+					/* VDD_SD / VDDSHV8  */
+					regulator-name = "ldo1";
+					regulator-min-microvolt = <3300000>;
+					regulator-max-microvolt = <3300000>;
+					regulator-boot-on;
+					regulator-always-on;
+				};
+
+				ldo2_1v8_reg: ldo2 {
+					/* VDD_SHV5 */
+					regulator-name = "ldo2";
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				ldo3_1v8_phy_reg: ldo3 {
+					/* VDDA_1V8_PHYA */
+					regulator-name = "ldo3";
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				ldo4_1v8_phy_reg: ldo4 {
+					/* VDDA_1V8_PHYB */
+					regulator-name = "ldo4";
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				ldo9_rtc_reg: ldo9 {
+					/* VDD_RTC */
+					regulator-name = "ldo9";
+					regulator-min-microvolt = <840000>;
+					regulator-max-microvolt = <1160000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				ldoln_1v8_pll_reg: ldoln {
+					/* VDDA_1V8_PLL */
+					regulator-name = "ldoln";
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				ldousb_3v3_reg: ldousb {
+					/* VDDA_3V_USB: VDDA_USBHS33 */
+					regulator-name = "ldousb";
+					regulator-min-microvolt = <3300000>;
+					regulator-max-microvolt = <3300000>;
+					regulator-boot-on;
+				};
+				
+				ldortc_1v8_reg: ldortc {
+					/* VDDA_RTC  */
+					regulator-name = "ldortc";
+					regulator-min-microvolt = <1800000>;
+					regulator-max-microvolt = <1800000>;
+					regulator-always-on;
+					regulator-boot-on;
+				};
+
+				/* unused */
+				regen1: regen1 {
+					/* VDD_3V3_ON */
+					regulator-name = "regen1";
+					regulator-boot-on;
+					regulator-always-on;
+				};
+				/* unused */
+				regen2: regen2 {
+					/* Needed for PMIC internal resource */
+					regulator-name = "regen2";
+					regulator-boot-on;
+					regulator-always-on;
+				};
+			};
+		};
+
+		tps659038_rtc: tps659038_rtc {
+			compatible = "ti,palmas-rtc";
+			interrupt-parent = <&tps659038>;
+			interrupts = <8 IRQ_TYPE_EDGE_FALLING>;
+			wakeup-source;
+		};
+
+		tps659038_pwr_button: tps659038_pwr_button {
+			compatible = "ti,palmas-pwrbutton";
+			interrupt-parent = <&tps659038>;
+			interrupts = <1 IRQ_TYPE_EDGE_FALLING>;
+			wakeup-source;
+			ti,palmas-long-press-seconds = <12>;
+		};
+        
+	};
+	
+	rtc_rx8803: rtc@32 {
+		status = "okay";
+		compatible = "epson,rv8803";
+		reg = <0x32>;
+	};
+
+	/* STMPE811 touch screen controller */
+	stmpe811@41 {
+		compatible = "st,stmpe811";
+		reg = <0x41>;
+		interrupt-parent = <&gpio6>;
+		interrupts = <16 IRQ_TYPE_LEVEL_LOW>;
+		interrupt-controller;
+		id = <0>;
+		blocks = <0x5>;
+		irq-trigger = <0x1>;
+		st,mod-12b = <1>; /* 12-bit ADC */
+		st,ref-sel = <0>; /* internal ADC reference */
+		st,adc-freq = <1>; /* 3.25 MHz ADC clock speed */
+		st,sample-time = <4>; /* ADC converstion time: 80 clocks */
+
+		stmpe_adc {
+			compatible = "st,stmpe-adc";
+			/* forbid to use ADC channels 3-0 (touch) */
+			st,norequest-mask = <0x0F>;
+		};
+
+		touch: stmpe_touchscreen {
+			status = "disabled";
+			compatible = "st,stmpe-ts";
+			/* 8 sample average control */
+			st,ave-ctrl = <3>;
+			/* 7 length fractional part in z */
+			st,fraction-z = <7>;
+			/*
+			 * 50 mA typical 80 mA max touchscreen drivers
+			 * current limit value
+			 */
+			st,i-drive = <1>;
+			/* 1 ms panel driver settling time */
+			st,settling = <3>;
+			/* 5 ms touch detect interrupt delay */
+			st,touch-det-delay = <5>;
+		};
+	};
+};
+
+/*
+ * SPI interfaces
+*/
+
+&qspi {
+	status = "okay";
+	spi-max-frequency = <76800000>;
+	m25p80@0 {
+		compatible = "w25q128", "jedec,spi-nor";
+		spi-max-frequency = <76800000>;
+		reg = <0>;
+		spi-tx-bus-width = <1>;
+		spi-rx-bus-width = <1>;
+		#address-cells = <1>;
+		#size-cells = <1>;
+	};
+};
+
+&mcspi3 {
+	status = "disabled";
+	/* CS0 - native (vout1_clk) 
+	 * CS1 - native (vout1_fld) 
+	 * CS2 - native (vout1_d0) 
+	 */
+	cs-gpios = <&gpio4 19>,<&gpio4 21>,<&gpio8 0>;
+	num-cs = <3>;
+};
+
+&mcspi4 {
+	status = "disabled";
+	/* CS0 - native (vin2a_d1) 
+	 * CS1 - native (gpmc_a12) 
+	 * CS2 - nc
+	 * CS3 - native (gpmc_a14) 
+	 */
+	cs-gpios = <&gpio4 2>,<&gpio2 2>,<0>,<&gpio2 4>;
+	num-cs = <4>;
+
+	no-device@2 {/* Do Not Use */};
+};
+
+&mmc1 {
+    status = "disabled";
+    bus-width = <4>;
+    vmmc-supply = <&vdd_3v3_reg>;
+    vqmmc-supply = <&ldo1_3v3_sd_reg>;
+    max-frequency = <48000000>;
+    no-1-8-v;
+    
+    pinctrl-names = "default", "hs";
+	pinctrl-0 = <&mmc1_pins_default>;
+	pinctrl-1 = <&mmc1_pins_hs>;
+};
+
+&mmc2 {
+    status = "okay";
+    vmmc-supply = <&vdd_3v3_reg>;
+    vqmmc-supply = <&vdd_3v3_reg>;
+    bus-width = <8>;
+    non-removable;
+    max-frequency = <96000000>;
+	no-1-8-v;
+    
+    pinctrl-names = "default", "hs";
+	pinctrl-0 = <&mmc2_pins_default>;
+	pinctrl-1 = <&mmc2_pins_hs>;
+};
+
+&mmc4 {
+    status = "disabled";
+    bus-width = <4>;
+    vmmc-supply = <&vdd_3v3_reg>;
+    vqmmc-supply = <&ldo1_3v3_sd_reg>;
+    max-frequency = <48000000>;
+    no-1-8-v;
+
+    pinctrl-names = "default", "hs";
+	pinctrl-0 = <&mmc4_pins_default>;
+	pinctrl-1 = <&mmc4_pins_hs>;
+};
+
+// usb3.x interface
+&usb1 { 
+	dr_mode = "host";
+};
+
+// usb2.x interface
+&usb2 { 
+	dr_mode = "host";
+};
+
+&mac{
+	slaves = <1>;
+	status = "okay";
+};
+
+&davinci_mdio {
+    ethphy4: ethernet-phy@4 {
+		reg = <4>;
+		qca,clk-out-frequency = <50000000>;
+		qca,keep-pll-enabled;
+		vddio-supply = <&vddio>;
+		reset-gpios = <&gpio4 25 GPIO_ACTIVE_LOW>;
+    	reset-assert-us = <500000>;
+		reset-deassert-us = <500000>;
+
+		vddio: vddio-regulator {
+			regulator-min-microvolt = <1500000>;
+			regulator-max-microvolt = <1500000>;
+		};
+    };
+};
+
+&cpsw_emac0 {
+    phy-handle = <&ethphy4>;
+    phy-mode = "rgmii";
+	ti,dual-emac-pvid = <1>;
+};
+&cpsw_emac1 {
+    status = "disabled";
+};
+
+&usb2_phy1 {
+	phy-supply = <&ldousb_3v3_reg>;
+};
+
+&usb2_phy2 {
+	phy-supply = <&ldousb_3v3_reg>;
+};
+
+&dss {
+	status = "okay";
+	vdda_video-supply = <&ldoln_1v8_pll_reg>;
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		port@2 {
+			reg = <2>;
+			lvds_out: endpoint {
+				data-lines = <18>;
+				status = "disabled";
+			};
+		};
+	};
+};
+
+&hdmi {
+	status = "disabled";
+	vdda-supply = <&ldo4_1v8_phy_reg>;
+
+	port {
+		hdmi_out: endpoint {
+			remote-endpoint = <&tpd12s015_in>;
+		};
+	};
+};
+
+
+&dra7_pmx_core {
+	dcan1_pins_default: dcan1_pins_default {  
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x37d4, PIN_INPUT | MUX_MODE15) 	/* (Errata i893) dcan1_rx.dcan1_rx */
+			DRA7XX_CORE_IOPAD(0x37d0, PIN_OUTPUT | MUX_MODE0) 	/* dcan1_tx.dcan1_tx */
+		>;
+	};
+
+	dcan2_pins_default: dcan2_pins_default {
+		pinctrl-single,pins = <
+			DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE15) 	/* (Errata i893) gpio6_15.dcan2_rx */
+			DRA7XX_CORE_IOPAD(0x3688, PIN_OUTPUT | MUX_MODE2) 	/* gpio6_14.dcan2_tx */
+		>;
+	};
+};
+
+/*
+ * Can
+ */
+&dcan1 {
+    status = "disabled";
+    pinctrl-names = "default";
+    pinctrl-0 = <&dcan1_pins_default>;
+};
+
+&dcan2 {
+    status = "disabled";
+    pinctrl-names = "default";
+    pinctrl-0 = <&dcan2_pins_default>;
+};
+
+/*
+ * UART
+ */
+
+&uart1 {
+	status = "disabled";
+};
+
+&uart2 {
+	status = "disabled";
+};
+
+// console
+&uart3 {
+	status = "okay";
+	interrupts-extended = <&crossbar_mpu GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>, <&dra7_pmx_core 0x3f8>;
+};
+
+&mcasp5 {
+    #sound-dai-cells = <0>;
+    assigned-clocks = <&mcasp5_ahclkx_mux>;
+    assigned-clock-parents = <&sys_clkin2>;
+    op-mode = <0>;	
+    tdm-slots = <2>;
+    serial-dir = < 1 2 0 0 >;
+    tx-num-evt = <32>;
+    rx-num-evt = <32>;
+};
+
+&mcasp8 {
+    #sound-dai-cells = <0>;
+    assigned-clocks = <&mcasp8_ahclkx_mux>;
+    assigned-clock-parents = <&sys_clkin2>;
+    op-mode = <0>;	
+    tdm-slots = <2>;
+    serial-dir = < 1 2 0 0 >;
+    tx-num-evt = <32>;
+    rx-num-evt = <32>;
+};
+
+&epwmss0 {
+	eqep0: counter@180 {
+		compatible = "ti,dra746-eqep", 
+				 "ti,am3352-eqep";
+		reg = <0x180 0x80>;
+		clocks = <&l4_root_clk_div>;
+		clock-names = "sysclkout";
+		interrupts = <210>;
+		status = "disabled";
+	};
+};
+
+&epwmss1 {
+	eqep1: counter@180 {
+		compatible = "ti,dra746-eqep", 
+				 "ti,am3352-eqep";
+		reg = <0x180 0x80>;
+		clocks = <&l4_root_clk_div>;
+		clock-names = "sysclkout";
+		interrupts = <211>;
+		status = "disabled";
+	};
+};
+
+&epwmss2 {
+	eqep2: counter@180 {
+		compatible = "ti,dra746-eqep", 
+				 "ti,am3352-eqep";
+		reg = <0x180 0x80>;
+		clocks = <&l4_root_clk_div>;
+		clock-names = "sysclkout";
+		interrupts = <212>;
+		status = "disabled";
+	};
+};
+
+

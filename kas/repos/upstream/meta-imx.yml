@@ -1,0 +1,10 @@
+header:
+  version: 12
+
+repos:
+  meta-imx:
+    url: https://github.com/nxp-imx/meta-imx.git
+    path: build/layers/meta-imx
+    refspec: kirkstone-5.15.71-2.2.0
+    layers:
+      .: excluded

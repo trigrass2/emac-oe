@@ -1,0 +1,11 @@
+header:
+  version: 12
+
+repos:
+  emac-oe:
+    url: http://git.emacinc.com/OE/emac-oe
+    path: build/layers/emac-oe
+    refspec: kirkstone-next
+    layers:
+      .: excluded
+        

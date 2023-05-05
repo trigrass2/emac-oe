@@ -1,6 +1,5 @@
 variables:
   GIT_MACHINE: "none"
-  DISTRO_CODENAME: "spike"
   GIT_CLEAN_FLAGS: none
   INCLUDE_SDK: "false"
 
@@ -13,12 +12,12 @@ include:
 
 stages:
   - build
-  - clean
 
 emac-image-manual: # allow this if to be skipped
   extends: .kas-build
   variables:
-    KAS_MACHINE: ipac9x25
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/ipac9x25.yml:"
   rules:
     - if: $GIT_MACHINE == "none"
   when: manual

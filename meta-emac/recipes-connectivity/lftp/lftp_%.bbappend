@@ -1,4 +1,0 @@
-BBCLASSEXTEND:append = " \
-    native \
-    nativesdk \
-" 

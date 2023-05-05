@@ -1,7 +1,8 @@
 header:
   version: 12
   includes:
-    - kas/emac-core.yml
-    - kas/repos/meta-freescale.yml
+    - kas/repos/upstream/meta-freescale.yml
+    - kas/repos/upstream/meta-freescale-3rdparty.yml
+    - kas/layers/meta-emac-bsp.yml
 
 machine: somimx6

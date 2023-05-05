@@ -1,6 +1,39 @@
-build-atom-i7-browser:
+build-genericx86:
   extends: .kas-build
   variables:
-    KAS_MACHINE: atom-i7-browser
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/genericx86.yml:"
   rules:
-    - if: $GIT_MACHINE == "atom-i7-browser" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "genericx86" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-genericx86-i586:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/genericx86-i586.yml:"
+  rules:
+    - if: $GIT_MACHINE == "genericx86-i586" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-genericx86-64:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/genericx86-64.yml:"
+  rules:
+    - if: $GIT_MACHINE == "genericx86-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-intel-core2-32:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/intel-core2-32.yml:"
+  rules:
+    - if: $GIT_MACHINE == "intel-core2-32" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-intel-corei7-64:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/intel-corei7-64.yml:"
+  rules:
+    - if: $GIT_MACHINE == "intel-corei7-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"

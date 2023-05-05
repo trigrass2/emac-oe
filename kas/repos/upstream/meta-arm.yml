@@ -1,0 +1,9 @@
+header:
+  version: 12
+
+repos:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    path: build/layers/meta-arm
+    layers:
+      .: excluded

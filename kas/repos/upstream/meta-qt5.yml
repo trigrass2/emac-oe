@@ -1,0 +1,11 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-python2.yml
+
+repos:
+  meta-qt5:
+    url: https://github.com/meta-qt5/meta-qt5
+    path: build/layers/meta-qt5
+
+#Layer depends on core

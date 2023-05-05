@@ -1,9 +1,0 @@
-header:
-  version: 12
-
-local_conf_header:
-  distro_codename: DISTRO_CODENAME ?= "spike"
-  downloads: |
-    DL_DIR ?= "/srv/emac-oe/downloads"
-    BB_GENERATE_MIRROR_TARBALLS ?= "1"
-  sstate_cache: SSTATE_DIR ?= "/srv/emac-oe/${DISTRO_CODENAME}/sstate-cache/"

@@ -1,0 +1,16 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-openembedded.yml
+
+repos:
+  meta-virtualization:
+    url: https://git.yoctoproject.org/meta-virtualization
+    path: build/layers/meta-virtualization
+  meta-openembedded:
+    layers:
+      meta-oe:
+      meta-networking:
+      meta-filesystems:
+      meta-python:
+# Layer depends on core, meta-oe, networking-layer, filesystems-layer, and meta-python

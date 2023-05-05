@@ -1,0 +1,8 @@
+# This kas machine is to build for the older
+# legacy products that do not support more modern CPU archs
+header:
+  version: 12
+  includes:
+    - kas/machines/genericx86.yml
+
+machine: genericx86-i586

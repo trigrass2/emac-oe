@@ -1,12 +1,7 @@
 header:
   version: 12
   includes:
-   - kas/repos/poky.yml
-
-distro: poky
-machine: unset
-
-target: core-image-base
+    - kas/repos/upstream/poky.yml
 
 defaults:
   repos:
@@ -14,12 +9,15 @@ defaults:
 
 env:
   CI_REPOSITORY_URL: "Not built via Gitlab CI/CD"
-  CI_COMMIT_BRANCH: "Not built via Gitlab CI/CD"
+  CI_COMMIT_SHA: "Not built via Gitlab CI/CD"
+  CI_COMMIT_BRANCH: "N/A"
+  CI_COMMIT_TAG: "N/A"
+
   
 local_conf_header:
   base: |
     CONF_VERSION = "2"
-    BB_SERVER_TIMEOUT = "240"
+    BB_SERVER_TIMEOUT = "30"
     BB_DISKMON_DIRS ??= "\
       STOPTASKS,${TMPDIR},1G,100K \
       STOPTASKS,${DL_DIR},1G,100K \
@@ -31,22 +29,23 @@ local_conf_header:
       HALT,/tmp,10M,1K"
 
   setup: |
-    PACKAGE_CLASSES ?= "package_deb package_ipk package_rpm"
     BUILDHISTORY_COMMIT = "1"
-    INHERIT:append = " rm_work buildhistory image-buildinfo"
+    INHERIT += " rm_work buildhistory image-buildinfo"
     OE_TERMINAL = "auto"
     PATCHRESOLVE = "noop"
+
+  packaging: PACKAGE_CLASSES ?= "package_ipk package_deb package_rpm"
+    
   base_extra_build_info: |
-    IMAGE_BUILDINFO_VARS:append = " CI_REPOSITORY_URL CI_COMMIT_BRANCH CLIENT_NAME "
+    IMAGE_BUILDINFO_VARS:append = " \
+      CI_REPOSITORY_URL \
+      CI_COMMIT_SHA \
+      CI_COMMIT_BRANCH \
+      CI_COMMIT_TAG \
+      CLIENT_NAME"
 
   sshkeys: |
     CORE_IMAGE_EXTRA_INSTALL += "ssh-pregen-hostkeys"
 
   sdk: |
     SDKMACHINE ?= "x86_64"
-
-
-
-  
-
-
