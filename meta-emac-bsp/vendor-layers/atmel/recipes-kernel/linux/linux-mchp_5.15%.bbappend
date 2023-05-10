@@ -3,15 +3,22 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 inherit kernel-devicetree
 
 SRC_URI:append = " \
-    file://dts-Makefile.patch \
-    file://dts/ \
+    ${EMAC_SRC_FILES} \
 "
 
 COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25|soma5d35|soma5d36)"
 
 do_configure:prepend(){
-    for ext_dts in ${WORKDIR}/dts/${ARCH}/*.dts*; do
-        mkdir -p ${S}/arch/${ARCH}/boot/dts
-        cp ${ext_dts} ${S}/arch/${ARCH}/boot/dts/
-    done
+    cp -r ${WORKDIR}/emac-sources/* ${S}/
 }
+
+EMAC_SRC_FILES = " \
+    file://0001-out-of-tree-sources.patch \
+    file://emac-sources/arch/arm/boot/dts/som9x25.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36.dtsi \
+    file://emac-sources/arch/arm/boot/dts/ipac9x25.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d35-112es.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d35.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d35-150es.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36-215gs.dts \
+"
