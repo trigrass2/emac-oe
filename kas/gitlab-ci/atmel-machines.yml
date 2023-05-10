@@ -21,3 +21,11 @@ build-soma5d36:
     KAS_MACHINES_FILE: "kas/machines/soma5d36.yml:"
   rules:
     - if: $GIT_MACHINE == "soma5d36" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+
+build-soma536mp:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/soma536mp.yml:"
+  rules:
+    - if: $GIT_MACHINE == "soma536mp" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"

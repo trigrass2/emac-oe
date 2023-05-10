@@ -5,7 +5,7 @@ repos:
   emac-oe:
     url: http://git.emacinc.com/OE/emac-oe
     path: build/layers/emac-oe
-    refspec: kirkstone-next
+    refspec: kirkstone
     layers:
       .: excluded
         
