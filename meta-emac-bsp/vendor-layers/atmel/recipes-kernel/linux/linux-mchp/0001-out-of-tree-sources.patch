@@ -1,5 +1,5 @@
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 6e6178b1527c..b3308cac7c64 100644
+index 1abb939a7798..fbe49ba30fa2 100644
 --- a/arch/arm/boot/dts/Makefile
 +++ b/arch/arm/boot/dts/Makefile
 @@ -49,7 +49,9 @@ dtb-$(CONFIG_SOC_AT91SAM9) += \
@@ -13,7 +13,7 @@ index 6e6178b1527c..b3308cac7c64 100644
  dtb-$(CONFIG_SOC_SAM9X60) += \
  	at91-sam9x60_curiosity.dtb \
  	at91-sam9x60ek.dtb
-@@ -79,7 +81,8 @@ dtb-$(CONFIG_SOC_SAM_V7) += \
+@@ -80,7 +82,8 @@ dtb-$(CONFIG_SOC_SAM_V7) += \
  	at91-sama5d4_ma5d4evk.dtb \
  	at91-sama5d4_xplained.dtb \
  	at91-sama5d4ek.dtb \
@@ -22,4 +22,5 @@ index 6e6178b1527c..b3308cac7c64 100644
 +	som-a5d36-215gs.dtb
  dtb-$(CONFIG_SOC_SAMA7G5) += \
  	at91-sama7g5ek.dtb
- dtb-$(CONFIG_ARCH_AXXIA) += \
+ dtb-$(CONFIG_SOC_SP7021) += \
+ 
