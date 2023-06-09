@@ -315,3 +315,9 @@
 		pinctrl-0 = <&pinctrl_board_gpio>;
 	};
 };
+&tcb0 {
+	timer@0 {
+		compatible = "atmel,tcb-timer";
+		reg = <0>;
+	};
+};
