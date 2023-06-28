@@ -15,6 +15,12 @@ COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25|soma5d36)"
 do_configure:prepend(){
     cp -r ${WORKDIR}/emac-sources/* ${S}/
 }
+do_compile:append(){
+    if [ "x${SPL_BINARY}" != "x" ]
+    then
+        cp ${S}/spl/${SPL_BINARY} ${S}/
+    fi
+}
 
 EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \

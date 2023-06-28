@@ -15,10 +15,9 @@
 		apb {
 			pinctrl@fffff200 {
 				led {
-					pinctrl_led: led-board {
+					pinctrl_led_carrier: led_crr {
 						atmel,pins =
-							<AT91_PIOE 22 AT91_PERIPH_GPIO AT91_PINCTRL_NONE
-							 AT91_PIOC 14 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
+							<AT91_PIOC 14 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
 					};
 				};
 			};
@@ -32,13 +31,13 @@
 					reg = <0>;
 				};
 				spidev@1 {
-					compatible = "emac,spidev";
+					compatible = "semtech,sx1301";
 					spi-max-frequency = <1000000>;
 					reg = <1>;
 					status = "okay";
 				};
 				spidev@2 {
-					compatible = "emac,spidev";
+					compatible = "semtech,sx1301";
 					spi-max-frequency = <1000000>;
 					reg = <2>;
 					status = "okay";
@@ -95,14 +94,7 @@
 	};
 
 	gpio-leds {
-		compatible = "gpio-leds";
-		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_led>;
-		status {
-			label = "status";
-			gpios = <&pioE 22 GPIO_ACTIVE_HIGH>;
-			default-state = "on";
-		};
+		pinctrl-0 = <&pinctrl_led_som &pinctrl_led_carrier>;
 		usr_led0 {
 			label = "usr_led0";
 			gpios = <&pioC 14 GPIO_ACTIVE_HIGH>;

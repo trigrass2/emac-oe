@@ -18,7 +18,7 @@
 		spi0 = &spi0;
 	};
 
-	memory {
+	memory@20000000 {
 		reg = <0x20000000 0x20000000>;
 	};
 
@@ -32,11 +32,6 @@
 		};
 
 		main_xtal {
-			clock-frequency = <12000000>;
-		};
-
-		main_clock: clock@0 {
-			compatible = "atmel,osc", "fixed-clock";
 			clock-frequency = <12000000>;
 		};
 
@@ -87,27 +82,33 @@
 		apb {
 			pinctrl@fffff200 {
 				pck0 {
-					pinctrl_pck0: pck0_as_clk_mck {
+					pinctrl_pck0: pinctrl_pck0 {
 						atmel,pins =
 							<AT91_PIOD 30 AT91_PERIPH_B AT91_PINCTRL_NONE>;
 					};
 				};
 
 				usba {
-					pinctrl_usba_vbus: usba_vbus {
+					pinctrl_usba_vbus: pinctrl_usba_vbus {
 						atmel,pins =
 							<AT91_PIOC 27 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;
 					};
 				};
 
 				ssc0 {
-					pinctrl_ssc0_txrx: ssc0_txrx {
+					pinctrl_ssc0_txrx: pinctrl_ssc0_txrx {
 						atmel,pins =
 							<AT91_PIOC 16 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC16 periph A TK0 */
 							 AT91_PIOC 17 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC17 periph A TF0 */
 							 AT91_PIOC 18 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC18 periph A TD0 */
 							 AT91_PIOC 20 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC20 periph A RF0 */
 							 AT91_PIOC 21 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PC21 periph A RD0 */
+					};
+				};
+				led {
+					pinctrl_led_som: pinctrl_led_som {
+						atmel,pins =
+							<AT91_PIOE 22 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
 					};
 				};
 			};
@@ -205,8 +206,8 @@
 				#address-cells = <1>;
 				#size-cells = <0>;
 
-				ethernet-phy@3 {
-					reg = <0x3>;
+				ethernet-phy@1 {
+					reg = <0x1>;
 					interrupt-parent = <&pioD>;
 					interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
 					txen-skew-ps = <800>;
@@ -259,11 +260,18 @@
 	gpio-leds {
 		compatible = "gpio-leds";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_led>;
+		pinctrl-0 = <&pinctrl_led_som>;
 		status {
 			label = "status";
 			gpios = <&pioE 22 GPIO_ACTIVE_HIGH>;
 			default-state = "on";
 		};
+	};
+};
+
+&tcb0 {
+	timer@0 {
+		compatible = "atmel,tcb-timer";
+		reg = <0>;
 	};
 };
