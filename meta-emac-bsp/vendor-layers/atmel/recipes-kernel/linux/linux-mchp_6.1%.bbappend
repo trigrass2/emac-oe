@@ -13,6 +13,7 @@ do_configure:prepend(){
 }
 
 EMAC_SRC_FILES = " \
+    file://defconfig \
     file://0001-out-of-tree-sources.patch \
     file://emac-sources/arch/arm/boot/dts/som9x25.dts \
     file://emac-sources/arch/arm/boot/dts/som-a5d36.dtsi \
