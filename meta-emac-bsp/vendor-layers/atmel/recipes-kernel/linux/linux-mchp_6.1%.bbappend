@@ -2,6 +2,8 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
 inherit kernel-devicetree
 
+SRC_URI:append:at91sam9 = " file://defconfig"
+
 SRC_URI:append = " \
     ${EMAC_SRC_FILES} \
 "
