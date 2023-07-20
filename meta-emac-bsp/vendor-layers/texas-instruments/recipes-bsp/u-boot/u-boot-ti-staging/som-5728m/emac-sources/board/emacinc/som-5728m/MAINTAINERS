@@ -1,8 +1,0 @@
-EMAC SoM-5728M
-M:	Brenden Tisler <support@emacinc.com.com>
-S:	Maintained
-F:	arch/arm/dts/emac-som-5728m.dtsi
-F:	arch/arm/dts/emac-som-5728m-350es.dts
-F:	board/emacinc/som-5728m/
-F:	include/configs/emac-som-5728m.h
-F:	configs/emac-som-5728m_defconfig
