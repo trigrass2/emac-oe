@@ -1,7 +1,7 @@
-From 3644dc5a3172467149c8e3807c5fa50b1103d17d Mon Sep 17 00:00:00 2001
+From 15f4b5637137edae3a3d28ec4fb9dda6d1fcce2c Mon Sep 17 00:00:00 2001
 From: Brenden Tisler <btisler@emacinc.com>
-Date: Mon, 24 Jul 2023 17:57:37 -0500
-Subject: [PATCH] som-5728m defconfig
+Date: Mon, 24 Jul 2023 18:15:01 -0500
+Subject: [PATCH] Add som-5728m defconfig
 
 Signed-off-by: Brenden Tisler <btisler@emacinc.com>
 ---
