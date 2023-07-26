@@ -23,8 +23,13 @@ DECLARE_GLOBAL_DATA_PTR;
  * Miscelaneous platform dependent initialisations
  */
 
-void at91_prepare_cpu_var(void);
+static void at91_prepare_cpu_var(void);
 void at91_serial4_hw_init(void);
+
+void at91_prepare_cpu_var(void)
+{
+        env_set("cpu", get_cpu_name());
+}
 
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
@@ -46,8 +51,8 @@ void at91_serial4_hw_init(void)
 {
 	at91_pmc_t *pmc = (at91_pmc_t *) ATMEL_BASE_PMC;
 
-	at91_set_c_periph(AT91_PIO_PORTC, 8, 1);        /* TXD */
-	at91_set_c_periph(AT91_PIO_PORTC, 9, 0);        /* RXD */
+	//at91_set_c_periph(AT91_PIO_PORTC, 8, 1);        /* TXD */
+	//at91_set_c_periph(AT91_PIO_PORTC, 9, 0);        /* RXD */
 
 	writel(1 << ATMEL_ID_UART0, &pmc->pcer);
 }
