@@ -20,7 +20,7 @@
 		com-d = &uart7;
 		display0 = &lvds_panel_7in;
 		display1 = &hdmi0_conn;
-		display0 = &lvds_panel_10in;
+		display2 = &lvds_panel_10in;
 	};
 
 	wlan_en_reg: wlan-en-regulator {
@@ -34,24 +34,13 @@
       	enable-active-high;
 	};
 
-	lvds3v3_en_reg: lvds3v3-en-regulator {
+	backlight_en_reg: backlight-en-regulator {
 		compatible = "regulator-fixed";
-		regulator-name = "lvds3v3-en-regulator";
+		regulator-name = "backlight-en-regulator";
 		regulator-min-microvolt = <3300000>;
 		regulator-max-microvolt = <3300000>;
 		vin-supply = <&vdd_3v3_reg>;
-		gpios = <&gpio6 28 GPIO_ACTIVE_HIGH>;
-		startup-delay-us = <100000>;
-      	enable-active-high;
-	};
-
-	lvds5v_en_reg: lvds5v-en-regulator {
-		compatible = "regulator-fixed";
-		regulator-name = "lvds5v-en-regulator";
-		regulator-min-microvolt = <5000000>;
-		regulator-max-microvolt = <5000000>;
-		vin-supply = <&vmain>;
-		gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
+		gpios = <&gpio8 11 GPIO_ACTIVE_HIGH>;
 		startup-delay-us = <100000>;
       	enable-active-high;
 	};
@@ -75,35 +64,73 @@
 
 	backlight: backlight {
 		compatible = "pwm-backlight";
-		pwms = <&ecap0 0 50000 0>;
-		power-supply = <&vdd_3v3_reg>;
-		enable-gpios = <&gpio4 31 GPIO_ACTIVE_LOW>, <&gpio8 11 GPIO_ACTIVE_HIGH>;
+		pwms = <&ecap0 0 50000 1>;
+		power-supply = <&backlight_en_reg>;
+		enable-gpios = <&gpio4 31 GPIO_ACTIVE_LOW>;
 		brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 		default-brightness-level = <9>;
+		status = "okay";
 	};
 
-	lvds_panel_7in: display {
-		compatible = "innolux,at070tn92", "simple-panel";
+	lvds_panel_7in: lvds_panel_7in {
+		compatible = "panel-dpi";
 		backlight = <&backlight>;
-		power-supply = <&lvds3v3_en_reg>;
+		power-supply = <&vdd_3v3_reg>;
+		enable-gpios = <&gpio6 28 GPIO_ACTIVE_HIGH>;
 		ddc-i2c-bus = <&i2c5>;
+		no-hpd;
+		status = "okay";
 		port {
-			lcd_in: endpoint {
+			lcd7_in: endpoint {
 				remote-endpoint = <&lvds_out>;
 			};
 		};
+		panel-timing {
+            clock-frequency = <32000000>;
+            hactive = <800>;
+            vactive = <480>;
+            hfront-porch = <42>;
+            hback-porch = <86>;
+            hsync-len = <128>;
+            vback-porch = <33>;
+            vfront-porch = <10>;
+            vsync-len = <2>;
+
+            hsync-active = <0>;
+            vsync-active = <0>;
+            de-active = <1>;
+            pixelclk-active = <1>;
+        };
 	};
-	lvds_panel_10in: display {
-		compatible = "innolux,at070tn92", "simple-panel";
+	lvds_panel_10in: lvds_panel_10in {
+		compatible = "panel-dpi";
 		backlight = <&backlight>;
-		power-supply = <&lvds5v_en_reg>;
+		power-supply = <&vmain>;
+		enable-gpios = <&gpio3 4 GPIO_ACTIVE_HIGH>;
 		ddc-i2c-bus = <&i2c5>;
+		no-hpd;
 		status = "disabled";
 		port {
-			lcd_in: endpoint {
+			lcd10_in: endpoint {
 				remote-endpoint = <&lvds_out>;
 			};
 		};
+		panel-timing {
+            clock-frequency = <45000000>;
+            hactive = <1024>;
+            vactive = <600>;
+            hfront-porch = <24>;
+            hback-porch = <160>;
+            hsync-len = <136>;
+            vback-porch = <23>;
+            vfront-porch = <1>;
+            vsync-len = <4>;
+
+            hsync-active = <0>;
+            vsync-active = <0>;
+            de-active = <1>;
+            pixelclk-active = <1>;
+        };
 	};
 
 	hdmi0_conn: connector {
@@ -201,7 +228,7 @@
 // Display info
 
 &lvds_out {
-	remote-endpoint = <&lcd_in>;
+	remote-endpoint = <&lcd7_in>;
 	status = "okay";
 };
 &touch {
