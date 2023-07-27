@@ -16,6 +16,8 @@ PACKAGES = " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'can', '${PN}-can', '',d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpio', '${PN}-gpio', '',d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'sound', '${PN}-sound', '',d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'screen', '${PN}-screen', '',d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'touchscreen', '${PN}-touch', '',d)} \
     ${PN}-network \
     ${PN}-filesystems \
 "
@@ -30,6 +32,8 @@ RDEPENDS:${PN} = "\
     ${@bb.utils.contains('MACHINE_FEATURES', 'can', '${PN}-can', '',d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'gpio', '${PN}-gpio', '',d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'sound', '${PN}-sound', '',d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'screen', '${PN}-screen', '',d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'touchscreen', '${PN}-touch', '',d)} \
 "
 RRECOMMENDS:${PN} = " \
     ${PN}-network \
@@ -63,6 +67,14 @@ RDEPENDS:${PN}-gpio = "\
 SUMMARY:${PN}-sound = "Sound testing"
 RDEPENDS:${PN}-sound = "\
     ffmpeg \
+"
+SUMMARY:${PN}-screen = "Screen testing"
+RDEPENDS:${PN}-screen = "\
+    gstreamer1.0-meta-debug \
+"
+SUMMARY:${PN}-touch = "Touchscreen testing"
+RDEPENDS:${PN}-touch = "\
+    evtest \
 "
 SUMMARY:${PN}-network = "Network testing"
 RDEPENDS:${PN}-network = "\
