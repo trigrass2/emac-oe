@@ -51,8 +51,8 @@ void at91_serial4_hw_init(void)
 {
 	at91_pmc_t *pmc = (at91_pmc_t *) ATMEL_BASE_PMC;
 
-	//at91_set_c_periph(AT91_PIO_PORTC, 8, 1);        /* TXD */
-	//at91_set_c_periph(AT91_PIO_PORTC, 9, 0);        /* RXD */
+	at91_set_c_periph(AT91_PIO_PORTC, 8, 1);        /* TXD */
+	at91_set_c_periph(AT91_PIO_PORTC, 9, 0);        /* RXD */
 
 	writel(1 << ATMEL_ID_UART0, &pmc->pcer);
 }
