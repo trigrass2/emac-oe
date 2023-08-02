@@ -5,6 +5,7 @@ COMPATIBLE_MACHINE:append = '|(ipac9x25|som9x25)'
 SRC_URI:append = " \
     file://0001-nostartfiles.patch \
     file://ipac9x25_sd_uboot_defconfig \
+    file://ipac9x25_spi_uboot_defconfig \
     file://som9x25_sd_uboot_defconfig \
 "
 
