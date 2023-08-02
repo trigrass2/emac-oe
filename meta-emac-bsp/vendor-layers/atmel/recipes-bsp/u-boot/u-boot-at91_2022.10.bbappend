@@ -24,6 +24,7 @@ do_compile:append(){
 
 EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \
+    file://0002-update_ref_dtb_for_ipac9x25.patch \
     file://emac-sources/configs/emac-ipac9x25_defconfig \
     file://emac-sources/configs/emac-som9x25m_defconfig \
     file://emac-sources/configs/emac-soma5d36_defconfig \

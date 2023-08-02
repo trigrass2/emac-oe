@@ -10,6 +10,7 @@
 
 /* ARM asynchronous clock */
 #define CONFIG_SYS_AT91_SLOW_CLOCK	32768
+#define CONFIG_SYS_AT91_MAIN_CLOCK	12000000	/* 12 MHz crystal */
 
 /* SDRAM */
 #define CONFIG_SYS_SDRAM_BASE		0x20000000
