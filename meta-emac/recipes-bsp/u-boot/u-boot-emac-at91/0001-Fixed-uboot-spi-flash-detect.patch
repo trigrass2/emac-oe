@@ -1,0 +1,13 @@
+diff --git a/include/configs/ipac9x25.h b/include/configs/ipac9x25.h
+index 3c1e53d794..f16fcb4bad 100644
+--- a/include/configs/ipac9x25.h
++++ b/include/configs/ipac9x25.h
+@@ -95,9 +95,7 @@
+ #ifdef CONFIG_CMD_SF
+ #define CONFIG_ATMEL_SPI
+ #define CONFIG_SPI_FLASH
+-#define CONFIG_SPI_FLASH_ATMEL
+ #define CONFIG_SPI_FLASH_STMICRO
+-#define CONFIG_SPI_FLASH_SST
+ #define CONFIG_SF_DEFAULT_SPEED		30000000
+ #endif
