@@ -7,6 +7,7 @@ repos:
   meta-freescale-3rdparty:
     url: https://github.com/Freescale/meta-freescale-3rdparty.git
     path: build/layers/meta-freescale-3rdparty
+    refspec: master
 
 # Layer
 # Depends on core and freescale-layer

@@ -5,7 +5,7 @@ header:
 
 defaults:
   repos:
-    refspec: kirkstone
+    refspec: mickledore
 
 env:
   CI_REPOSITORY_URL: "Not built via Gitlab CI/CD"
