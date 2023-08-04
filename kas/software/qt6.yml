@@ -1,0 +1,6 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-qt6.yml
+
+        

@@ -5,6 +5,6 @@ repos:
   meta-qt6:
     url: http://code.qt.io/yocto/meta-qt6.git
     path: build/layers/meta-qt6
-    refspec: "6.3"
+    refspec: "6.5"
 
 #Layer depends on core

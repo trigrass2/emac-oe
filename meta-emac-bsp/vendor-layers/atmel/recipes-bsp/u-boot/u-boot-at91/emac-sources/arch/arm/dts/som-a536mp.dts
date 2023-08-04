@@ -1,0 +1,17 @@
+/*
+ * som-a5d36-200gs.dts - Device Tree file for the SoM-A5D36 / SoM-200GS.
+ *
+ *  Copyright (C) 2015 EMAC Inc.
+ *
+ * Licensed under GPLv2 or later.
+ */
+/dts-v1/;
+#include "emac-a5d36.dtsi"
+
+/ {
+	model = "EMAC SOM-A536M/P";
+
+};
+&macb0 {
+	phy-mode = "mii";
+};
