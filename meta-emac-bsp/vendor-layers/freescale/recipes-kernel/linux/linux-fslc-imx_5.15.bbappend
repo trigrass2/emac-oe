@@ -16,6 +16,10 @@ SRC_URI:append:somimx6 = " \
 "
 SRC_URI:append:somimx6ul = " \
     file://somimx6ul_defconfig \
+    file://0001_add_emac_somimx6ul_board_dts_source.patch \
+    file://0002_add_emac_somimx6ul_board_dts_config.patch \
+    file://0003_add_emac_somimx6ul_hwmon_driver.patch \
+    file://0004_add_emac_somimx6ul_power_supply_driver.patch \
 "
 
 do_kernel_localversion:somimx6:prepend(){

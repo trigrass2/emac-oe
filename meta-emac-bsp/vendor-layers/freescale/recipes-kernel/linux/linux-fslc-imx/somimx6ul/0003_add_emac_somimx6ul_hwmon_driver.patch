@@ -1,0 +1,871 @@
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 72179fa08f1d..b0b908158194 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1703,6 +1703,16 @@ config SENSORS_EMC2103
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called emc2103.
+ 
++config SENSORS_EMC2101
++	tristate "SMSC EMC2101"
++	depends on I2C
++	help
++	  If you say yes here you get support for the temperature
++	  and fan sensors of the SMSC EMC2101 chips.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called emc2101.
++
+ config SENSORS_EMC6W201
+ 	tristate "SMSC EMC6W201"
+ 	depends on I2C
+diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+index 91e1c51add53..cb5953319cd8 100644
+--- a/drivers/hwmon/Makefile
++++ b/drivers/hwmon/Makefile
+@@ -67,6 +67,7 @@ obj-$(CONFIG_SENSORS_DS620)	+= ds620.o
+ obj-$(CONFIG_SENSORS_DS1621)	+= ds1621.o
+ obj-$(CONFIG_SENSORS_EMC1403)	+= emc1403.o
+ obj-$(CONFIG_SENSORS_EMC2103)	+= emc2103.o
++obj-$(CONFIG_SENSORS_EMC2101)	+= emc2101.o
+ obj-$(CONFIG_SENSORS_EMC6W201)	+= emc6w201.o
+ obj-$(CONFIG_SENSORS_F71805F)	+= f71805f.o
+ obj-$(CONFIG_SENSORS_F71882FG)	+= f71882fg.o
+diff --git a/drivers/hwmon/emc2101.c b/drivers/hwmon/emc2101.c
+new file mode 100644
+index 000000000000..7213a94f2767
+--- /dev/null
++++ b/drivers/hwmon/emc2101.c
+@@ -0,0 +1,670 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * emc2101.c - Support for SMSC EMC2101
++ * Copyright (c) 2010 SMSC
++ */
++
++#include <linux/module.h>
++#include <linux/of_device.h>
++#include <linux/init.h>
++#include <linux/slab.h>
++#include <linux/jiffies.h>
++#include <linux/i2c.h>
++#include <linux/hwmon.h>
++#include <linux/hwmon-sysfs.h>
++#include <linux/err.h>
++#include <linux/mutex.h>
++
++
++#define REG_TEMP_INTERNAL   0x00
++#define REG_TEMP_EXTERNAL   0x01
++#define REG_TEMP_MAX_INTERNAL 0x05
++/* Minimum internal temp limit is not supported, this is a dummy register */
++#define REG_TEMP_MIN_INTERNAL 0xBB
++#define REG_TEMP_MAX_EXTERNAL 0x07
++#define REG_TEMP_MIN_EXTERNAL 0x08
++#define REG_STATUS  	    0x02
++#define REG_CONF		    0x03
++#define REG_FAN_EXT_TEMP_FORCE 0x0C
++#define REG_FAN_CONF		0x4A
++#define REG_FAN_LIMIT_LO	0x48
++#define REG_FAN_LIMIT_HI	0x49
++#define REG_FAN_TACH_LO		0x46
++#define REG_FAN_TACH_HI		0x47
++#define REG_FAN_SETTING     0x4C
++#define REG_PRODUCT_ID		0xfd
++#define REG_MFG_ID		0xfe
++
++/* equation 4 from datasheet: rpm = (3932160 * multipler) / count */
++#define FAN_RPM_FACTOR		5400000
++
++/* Addresses scanned */
++static const unsigned short normal_i2c[] = { 0x4C, I2C_CLIENT_END };
++
++static const u8 REG_TEMP[2] = { REG_TEMP_INTERNAL, REG_TEMP_EXTERNAL };
++static const u8 REG_TEMP_MIN[2] = { REG_TEMP_MIN_INTERNAL, REG_TEMP_MIN_EXTERNAL };
++static const u8 REG_TEMP_MAX[2] = { REG_TEMP_MAX_INTERNAL, REG_TEMP_MAX_EXTERNAL };
++
++struct temperature {
++	s8	degrees;
++	u8	fraction;	/* 0-7 multiples of 0.125 */
++};
++
++struct emc2101_data {
++	struct i2c_client	*client;
++	const struct		attribute_group *groups[2];
++	struct mutex		update_lock;
++	bool		valid;		/* registers are valid */
++	bool		fan_rpm_control;
++	int			temp_count;	/* num of temp sensors */
++	unsigned long		last_updated;	/* in jiffies */
++	struct temperature	temp[2];	/* internal + 1 external */
++	struct temperature	temp_min[2];	/* external has fractional */
++	struct temperature	temp_max[2];    /* external has fractional*/
++	u8			temp_min_alarm;
++	u8			temp_max_alarm;
++	u16			fan_tach;
++	u16			fan_limit;
++    u8          fan_setting;
++    u8          fan_config;
++	u8          fan_ext_temp_force;
++};
++
++static int read_u8_from_i2c(struct i2c_client *client, u8 i2c_reg, u8 *output)
++{
++	int status = i2c_smbus_read_byte_data(client, i2c_reg);
++	if (status < 0) {
++		dev_warn(&client->dev, "reg 0x%02x, err %d\n",
++			i2c_reg, status);
++	} else {
++		*output = status;
++	}
++	return status;
++}
++
++static void read_temp_from_i2c(struct i2c_client *client, u8 i2c_reg,
++			       struct temperature *temp)
++{
++	u8 degrees, fractional;
++
++    if (i2c_reg == REG_TEMP_MIN_INTERNAL) {
++        degrees = 0;
++    } else {
++        if (read_u8_from_i2c(client, i2c_reg, &degrees) < 0)
++            return;
++    }
++
++    switch (i2c_reg) {
++    case REG_TEMP_EXTERNAL:
++	    if (read_u8_from_i2c(client, REG_TEMP_EXTERNAL+0x0F, &fractional) < 0)
++		    return;
++        break;
++    case REG_TEMP_MAX_EXTERNAL:
++	    if (read_u8_from_i2c(client, REG_TEMP_MAX_EXTERNAL+0x0C, &fractional) < 0)
++		    return;
++        break;
++    case REG_TEMP_MIN_EXTERNAL:
++	    if (read_u8_from_i2c(client, REG_TEMP_MIN_EXTERNAL+0x0C, &fractional) < 0)
++		    return;
++        break;
++    default:
++        fractional = 0;
++        break;
++    }
++
++	temp->degrees = degrees;
++	temp->fraction = (fractional & 0xe0) >> 5;
++}
++
++static void read_fan_from_i2c(struct i2c_client *client, u16 *output,
++			      u8 hi_addr, u8 lo_addr)
++{
++	u8 high_byte, lo_byte;
++
++	if (read_u8_from_i2c(client, hi_addr, &high_byte) < 0)
++		return;
++
++	if (read_u8_from_i2c(client, lo_addr, &lo_byte) < 0)
++		return;
++
++	*output = ((u16)high_byte << 5) | (lo_byte >> 3);
++}
++
++static void write_fan_limit_to_i2c(struct i2c_client *client, u16 new_limit)
++{
++	u8 high_byte = (new_limit & 0xFF00) >> 8;
++	u8 low_byte = (new_limit & 0x00FF);
++	i2c_smbus_write_byte_data(client, REG_FAN_LIMIT_LO, low_byte);
++	i2c_smbus_write_byte_data(client, REG_FAN_LIMIT_HI, high_byte);
++}
++
++static void write_fan_setting_to_i2c(struct i2c_client *client, u8 new_setting)
++{
++    i2c_smbus_write_byte_data(client, REG_FAN_SETTING, new_setting);
++}
++
++static struct emc2101_data *emc2101_update_device(struct device *dev)
++{
++	struct emc2101_data *data = dev_get_drvdata(dev);
++	struct i2c_client *client = data->client;
++    u8 status;
++
++	mutex_lock(&data->update_lock);
++
++	if (time_after(jiffies, data->last_updated + HZ + HZ / 2)
++	    || !data->valid) {
++		int i;
++
++		for (i = 0; i < data->temp_count; i++) {
++			read_temp_from_i2c(client, REG_TEMP[i], &data->temp[i]);
++			read_temp_from_i2c(client, REG_TEMP_MIN[i],
++				&data->temp_min[i]);
++			read_temp_from_i2c(client, REG_TEMP_MAX[i],
++				&data->temp_max[i]);
++		}
++
++        read_u8_from_i2c(client, REG_STATUS, &status);
++        data->temp_max_alarm = status & 0x50;
++        data->temp_min_alarm = status & 0x08;
++
++		read_fan_from_i2c(client, &data->fan_tach,
++			REG_FAN_TACH_HI, REG_FAN_TACH_LO);
++		read_fan_from_i2c(client, &data->fan_limit,
++			REG_FAN_LIMIT_HI, REG_FAN_LIMIT_LO);
++		read_u8_from_i2c(client, REG_FAN_CONF, &data->fan_config);
++	    data->fan_rpm_control = (data->fan_config & 0x20) != 0;
++		read_u8_from_i2c(client, REG_FAN_EXT_TEMP_FORCE, &data->fan_ext_temp_force);
++        read_u8_from_i2c(client, REG_FAN_SETTING, &data->fan_setting);
++
++		data->last_updated = jiffies;
++		data->valid = true;
++	}
++
++	mutex_unlock(&data->update_lock);
++
++	return data;
++}
++
++static ssize_t
++temp_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = emc2101_update_device(dev);
++	int millidegrees = data->temp[nr].degrees * 1000
++		+ data->temp[nr].fraction * 125;
++	return sprintf(buf, "%d\n", millidegrees);
++}
++
++static ssize_t
++temp_min_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = emc2101_update_device(dev);
++	int millidegrees = data->temp_min[nr].degrees * 1000
++		+ data->temp_min[nr].fraction * 125;
++	return sprintf(buf, "%d\n", millidegrees);
++}
++
++static ssize_t
++temp_max_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = emc2101_update_device(dev);
++	int millidegrees = data->temp_max[nr].degrees * 1000
++		+ data->temp_max[nr].fraction * 125;
++	return sprintf(buf, "%d\n", millidegrees);
++}
++
++static ssize_t
++temp_fault_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = emc2101_update_device(dev);
++	bool fault = (data->temp[nr].degrees == -128);
++	return sprintf(buf, "%d\n", fault ? 1 : 0);
++}
++
++static ssize_t
++temp_min_alarm_show(struct device *dev, struct device_attribute *da,
++		    char *buf)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = emc2101_update_device(dev);
++	bool alarm = data->temp_min_alarm & (1 << nr);
++	return sprintf(buf, "%d\n", alarm ? 1 : 0);
++}
++
++static ssize_t
++temp_max_alarm_show(struct device *dev, struct device_attribute *da,
++		    char *buf)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = emc2101_update_device(dev);
++	bool alarm = data->temp_max_alarm & (1 << nr);
++	return sprintf(buf, "%d\n", alarm ? 1 : 0);
++}
++
++static ssize_t temp_min_store(struct device *dev, struct device_attribute *da,
++			      const char *buf, size_t count)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = dev_get_drvdata(dev);
++	struct i2c_client *client = data->client;
++	long val;
++
++	int result = kstrtol(buf, 10, &val);
++	if (result < 0)
++		return result;
++
++	val = DIV_ROUND_CLOSEST(clamp_val(val, -63000, 127000), 1000);
++
++	mutex_lock(&data->update_lock);
++    if (nr == 0) {
++	    data->temp_min[nr].degrees = 0;
++        data->temp_min[nr].fraction = 0;
++    } else {
++	    data->temp_min[nr].degrees = val;
++        data->temp_min[nr].fraction = 0;
++	    i2c_smbus_write_byte_data(client, REG_TEMP_MIN[nr], val);
++	    i2c_smbus_write_byte_data(client, REG_TEMP_MIN[nr]+0x0C, 0);
++    }
++	mutex_unlock(&data->update_lock);
++
++	return count;
++}
++
++static ssize_t temp_max_store(struct device *dev, struct device_attribute *da,
++			      const char *buf, size_t count)
++{
++	int nr = to_sensor_dev_attr(da)->index;
++	struct emc2101_data *data = dev_get_drvdata(dev);
++	struct i2c_client *client = data->client;
++	long val;
++
++	int result = kstrtol(buf, 10, &val);
++	if (result < 0)
++		return result;
++
++	val = DIV_ROUND_CLOSEST(clamp_val(val, -63000, 127000), 1000);
++
++	mutex_lock(&data->update_lock);
++    data->temp_min[nr].degrees = val;
++    data->temp_min[nr].fraction = 0;
++	i2c_smbus_write_byte_data(client, REG_TEMP_MAX[nr], val);
++    if (nr != 0) {
++	    i2c_smbus_write_byte_data(client, REG_TEMP_MAX[nr]+0x0C, 0);
++    }
++	mutex_unlock(&data->update_lock);
++
++	return count;
++}
++
++static ssize_t
++fan1_input_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	int rpm = 0;
++	if (data->fan_tach != 0)
++		rpm = FAN_RPM_FACTOR / data->fan_tach;
++	return sprintf(buf, "%d\n", rpm);
++}
++
++
++static ssize_t
++fan1_limit_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	int rpm = 0;
++
++	/* high byte of 0xff indicates disabled so return 0 */
++	if ((data->fan_limit != 0) && ((data->fan_limit & 0x1fe0) != 0x1fe0))
++		rpm = FAN_RPM_FACTOR / data->fan_limit;
++
++	return sprintf(buf, "%d\n", rpm);
++}
++
++static ssize_t fan1_limit_store(struct device *dev,
++				 struct device_attribute *da, const char *buf,
++				 size_t count)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	struct i2c_client *client = data->client;
++	unsigned long rpm_target;
++
++	int result = kstrtoul(buf, 10, &rpm_target);
++	if (result < 0)
++		return result;
++
++	/* Datasheet states 16384 as maximum RPM target (table 3.2) */
++	rpm_target = clamp_val(rpm_target, 0, 16384);
++
++	mutex_lock(&data->update_lock);
++
++	if (rpm_target == 0)
++		data->fan_limit = 0x1fff;
++	else
++		data->fan_limit = clamp_val(
++			FAN_RPM_FACTOR / rpm_target,
++			0, 0x1fff);
++
++	write_fan_limit_to_i2c(client, data->fan_limit);
++
++	mutex_unlock(&data->update_lock);
++	return count;
++}
++
++static ssize_t
++fan1_setting_show(struct device *dev, struct device_attribute *da, char* buf)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	return sprintf(buf, "%d\n", data->fan_setting);
++}
++
++static ssize_t fan1_setting_store(struct device *dev,
++				 struct device_attribute *da, const char *buf,
++				 size_t count)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	struct i2c_client *client = data->client;
++	unsigned long pwm_setting;
++
++	int result = kstrtoul(buf, 10, &pwm_setting);
++	if (result < 0)
++		return result;
++
++	mutex_lock(&data->update_lock);
++
++    data->fan_setting = clamp_val(pwm_setting, 0, 63);
++
++	write_fan_setting_to_i2c(client, data->fan_setting);
++
++	mutex_unlock(&data->update_lock);
++	return count;
++}
++
++static ssize_t
++fan1_config_show(struct device *dev, struct device_attribute *da, char* buf)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	return sprintf(buf, "%d\n", data->fan_config);
++}
++
++static ssize_t fan1_config_store(struct device *dev,
++				 struct device_attribute *da, const char *buf,
++				 size_t count)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	struct i2c_client *client = data->client;
++	unsigned long fan_config;
++
++	int result = kstrtoul(buf, 10, &fan_config);
++	if (result < 0)
++		return result;
++
++	mutex_lock(&data->update_lock);
++
++    data->fan_config = clamp_val(fan_config, 0, 255);
++
++	i2c_smbus_write_byte_data(client, REG_FAN_CONF, data->fan_config);
++
++	mutex_unlock(&data->update_lock);
++	return count;
++}
++
++static ssize_t
++fan1_ext_temp_force_show(struct device *dev, struct device_attribute *da, char* buf)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	return sprintf(buf, "%d\n", data->fan_ext_temp_force);
++}
++
++static ssize_t fan1_ext_temp_force_store(struct device *dev,
++				 struct device_attribute *da, const char *buf,
++				 size_t count)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	struct i2c_client *client = data->client;
++	unsigned long fan_ext_temp_force;
++
++	int result = kstrtoul(buf, 10, &fan_ext_temp_force);
++	if (result < 0)
++		return result;
++
++	mutex_lock(&data->update_lock);
++
++    data->fan_ext_temp_force = clamp_val(fan_ext_temp_force, 0, 255);
++
++	i2c_smbus_write_byte_data(client, REG_FAN_EXT_TEMP_FORCE, data->fan_ext_temp_force);
++
++	mutex_unlock(&data->update_lock);
++	return count;
++}
++
++static ssize_t
++fan1_fault_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	bool fault = ((data->fan_tach & 0xFFFF) == 0xFFFF);
++	return sprintf(buf, "%d\n", fault ? 1 : 0);
++}
++
++static ssize_t
++pwm1_enable_show(struct device *dev, struct device_attribute *da, char *buf)
++{
++	struct emc2101_data *data = emc2101_update_device(dev);
++	return sprintf(buf, "%d\n", data->fan_rpm_control ? 3 : 0);
++}
++
++static ssize_t pwm1_enable_store(struct device *dev,
++				 struct device_attribute *da, const char *buf,
++				 size_t count)
++{
++	struct emc2101_data *data = dev_get_drvdata(dev);
++	struct i2c_client *client = data->client;
++	long new_value;
++	u8 conf_reg;
++
++	int result = kstrtol(buf, 10, &new_value);
++	if (result < 0)
++		return result;
++
++	mutex_lock(&data->update_lock);
++	switch (new_value) {
++	case 0:
++		data->fan_rpm_control = false;
++		break;
++	case 3:
++		data->fan_rpm_control = true;
++		break;
++	default:
++		count = -EINVAL;
++		goto err;
++	}
++
++	result = read_u8_from_i2c(client, REG_FAN_CONF, &conf_reg);
++	if (result < 0) {
++		count = result;
++		goto err;
++	}
++
++	if (data->fan_rpm_control)
++		conf_reg |= 0x20;
++	else
++		conf_reg &= ~0x20;
++
++	i2c_smbus_write_byte_data(client, REG_FAN_CONF, conf_reg);
++err:
++	mutex_unlock(&data->update_lock);
++	return count;
++}
++
++static SENSOR_DEVICE_ATTR_RO(temp1_input, temp, 0);
++static SENSOR_DEVICE_ATTR_RW(temp1_min, temp_min, 0);
++static SENSOR_DEVICE_ATTR_RW(temp1_max, temp_max, 0);
++static SENSOR_DEVICE_ATTR_RO(temp1_fault, temp_fault, 0);
++static SENSOR_DEVICE_ATTR_RO(temp1_min_alarm, temp_min_alarm, 0);
++static SENSOR_DEVICE_ATTR_RO(temp1_max_alarm, temp_max_alarm, 0);
++
++static SENSOR_DEVICE_ATTR_RO(temp2_input, temp, 1);
++static SENSOR_DEVICE_ATTR_RW(temp2_min, temp_min, 1);
++static SENSOR_DEVICE_ATTR_RW(temp2_max, temp_max, 1);
++static SENSOR_DEVICE_ATTR_RO(temp2_fault, temp_fault, 1);
++static SENSOR_DEVICE_ATTR_RO(temp2_min_alarm, temp_min_alarm, 1);
++static SENSOR_DEVICE_ATTR_RO(temp2_max_alarm, temp_max_alarm, 1);
++
++static DEVICE_ATTR_RO(fan1_input);
++static DEVICE_ATTR_RW(fan1_limit);
++static DEVICE_ATTR_RW(fan1_setting);
++static DEVICE_ATTR_RW(fan1_config);
++static DEVICE_ATTR_RW(fan1_ext_temp_force);
++static DEVICE_ATTR_RO(fan1_fault);
++
++static DEVICE_ATTR_RW(pwm1_enable);
++
++/* sensors present on all models */
++static struct attribute *emc2101_attributes[] = {
++	&sensor_dev_attr_temp1_input.dev_attr.attr,
++	&sensor_dev_attr_temp1_min.dev_attr.attr,
++	&sensor_dev_attr_temp1_max.dev_attr.attr,
++	&sensor_dev_attr_temp1_fault.dev_attr.attr,
++	&sensor_dev_attr_temp1_min_alarm.dev_attr.attr,
++	&sensor_dev_attr_temp1_max_alarm.dev_attr.attr,
++	&sensor_dev_attr_temp2_input.dev_attr.attr,
++	&sensor_dev_attr_temp2_min.dev_attr.attr,
++	&sensor_dev_attr_temp2_max.dev_attr.attr,
++	&sensor_dev_attr_temp2_fault.dev_attr.attr,
++	&sensor_dev_attr_temp2_min_alarm.dev_attr.attr,
++	&sensor_dev_attr_temp2_max_alarm.dev_attr.attr,
++	&dev_attr_fan1_input.attr,
++	&dev_attr_fan1_limit.attr,
++    &dev_attr_fan1_setting.attr,
++    &dev_attr_fan1_config.attr,
++	&dev_attr_fan1_ext_temp_force.attr,
++	&dev_attr_fan1_fault.attr,
++	&dev_attr_pwm1_enable.attr,
++	NULL
++};
++
++static const struct attribute_group emc2101_group = {
++	.attrs = emc2101_attributes,
++};
++
++static int
++emc2101_probe(struct i2c_client *client)
++{
++	struct device *dev = &client->dev;
++	struct emc2101_data *data;
++	struct device *hwmon_dev;
++	int status, idx = 0;
++	unsigned int num_regs;
++	unsigned int setup_reg, reg_val;
++
++	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
++		return -EIO;
++
++	data = devm_kzalloc(&client->dev, sizeof(struct emc2101_data),
++			    GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	i2c_set_clientdata(client, data);
++	data->client = client;
++	mutex_init(&data->update_lock);
++
++	status = i2c_smbus_read_byte_data(client, REG_PRODUCT_ID);
++	if (status == 0x16 || status == 0x28) {
++		/* 2101 only has 1 external diode */
++		data->temp_count = 2;
++	} else {
++        return status;
++	}
++	if (dev->of_node){
++		if (of_property_read_u32(dev->of_node, "num-setup-regs", &num_regs) == 0){
++			for (idx = 0; idx < num_regs*2;){
++				if (of_property_read_u32_index(dev->of_node, "setup-regs", idx, &setup_reg) == 0){
++					if (of_property_read_u32_index(dev->of_node, "setup-regs", idx+1, &reg_val) == 0){
++						dev_dbg(&client->dev, "of: setting 0x%x to 0x%x", setup_reg, reg_val);
++						i2c_smbus_write_byte_data(client, setup_reg, reg_val);
++					}
++				}
++				else {dev_dbg(&client->dev, "of: setup-regs failed to read");}
++				idx = idx + 2;
++			}
++			if (of_property_read_bool(dev->of_node, "start-on-boot")){
++				i2c_smbus_write_byte_data(client, 0x4A, 0x00);
++			}
++		}
++		else {dev_dbg(&client->dev, "of: num-setup-regs failed to read");}
++	}
++	else {dev_dbg(&client->dev, "No of_node found.");}
++	idx = 0;
++
++	/* sysfs hooks */
++	data->groups[idx++] = &emc2101_group;
++
++	hwmon_dev = devm_hwmon_device_register_with_groups(&client->dev,
++							   client->name, data,
++							   data->groups);
++	if (IS_ERR(hwmon_dev))
++		return PTR_ERR(hwmon_dev);
++
++	dev_info(&client->dev, "%s: sensor '%s'\n",
++		 dev_name(hwmon_dev), client->name);
++
++	return 0;
++}
++
++static const struct i2c_device_id emc2101_ids[] = {
++	{ "emc2101", 0, },
++	{ /* LIST END */ }
++};
++MODULE_DEVICE_TABLE(i2c, emc2101_ids);
++
++/* Return 0 if detection is successful, -ENODEV otherwise */
++static int
++emc2101_detect(struct i2c_client *new_client, struct i2c_board_info *info)
++{
++	struct i2c_adapter *adapter = new_client->adapter;
++	int manufacturer, product;
++
++	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA))
++		return -ENODEV;
++
++	manufacturer = i2c_smbus_read_byte_data(new_client, REG_MFG_ID);
++	if (manufacturer != 0x5D)
++		return -ENODEV;
++
++	product = i2c_smbus_read_byte_data(new_client, REG_PRODUCT_ID);
++	if ((product != 0x16) && (product != 0x28))
++		return -ENODEV;
++
++	strlcpy(info->type, "emc2101", I2C_NAME_SIZE);
++
++	return 0;
++}
++
++static const struct of_device_id emc2101_i2c_of_match[] = {
++	{
++		.compatible = "microchip,emc2101",
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(of, emc2101_i2c_of_match);
++
++static struct i2c_driver emc2101_driver = {
++	.class		= I2C_CLASS_HWMON,
++	.driver = {
++		.name	= "emc2101_fan_controller",
++		.of_match_table = emc2101_i2c_of_match,
++	},
++	.probe_new	= emc2101_probe,
++	.id_table	= emc2101_ids,
++	.detect		= emc2101_detect,
++	.address_list	= normal_i2c,
++};
++
++module_i2c_driver(emc2101_driver);
++
++MODULE_AUTHOR("Steve Glendinning <steve.glendinning@shawell.net>");
++MODULE_DESCRIPTION("SMSC EMC2101 hwmon driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index ffb609cee3a4..99b9cf29ffe8 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -158,6 +158,13 @@ config SENSORS_LM25066
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called lm25066.
+ 
++config SENSORS_LM25066_REGULATOR
++	bool "Regulator support for LM25066 and compatibles"
++	depends on SENSORS_LM25066 && REGULATOR
++	help
++	  If you say yes here you get regulator support for National
++	  Semiconductor LM25066, LM5064, and LM5066.
++
+ config SENSORS_LTC2978
+ 	tristate "Linear Technologies LTC2978 and compatibles"
+ 	help
+diff --git a/drivers/hwmon/pmbus/lm25066.c b/drivers/hwmon/pmbus/lm25066.c
+index 66d3e88b5417..09792cd03d9f 100644
+--- a/drivers/hwmon/pmbus/lm25066.c
++++ b/drivers/hwmon/pmbus/lm25066.c
+@@ -14,6 +14,7 @@
+ #include <linux/slab.h>
+ #include <linux/i2c.h>
+ #include <linux/log2.h>
++#include <linux/of_device.h>
+ #include "pmbus.h"
+ 
+ enum chips { lm25056, lm25066, lm5064, lm5066, lm5066i };
+@@ -51,7 +52,7 @@ struct __coeff {
+ #define PSC_CURRENT_IN_L	(PSC_NUM_CLASSES)
+ #define PSC_POWER_L		(PSC_NUM_CLASSES + 1)
+ 
+-static struct __coeff lm25066_coeff[][PSC_NUM_CLASSES + 2] = {
++static const struct __coeff lm25066_coeff[][PSC_NUM_CLASSES + 2] = {
+ 	[lm25056] = {
+ 		[PSC_VOLTAGE_IN] = {
+ 			.m = 16296,
+@@ -101,7 +102,7 @@ static struct __coeff lm25066_coeff[][PSC_NUM_CLASSES + 2] = {
+ 			.R = -2,
+ 		},
+ 		[PSC_CURRENT_IN_L] = {
+-			.m = 6852,
++			.m = 6854,
+ 			.b = -3100,
+ 			.R = -2,
+ 		},
+@@ -234,8 +235,6 @@ struct lm25066_data {
+ 
+ #define to_lm25066_data(x)  container_of(x, struct lm25066_data, info)
+ 
+-static const struct i2c_device_id lm25066_id[];
+-
+ static int lm25066_read_word_data(struct i2c_client *client, int page,
+ 				  int phase, int reg)
+ {
+@@ -436,12 +435,41 @@ static int lm25066_write_word_data(struct i2c_client *client, int page, int reg,
+ 	return ret;
+ }
+ 
++#if IS_ENABLED(CONFIG_SENSORS_LM25066_REGULATOR)
++static const struct regulator_desc lm25066_reg_desc[] = {
++	PMBUS_REGULATOR("vout", 0),
++};
++#endif
++
++static const struct i2c_device_id lm25066_id[] = {
++	{"lm25056", lm25056},
++	{"lm25066", lm25066},
++	{"lm5064", lm5064},
++	{"lm5066", lm5066},
++	{"lm5066i", lm5066i},
++	{ }
++};
++MODULE_DEVICE_TABLE(i2c, lm25066_id);
++
++static const struct of_device_id __maybe_unused lm25066_of_match[] = {
++	{ .compatible = "ti,lm25056", .data = (void *)lm25056, },
++	{ .compatible = "ti,lm25066", .data = (void *)lm25066, },
++	{ .compatible = "ti,lm5064",  .data = (void *)lm5064,  },
++	{ .compatible = "ti,lm5066",  .data = (void *)lm5066,  },
++	{ .compatible = "ti,lm5066i", .data = (void *)lm5066i, },
++	{ },
++};
++MODULE_DEVICE_TABLE(of, lm25066_of_match);
++
+ static int lm25066_probe(struct i2c_client *client)
+ {
+ 	int config;
++	u32 shunt;
+ 	struct lm25066_data *data;
+ 	struct pmbus_driver_info *info;
+-	struct __coeff *coeff;
++	const struct __coeff *coeff;
++	const struct of_device_id *of_id;
++	const struct i2c_device_id *i2c_id;
+ 
+ 	if (!i2c_check_functionality(client->adapter,
+ 				     I2C_FUNC_SMBUS_READ_BYTE_DATA))
+@@ -456,7 +484,14 @@ static int lm25066_probe(struct i2c_client *client)
+ 	if (config < 0)
+ 		return config;
+ 
+-	data->id = i2c_match_id(lm25066_id, client)->driver_data;
++	i2c_id = i2c_match_id(lm25066_id, client);
++
++	of_id = of_match_device(lm25066_of_match, &client->dev);
++	if (of_id && (unsigned long)of_id->data != i2c_id->driver_data)
++		dev_notice(&client->dev, "Device mismatch: %s in device tree, %s detected\n",
++			   of_id->name, i2c_id->name);
++
++	data->id = i2c_id->driver_data;
+ 	info = &data->info;
+ 
+ 	info->pages = 1;
+@@ -506,25 +541,33 @@ static int lm25066_probe(struct i2c_client *client)
+ 		info->b[PSC_POWER] = coeff[PSC_POWER].b;
+ 	}
+ 
++	/*
++	 * Values in the TI datasheets are normalized for a 1mOhm sense
++	 * resistor; assume that unless DT specifies a value explicitly.
++	 */
++	if (of_property_read_u32(client->dev.of_node, "shunt-resistor-micro-ohms", &shunt))
++		shunt = 1000;
++
++	info->m[PSC_CURRENT_IN] = info->m[PSC_CURRENT_IN] * shunt / 1000;
++	info->m[PSC_POWER] = info->m[PSC_POWER] * shunt / 1000;
++
++#if IS_ENABLED(CONFIG_SENSORS_LM25066_REGULATOR)
++	/* LM25056 doesn't support OPERATION */
++	if (data->id != lm25056) {
++		info->num_regulators = ARRAY_SIZE(lm25066_reg_desc);
++		info->reg_desc = lm25066_reg_desc;
++	}
++#endif
++
+ 	return pmbus_do_probe(client, info);
+ }
+ 
+-static const struct i2c_device_id lm25066_id[] = {
+-	{"lm25056", lm25056},
+-	{"lm25066", lm25066},
+-	{"lm5064", lm5064},
+-	{"lm5066", lm5066},
+-	{"lm5066i", lm5066i},
+-	{ }
+-};
+-
+-MODULE_DEVICE_TABLE(i2c, lm25066_id);
+-
+ /* This is the driver that will be inserted */
+ static struct i2c_driver lm25066_driver = {
+ 	.driver = {
+ 		   .name = "lm25066",
+-		   },
++		   .of_match_table = of_match_ptr(lm25066_of_match),
++	},
+ 	.probe_new = lm25066_probe,
+ 	.id_table = lm25066_id,
+ };
