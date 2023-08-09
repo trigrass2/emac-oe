@@ -2,20 +2,21 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/linux-fslc-imx/${MACHINE}:"
 
 KERNEL_IMAGETYPE = "zImage"
 
-KBRANCH:somimx6 = "5.15-1.0.x-imx-pmb-350"
-KBRANCH:somimx6ul = "5.15-1.0.x-imx-emac"
-
 LINUX_VERSION = "5.15.48"
 LOCALVERSION = "-5.15.5-1.0.0"
 
-SRCREV:somimx6 = "36e2b746031034d830ad9e30f27de14445bc982f"
-SRCREV:somimx6ul = "a9e37844667eba375e1a87d81dca620fde4d9bfd"
-
 SRC_URI:remove = "file://defconfig" 
-SRC_URI = "git://git.emacinc.com/linux-kernel/linux-fslc.git;branch=${KBRANCH};protocol=http "
 
-SRC_URI:append:somimx6 = " file://somimx6dq_defconfig "
-SRC_URI:append:somimx6ul = " file://somimx6ul_defconfig "
+SRC_URI:append:somimx6 = " \
+    file://somimx6dq_defconfig \
+    file://0001_add_emac_somimx6_board_dts_source.patch \
+    file://0002_add_emac_somimx6_board_dts_config.patch \
+    file://0003_add_emac_hwmon_driver.patch \
+    file://0004_add_emac_power_supply_driver.patch \
+"
+SRC_URI:append:somimx6ul = " \
+    file://somimx6ul_defconfig \
+"
 
 do_kernel_localversion:somimx6:prepend(){
     cp -f ${WORKDIR}/somimx6dq_defconfig ${WORKDIR}/defconfig
