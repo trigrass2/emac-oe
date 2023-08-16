@@ -1,0 +1,15 @@
+build-genericx86-64:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/genericx86-64.yml:"
+  rules:
+    - if: $GIT_MACHINE == "genericx86-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-intel-corei7-64:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/intel-corei7-64.yml:"
+  rules:
+    - if: $GIT_MACHINE == "intel-corei7-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
