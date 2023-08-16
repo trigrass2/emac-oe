@@ -1,0 +1,16 @@
+build-adv-imx8mm-ppc:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/arm64/adv-imx8mm-ppc.yml:kas/options/accept-fsl-eula.yml:"
+  rules:
+    - if: $GIT_MACHINE == "adv-imx8mm-ppc" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
+
+build-pn8m-090t-ppc:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/arm64/pn8m-090t-ppc.yml:kas/options/accept-fsl-eula.yml:"
+  rules:
+    - if: $GIT_MACHINE == "pn8m-090t-ppc" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
+

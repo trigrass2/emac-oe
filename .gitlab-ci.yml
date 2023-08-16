@@ -6,6 +6,7 @@ variables:
 include:
   - local: "kas/gitlab-ci/basic.yml"
   - local: "kas/gitlab-ci/arm-machines.yml"
+  - local: "kas/gitlab-ci/arm64-machines.yml"
   - local: "kas/gitlab-ci/x86-machines.yml"
   - local: "kas/gitlab-ci/x86_64-machines.yml"
 
