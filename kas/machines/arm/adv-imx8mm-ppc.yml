@@ -1,0 +1,6 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/meta-advantech.yml
+    - repo: meta-advantech
+      file: kas/machines/adv-imx8mm-ppc.yml

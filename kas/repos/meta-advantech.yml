@@ -1,0 +1,21 @@
+header:
+  version: 12
+
+env:
+  ACCEPT_ADVANTECHSUSI_EULA: "0"
+  ACCEPT_FSL_EULA: "0"
+
+repos:
+  meta-advantech:
+    url: http://git.emacinc.com/OE/layers/meta-advantech.git
+    path: build/layers/meta-advantech
+    refspec: advantech_distro_updates 
+    layers:
+      .: excluded
+
+  meta-advantech-upstream:
+    url: git@github.com:Advantech-IIoT/meta-advantech.git
+    path: build/layers/meta-advantech-upstream
+    refspec: 9c44ea26b7c8f820936a2cb0a9b8a88b11d5a12b
+    layers:
+      .: excluded
