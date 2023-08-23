@@ -22,7 +22,7 @@ index 000000000000..24886c80ae13
 +&iomuxc {
 +	pinctrl-names = "default";
 +	imx6qdl-som {
-+        
++
 +		pinctrl_audmux: audmuxgrp {
 +			fsl,pins = <
 +				MX6QDL_PAD_DISP0_DAT23__AUD4_RXD	0x1b0b0
@@ -293,7 +293,7 @@ index 000000000000..24886c80ae13
 +        late_init = <0>;
 +        status = "disabled";
 +    };
-+   
++
 +    leds {
 +        compatible = "gpio-leds";
 +        stat {
@@ -302,10 +302,10 @@ index 000000000000..24886c80ae13
 +            default-state = "on";
 +        };
 +    };
-+    
++
 +    clocks {
 +        #address-cells = <1>;
-+        #size-cells = <0>;        
++        #size-cells = <0>;
 +        ref12288: ref12288 {
 +            #clock-cells = <0>;
 +            compatible = "fixed-clock";
@@ -355,7 +355,7 @@ index 000000000000..24886c80ae13
 +        compatible = "fsl,mxc_v4l2_output";
 +        status = "okay";
 +    };
-+    
++
 +    watchdog: watchdog {
 +        /* ADM706 */
 +        compatible = "linux,wdt-gpio";
@@ -363,7 +363,7 @@ index 000000000000..24886c80ae13
 +        hw_algo = "toggle";
 +        hw_margin_ms = <1000>;
 +    };
-+     
++
 +};
 +
 +// end root node
@@ -452,7 +452,7 @@ index 000000000000..24886c80ae13
 +    pinctrl-names = "default";
 +    pinctrl-0 = <&pinctrl_ecspi1>;
 +    status = "okay";
-+    
++
 +    mcp3x0x@0 {
 +        compatible = "microchip,mcp3204";
 +        reg = <0>;
@@ -469,7 +469,7 @@ index 000000000000..24886c80ae13
 +    pinctrl-names = "default";
 +    pinctrl-0 = <&pinctrl_ecspi3>;
 +    status = "okay";
-+    
++
 +    flash: n25q128@0 {
 +        compatible = "n25q128a13";
 +        reg = <0>;
@@ -596,7 +596,7 @@ index 000000000000..931e90d14ed5
 +    status = "okay";
 +    lvds-channel@0 {
 +        fsl,data-mapping = "spwg";
-+        fsl,data-width = <18>;        
++        fsl,data-width = <18>;
 +        crtc = "ipu1-di0";
 +        primary;
 +        status = "okay";
@@ -679,7 +679,7 @@ index 000000000000..ac139eb51f6a
 +        display-timings {
 +            native-mode = <&timing0>;
 +            timing0: TTX2NLWHTL {
-+                clock-frequency = <33260000>; 
++                clock-frequency = <33260000>;
 +                hactive = <800>;
 +                vactive = <480>;
 +                hback-porch = <40>;
@@ -761,7 +761,7 @@ index 000000000000..9aa8e0e88b57
 +        device_type = "memory";
 +        reg = <0x10000000 0x80000000>;
 +    };
-+    
++
 +    aliases {
 +        ts_tsc2004 = &ts_tsc2004;
 +        backlight_gpio = &backlight_gpio;
@@ -769,7 +769,7 @@ index 000000000000..9aa8e0e88b57
 +        backlight_pwm = &backlight_pwm;
 +        bl_pwr = &bl_pwr;
 +    };
-+    
++
 +    clocks{
 +        tlv320_mclk: tlv320_mclk {
 +            #clock-cells = <0>;
@@ -778,7 +778,7 @@ index 000000000000..9aa8e0e88b57
 +            clock-output-names = "mclk";
 +        };
 +    };
-+    
++
 +    regulators {
 +        reg_wl18xx_vmmc: regulator-wl18xx {
 +            compatible = "regulator-fixed";
@@ -789,7 +789,7 @@ index 000000000000..9aa8e0e88b57
 +            enable-active-high;
 +            startup-delay-us = <70000>;
 +        };
-+        
++
 +        lvds_3p3v: lvds_3p3v_reg {
 +            compatible = "regulator-fixed";
 +            regulator-name = "LVDS 3P3V";
@@ -811,14 +811,14 @@ index 000000000000..9aa8e0e88b57
 +        };
 +    };
 +    //reg
-+    
++
 +    backlight_gpio: backlight_gpio {
 +        compatible = "gpio-backlight";
 +        gpios = <&gpio1 30 GPIO_ACTIVE_HIGH>;
 +        default-on;
 +        display = <&mxcfb1>;
 +    };
-+    
++
 +    backlight_pwm: backlight_pwm {
 +        compatible = "pwm-backlight";
 +        pwms = <&pwm1 0 50000 0>;
@@ -826,24 +826,24 @@ index 000000000000..9aa8e0e88b57
 +        power-supply = <&bl_pwr>;
 +        brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 +        default-brightness-level = <9>;
-+        display = <&mxcfb1>; 
++        display = <&mxcfb1>;
 +    };
-+    
++
 +    beeper: beeper {
 +        compatible = "gpio-beeper";
 +        gpios = <&gpio5 8 GPIO_ACTIVE_HIGH>;
 +    };
-+    
-+    #if 0 
-+  FIXME make this as fsl audio. 
++
++    #if 0
++  FIXME make this as fsl audio.
 +  	sound {
 +		compatible = "fsl,imx-audio-aic32x4";
 +		model = "tlv320aic32x4";
 +		ssi-controller = <&ssi1>;
 +		audio-codec = <&codec>;
 +		audio-routing =
-+            "Line Out Jack", "LOL" 
-+            "Line Out Jack", "LOR" 
++            "Line Out Jack", "LOL"
++            "Line Out Jack", "LOR"
 +            "Headphone Jack", "HPL",
 +			"Headphone Jack", "HPR";
 +		mux-int-port = <1>;
@@ -877,7 +877,7 @@ index 000000000000..9aa8e0e88b57
 +	};
 +};
 +
-+&i2c1 {  
++&i2c1 {
 +    eeprom@50 {
 +        compatible = "st,24c32";
 +        reg = <0x50>;
@@ -996,7 +996,7 @@ index 000000000000..9aa8e0e88b57
 +    keep-power-in-suspend;
 +    cap-power-off-card;
 +#if 0
-+    TODO add the pin group for both 200mhz and 400mhz 
++    TODO add the pin group for both 200mhz and 400mhz
 +    pinctrl-names = "default", "state_100mhz", "state_200mhz";
 +	pinctrl-1 = <&pinctrl_usdhc4_100mhz>;
 +    pinctrl-2 = <&pinctrl_usdhc4_200mhz>;
@@ -1082,7 +1082,7 @@ index 000000000000..5ea0cc544cca
 + *.
 + *
 + */
-+ 
++
 +#include <dt-bindings/interrupt-controller/irq.h>
 +#include "imx6q.dtsi"
 +#include "som-imx6dq.dtsi"
@@ -1124,7 +1124,7 @@ index 000000000000..5ea0cc544cca
 +        device_type = "memory";
 +        reg = <0x10000000 0x80000000>;
 +    };
-+    
++
 +    aliases {
 +        ts_tsc2004 = &ts_tsc2004;
 +        backlight_gpio = &backlight_gpio;
@@ -1132,8 +1132,8 @@ index 000000000000..5ea0cc544cca
 +        backlight_pwm = &backlight_pwm;
 +        bl_pwr = &bl_pwr;
 +    };
-+    
-+    
++
++
 +    clocks {
 +        tlv320_mclk: tlv320_mclk {
 +            #clock-cells = <0>;
@@ -1142,9 +1142,9 @@ index 000000000000..5ea0cc544cca
 +            clock-output-names = "mclk";
 +        };
 +    };
-+    
++
 +    regulators {
-+        
++
 +        reg_wl18xx_vmmc: regulator-wl18xx {
 +            compatible = "regulator-fixed";
 +            regulator-name = "wlan-en-regulator";
@@ -1154,7 +1154,7 @@ index 000000000000..5ea0cc544cca
 +            enable-active-high;
 +            startup-delay-us = <70000>;
 +        };
-+        
++
 +        lvds_3p3v: lvds_3p3v_reg {
 +            compatible = "regulator-fixed";
 +            regulator-name = "LVDS 3P3V";
@@ -1164,7 +1164,7 @@ index 000000000000..5ea0cc544cca
 +            enable-active-high;
 +            gpio = <&gpio1 29 GPIO_ACTIVE_HIGH>;
 +        };
-+        
++
 +        bl_pwr: bl_pwr_reg {
 +            compatible = "regulator-fixed";
 +            reg = <5>;
@@ -1174,20 +1174,20 @@ index 000000000000..5ea0cc544cca
 +            regulator-always-on;
 +            gpio = <&gpio1 30 GPIO_ACTIVE_LOW>;
 +        };
-+        
++
 +    };
-+    
-+        
-+#if 0 
-+  FIXME make this as fsl audio. 
++
++
++#if 0
++  FIXME make this as fsl audio.
 +  	sound {
 +		compatible = "fsl,imx-audio-aic32x4";
 +		model = "tlv320aic32x4";
 +		ssi-controller = <&ssi1>;
 +		audio-codec = <&codec>;
 +		audio-routing =
-+            "Line Out Jack", "LOL" 
-+            "Line Out Jack", "LOR" 
++            "Line Out Jack", "LOL"
++            "Line Out Jack", "LOR"
 +            "Headphone Jack", "HPL",
 +			"Headphone Jack", "HPR";
 +		mux-int-port = <1>;
@@ -1219,19 +1219,19 @@ index 000000000000..5ea0cc544cca
 +			clocks = <&tlv320_mclk>;
 +		};
 +	};
-+    
++
 +    beeper: beeper {
 +        compatible = "gpio-beeper";
 +        gpios = <&gpio5 8 GPIO_ACTIVE_HIGH>;
 +    };
-+    
++
 +    backlight_gpio: backlight_gpio {
 +        compatible = "gpio-backlight";
 +        gpios = <&gpio1 30 GPIO_ACTIVE_HIGH>;
 +        default-on;
 +        display = <&mxcfb1>;
 +    };
-+    
++
 +    backlight_pwm: backlight_pwm {
 +        compatible = "pwm-backlight";
 +        pwms = <&pwm1 0 50000 0>;
@@ -1239,10 +1239,10 @@ index 000000000000..5ea0cc544cca
 +        power-supply = <&bl_pwr>;
 +        brightness-levels = <0 10 20 30 40 50 60 70 80 90 100>;
 +        default-brightness-level = <9>;
-+        display = <&mxcfb1>; 
-+    };    
-+    
-+}; 
++        display = <&mxcfb1>;
++    };
++
++};
 +// end root node
 +
 +&i2c1 {
@@ -1253,7 +1253,7 @@ index 000000000000..5ea0cc544cca
 +	};
 +};
 +
-+&i2c2 {    
++&i2c2 {
 +    codec: tlv320aic32x4@18{
 +        #sound-dai-cells = <0>;
 +        compatible = "ti,tlv320aic32x4";
@@ -1357,7 +1357,7 @@ index 000000000000..5ea0cc544cca
 +    keep-power-in-suspend;
 +    cap-power-off-card;
 +#if 0
-+    TODO add the pin group for both 200mhz and 400mhz 
++    TODO add the pin group for both 200mhz and 400mhz
 +    pinctrl-names = "default", "state_100mhz", "state_200mhz";
 +	pinctrl-1 = <&pinctrl_usdhc4_100mhz>;
 +    pinctrl-2 = <&pinctrl_usdhc4_200mhz>;
@@ -1521,8 +1521,8 @@ index 000000000000..027d62bbd1f3
 +                };
 +
 +        };
-+        
-+        
++
++
 +        leds {
 +            compatible = "gpio-leds";
 +            powerStatusLed {
@@ -1538,16 +1538,16 @@ index 000000000000..027d62bbd1f3
 +                //color = <LED_COLOR_ID_RED>;
 +                default-state = "off";
 +            };
-+            
++
 +            spareLed {
 +                // D8
 +                gpios = < &gpio4 0 GPIO_ACTIVE_LOW>;
 +                //color = <LED_COLOR_ID_RED>;
 +                default-state = "off";
 +            };
-+            
++
 +        };
-+        
++
 +        watchdog: watchdog {
 +            compatible = "linux,wdt-gpio";
 +            gpios = <&gpio1 8 GPIO_ACTIVE_LOW>;
@@ -1574,20 +1574,20 @@ index 000000000000..027d62bbd1f3
 +// ok
 +&i2c1 {
 +    pinctrl-names = "default";
-+    pinctrl-0 = <&pinctrl_i2c1>;    
++    pinctrl-0 = <&pinctrl_i2c1>;
 +    status = "okay";
 +    clock-frequency = <100000>;
 +
 +    // fan controller wrong reg ?  linux says 0x2e (schmatics 0x4C)
 +    // -- drivers->hwmon->emc2103.c -- //
-+    
-+    
++
++
 +    lm5066hsc1: lm5066@10 {
 +        compatible = "ti,lm5066";
 +        reg = <0x10>;
 +        status = "okay";
 +    };
-+    
++
 +    lm5066dcp3: lm5066@14 {
 +        compatible = "ti,lm5066";
 +        reg = <0x14>;
@@ -1598,7 +1598,7 @@ index 000000000000..027d62bbd1f3
 +
 +&i2c2 {
 +    pinctrl-names = "default";
-+    pinctrl-0 = <&pinctrl_i2c2>;    
++    pinctrl-0 = <&pinctrl_i2c2>;
 +    status = "okay";
 +    clock-frequency = <100000>;
 +
@@ -1607,13 +1607,13 @@ index 000000000000..027d62bbd1f3
 +        reg = <0x12>;
 +        status = "okay";
 +    };
-+    
++
 +    lm5066dcp2: lm5066@13 {
 +        compatible = "ti,lm5066";
 +        reg = <0x13>;
 +        status = "okay";
 +    };
-+    
++
 +    lm5066dcp4: lm5066@15 {
 +        compatible = "ti,lm5066";
 +        reg = <0x15>;
@@ -1623,7 +1623,7 @@ index 000000000000..027d62bbd1f3
 +
 +&i2c3 {
 +    pinctrl-names = "default";
-+    pinctrl-0 = <&pinctrl_i2c3>;    
++    pinctrl-0 = <&pinctrl_i2c3>;
 +    status = "okay";
 +    clock-frequency = <100000>;
 +
@@ -1631,14 +1631,14 @@ index 000000000000..027d62bbd1f3
 +        compatible = "ti,lm5066";
 +        reg = <0x16>;
 +        status = "okay";
-+    };    
-+    
++    };
++
 +    lm5066smps2: lm5066@17 {
 +        compatible = "ti,lm5066";
 +        reg = <0x17>;
 +        status = "okay";
 +    };
-+    
++
 +    lm5066smps3: lm5066@50 {
 +        compatible = "ti,lm5066";
 +        reg = <0x50>;
@@ -1649,8 +1649,8 @@ index 000000000000..027d62bbd1f3
 +
 +&i2c4 {
 +    pinctrl-names = "default";
-+    pinctrl-0 = <&pinctrl_i2c4>;    
-+    status = "okay";  
++    pinctrl-0 = <&pinctrl_i2c4>;
++    status = "okay";
 +    clock-frequency = <100000>;
 +
 +    // U35 -> BCC -> LT8491(0x29)[CONFIG_POWER_SUPPLY-> ]
@@ -1693,8 +1693,8 @@ index 000000000000..027d62bbd1f3
 +    pinctrl-names = "default";
 +    pinctrl-0 = <&pinctrl_ecspi4>;
 +    fsl,spi-num-chipselects = <1>;
-+    status = "okay";    
-+    
++    status = "okay";
++
 +    // KSZ8567R
 +    ksz8567: switch@0 {
 +        compatible = "microchip,ksz8565";
@@ -1746,12 +1746,12 @@ index 000000000000..027d62bbd1f3
 +    // N8 (later)
 +    // interrupt-parent = <&gpio5>;
 +    // interrupts = <5 0>;
-+    
++
 +    fixed-link {
 +        speed=<100>;
 +        full-duplex;
 +    };
-+    
++
 +    mdio{
 +    #address-cells = <1>;
 +    #size-cells = <0>;
@@ -1769,9 +1769,9 @@ index 000000000000..027d62bbd1f3
 +    pinctrl-0 = <&pinctrl_uart1>;
 +    fsl,uart-has-rtscts;
 +    status = "okay";
-+    
++
 +    // -> ADM2582E (RS-485 Transceiver)
-+ 
++
 +};
 +
 +&uart2 {
@@ -1779,7 +1779,7 @@ index 000000000000..027d62bbd1f3
 +    pinctrl-0 = <&pinctrl_uart2>;
 +    fsl,uart-has-rtscts;
 +    status = "okay";
-+    // u12 -> COM2_DATA -> 
++    // u12 -> COM2_DATA ->
 +};
 +
 +&uart3 {
@@ -1841,7 +1841,7 @@ index 000000000000..027d62bbd1f3
 +// renaming to make things more easy on the devlopers
 +&gpio3{
 +    gpio-line-names = "","","","","ISO_DCPS1_FLT",
-+	"BT_CFG1_0","BT_CFG1_1","BT_CFG1_1","BT_CFG1_1","BT_CFG1_4", 
++	"BT_CFG1_0","BT_CFG1_1","BT_CFG1_1","BT_CFG1_1","BT_CFG1_4",
 +        "BT_CFG1_5","BT_CFG1_6","BT_CFG1_7","BT_CFG2_0","BT_CFG2_1",
 +        "BT_CFG2_2","BT_CFG2_3","BT_CFG2_4","BT_CFG2_5","BT_CFG2_6",
 +        "BT_CFG2_7","BT_CFG4_0","BT_CFG4_1","BT_CFG4_2","BT_CFG4_3",
@@ -1849,7 +1849,7 @@ index 000000000000..027d62bbd1f3
 +        "", "";
 +};
 +
-+&gpio4{    
++&gpio4{
 +    gpio-line-names =  "SPARE_LED","ISO_DCPS2_FLT", "MAIN_PG","ISO_DCPS2_EN","ISO_DCPS1_EN",
 +    "ISO_SMPS2_EN","ISO_SMPS1_EN","ISO_SMPS3_EN","ISO_DCPS3_EN","ISO_BCC_EN",
 +    "ISO_DCPS4_EN","HSCX_FLT","SOFT_RST","ETH_RESET","VCB_SFT_SHDN",
@@ -1994,9 +1994,9 @@ index 000000000000..027d62bbd1f3
 +            MX6UL_PAD_SD1_DATA3__USDHC1_DATA3          0x17059
 +        >;
 +    };
-+    
-+    
-+    
++
++
++
 +    pinctrl_gpios: pinctrl_gpios_grp {
 +            fsl,pins = <
 +            MX6UL_PAD_JTAG_TCK__SJC_TCK                0x000070A0 // M14 DEFAULT
@@ -2004,14 +2004,14 @@ index 000000000000..027d62bbd1f3
 +            MX6UL_PAD_JTAG_TDO__SJC_TDO                0x0000B0B1 // N15 DEFAULT
 +            MX6UL_PAD_JTAG_TMS__SJC_TMS                0x000070A0 // P14 DEFAULT
 +            MX6UL_PAD_JTAG_TRST_B__SJC_TRSTB           0x000070A0 // N14 DEFAULT
-+            // 
++            //
 +            MX6UL_PAD_LCD_DATA00__GPIO3_IO05           0x000010B0 // BT_CFG1_0 B9 DEFAULT
 +            MX6UL_PAD_LCD_DATA01__GPIO3_IO06           0x000010B0 // BT_CFG1_1 A9 DEFAULT
 +            MX6UL_PAD_LCD_DATA02__GPIO3_IO07           0x000010B0 // BT_CFG1_2 E10 DEFAULT
 +            MX6UL_PAD_LCD_DATA03__GPIO3_IO08           0x000010B0 // BT_CFG1_3 D10 DEFAULT
 +            MX6UL_PAD_LCD_DATA04__GPIO3_IO09           0x000010B0 // BT_CFG1_4 C10 DEFAULT
 +            MX6UL_PAD_LCD_DATA05__GPIO3_IO10           0x000010B0 // BT_CFG1_5 B10 DEFAULT
-+            MX6UL_PAD_LCD_DATA06__GPIO3_IO11           0x000010B0 // BT_CFG1_6 A10 DEFAULT 
++            MX6UL_PAD_LCD_DATA06__GPIO3_IO11           0x000010B0 // BT_CFG1_6 A10 DEFAULT
 +            MX6UL_PAD_LCD_DATA07__GPIO3_IO12           0x000010B0 // BT_CFG1_7 D11 DEFAULT
 +            MX6UL_PAD_LCD_DATA08__GPIO3_IO13           0x000010B0 // BT_CFG2_0 B11 DEFAULT
 +            MX6UL_PAD_LCD_DATA09__GPIO3_IO14           0x000010B0 // BT_CFG2_1 A11 DEFAULT
@@ -2025,13 +2025,13 @@ index 000000000000..027d62bbd1f3
 +            MX6UL_PAD_LCD_DATA17__GPIO3_IO22           0x000010B0 // BT_CFG4_1 B13 DEFAULT
 +            MX6UL_PAD_LCD_DATA18__GPIO3_IO23           0x000010B0 // BT_CFG4_2 A13 DEFAULT
 +            MX6UL_PAD_LCD_DATA19__GPIO3_IO24           0x000010B0 // BT_CFG4_3 D14 DEFAULT
-+            MX6UL_PAD_LCD_DATA20__GPIO3_IO25           0x000010B0 // BT_CFG4_4 C14 DEFAULT 
++            MX6UL_PAD_LCD_DATA20__GPIO3_IO25           0x000010B0 // BT_CFG4_4 C14 DEFAULT
 +            MX6UL_PAD_LCD_DATA21__GPIO3_IO26           0x000010B0 // BT_CFG4_5 B14 DEFAULT
 +            MX6UL_PAD_LCD_DATA22__GPIO3_IO27           0x000010B0 // BT_CFG4_6 A14 DEFAULT
 +            MX6UL_PAD_LCD_DATA23__GPIO3_IO28           0x000010B0 // BT_CFG4_7 B16 DEFAULT
 +            MX6UL_PAD_LCD_RESET__GPIO3_IO04            0x000010B0 // ISO_DCPS1_FLT# E9 DEFAULT
 +            //
-+            MX6UL_PAD_NAND_ALE__GPIO4_IO10             0x000010B0 // ISO_DCPS4_EN#  B4 DEFAULT 
++            MX6UL_PAD_NAND_ALE__GPIO4_IO10             0x000010B0 // ISO_DCPS4_EN#  B4 DEFAULT
 +            MX6UL_PAD_NAND_CE0_B__GPIO4_IO13           0x000010B0 // ETH_RESET#     C5 DEFAULT
 +            MX6UL_PAD_NAND_CE1_B__GPIO4_IO14           0x000010B0 // VCB_SFT_SHDN#  B5 DEFAULT
 +            //
@@ -2042,18 +2042,18 @@ index 000000000000..027d62bbd1f3
 +            MX6UL_PAD_NAND_DATA02__GPIO4_IO04          0x000010B0 // ISO_DCPS1_EN#  A7 DEFAULT
 +            MX6UL_PAD_NAND_DATA03__GPIO4_IO05          0x000010B0 // ISO_SMPS2_EN#  D6 DEFAULT
 +            MX6UL_PAD_NAND_DATA04__GPIO4_IO06          0x000010B0 // ISO_SMPS1_EN#  C6 DEFAULT
-+            MX6UL_PAD_NAND_DATA05__GPIO4_IO07          0x000010B0 // ISO_SMPS3_EN#  B6 DEFAULT 
++            MX6UL_PAD_NAND_DATA05__GPIO4_IO07          0x000010B0 // ISO_SMPS3_EN#  B6 DEFAULT
 +            MX6UL_PAD_NAND_DATA06__GPIO4_IO08          0x000010B0 // ISO_DCPS3_EN#  A6 DEFAULT
 +            MX6UL_PAD_NAND_DATA07__GPIO4_IO09          0x000010B0 // ISO_BCC_EN#    A5 DEFAULT
-+            // 
++            //
 +            MX6UL_PAD_NAND_DQS__GPIO4_IO16             0x000010B0 // BATT_PG#       E6 DEFAULT
 +            MX6UL_PAD_NAND_READY_B__GPIO4_IO12         0x000010B0 // SOFT_RST#      A3 DEFAULT
 +            MX6UL_PAD_NAND_RE_B__GPIO4_IO00            0x000010B0 // SPARE_LED#     D8 DEFAULT
 +            MX6UL_PAD_NAND_WE_B__GPIO4_IO01            0x000010B0 // ISO_DCPS2_FLT# C8 DEFAULT
-+            MX6UL_PAD_NAND_WP_B__GPIO4_IO11            0x000010B0 // HSCX_FLT#      D5 DEFAULT  
-+            // 
-+            MX6UL_PAD_SNVS_TAMPER0__GPIO5_IO00         0x000110A0 // VCB_SHDN_REQ#  R10 Dedicated 
-+            MX6UL_PAD_SNVS_TAMPER1__GPIO5_IO01         0x000110A0 // ISO_DCPS3_FLT# R9  Dedicated 
++            MX6UL_PAD_NAND_WP_B__GPIO4_IO11            0x000010B0 // HSCX_FLT#      D5 DEFAULT
++            //
++            MX6UL_PAD_SNVS_TAMPER0__GPIO5_IO00         0x000110A0 // VCB_SHDN_REQ#  R10 Dedicated
++            MX6UL_PAD_SNVS_TAMPER1__GPIO5_IO01         0x000110A0 // ISO_DCPS3_FLT# R9  Dedicated
 +            MX6UL_PAD_SNVS_TAMPER2__GPIO5_IO02         0x000110A0 // ISO_SMPS1_FLT# P11 Dedicated
 +            MX6UL_PAD_SNVS_TAMPER3__GPIO5_IO03         0x000110A0 // ISO_SMPS2_FLT# P10 Dedicated
 +            MX6UL_PAD_SNVS_TAMPER4__GPIO5_IO04         0x000110A0 // ISO_SMPS3_FLT# P9  Dedicated
@@ -2066,4 +2066,4 @@ index 000000000000..027d62bbd1f3
 +        };
 +
 +};
-+ 
++

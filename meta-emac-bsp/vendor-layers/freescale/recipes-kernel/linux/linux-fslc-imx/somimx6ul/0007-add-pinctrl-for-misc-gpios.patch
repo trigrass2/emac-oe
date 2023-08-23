@@ -1,0 +1,90 @@
+From 76a0ebe9af63de2e9c8e37d565f6659fdeb50f1e Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Mon, 21 Aug 2023 18:10:39 -0500
+Subject: [PATCH] add pinctrl for misc gpios
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ arch/arm/boot/dts/emac-som-imx6ul-112es.dts | 18 ++++++++++++++++
+ arch/arm/boot/dts/emac-som-imx6ul-150es.dts | 12 +++++++++++
+ arch/arm/boot/dts/emac-som-imx6ul.dtsi      | 23 +++++++++++++++++++++
+ 3 files changed, 53 insertions(+)
+
+diff --git a/arch/arm/boot/dts/emac-som-imx6ul-112es.dts b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
+index 6851794130a17..774a5f0dca82e 100644
+--- a/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
++++ b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
+@@ -242,3 +242,21 @@ &emac_gpios {
+ 						"HDR1_44",
+ 						"HDR1_46";
+ };
++
++&pinctrl_misc_gpio {
++	fsl,pins = <
++		MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0xb0b1
++		MX6UL_PAD_LCD_VSYNC__GPIO3_IO03		0xb0b1
++		MX6UL_PAD_GPIO1_IO06__GPIO1_IO06	0xb0b1
++		MX6UL_PAD_GPIO1_IO07__GPIO1_IO07	0xb0b1
++		MX6UL_PAD_GPIO1_IO08__GPIO1_IO08	0xb0b1
++		MX6UL_PAD_GPIO1_IO09__GPIO1_IO09	0xb0b1
++		MX6UL_PAD_NAND_CLE__GPIO4_IO15		0xb0b1
++		MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0xb0b1
++		MX6UL_PAD_NAND_CE0_B__GPIO4_IO13	0xb0b1
++		MX6UL_PAD_NAND_ALE__GPIO4_IO10		0xb0b1
++		MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0xb0b1
++		MX6UL_PAD_LCD_DATA00__GPIO3_IO05	0xb0b1
++		MX6UL_PAD_LCD_DATA01__GPIO3_IO06	0xb0b1
++	>;
++};
+diff --git a/arch/arm/boot/dts/emac-som-imx6ul-150es.dts b/arch/arm/boot/dts/emac-som-imx6ul-150es.dts
+index def4585712364..5020741e7a378 100644
+--- a/arch/arm/boot/dts/emac-som-imx6ul-150es.dts
++++ b/arch/arm/boot/dts/emac-som-imx6ul-150es.dts
+@@ -307,3 +307,15 @@ &emac_gpios {
+ 						"HDR4_39",
+ 						"HDR4_11";
+ };
++
++&pinctrl_misc_gpio {
++	fsl,pins = <
++		MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0xb0b1
++		MX6UL_PAD_LCD_VSYNC__GPIO3_IO03		0xb0b1
++		MX6UL_PAD_GPIO1_IO05__GPIO1_IO05	0xb0b1
++		MX6UL_PAD_NAND_CLE__GPIO4_IO15		0xb0b1
++		MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0xb0b1
++		MX6UL_PAD_NAND_CE0_B__GPIO4_IO13	0xb0b1
++		MX6UL_PAD_NAND_ALE__GPIO4_IO10		0xb0b1
++	>;
++};
+diff --git a/arch/arm/boot/dts/emac-som-imx6ul.dtsi b/arch/arm/boot/dts/emac-som-imx6ul.dtsi
+index c745b6ae43627..c125bf22cd68f 100644
+--- a/arch/arm/boot/dts/emac-som-imx6ul.dtsi
++++ b/arch/arm/boot/dts/emac-som-imx6ul.dtsi
+@@ -399,4 +399,27 @@ MX6UL_PAD_LCD_DATA22__EIM_DATA14	0x1b0b0
+ 			MX6UL_PAD_LCD_DATA23__EIM_DATA15	0x1b0b0
+ 		>;
+ 	};
++
++	pinctrl_misc_gpio: pinctrl_misc_gpio {
++		fsl,pins = <
++			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0xb0b1
++			MX6UL_PAD_LCD_VSYNC__GPIO3_IO03		0xb0b1
++			MX6UL_PAD_LCD_RESET__GPIO3_IO04		0xb0b1
++			MX6UL_PAD_GPIO1_IO04__GPIO1_IO04	0xb0b1
++			MX6UL_PAD_GPIO1_IO05__GPIO1_IO05	0xb0b1
++			MX6UL_PAD_GPIO1_IO06__GPIO1_IO06	0xb0b1
++			MX6UL_PAD_GPIO1_IO07__GPIO1_IO07	0xb0b1
++			MX6UL_PAD_GPIO1_IO08__GPIO1_IO08	0xb0b1
++			MX6UL_PAD_GPIO1_IO09__GPIO1_IO09	0xb0b1
++			MX6UL_PAD_NAND_CLE__GPIO4_IO15		0xb0b1
++			MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0xb0b1
++			MX6UL_PAD_NAND_CE0_B__GPIO4_IO13	0xb0b1
++			MX6UL_PAD_NAND_ALE__GPIO4_IO10		0xb0b1
++			MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0xb0b1
++			MX6UL_PAD_LCD_DATA00__GPIO3_IO05	0xb0b1
++			MX6UL_PAD_LCD_DATA01__GPIO3_IO06	0xb0b1
++			MX6UL_PAD_UART4_TX_DATA__GPIO1_IO28	0xb0b1
++			MX6UL_PAD_UART4_RX_DATA__GPIO1_IO29	0xb0b1
++		>;
++	};
+ };
