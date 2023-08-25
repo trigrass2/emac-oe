@@ -459,7 +459,8 @@
 	cs-gpios = <&gpio4 19 GPIO_ACTIVE_LOW>,
 		<&gpio4 21 GPIO_ACTIVE_LOW>,
 		<&gpio8 0 GPIO_ACTIVE_LOW>;
-	num-cs = <3>;
+	ti,spi-num-cs = <3>;
+	ti,pindir-d0-out-d1-in;
 };
 
 &mcspi4 {
@@ -473,7 +474,8 @@
 		<&gpio2 2 GPIO_ACTIVE_LOW>,
 		<0>,
 		<&gpio2 4 GPIO_ACTIVE_LOW>;
-	num-cs = <4>;
+	ti,pindir-d0-out-d1-in;
+	ti,spi-num-cs = <4>;
 
 	no-device@2 {/* Do Not Use */};
 };
