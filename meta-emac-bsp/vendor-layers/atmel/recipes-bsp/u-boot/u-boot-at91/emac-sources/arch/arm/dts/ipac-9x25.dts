@@ -7,18 +7,16 @@
  */
 /dts-v1/;
 #include "at91sam9x25.dtsi"
+#include "at91sam9x5ek.dtsi"
 
 / {
 	model = "EMAC IPAC-9X25";
 	compatible = "atmel,at91sam9x25ek", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
 
 	aliases {
-		serial0 = &usart3;
 		serial1 = &usart0;
 		serial3 = &uart0;
 		serial5 = &dbgu;
-		spi0 = &spi0;
-		spi1 = &spi1;
 	};
 
 	memory {
@@ -101,22 +99,6 @@
 							 AT91_PIOD 19 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
 							 AT91_PIOD 20 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
 							 AT91_PIOD 21 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
-					};
-				};
-
-				spi0 {
-					pinctrl_spi0_cs: spi0-board {
-						atmel,pins =
-							<AT91_PIOA 7 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
-							 AT91_PIOA 14 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
-					};
-				};
-
-				spi1 {
-					pinctrl_spi1_cs: spi1-board {
-						atmel,pins =
-							<AT91_PIOA 30 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
-							 AT91_PIOA 31 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
 					};
 				};
 
@@ -219,58 +201,6 @@
 				status = "okay";
 				serial {
 					compatible = "atmel,at91rm9200-usart-serial";
-				};
-			};
-
-			spi0: spi@f0000000 {
-				cs-gpios = <&pioA 14 GPIO_ACTIVE_LOW
-					    &pioA 7 GPIO_ACTIVE_LOW>;
-				pinctrl-name = "default";
-				pinctrl-0 = <&pinctrl_spi0 &pinctrl_spi0_cs>;
-				status = "okay";
-
-				flash: m25p80@0 {
-					compatible = "n25q128a13";
-					spi-max-frequency = <10000000>;
-					reg = <0>;
-					status = "okay";
-				};
-
-				mcp23s08: mcp23s08@1 {
-					compatible = "mcp,mcp23s08";
-					gpio-controller;
-					#gpio-cells = <2>;
-					mcp,spi-present-mask = <0x07>;
-					spi-max-frequency = <1000000>;
-					reg = <1>;
-					pinctrl-names = "default";
-					pinctrl-0 = <&gpio21pullups>;
-
-					gpio21pullups: pinmux {
-				        pins =	"gpio0", "gpio1", "gpio2", "gpio3",
-			                "gpio4", "gpio5", "gpio6", "gpio7";
-				        bias-pull-up;
-					};
-				};
-			};
-
-			spi1: spi@f0004000 {
-				cs-gpios = <&pioA 31 GPIO_ACTIVE_LOW
-					    &pioA 30 GPIO_ACTIVE_LOW>;
-				pinctrl-name = "default";
-				pinctrl-0 = <&pinctrl_spi1 &pinctrl_spi1_cs>;
-
-				status = "okay";
-				spidev0: spidev@0 {
-					compatible = "emac,spidev";
-					spi-max-frequency = <40000000>;
-					reg = <0>;
-				};
-
-				spidev1: spidev@1 {
-					compatible = "emac,spidev";
-					spi-max-frequency = <40000000>;
-					reg = <1>;
 				};
 			};
 
