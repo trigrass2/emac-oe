@@ -8,5 +8,3 @@ stderr=serial
 stdin=serial
 stdout=serial
 ethact=macb0
-ethaddr=28:BC:56:00:F3:FB
-eth1addr=28:BC:56:00:F3:FC
