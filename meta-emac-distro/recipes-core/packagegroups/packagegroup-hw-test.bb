@@ -66,10 +66,12 @@ RDEPENDS:${PN}-gpio = "\
 "
 SUMMARY:${PN}-sound = "Sound testing"
 RDEPENDS:${PN}-sound = "\
-    ffmpeg \
+    alsa-utils-aplay \
+    ${@bb.utils.contains_any("LICENSE_FLAGS_ACCEPTED", "commercial_ffmpeg", "ffmpeg", " ", d)} \
 "
 SUMMARY:${PN}-screen = "Screen testing"
 RDEPENDS:${PN}-screen = "\
+    gstreamer1.0-meta-video \
     gstreamer1.0-meta-debug \
 "
 SUMMARY:${PN}-touch = "Touchscreen testing"
