@@ -1,4 +1,4 @@
-From f9a6fbec573a4097f6d1dad934d366ba0c5f748c Mon Sep 17 00:00:00 2001
+From 34723c746c994009b400a9bfa11679cfae64fddf Mon Sep 17 00:00:00 2001
 From: Brenden Tisler <btisler@emacinc.com>
 Date: Mon, 21 Aug 2023 13:38:26 -0500
 Subject: [PATCH] add emac dtb targets
@@ -9,17 +9,20 @@ Signed-off-by: Brenden Tisler <btisler@emacinc.com>
  1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 12ce9965f55b..ad83f9197e75 100644
+index 6aa7dc4db2fc..ea620a4a89c7 100644
 --- a/arch/arm/boot/dts/Makefile
 +++ b/arch/arm/boot/dts/Makefile
-@@ -745,7 +745,9 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
- 	imx6ulz-14x14-evk-btwifi.dtb \
- 	imx6ulz-14x14-evk-btwifi-sdio3_0.dtb \
- 	imx6ulz-14x14-evk-gpmi-weim.dtb \
--	imx6ulz-14x14-evk-emmc.dtb
-+	imx6ulz-14x14-evk-emmc.dtb \
+@@ -748,7 +748,9 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
+ 	imx6ull-tqma6ull2-mba6ulx.dtb \
+ 	imx6ull-tqma6ull2l-mba6ulx.dtb \
+ 	imx6ulz-14x14-evk.dtb \
+-	imx6ulz-bsh-smm-m2.dtb
++	imx6ulz-bsh-smm-m2.dtb \
 +	emac-som-imx6ul-112es.dtb \
 +	emac-som-imx6ul-150es.dtb
  dtb-$(CONFIG_SOC_IMX7D) += \
  	imx7d-cl-som-imx7.dtb \
  	imx7d-colibri-aster.dtb \
+-- 
+2.34.1
+

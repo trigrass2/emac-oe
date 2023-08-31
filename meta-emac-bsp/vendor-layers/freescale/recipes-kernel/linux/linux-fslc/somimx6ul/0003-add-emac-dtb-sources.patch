@@ -1,15 +1,15 @@
-From e323938b0225e7f6f584ae523211fb9c7d0f181f Mon Sep 17 00:00:00 2001
+From 2087aedc8ad5ec3a8924e54a07c538830490ca2e Mon Sep 17 00:00:00 2001
 From: Brenden Tisler <btisler@emacinc.com>
-Date: Mon, 21 Aug 2023 13:38:51 -0500
+Date: Wed, 30 Aug 2023 16:55:25 -0500
 Subject: [PATCH] add emac dtb sources
 
 Signed-off-by: Brenden Tisler <btisler@emacinc.com>
 ---
- arch/arm/boot/dts/emac-som-imx6ul-112es.dts | 244 ++++++++++++
- arch/arm/boot/dts/emac-som-imx6ul-150es.dts | 309 +++++++++++++++
- arch/arm/boot/dts/emac-som-imx6ul-bare.dtsi | 295 ++++++++++++++
- arch/arm/boot/dts/emac-som-imx6ul.dtsi      | 402 ++++++++++++++++++++
- 4 files changed, 1250 insertions(+)
+ arch/arm/boot/dts/emac-som-imx6ul-112es.dts | 262 ++++++++++++
+ arch/arm/boot/dts/emac-som-imx6ul-150es.dts | 321 +++++++++++++++
+ arch/arm/boot/dts/emac-som-imx6ul-bare.dtsi | 301 ++++++++++++++
+ arch/arm/boot/dts/emac-som-imx6ul.dtsi      | 425 ++++++++++++++++++++
+ 4 files changed, 1309 insertions(+)
  create mode 100644 arch/arm/boot/dts/emac-som-imx6ul-112es.dts
  create mode 100644 arch/arm/boot/dts/emac-som-imx6ul-150es.dts
  create mode 100644 arch/arm/boot/dts/emac-som-imx6ul-bare.dtsi
@@ -17,10 +17,10 @@ Signed-off-by: Brenden Tisler <btisler@emacinc.com>
 
 diff --git a/arch/arm/boot/dts/emac-som-imx6ul-112es.dts b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
 new file mode 100644
-index 000000000000..6851794130a1
+index 000000000000..774a5f0dca82
 --- /dev/null
 +++ b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
-@@ -0,0 +1,244 @@
+@@ -0,0 +1,262 @@
 +/*
 + * Copyright (C) 2016 EMAC Inc.
 + *
@@ -265,12 +265,30 @@ index 000000000000..6851794130a1
 +						"HDR1_44",
 +						"HDR1_46";
 +};
++
++&pinctrl_misc_gpio {
++	fsl,pins = <
++		MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0xb0b1
++		MX6UL_PAD_LCD_VSYNC__GPIO3_IO03		0xb0b1
++		MX6UL_PAD_GPIO1_IO06__GPIO1_IO06	0xb0b1
++		MX6UL_PAD_GPIO1_IO07__GPIO1_IO07	0xb0b1
++		MX6UL_PAD_GPIO1_IO08__GPIO1_IO08	0xb0b1
++		MX6UL_PAD_GPIO1_IO09__GPIO1_IO09	0xb0b1
++		MX6UL_PAD_NAND_CLE__GPIO4_IO15		0xb0b1
++		MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0xb0b1
++		MX6UL_PAD_NAND_CE0_B__GPIO4_IO13	0xb0b1
++		MX6UL_PAD_NAND_ALE__GPIO4_IO10		0xb0b1
++		MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0xb0b1
++		MX6UL_PAD_LCD_DATA00__GPIO3_IO05	0xb0b1
++		MX6UL_PAD_LCD_DATA01__GPIO3_IO06	0xb0b1
++	>;
++};
 diff --git a/arch/arm/boot/dts/emac-som-imx6ul-150es.dts b/arch/arm/boot/dts/emac-som-imx6ul-150es.dts
 new file mode 100644
-index 000000000000..def458571236
+index 000000000000..5020741e7a37
 --- /dev/null
 +++ b/arch/arm/boot/dts/emac-som-imx6ul-150es.dts
-@@ -0,0 +1,309 @@
+@@ -0,0 +1,321 @@
 +/*
 + * Copyright (C) 2016 EMAC Inc.
 + *
@@ -580,12 +598,24 @@ index 000000000000..def458571236
 +						"HDR4_39",
 +						"HDR4_11";
 +};
++
++&pinctrl_misc_gpio {
++	fsl,pins = <
++		MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0xb0b1
++		MX6UL_PAD_LCD_VSYNC__GPIO3_IO03		0xb0b1
++		MX6UL_PAD_GPIO1_IO05__GPIO1_IO05	0xb0b1
++		MX6UL_PAD_NAND_CLE__GPIO4_IO15		0xb0b1
++		MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0xb0b1
++		MX6UL_PAD_NAND_CE0_B__GPIO4_IO13	0xb0b1
++		MX6UL_PAD_NAND_ALE__GPIO4_IO10		0xb0b1
++	>;
++};
 diff --git a/arch/arm/boot/dts/emac-som-imx6ul-bare.dtsi b/arch/arm/boot/dts/emac-som-imx6ul-bare.dtsi
 new file mode 100644
-index 000000000000..defb3975e2a8
+index 000000000000..cb80024640b3
 --- /dev/null
 +++ b/arch/arm/boot/dts/emac-som-imx6ul-bare.dtsi
-@@ -0,0 +1,295 @@
+@@ -0,0 +1,301 @@
 +/*
 + * Copyright (C) 2016 EMAC Inc.
 + *
@@ -770,15 +800,18 @@ index 000000000000..defb3975e2a8
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pinctrl_enet1>;
 +	phy-mode = "rmii";
-+	phy-handle = <&ethphy0>;
++	phy-handle = <&ethphy1>;
 +	status = "disabled";
 +
 +	mdio {
 +		#address-cells = <1>;
 +		#size-cells = <0>;
 +
-+		ethphy0: ethernet-phy@1 {
++		ethphy1: ethernet-phy@1 {
 +			reg = <1>;
++			micrel,led-mode = <1>;
++			clocks = <&clks IMX6UL_CLK_ENET2_REF>;
++        	clock-names = "rmii-ref";
 +		};
 +	};
 +};
@@ -830,16 +863,19 @@ index 000000000000..defb3975e2a8
 +
 +	pinctrl_enet1: enet1grp {
 +		fsl,pins = <
-+			MX6UL_PAD_ENET1_RX_EN__ENET1_RX_EN	0x1b0b0
-+			MX6UL_PAD_ENET1_RX_ER__ENET1_RX_ER	0x1b0b0
-+			MX6UL_PAD_ENET1_RX_DATA0__ENET1_RDATA00	0x1b0b0
-+			MX6UL_PAD_ENET1_RX_DATA1__ENET1_RDATA01	0x1b0b0
-+			MX6UL_PAD_ENET1_TX_EN__ENET1_TX_EN	0x1b0b0
-+			MX6UL_PAD_ENET1_TX_DATA0__ENET1_TDATA00	0x1b0b0
-+			MX6UL_PAD_ENET1_TX_DATA1__ENET1_TDATA01	0x1b0b0
-+			MX6UL_PAD_ENET1_TX_CLK__ENET1_REF_CLK1	0x4001b031
++			MX6UL_PAD_ENET1_RX_DATA0__ENET1_RDATA00		0x0001B0B0
++			MX6UL_PAD_ENET1_RX_DATA1__ENET1_RDATA01		0x0001B0B0
++			MX6UL_PAD_ENET1_RX_EN__ENET1_RX_EN			0x0001B0B0
++			MX6UL_PAD_ENET1_RX_ER__ENET1_RX_ER         	0x0001B0B0
++			MX6UL_PAD_ENET1_TX_CLK__ENET1_REF_CLK1		0x4001B031
++			MX6UL_PAD_ENET1_TX_DATA0__ENET1_TDATA00		0x0001B0B0
++			MX6UL_PAD_ENET1_TX_DATA1__ENET1_TDATA01		0x0001B0B0
++			MX6UL_PAD_ENET1_TX_EN__ENET1_TX_EN			0x0001B0B0
++			MX6UL_PAD_ENET2_RX_DATA0__ENET1_MDIO		0x0001B0B0
++			MX6UL_PAD_ENET2_RX_DATA1__ENET1_MDC			0x0001B0B0
 +		>;
 +	};
++
 +
 +	pinctrl_usb_otg1_id: usbotg1idgrp {
 +		fsl,pins = <
@@ -883,10 +919,10 @@ index 000000000000..defb3975e2a8
 +};
 diff --git a/arch/arm/boot/dts/emac-som-imx6ul.dtsi b/arch/arm/boot/dts/emac-som-imx6ul.dtsi
 new file mode 100644
-index 000000000000..c745b6ae4362
+index 000000000000..c125bf22cd68
 --- /dev/null
 +++ b/arch/arm/boot/dts/emac-som-imx6ul.dtsi
-@@ -0,0 +1,402 @@
+@@ -0,0 +1,425 @@
 +/*
 + * Copyright (C) 2016 EMAC Inc.
 + *
@@ -1288,4 +1324,30 @@ index 000000000000..c745b6ae4362
 +			MX6UL_PAD_LCD_DATA23__EIM_DATA15	0x1b0b0
 +		>;
 +	};
++
++	pinctrl_misc_gpio: pinctrl_misc_gpio {
++		fsl,pins = <
++			MX6UL_PAD_GPIO1_IO00__GPIO1_IO00	0xb0b1
++			MX6UL_PAD_LCD_VSYNC__GPIO3_IO03		0xb0b1
++			MX6UL_PAD_LCD_RESET__GPIO3_IO04		0xb0b1
++			MX6UL_PAD_GPIO1_IO04__GPIO1_IO04	0xb0b1
++			MX6UL_PAD_GPIO1_IO05__GPIO1_IO05	0xb0b1
++			MX6UL_PAD_GPIO1_IO06__GPIO1_IO06	0xb0b1
++			MX6UL_PAD_GPIO1_IO07__GPIO1_IO07	0xb0b1
++			MX6UL_PAD_GPIO1_IO08__GPIO1_IO08	0xb0b1
++			MX6UL_PAD_GPIO1_IO09__GPIO1_IO09	0xb0b1
++			MX6UL_PAD_NAND_CLE__GPIO4_IO15		0xb0b1
++			MX6UL_PAD_NAND_CE1_B__GPIO4_IO14	0xb0b1
++			MX6UL_PAD_NAND_CE0_B__GPIO4_IO13	0xb0b1
++			MX6UL_PAD_NAND_ALE__GPIO4_IO10		0xb0b1
++			MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0xb0b1
++			MX6UL_PAD_LCD_DATA00__GPIO3_IO05	0xb0b1
++			MX6UL_PAD_LCD_DATA01__GPIO3_IO06	0xb0b1
++			MX6UL_PAD_UART4_TX_DATA__GPIO1_IO28	0xb0b1
++			MX6UL_PAD_UART4_RX_DATA__GPIO1_IO29	0xb0b1
++		>;
++	};
 +};
+-- 
+2.34.1
+

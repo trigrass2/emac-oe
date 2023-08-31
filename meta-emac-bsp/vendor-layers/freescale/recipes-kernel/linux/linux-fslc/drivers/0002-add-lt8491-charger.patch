@@ -1109,9 +1109,9 @@ index 000000000000..f0db131ff380
 +	return 0;
 +}
 +
-+static int lt8491_remove(struct i2c_client *client)
++static void lt8491_remove(struct i2c_client *client)
 +{
-+	return 0;
++	return;
 +}
 +
 +static const struct of_device_id lt8491_i2c_of_match[] = {
