@@ -1,0 +1,25 @@
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 2f9b63b5a14b..e7bc31ba6a44 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -660,7 +660,9 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
+ 	imx6qp-vicutp.dtb \
+ 	imx6qp-wandboard-revd1.dtb \
+ 	imx6qp-zii-rdu2.dtb \
+-	imx6s-dhcom-drc02.dtb
++	imx6s-dhcom-drc02.dtb \
++	som-imx6q-350es-7.dtb \
++	som-imx6q-350es-10.dts
+ dtb-$(CONFIG_SOC_IMX6SL) += \
+ 	imx6sl-evk.dtb \
+ 	imx6sl-evk-ldo.dtb \
+@@ -744,7 +746,8 @@ dtb-$(CONFIG_SOC_IMX6UL) += \
+ 	imx6ulz-14x14-evk-btwifi.dtb \
+ 	imx6ulz-14x14-evk-btwifi-sdio3_0.dtb \
+ 	imx6ulz-14x14-evk-gpmi-weim.dtb \
+-	imx6ulz-14x14-evk-emmc.dtb
++	imx6ulz-14x14-evk-emmc.dtb \
++	som-imx6ul-pmb.dtb
+ dtb-$(CONFIG_SOC_IMX7D) += \
+ 	imx7d-cl-som-imx7.dtb \
+ 	imx7d-colibri-aster.dtb \

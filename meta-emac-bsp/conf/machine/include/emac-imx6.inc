@@ -9,9 +9,7 @@ require conf/machine/include/imx-base.inc
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " \
     kernel-image \
     kernel-devicetree \
-    ${@bb.utils.contains('KERNEL_DEVICETREE_BUNDLE','1', 'kernel-image-zimage-bundle','',d)} \
 "
-KERNEL_DEVICETREE_BUNDLE = "1"
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS:append = " ${PREFERRED_PROVIDER_virtual/bootloader}"
 
 MACHINE_FEATURES:append = " arm mtd "
