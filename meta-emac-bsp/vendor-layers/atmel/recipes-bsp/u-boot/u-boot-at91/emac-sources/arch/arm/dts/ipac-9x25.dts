@@ -7,11 +7,16 @@
  */
 /dts-v1/;
 #include "at91sam9x25.dtsi"
-#include "at91sam9x5ek.dtsi"
 
 / {
 	model = "EMAC IPAC-9X25";
 	compatible = "atmel,at91sam9x25ek", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
+
+	chosen {
+		bootargs = "root=/dev/mtdblock1 rw rootfstype=ubifs ubi.mtd=1 root=ubi0:rootfs";
+		stdout-path = "serial0:115200n8";
+		u-boot,dm-pre-reloc;
+	};
 
 	aliases {
 		serial1 = &usart0;
@@ -217,12 +222,16 @@
 			};
 		};
 
-		usb0 {
+		usb0: ohci@00600000 {
 			status = "okay";
 			num-ports = <3>;
+			atmel,vbus-gpio = <0 /* &pioD 18 GPIO_ACTIVE_LOW *//* Activate to have access to port A */
+					   &pioD 19 GPIO_ACTIVE_LOW
+					   &pioD 20 GPIO_ACTIVE_LOW
+					  >;
 		};
 
-		usb1 {
+		usb1: ehci@00700000 {
 			status = "okay";
 		};
 	};
