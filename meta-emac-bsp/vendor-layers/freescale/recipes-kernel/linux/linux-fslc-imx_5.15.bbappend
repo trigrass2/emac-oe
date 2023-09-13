@@ -16,4 +16,6 @@ SRC_URI:append:somimx6ul = " \
 SRC_URI:append:somimx6 = " \
     file://0002-add-emac-dtb-targets.patch \
     file://0003-add-emac-dtb-sources.patch \
+    file://standard.cfg \
+    file://media.cfg \
 "
