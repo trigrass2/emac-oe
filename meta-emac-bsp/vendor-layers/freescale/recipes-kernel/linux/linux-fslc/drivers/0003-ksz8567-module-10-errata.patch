@@ -1,0 +1,27 @@
+From e9885e51389f587b3064f52d7da26bef6cbc95ab Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Wed, 1 Nov 2023 14:26:57 -0500
+Subject: [PATCH] ksz8567-module-10-errata
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ drivers/net/dsa/microchip/ksz9477.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/net/dsa/microchip/ksz9477.c b/drivers/net/dsa/microchip/ksz9477.c
+index 9c123f610819..119c2c906b88 100644
+--- a/drivers/net/dsa/microchip/ksz9477.c
++++ b/drivers/net/dsa/microchip/ksz9477.c
+@@ -1153,6 +1153,9 @@ int ksz9477_setup(struct dsa_switch *ds)
+ 	/* Enable REG_SW_MTU__2 reg by setting SW_JUMBO_PACKET */
+ 	ksz_cfg(dev, REG_SW_MAC_CTRL_1, SW_JUMBO_PACKET, true);
+ 
++	/* change the back pressure mode from CRS-based to collision-based errata module 10 */
++	ksz_cfg(dev, REG_SW_MAC_CTRL_1, SW_BACK_PRESSURE, false);
++
+ 	/* Now we can configure default MTU value */
+ 	ret = regmap_update_bits(dev->regmap[1], REG_SW_MTU__2, REG_SW_MTU_MASK,
+ 				 VLAN_ETH_FRAME_LEN + ETH_FCS_LEN);
+-- 
+2.34.1
+

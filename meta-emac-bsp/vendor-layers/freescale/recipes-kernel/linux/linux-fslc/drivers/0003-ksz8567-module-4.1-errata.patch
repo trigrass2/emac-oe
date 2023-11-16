@@ -1,0 +1,26 @@
+From 53fc5b0e5f5291612e0232506a8a9841497f5dd5 Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Wed, 1 Nov 2023 14:07:28 -0500
+Subject: [PATCH] ksz8567-module-4.1-errata
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ drivers/net/dsa/microchip/ksz9477.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/dsa/microchip/ksz9477.c b/drivers/net/dsa/microchip/ksz9477.c
+index 7d4fd15bcd09..9c123f610819 100644
+--- a/drivers/net/dsa/microchip/ksz9477.c
++++ b/drivers/net/dsa/microchip/ksz9477.c
+@@ -933,7 +933,7 @@ static void ksz9477_phy_errata_setup(struct ksz_device *dev, int port)
+ 	/* Energy Efficient Ethernet (EEE) feature select must
+ 	 * be manually disabled (except on KSZ8565 which is 100Mbit)
+ 	 */
+-	if (dev->info->gbit_capable[port])
++	if (dev->info->gbit_capable[port] || (dev->chip_id == KSZ8567_CHIP_ID))
+ 		ksz9477_port_mmd_write(dev, port, 0x07, 0x3c, 0x0000);
+ 
+ 	/* Register settings are required to meet data sheet
+-- 
+2.34.1
+

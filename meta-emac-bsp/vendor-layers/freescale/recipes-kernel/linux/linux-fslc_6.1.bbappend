@@ -4,6 +4,9 @@ SRC_URI:append = " \
     file://0001-add-emac-as-a-user-of-gpio-aggregator.patch \
     file://0001-add-emc2102-fan-sensor.patch \
     file://0002-add-lt8491-charger.patch \
+    file://0002-add-support-for-ksz8567-switch.patch \
+    file://0003-ksz8567-module-4.1-errata.patch \
+    file://0003-ksz8567-module-10-errata.patch \
     file://systemd-requirements.cfg \
 "
 
