@@ -514,9 +514,8 @@
     status = "disabled";
     bus-width = <4>;
     vmmc-supply = <&vdd_3v3_reg>;
-    vqmmc-supply = <&ldo1_3v3_sd_reg>;
+    vqmmc-supply = <&vdd_3v3_reg>;
     max-frequency = <48000000>;
-    no-1-8-v;
 
     pinctrl-names = "default", "hs";
 	pinctrl-0 = <&mmc4_pins_default &mmc4_iodelay_ds_rev20_conf>;
