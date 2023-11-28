@@ -1,3 +1,6 @@
-SRCREV = "af092bdefe7499b3cd2f930c4a08160067378057"
-SRCBRANCH = "2022.10+fslc-emac"
-SRC_URI = "git://git.emacinc.com/bootloader/u-boot-fslc.git;branch=${SRCBRANCH};protocol=http"
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
+
+SRC_URI:append = " \
+    file://0001_add_emac_somimx6_board_source.patch \
+    file://0002_add_emac_somimx6_board_config.patch \
+"

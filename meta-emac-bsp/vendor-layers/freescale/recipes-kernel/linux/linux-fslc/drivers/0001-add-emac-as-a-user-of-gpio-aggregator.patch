@@ -1,0 +1,25 @@
+From 3646644fb85ddf2475b28573514a267029a4c8fa Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Mon, 21 Aug 2023 13:34:33 -0500
+Subject: [PATCH] add emac as a user of gpio aggregator
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ drivers/gpio/gpio-aggregator.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpio/gpio-aggregator.c b/drivers/gpio/gpio-aggregator.c
+index 23047dc84ef1..f8cd56eecb32 100644
+--- a/drivers/gpio/gpio-aggregator.c
++++ b/drivers/gpio/gpio-aggregator.c
+@@ -498,7 +498,9 @@ static const struct of_device_id gpio_aggregator_dt_ids[] = {
+ 	 * Add GPIO-operated devices controlled from userspace below,
+ 	 * or use "driver_override" in sysfs
+ 	 */
+-	{}
++	{ .compatible = "emac,gpio-pins" },
++	{ /* sentinel */ }
++
+ };
+ MODULE_DEVICE_TABLE(of, gpio_aggregator_dt_ids);
+ #endif
