@@ -703,7 +703,7 @@
 
 &mcasp5 {
     #sound-dai-cells = <0>;
-    assigned-clocks = <&l4per_clkctrl DRA7_MCASP5_CLKCTRL 24>;
+    assigned-clocks = <&l4per2_clkctrl DRA7_L4PER2_MCASP5_CLKCTRL 24>;
     assigned-clock-parents = <&sys_clkin2>;
     op-mode = <0>;	
     tdm-slots = <2>;
@@ -714,7 +714,7 @@
 
 &mcasp8 {
     #sound-dai-cells = <0>;
-    assigned-clocks = <&l4per_clkctrl DRA7_MCASP8_CLKCTRL 24>;
+    assigned-clocks = <&l4per2_clkctrl DRA7_L4PER2_MCASP8_CLKCTRL 24>;
     assigned-clock-parents = <&sys_clkin2>;
     op-mode = <0>;	
     tdm-slots = <2>;
