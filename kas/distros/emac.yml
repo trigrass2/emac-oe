@@ -8,4 +8,4 @@ header:
 
 distro: emac
 
-target: core-image-emac
+target: emac-image-full
