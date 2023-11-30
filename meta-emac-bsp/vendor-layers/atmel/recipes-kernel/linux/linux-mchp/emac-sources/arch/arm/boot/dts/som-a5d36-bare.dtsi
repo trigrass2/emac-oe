@@ -1,0 +1,242 @@
+/*
+ * som-a5d36-bare.dtsi - Device Tree include file for the SOM-A5D36.
+ *
+ * Copyright (C) 2023 EMAC Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+#include "sama5d36.dtsi"
+#include <dt-bindings/gpio/gpio.h>
+
+#define LEGACY_SPI_FLASH_CS 	13
+#define CURRENT_SPI_FLASH_CS 	14
+
+/ {
+	model = "EMAC SOM-A5D36";
+	compatible = "emac,soma5d36", "atmel,sama5d36", "atmel,sama5d3", "atmel,sama5";
+
+	// 512 MB RAM
+	memory@20000000 {
+		reg = <0x20000000 0x20000000>;
+	};
+
+	clocks {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		slow_xtal {
+			clock-frequency = <32768>;
+		};
+
+		main_xtal {
+			clock-frequency = <12000000>;
+		};
+
+		audio_mclk: audio_mclk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <12288000>;
+			clock-output-names = "audio-clk";
+			gpios = <&pioC 19 GPIO_ACTIVE_HIGH>;
+		};
+
+		eth_phy_clk: eth_phy_clk {
+			compatible = "fixed-clock";
+			#clock-cells = <0>;
+			clock-frequency = <25000000>;
+			clock-output-names = "phy-clk";
+		};
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		status {
+			label = "status";
+			gpios = <&pioE 22 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+	};
+
+	regulators {
+		compatible = "simple-bus";
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		reg_1v8_vdd_ddr1: reg_1v8_vdd_ddr1 {
+			compatible = "regulator-fixed";
+			regulator-name = "1V8_VDD_DDR1";
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			regulator-always-on;
+			vin-supply = <&rail_3v3_vcc>;
+		};
+		reg_1v2_vcc: reg_1v2_vcc {
+			compatible = "regulator-fixed";
+			regulator-name = "1V2_VCC";
+			regulator-min-microvolt = <1200000>;
+			regulator-max-microvolt = <1200000>;
+			regulator-always-on;
+			vin-supply = <&rail_3v3_vcc>;
+		};
+		reg_1v2_eth: reg_1v2_eth {
+			compatible = "regulator-fixed";
+			regulator-name = "1V2_ETH";
+			regulator-min-microvolt = <1200000>;
+			regulator-max-microvolt = <1200000>;
+			gpio = <&pioD 29 GPIO_ACTIVE_HIGH>;
+			vin-supply = <&rail_3v3_vcc>;
+		};
+		rail_3v3_vcc: rail_3v3_vcc {
+			compatible = "regulator-fixed";
+			regulator-name = "3V3_VCC";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
+		};
+		rail_3v3_stby: rail_3v3_stby {
+			compatible = "regulator-fixed";
+			regulator-name = "3V3_STBY";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
+		};
+		adc_vref: adc_vref {
+			compatible = "regulator-fixed";
+			regulator-name = "ADC_VREF";
+			regulator-min-microvolt = <2500000>;
+			regulator-max-microvolt = <2500000>;
+			gpio = <&pioB 25 GPIO_ACTIVE_LOW>;
+			vin-supply = <&rail_3v3_vcc>;
+		};
+	};
+
+	gpio_watchdog: watchdog {
+		/* MAX6747 */
+		compatible = "linux,wdt-gpio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_watchdog>;
+		gpios = <&pioD 6 GPIO_ACTIVE_LOW>;
+		hw_algo = "level";
+		hw_margin_ms = <1000>;
+		status = "disabled";
+	};
+};
+
+&pinctrl {
+	watchdog {
+		pinctrl_watchdog: pinctrl_watchdog {
+			atmel,pins =
+				<AT91_PIOD 6 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+		};
+	};
+	usba {
+		pinctrl_usba_vbus: pinctrl_usba_vbus {
+			atmel,pins =
+				<AT91_PIOC 27 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;
+		};
+	};
+	ebi{ /* pins renamed due to upstream bug */
+		pinctrl_ebi_cs0: ebi-cs0-0 {
+			atmel,pins =
+				<AT91_PIOE 26 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+		};
+
+		pinctrl_ebi_cs1: ebi-cs1-0 {
+			atmel,pins =
+				<AT91_PIOE 27 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+		};
+
+		pinctrl_ebi_cs2: ebi-cs2-0 {
+			atmel,pins =
+				<AT91_PIOE 28 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+		};
+	};
+
+};
+
+&pioD {
+	gpio_watchdog_en: watchdog-enable {
+		gpio-hog;
+		gpios = <8 GPIO_ACTIVE_LOW>;
+		output-high;
+		/* LOW - enabled , HIGH - disabled */
+		line-name = "watchdog-enable";
+	};
+};
+
+&tcb0 {
+	timer@0 {
+		compatible = "atmel,tcb-timer";
+		reg = <0>;
+	};
+};
+
+&macb0 {
+	phy-mode = "rgmii";
+	status = "disabled";
+	#address-cells = <1>;
+	#size-cells = <0>;
+
+	ethernet-phy@1 {
+		reg = <0x1>;
+		interrupt-parent = <&pioD>;
+		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
+		txen-skew-ps = <800>;
+		txc-skew-ps = <3000>;
+		rxdv-skew-ps = <400>;
+		rxc-skew-ps = <3000>;
+		rxd0-skew-ps = <400>;
+		rxd1-skew-ps = <400>;
+		rxd2-skew-ps = <400>;
+		rxd3-skew-ps = <400>;
+	};
+};
+
+&mmc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_mmc0_clk_cmd_dat0 &pinctrl_mmc0_dat1_3>;
+	status = "okay";
+	slot@0 {
+		reg = <0>;
+		bus-width = <4>;
+		non-removable;
+	};
+};
+
+&i2c0 {
+	status = "disabled";
+	clock-frequency = <400000>;
+	
+	eeprom: atmel@50 {
+		compatible = "atmel,24c08";
+		reg = <0x50>;
+		status = "disabled";
+	};
+};
+
+&spi0 {
+	num-cs = <2>;
+	pinctrl-0 = <&pinctrl_spi0>;
+	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS GPIO_ACTIVE_LOW>;
+	status = "okay";
+	boot_flash: m25p80@0 {
+		compatible = "atmel,n25q128a13";
+		spi-max-frequency = <50000000>;
+		reg = <0>;
+	};
+};
+
+&usb0 {
+	atmel,vbus-gpio = <&pioC 27 GPIO_ACTIVE_HIGH>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_usba_vbus>;
+	status = "disabled";
+};
+
+&usb1 {
+	num-ports = <3>;
+	status = "disabled";
+};

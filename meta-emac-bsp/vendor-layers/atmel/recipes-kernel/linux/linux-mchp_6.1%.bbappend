@@ -1,6 +1,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
 inherit kernel-devicetree
+KERNEL_DTC_FLAGS = "-@"
 
 SRC_URI:append:at91sam9 = " file://defconfig"
 
@@ -17,10 +18,16 @@ do_configure:prepend(){
 EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \
     file://emac-sources/arch/arm/boot/dts/som9x25.dts \
-    file://emac-sources/arch/arm/boot/dts/som-a5d36.dtsi \
     file://emac-sources/arch/arm/boot/dts/ipac9x25.dts \
-    file://emac-sources/arch/arm/boot/dts/som-a5d35-112es.dts \
     file://emac-sources/arch/arm/boot/dts/som-a5d35.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d35-112es.dts \
     file://emac-sources/arch/arm/boot/dts/som-a5d35-150es.dts \
-    file://emac-sources/arch/arm/boot/dts/som-a5d36-215gs.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36.dtsi \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36-bare.dtsi \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36-2xx.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36-200gs.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36-212es.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d36-250gs.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a536m.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a536p.dts \
 "

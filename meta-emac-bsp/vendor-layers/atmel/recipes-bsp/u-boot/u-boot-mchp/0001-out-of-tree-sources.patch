@@ -1,8 +1,18 @@
+From 13e08f765466edfd176a18250216d244fa857432 Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Thu, 30 Nov 2023 18:37:40 +0000
+Subject: [PATCH] 0001-out-of-tree-sources.patch
+
+---
+ arch/arm/dts/Makefile      | 11 +++++++++++
+ arch/arm/mach-at91/Kconfig | 24 ++++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+
 diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
-index 3e367f753f..ff32d15114 100644
+index 1c79fd0952..046baa5094 100644
 --- a/arch/arm/dts/Makefile
 +++ b/arch/arm/dts/Makefile
-@@ -1067,6 +1067,17 @@ dtb-$(CONFIG_TARGET_SAMA5D4_XPLAINED) += \
+@@ -1191,6 +1191,17 @@ dtb-$(CONFIG_TARGET_SAMA5D4_XPLAINED) += \
  dtb-$(CONFIG_TARGET_VINCO) += \
  	at91-vinco.dtb
  
@@ -21,10 +31,10 @@ index 3e367f753f..ff32d15114 100644
  	bcm2835-rpi-a.dtb \
  	bcm2835-rpi-a-plus.dtb \
 diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
-index 6ac46d453c..afa24683bb 100644
+index c3599315ec..32de59b947 100644
 --- a/arch/arm/mach-at91/Kconfig
 +++ b/arch/arm/mach-at91/Kconfig
-@@ -303,6 +303,27 @@ config TARGET_VINCO
+@@ -322,6 +322,27 @@ config TARGET_VINCO
  	select SUPPORT_SPL
  	imply CMD_DM
  
@@ -52,8 +62,8 @@ index 6ac46d453c..afa24683bb 100644
  endchoice
  
  config ATMEL_SFR
-@@ -337,6 +358,9 @@ source "board/bluewater/gurnard/Kconfig"
- source "board/bluewater/snapper9260/Kconfig"
+@@ -383,6 +404,9 @@ source "board/atmel/sama5d4ek/Kconfig"
+ source "board/bluewater/gurnard/Kconfig"
  source "board/calao/usb_a9263/Kconfig"
  source "board/egnite/ethernut5/Kconfig"
 +source "board/emacinc/ipac9x25/Kconfig"

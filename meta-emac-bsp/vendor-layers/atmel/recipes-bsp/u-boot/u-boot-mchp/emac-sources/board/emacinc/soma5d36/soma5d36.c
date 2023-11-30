@@ -135,7 +135,6 @@ int board_late_init(void)
 	at91_video_show_board_info();
 	at91_set_pio_output(AT91_PIO_PORTD, 5, 1);
 #endif
-	led_default_state();
 	return 0;
 }
 #endif

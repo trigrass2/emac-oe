@@ -1,0 +1,173 @@
+/*
+ * som-a5d36.dtsi - Device Tree inclue file for the SOM-3354M with SOM-2xx carriers.
+ *
+ * Copyright (C) 2018 EMAC Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+#include "som-a5d36-2xx.dts"
+
+/delete-node/ &power_12v_accy;
+/delete-node/ &power_5v_vcc;
+
+/ {
+	model = "EMAC SOM-A5D36 with SOM-250GS";
+	
+	regulators {
+		power_main_vin: power_main_vin {
+			compatible = "regulator-fixed";
+			regulator-name = "POWER";
+			regulator-min-microvolt = <12000000>;
+			regulator-max-microvolt = <28000000>;
+			regulator-always-on;
+		};
+		ldo_5v_vcc: ldo_5v_vcc {
+			compatible = "regulator-fixed";
+			regulator-name = "5V_LDO";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			regulator-always-on;
+			vin-supply = <&power_main_vin>;
+		};
+		ldo_3v3_vcc {
+			vin-supply = <&power_main_vin>;
+		};
+		ldo_1v5_vcc: ldo_1v5_vcc {
+			compatible = "regulator-fixed";
+			regulator-name = "1V5_LDO";
+			regulator-min-microvolt = <1500000>;
+			regulator-max-microvolt = <1500000>;
+			regulator-always-on;
+			vin-supply = <&ldo_5v_vcc>;
+		};
+		ldo_1v8_vcc: ldo_1v8_vcc {
+			compatible = "regulator-fixed";
+			regulator-name = "1V8_LDO";
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			regulator-always-on;
+			vin-supply = <&ldo_5v_vcc>;
+		};
+		lvds_3v3: lvds_3v3 {
+			compatible = "regulator-fixed";
+			regulator-name = "LVDS_3V3";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			gpio = <&pioC 25 GPIO_ACTIVE_HIGH>;
+			vin-supply = <&ldo_3v3_vcc>;
+		};
+		lvds_5v: lvds_5v {
+			compatible = "regulator-fixed";
+			regulator-name = "LVDS_5V";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			gpio = <&pioD 5 GPIO_ACTIVE_HIGH>;
+			vin-supply = <&ldo_5v_vcc>;
+		};
+	};
+	beeper {
+		compatible = "gpio-beeper";
+		gpios = <&pioC 24 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+	leds {
+		red-led {
+			label = "red-led";
+			gpios = <&pioC 22 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		green-led {
+			label = "green-led";
+			gpios = <&pioC 23 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+	};
+};
+
+/* RGB888 with lowest bits ignored making RGB666*/
+&pinctrl_lcd_rgb888 {
+	atmel,pins =
+		<AT91_PIOA 2 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD2 pin */
+		 AT91_PIOA 3 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD3 pin */
+		 AT91_PIOA 4 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD4 pin */
+		 AT91_PIOA 5 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD5 pin */
+		 AT91_PIOA 6 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD6 pin */
+		 AT91_PIOA 7 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD7 pin */
+		 AT91_PIOA 10 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD10 pin */
+		 AT91_PIOA 11 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD11 pin */
+		 AT91_PIOA 12 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD12 pin */
+		 AT91_PIOA 13 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD13 pin */
+		 AT91_PIOA 14 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD14 pin */
+		 AT91_PIOA 15 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD15 pin */
+		 AT91_PIOA 18 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD18 pin */
+		 AT91_PIOA 19 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD19 pin */
+		 AT91_PIOA 20 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD20 pin */
+		 AT91_PIOA 21 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD21 pin */
+		 AT91_PIOA 22 AT91_PERIPH_A AT91_PINCTRL_NONE	/* LCDD22 pin */
+		 AT91_PIOA 23 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* LCDD23 pin */
+};
+
+// configured for the 7in
+// remove the enable gpio and user the lvds_5v for the 10in
+&lcd_backlight {
+	power-supply = <&lvds_3v3>;
+	enable-gpios = <&pioD 5 GPIO_ACTIVE_HIGH>;
+};
+
+&panel {
+	// 7in LCD
+	compatible = "innolux,at070tn92", "simple-panel";
+};
+
+&spi0 {
+	num-cs = <3>;
+	pinctrl-0 = < &pinctrl_spi0
+				  &pinctrl_spi0_cs0
+				  &pinctrl_spi0_cs2
+				  &pinctrl_spi0_cs4
+				>;
+	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS GPIO_ACTIVE_LOW>,
+				<&pioD 15 GPIO_ACTIVE_LOW>,
+				<&pioC 28 GPIO_ACTIVE_LOW>;
+};
+
+// COM D
+&usart0 {
+	/delete-property/ rts-gpios;
+	/delete-property/ cts-gpios;
+};
+
+&dbgu {
+	/delete-property/ rts-gpios;
+	/delete-property/ cts-gpios;
+};
+
+&i2c0 {
+	codec: sgtl5000@0a {
+		#sound-dai-cells = <0>;
+		compatible = "fsl,sgtl5000";
+		reg = <0x0a>;
+		VDDA-supply = <&ldo_3v3_vcc>;
+		VDDIO-supply = <&ldo_3v3_vcc>;
+		clocks = <&audio_mclk>;
+	};
+
+	eeprom@51 {
+		compatible = "st,24c32";
+		reg = <0x50>;
+		pagesize = <32>;
+	};
+
+};
+
+&audio_center {
+	sound_master: simple-audio-card,codec {
+		sound-dai = <&codec>;
+		clocks = <&audio_mclk>;
+		frame-master;
+		bitclock-master;
+	};
+};

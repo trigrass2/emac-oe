@@ -1,0 +1,155 @@
+/*
+ * som-a5d36.dtsi - Device Tree inclue file for the SOM-3354M with SOM-2xx carriers.
+ *
+ * Copyright (C) 2018 EMAC Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+#include "som-a5d36.dtsi"
+
+/ {
+	model = "EMAC SOM-A5D36 with SOM-2xx";
+	compatible = "emac,soma5d36", "atmel,sama5d36", "atmel,sama5d3", "atmel,sama5";
+	
+	regulators {
+		power_12v_accy: power_12v_accy {
+			compatible = "regulator-fixed";
+			regulator-name = "POWER-HIGH-DRIVE-SUPPLY";
+			regulator-min-microvolt = <12000000>;
+			regulator-max-microvolt = <12000000>;
+			regulator-always-on;
+			// Controlled via a jumper
+		};
+		power_5v_vcc: power_5v_vcc {
+			compatible = "regulator-fixed";
+			regulator-name = "POWER";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			regulator-always-on;
+		};
+		ldo_3v3_vcc: ldo_3v3_vcc {
+			compatible = "regulator-fixed";
+			regulator-name = "3V3_LDO";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
+			vin-supply = <&power_5v_vcc>;
+		};
+		battery_3v3_stby: battery_3v3_stby {
+			compatible = "regulator-fixed";
+			regulator-name = "BATTERY";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			regulator-always-on;
+		};
+		rail_3v3_vcc {
+			vin-supply = <&ldo_3v3_vcc>;
+		};
+		rail_3v3_stby {
+			vin-supply = <&battery_3v3_stby>;
+		};
+	};
+	panel: panel {
+		compatible = "innolux,at043tn24", "simple-panel";
+		backlight = <&lcd_backlight>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "okay";
+
+		port@0 {
+			#address-cells = <1>;
+			#size-cells = <0>;
+
+			panel_input: endpoint@0 {
+				reg = <0>;
+				remote-endpoint = <&hlcdc_panel_output>;
+			};
+		};
+	};
+	audio_center: sound {
+		compatible = "simple-audio-card";
+		simple-audio-card,format = "i2s";
+		simple-audio-card,name = "som-250gs sgtl5000";
+		simple-audio-card,widgets =
+			"Microphone", "Microphone Jack",
+			"Headphone", "Headphone Jack",
+			"Speaker", "Speaker Ext",
+			"Line", "Line In Jack";
+		simple-audio-card,routing =
+			"MIC_IN", "Microphone Jack",
+			"Microphone Jack", "Mic Bias",
+			"LINE_IN", "Line In Jack",
+			"Headphone Jack", "HP_OUT",
+			"Speaker Ext", "LINE_OUT";
+
+		simple-audio-card,cpu {
+			sound-dai = <&ssc0>;
+		};
+	};
+
+};
+&hlcdc {
+	status = "okay";
+};
+
+&hlcdc_panel_output {
+	remote-endpoint = <&panel_input>;
+};
+
+&macb0 {
+	status = "okay";
+};
+
+&can1 {
+	status = "okay";
+};
+
+&i2c0 {
+	status = "okay";
+};
+
+&usart0 {
+	status = "okay";
+};
+
+&usart1 {
+	status = "okay";
+};
+
+&usart2 {
+	status = "okay";
+};
+
+&mmc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3>;
+	status = "okay";
+	slot@0 {
+		reg = <0>;
+		bus-width = <4>;
+		cd-gpios = <&pioC 5 GPIO_ACTIVE_LOW>;
+	};
+};
+
+&ssc0 {
+	status = "okay";
+};
+
+&adc0 {
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+};
+
+&usb1 {
+	status = "okay";
+};
+
+&usb2 {
+	status = "okay";
+};

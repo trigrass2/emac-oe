@@ -1,0 +1,51 @@
+/*
+ * som-a5d36.dtsi - Device Tree inclue file for the SOM-3354M with SOM-2xx carriers.
+ *
+ * Copyright (C) 2018 EMAC Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+#include "som-a5d36-2xx.dts"
+
+/ {
+	model = "EMAC SOM-A5D36 with SOM-212ES";
+	
+	beeper {
+		compatible = "gpio-beeper";
+		gpios = <&pioC 24 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+	leds {
+		sd-led {
+			label = "sd-led";
+			gpios = <&pioC 12 GPIO_ACTIVE_HIGH>;
+			default-state = "disk-activity";
+			trigger-sources = <&mmc1>;
+		};
+	};
+};
+
+&lcd_backlight {
+	power-supply = <&ldo_3v3_vcc>;
+	enable-gpios = <&pioD 5 GPIO_ACTIVE_HIGH>;
+};
+
+&spi0 {
+	codec: cs4271@3 {
+		compatible = "cirrus,cs4271";
+		reg = <0x3>;
+		spi-max-frequency = <6000000>;
+	};
+};
+
+&audio_center {
+	sound_master: simple-audio-card,codec {
+		sound-dai = <&codec>;
+		clocks = <&audio_mclk>;
+		frame-master;
+		bitclock-master;
+	};
+};

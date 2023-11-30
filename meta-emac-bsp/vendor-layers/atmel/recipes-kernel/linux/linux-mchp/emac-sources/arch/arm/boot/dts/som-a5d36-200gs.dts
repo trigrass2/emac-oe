@@ -1,0 +1,177 @@
+/*
+ * som-a5d36.dtsi - Device Tree inclue file for the SOM-3354M with SOM-2xx carriers.
+ *
+ * Copyright (C) 2018 EMAC Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ */
+/dts-v1/;
+#include "som-a5d36-2xx.dts"
+
+/ {
+	model = "EMAC SOM-A5D36 with SOM-200GS";
+	
+	beeper {
+		compatible = "gpio-beeper";
+		gpios = <&pioC 24 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+	leds {
+		red-led {
+			label = "red-led";
+			gpios = <&pioC 22 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		green-led {
+			label = "green-led";
+			gpios = <&pioC 23 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		sd-led {
+			label = "sd-led";
+			gpios = <&pioC 12 GPIO_ACTIVE_HIGH>;
+			default-state = "disk-activity";
+			trigger-sources = <&mmc1>;
+		};
+	};
+};
+
+&lcd_backlight {
+	power-supply = <&ldo_3v3_vcc>;
+	enable-gpios = <&pioD 5 GPIO_ACTIVE_HIGH>;
+};
+
+&spi0 {
+	codec: cs4271@3 {
+		compatible = "cirrus,cs4271";
+		reg = <0x3>;
+		spi-max-frequency = <6000000>;
+	};
+};
+
+&audio_center {
+	sound_master: simple-audio-card,codec {
+		sound-dai = <&codec>;
+		clocks = <&audio_mclk>;
+		frame-master;
+		bitclock-master;
+	};
+};
+
+&pinctrl_ebi_addr {
+	atmel,pins =
+		<AT91_PIOE 0 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 1 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 2 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 3 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 4 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 5 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 6 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 7 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 8 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 9 AT91_PERIPH_A AT91_PINCTRL_NONE
+		 AT91_PIOE 10 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+};
+
+&ebi {
+	status = "okay";
+    pldioA: cpld@3,2 {
+        compatible = "brcm,bcm6345-gpio";
+        reg-names = "dat", "dirout";
+        reg = <3 2 1>, <3 3 1>;
+        gpio-controller;
+        #gpio-cells = <2>;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
+    };
+
+    
+    pldioB: cpld@3,4 {
+        compatible = "brcm,bcm6345-gpio";
+        reg-names = "dat", "dirout";
+        reg = <3 4 1>, <3 5 1>;
+        gpio-controller;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        #gpio-cells = <2>;
+        bank-width = <1>;
+    };
+
+    pldioC: cpld@3,6 {
+        compatible = "brcm,bcm6345-gpio";
+        reg-names = "dat";
+        reg = <3 6 1>;
+        gpio-controller;
+        no-input;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        #gpio-cells = <1>;
+        bank-width = <1>;
+    };
+
+
+    pldioD: cpld@3,8 {
+        compatible = "brcm,bcm6345-gpio";
+        reg-names = "dat";
+        reg = <3 8 1>;
+        gpio-controller;
+        no-input;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        #gpio-cells = <1>;
+        bank-width = <1>;
+    };
+
+    pldioE: cpld@3,10 {
+        compatible = "brcm,bcm6345-gpio";
+        reg-names = "dat", "dirout";
+        reg = <3 10 1>, <3 11 1>;
+        gpio-controller;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        #gpio-cells = <2>;
+        bank-width = <1>;
+    };
+
+    pldioF: cpld@3,7 {
+        compatible = "brcm,bcm6345-gpio";
+        reg-names = "dat";
+        reg = <3 7 1>;
+        gpio-controller;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        #gpio-cells = <1>;
+        bank-width = <1>;
+        
+    };
+
+    cpld_id: cpld@3,0xf {
+        compatible = "brcm,bcm6345-gpio";
+        reg-names = "dat";
+        reg = <3 0xf 1>;
+        gpio-controller;
+        no-input;
+        #address-cells = <1>;
+        #size-cells = <1>;
+        #gpio-cells = <1>;
+        bank-width = <1>;
+    };
+};

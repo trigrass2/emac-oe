@@ -19,7 +19,7 @@ index 1abb939a7798..fbe49ba30fa2 100644
  	at91-sama5d4ek.dtb \
 -	at91-vinco.dtb
 +	at91-vinco.dtb \
-+	som-a5d36-215gs.dtb
++	som-a5d36-200gs.dtb som-a5d36-212es.dtb som-a5d36-250gs.dtb som-a5d36-2xx.dtb som-a536p.dtbo som-a536m.dtbo
  dtb-$(CONFIG_SOC_SAMA7G5) += \
  	at91-sama7g5ek.dtb
  dtb-$(CONFIG_SOC_SP7021) += \
