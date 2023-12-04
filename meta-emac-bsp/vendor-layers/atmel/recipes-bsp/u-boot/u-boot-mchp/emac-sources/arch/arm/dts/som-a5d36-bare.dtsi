@@ -181,21 +181,18 @@
 &macb0 {
 	phy-mode = "rgmii";
 	status = "disabled";
-	#address-cells = <1>;
-	#size-cells = <0>;
-
-	ethernet-phy@1 {
-		reg = <0x1>;
-		interrupt-parent = <&pioD>;
-		interrupts = <19 IRQ_TYPE_EDGE_FALLING>;
-		txen-skew-ps = <800>;
-		txc-skew-ps = <3000>;
-		rxdv-skew-ps = <400>;
-		rxc-skew-ps = <3000>;
-		rxd0-skew-ps = <400>;
-		rxd1-skew-ps = <400>;
-		rxd2-skew-ps = <400>;
-		rxd3-skew-ps = <400>;
+	phy-handle = <&ethphy0>;
+	mdio {		
+		#address-cells = <1>;
+		#size-cells = <0>;
+		ethphy0: ethernet-phy@1 {
+			reg = <0x1>;
+			micrel-led-mode = <1>;
+			clocks = <&eth_phy_clk>;
+			clock-names = "rmii-ref";
+			interrupt-parent = <&pioD>;
+			interrupts = <19 IRQ_TYPE_LEVEL_LOW 3>;
+		};
 	};
 };
 
@@ -215,14 +212,14 @@
 	clock-frequency = <400000>;
 	
 	eeprom: atmel@50 {
-		compatible = "atmel,24c08";
+		compatible = "atmel,24c02";
 		reg = <0x50>;
 		status = "disabled";
 	};
 };
 
 &spi0 {
-	num-cs = <2>;
+	num-cs = <1>;
 	pinctrl-0 = <&pinctrl_spi0>;
 	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS GPIO_ACTIVE_LOW>;
 	status = "okay";

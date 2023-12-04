@@ -25,24 +25,35 @@ do_compile:append(){
 
 EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \
+    \
     file://emac-sources/configs/emac-ipac9x25_defconfig \
+    file://emac-sources/arch/arm/dts/ipac-9x25.dts \
+    file://emac-sources/board/emacinc/ipac9x25/Kconfig \
+    file://emac-sources/board/emacinc/ipac9x25/Makefile \
+    file://emac-sources/include/configs/ipac9x25.h \
+    file://emac-sources/board/emacinc/ipac9x25/ipac9x25.c \
+    \
     file://emac-sources/configs/emac-som9x25m_defconfig \
+    file://emac-sources/board/emacinc/som9x25m/Kconfig \
+    file://emac-sources/board/emacinc/som9x25m/Makefile \
+    file://emac-sources/include/configs/som9x25m.h \
+    file://emac-sources/board/emacinc/som9x25m/som9x25m.c \
+    \
     file://emac-sources/configs/emac-soma5d36_defconfig \
     file://emac-sources/configs/emac-soma536mp_defconfig \
-    file://emac-sources/include/configs/ipac9x25.h \
-    file://emac-sources/include/configs/soma5d36.h \
-    file://emac-sources/include/configs/som9x25m.h \
     file://emac-sources/arch/arm/dts/som-a5d36-bare.dtsi \
     file://emac-sources/arch/arm/dts/som-a5d36.dts \
     file://emac-sources/arch/arm/dts/som-a536mp.dts \
-    file://emac-sources/arch/arm/dts/ipac-9x25.dts \
-    file://emac-sources/board/emacinc/som9x25m/Kconfig \
-    file://emac-sources/board/emacinc/som9x25m/Makefile \
-    file://emac-sources/board/emacinc/som9x25m/som9x25m.c \
-    file://emac-sources/board/emacinc/ipac9x25/Kconfig \
-    file://emac-sources/board/emacinc/ipac9x25/Makefile \
-    file://emac-sources/board/emacinc/ipac9x25/ipac9x25.c \
     file://emac-sources/board/emacinc/soma5d36/Kconfig \
     file://emac-sources/board/emacinc/soma5d36/Makefile \
+    file://emac-sources/include/configs/soma5d36.h \
     file://emac-sources/board/emacinc/soma5d36/soma5d36.c \
+    \
+    file://emac-sources/configs/emac-soma5d35_defconfig \
+    file://emac-sources/arch/arm/dts/som-a5d35-bare.dtsi \
+    file://emac-sources/arch/arm/dts/som-a5d35.dts \
+    file://emac-sources/board/emacinc/soma5d35/Kconfig \
+    file://emac-sources/board/emacinc/soma5d35/Makefile \
+    file://emac-sources/include/configs/soma5d35.h \
+    file://emac-sources/board/emacinc/soma5d35/soma5d35.c \
 "
