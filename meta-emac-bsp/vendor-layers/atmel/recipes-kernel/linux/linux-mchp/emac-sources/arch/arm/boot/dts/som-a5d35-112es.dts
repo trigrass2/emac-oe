@@ -1,10 +1,11 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
- * som-a5d35-112es.dtsi - Device Tree file for the SoM-A5D35 with SoM-112ES.
+ * som-a5d35-112es.dts - Device Tree file for the SOM-A5D35 w/ a 112es EMAC Carrier.
  *
- *  Copyright (C) 2022 EMAC Inc.
+ * Copyright (C) 2023 EMAC Inc.
  *
- * Licensed under GPLv2 or later.
  */
+
 /dts-v1/;
 #include "som-a5d35-1xx.dts"
 #include <dt-bindings/iio/adi,ad5592r.h>

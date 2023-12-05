@@ -1,9 +1,9 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
- * som-a5d35.dtsi - Device Tree file for the SoM-A5D35.
+ * som-a5d35.dtsi - Device Tree include file for the SOM-A5D35 with card edge modifications.
  *
- *  Copyright (C) 2022 EMAC Inc.
+ * Copyright (C) 2023 EMAC Inc.
  *
- * Licensed under GPLv2 or later.
  */
 
 #include "som-a5d35-bare.dtsi"

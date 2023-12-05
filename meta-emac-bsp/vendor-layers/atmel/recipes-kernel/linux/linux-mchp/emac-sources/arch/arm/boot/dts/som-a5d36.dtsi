@@ -1,11 +1,9 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
- * som-a5d36.dtsi - Device Tree inclue file for the SOM-A5D36 with SOM-2xx carriers.
+ * som-a5d36.dtsi - Device Tree Include file for the SOM-A5D36 with card edge modifications.
  *
  * Copyright (C) 2023 EMAC Inc.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
  */
 
 #include "som-a5d36-bare.dtsi"

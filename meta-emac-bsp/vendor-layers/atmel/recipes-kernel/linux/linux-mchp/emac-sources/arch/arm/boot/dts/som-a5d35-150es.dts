@@ -1,10 +1,11 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
- * som-a5d35-150es.dtsi - Device Tree file for the SoM-A5D35 with SoM-150ES.
+ * som-a5d35-150es.dts - Device Tree file for the SOM-A5D35 w/ a 150es EMAC Carrier.
  *
- *  Copyright (C) 2022 EMAC Inc.
+ * Copyright (C) 2023 EMAC Inc.
  *
- * Licensed under GPLv2 or later.
  */
+
 /dts-v1/;
 #include "som-a5d35-1xx.dts"
 
@@ -121,7 +122,7 @@
 };
 &spi0 {
     mcp3208: mcp320x@1 {
-        compatible = "mcp3208";
+        compatible = "microchip,mcp3208";
         spi-max-frequency = <1000000>;
         spi-cpol;
         spi-cpha;
@@ -193,16 +194,17 @@
         atmel,smc-read-mode = "nrd";
         atmel,smc-write-mode = "nwe";
         atmel,smc-bus-width = <8>;
+
         atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
         atmel,smc-ncs-wr-setup-ns = <8>;
         atmel,smc-nwe-setup-ns = <16>;
-        atmel,smc-nrd-setup-ns = <16>;
         atmel,smc-ncs-rd-pulse-ns = <40>;
-        atmel,smc-ncs-wr-pulse-ns = <40>;
         atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
         atmel,smc-nwe-pulse-ns = <24>;
-        atmel,smc-nrd-cycle-ns = <64>;
         atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
         atmel,smc-tdf-ns = <16>;
     };
 
@@ -216,6 +218,22 @@
         #size-cells = <1>;
         #gpio-cells = <2>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioC: cpld@3,6 {
@@ -228,6 +246,22 @@
         #size-cells = <1>;
         #gpio-cells = <1>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
 
@@ -241,6 +275,22 @@
         #size-cells = <1>;
         #gpio-cells = <1>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioE: cpld@3,10 {
@@ -252,6 +302,22 @@
         #size-cells = <1>;
         #gpio-cells = <2>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioF: cpld@3,7 {
@@ -263,7 +329,22 @@
         #size-cells = <1>;
         #gpio-cells = <1>;
         bank-width = <1>;
-        
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;        
     };
 
     cpld_id: cpld@3,0xf {
@@ -276,6 +357,22 @@
         #size-cells = <1>;
         #gpio-cells = <1>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioLCD: cpld@3,0 {
@@ -292,15 +389,15 @@
         atmel,smc-write-mode = "nwe";
         atmel,smc-bus-width = <8>;
         atmel,smc-ncs-rd-setup-ns = <8>;
-        atmel,smc-ncs-wr-setup-ns = <16>;
         atmel,smc-nwe-setup-ns = <27>;
+        atmel,smc-ncs-wr-setup-ns = <16>;
         atmel,smc-nrd-setup-ns = <6>;
         atmel,smc-ncs-rd-pulse-ns = <6>;
-        atmel,smc-ncs-wr-pulse-ns = <81>;
         atmel,smc-nrd-pulse-ns = <6>;
+        atmel,smc-ncs-wr-pulse-ns = <81>;
         atmel,smc-nwe-pulse-ns = <94>;
-        atmel,smc-nrd-cycle-ns = <14>;
         atmel,smc-nwe-cycle-ns = <128>;
+        atmel,smc-nrd-cycle-ns = <14>;
         atmel,smc-tdf-ns = <15>;
     };
 };

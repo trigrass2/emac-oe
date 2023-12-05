@@ -1,12 +1,11 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
- * som-a5d36.dtsi - Device Tree inclue file for the SOM-3354M with SOM-2xx carriers.
+ * som-a5d36-250gs.dts - Device Tree file for the SOM-A5D36 w/ a 250gs EMAC Carrier.
  *
- * Copyright (C) 2018 EMAC Inc.
+ * Copyright (C) 2023 EMAC Inc.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
  */
+
 /dts-v1/;
 #include "som-a5d36-2xx.dts"
 
