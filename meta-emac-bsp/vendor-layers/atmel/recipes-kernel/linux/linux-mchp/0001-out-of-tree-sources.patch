@@ -13,13 +13,21 @@ index 1abb939a7798..fbe49ba30fa2 100644
  dtb-$(CONFIG_SOC_SAM9X60) += \
  	at91-sam9x60_curiosity.dtb \
  	at91-sam9x60ek.dtb
-@@ -80,7 +82,8 @@ dtb-$(CONFIG_SOC_SAM_V7) += \
+@@ -80,7 +82,16 @@ dtb-$(CONFIG_SOC_SAM_V7) += \
  	at91-sama5d4_ma5d4evk.dtb \
  	at91-sama5d4_xplained.dtb \
  	at91-sama5d4ek.dtb \
 -	at91-vinco.dtb
 +	at91-vinco.dtb \
-+	som-a5d36-200gs.dtb som-a5d36-212es.dtb som-a5d36-250gs.dtb som-a5d36-2xx.dtb som-a536p.dtbo som-a536m.dtbo
++	som-a5d35-112es.dtb \
++	som-a5d35-150es.dtb \
++	som-a5d35-1xx.dtb \
++	som-a5d36-200gs.dtb \
++	som-a5d36-212es.dtb \
++	som-a5d36-250gs.dtb \
++	som-a5d36-2xx.dtb \
++	som-a536p.dtbo \
++	som-a536m.dtbo
  dtb-$(CONFIG_SOC_SAMA7G5) += \
  	at91-sama7g5ek.dtb
  dtb-$(CONFIG_SOC_SP7021) += \

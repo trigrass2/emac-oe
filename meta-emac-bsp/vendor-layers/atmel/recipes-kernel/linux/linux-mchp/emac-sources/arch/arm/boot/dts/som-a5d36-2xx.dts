@@ -72,7 +72,7 @@
 	audio_center: sound {
 		compatible = "simple-audio-card";
 		simple-audio-card,format = "i2s";
-		simple-audio-card,name = "som-250gs sgtl5000";
+		simple-audio-card,name = "sgtl5000";
 		simple-audio-card,widgets =
 			"Microphone", "Microphone Jack",
 			"Headphone", "Headphone Jack",

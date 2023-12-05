@@ -19,7 +19,9 @@ EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \
     file://emac-sources/arch/arm/boot/dts/som9x25.dts \
     file://emac-sources/arch/arm/boot/dts/ipac9x25.dts \
-    file://emac-sources/arch/arm/boot/dts/som-a5d35.dts \
+    file://emac-sources/arch/arm/boot/dts/som-a5d35-bare.dtsi \
+    file://emac-sources/arch/arm/boot/dts/som-a5d35.dtsi \
+    file://emac-sources/arch/arm/boot/dts/som-a5d35-1xx.dts \
     file://emac-sources/arch/arm/boot/dts/som-a5d35-112es.dts \
     file://emac-sources/arch/arm/boot/dts/som-a5d35-150es.dts \
     file://emac-sources/arch/arm/boot/dts/som-a5d36.dtsi \
