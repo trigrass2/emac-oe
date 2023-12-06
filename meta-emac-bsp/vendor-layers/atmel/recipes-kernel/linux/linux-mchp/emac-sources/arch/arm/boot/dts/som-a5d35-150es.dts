@@ -153,8 +153,9 @@
 };
 
 &usart3 {
-    rts-gpios = <&pldioD 0 GPIO_ACTIVE_LOW>;
-    cts-gpios = <&pldioD 1 GPIO_ACTIVE_LOW>;
+    // CPLD isnt working
+    // rts-gpios = <&pldioD 0 GPIO_ACTIVE_LOW>;
+    // cts-gpios = <&pldioD 1 GPIO_ACTIVE_LOW>;
 };
 
 &tcb0 {
@@ -244,7 +245,7 @@
         no-input;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
 
         atmel,smc-read-mode = "nrd";
@@ -273,7 +274,7 @@
         no-input;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
 
         atmel,smc-read-mode = "nrd";
@@ -327,7 +328,7 @@
         gpio-controller;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
 
         atmel,smc-read-mode = "nrd";
@@ -355,7 +356,7 @@
         no-input;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
 
         atmel,smc-read-mode = "nrd";
