@@ -139,7 +139,7 @@ int board_late_init(void)
 #ifdef CONFIG_LAST_STAGE_INIT
 int last_stage_init(void)
 {
-	eth_init();
+	// eth_init();
 	return 0;
 }
 #endif
