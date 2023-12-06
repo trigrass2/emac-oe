@@ -224,8 +224,6 @@
 	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS GPIO_ACTIVE_LOW>;
 	status = "okay";
 	recovery_flash: flash@0 {
-		#address-cells = <1>;
-		#size-cells = <1>;
 		compatible = "n25q128a13", "jedec,spi-nor";
 		/* 8MB Serial Flash*/
 		reg = <0x0>;

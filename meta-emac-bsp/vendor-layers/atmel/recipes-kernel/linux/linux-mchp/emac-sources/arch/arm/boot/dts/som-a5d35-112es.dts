@@ -35,8 +35,9 @@
 	};
 
 	regulators {
-		wlan_en_reg: wlan-en-reg {
+		wlan_en_reg: wlan-en-reg@9 {
 			compatible = "regulator-fixed";
+			reg = <9>;
 			regulator-name = "wlan-en-regulator";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;

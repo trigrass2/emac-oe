@@ -13,13 +13,13 @@
     model = "EMAC SoM-A5D35 within SoM-150ES";
 
     clocks {
-        audio_clk: oscillator@1 { // always on, fed into cpld and turned into prescale-a
+        audio_clk: oscillator-cpld-in { // always on, fed into cpld and turned into prescale-a
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
 			clock-output-names = "osc-a";
 			clock-frequency = <24576000>;
 		};
-        audio_clk_prescale: oscillator@2 { // always on...
+        audio_clk_prescale: oscillator-cpld-out { // always on...
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
 			clock-output-names = "prescale-a";
@@ -39,8 +39,9 @@
         };
     };
     regulators {
-        power_12v_acc: carrier-12v-acc {
+        power_12v_acc: carrier-12v-acc@9 {
 			compatible = "regulator-fixed";
+            reg = <9>;
 			regulator-name = "12V_ACC";
 			regulator-min-microvolt = <12000000>;
 			regulator-max-microvolt = <12000000>;
@@ -160,7 +161,7 @@
 
 &tcb0 {
     status = "okay";
-    tcb0_pwm0: pwm@0 {
+    tcb0_pwm0: pwm@1 {
         compatible = "atmel,tcb-pwm";
         #pwm-cells = <3>;
         reg = <0>;
@@ -168,7 +169,7 @@
 		pinctrl-0 = <&pinctrl_tcb0_tiob0>;
         status = "okay";
     };
-    tcb0_pwm1: pwm@1 {
+    tcb0_pwm1: pwm@2 {
         compatible = "atmel,tcb-pwm";
         #pwm-cells = <3>;
         reg = <1>;
