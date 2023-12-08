@@ -59,7 +59,6 @@
 };
 
 &ssc1 {
-	#sound-dai-cells = <0x00>;
     status = "okay";
 };
 
