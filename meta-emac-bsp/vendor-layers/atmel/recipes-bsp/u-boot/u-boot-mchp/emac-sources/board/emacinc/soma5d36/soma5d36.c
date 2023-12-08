@@ -21,11 +21,11 @@
 #include <debug_uart.h>
 #include <env.h>
 #include <linux/ctype.h>
-#include <spl.h>
 #include <asm/arch/atmel_mpddrc.h>
 #include <asm/arch/at91_wdt.h>
 #include <led.h>
 #include <linux/err.h>
+#include <miiphy.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -60,21 +60,52 @@ int smc_config_cpld(void)
 	return 0;
 }
 
-// #ifdef CONFIG_CMD_USB
-// static void sama5d3xek_usb_hw_init(void)
-// {
-// 	at91_set_pio_output(AT91_PIO_PORTD, 25, 0);
-// 	at91_set_pio_output(AT91_PIO_PORTD, 26, 0);
-// 	at91_set_pio_output(AT91_PIO_PORTD, 27, 0);
-// }
-// #endif
+#ifdef CONFIG_GENERIC_ATMEL_MCI
+static void at91_mci1_hw_init(void)
+{
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 19, 0);	/* MCI1 CMD */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 20, 0);	/* MCI1 DA0 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 21, 0);	/* MCI1 DA1 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 22, 0);        /* MCI1 DA2 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 23, 0);        /* MCI1 DA3 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 24, 0);        /* MCI1 CLK */
 
-// #ifdef CONFIG_GENERIC_ATMEL_MCI
-// static void sama5d3xek_mci_hw_init(void)
-// {
-// 	at91_set_pio_output(AT91_PIO_PORTB, 10, 0);	/* MCI0 Power */
-// }
-// #endif
+	/* Enable clock */
+	at91_periph_clk_enable(ATMEL_ID_MCI1);
+}
+#endif
+
+#ifdef CONFIG_MACB
+static void at91_gmac_mii_hw_init(void)
+{
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 0, 0);	/* GTX0 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 1, 0);	/* GTX1 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 2, 0);	/* GTX2 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 3, 0);	/* GTX3 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 4, 0);	/* GRX0 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 5, 0);	/* GRX1 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 6, 0);	/* GRX2 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 7, 0);	/* GRX3 */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 8, 0);	/* GTXCK */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 9, 0);	/* GTXEN */
+
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 10, 0);	/* GTXER used in MII not RGMII, is also not connected? */
+
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 11, 0);	/* GRXCK */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 12, 0);	/* GRXDV used in MII not RGMII */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 13, 0);	/* GRXER */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 14, 0);	/* GCRS used in MII not RGMII */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 15, 0);	/* GCOL used in MII not RGMII*/
+
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 16, 0);	/* GMDC */
+	at91_pio3_set_a_periph(AT91_PIO_PORTB, 17, 0);	/* GMDIO */
+	// at91_pio3_set_a_periph(AT91_PIO_PORTB, 18, 0);	/* G125CK not used in MII but is in RGMII */ 
+
+	/* Enable clock */
+	at91_periph_clk_enable(ATMEL_ID_GMAC);
+
+}
+#endif
 
 #ifdef CONFIG_DEBUG_UART_BOARD_INIT
 void board_debug_uart_init(void)
@@ -97,40 +128,34 @@ int board_early_init_f(void)
 int board_init(void)
 {
 	/* adress of boot parameters */
-	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
+	gd->bd->bi_boot_params = CFG_SYS_SDRAM_BASE + 0x100;
 
-// #ifdef CONFIG_CMD_USB
-// 	sama5d3xek_usb_hw_init();
-// #endif
-// #ifdef CONFIG_GENERIC_ATMEL_MCI
-// 	sama5d3xek_mci_hw_init();
-// #endif
+#ifdef CONFIG_GENERIC_ATMEL_MCI
+	at91_mci_hw_init();
+	at91_mci1_hw_init();
+#endif
+#ifdef CONFIG_MACB
+#ifdef CONFIG_MII
+	at91_gmac_mii_hw_init();
+#endif
+#ifdef CONFIG_RGMII
+	at91_gmac_hw_init();
+#endif
+#endif
 	return 0;
 }
 
 int dram_init(void)
 {
-	gd->ram_size = get_ram_size((void *)CONFIG_SYS_SDRAM_BASE,
-				    CONFIG_SYS_SDRAM_SIZE);
+	gd->ram_size = get_ram_size((void *)CFG_SYS_SDRAM_BASE,
+				    CFG_SYS_SDRAM_SIZE);
 	return 0;
 }
 
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
 {
-#ifdef CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 
-#if CONFIG_IS_ENABLED(SOMA5D36_DTB)
-	env_set("dtb_name", "som-a5d36.dtb");
-#endif
-#if CONFIG_IS_ENABLED(SOMA536M_DTB)
-	env_set("dtb_name", "som-a536m.dtb");
-#endif
-#if CONFIG_IS_ENABLED(SOMA536P_DTB)
-	env_set("dtb_name", "som-a536p.dtb");
-#endif
-
-#endif
 #ifdef CONFIG_DM_VIDEO
 	at91_video_show_board_info();
 	at91_set_pio_output(AT91_PIO_PORTD, 5, 1);
@@ -139,79 +164,10 @@ int board_late_init(void)
 }
 #endif
 
-/* SPL */
-#ifdef CONFIG_SPL_BUILD
-void spl_board_init(void)
+#ifdef CONFIG_LAST_STAGE_INIT
+int last_stage_init(void)
 {
-	smc_config_cpld();
-	at91_set_pio_output(AT91_PIO_PORTA, 24, 0);
-}
-
-static void ddr2_conf(struct atmel_mpddrc_config *ddr2)
-{
-	ddr2->md = (ATMEL_MPDDRC_MD_DBW_32_BITS | ATMEL_MPDDRC_MD_LPDDR2_SDRAM);
-
-	ddr2->cr = (ATMEL_MPDDRC_CR_NC_COL_10 |
-		    ATMEL_MPDDRC_CR_NR_ROW_14 |
-		    ATMEL_MPDDRC_CR_CAS_DDR_CAS3 |
-		    ATMEL_MPDDRC_CR_ZQ_SHORT |
-		    ATMEL_MPDDRC_CR_NB_8BANKS |
-		    ATMEL_MPDDRC_CR_UNAL_SUPPORTED);
-	/*
-	 * As the DDR2-SDRAm device requires a refresh time is 7.8125us
-	 * when DDR run at 133MHz, so it needs (7.8125us * 133MHz / 10^9) clocks
-	 */
-	ddr2->rtr = 0x202;
-	ddr2->tim_cal = 12;
-
-	ddr2->tpr0 = (6 << ATMEL_MPDDRC_TPR0_TRAS_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR0_TRCD_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR0_TWR_OFFSET |
-		      8 << ATMEL_MPDDRC_TPR0_TRC_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR0_TRP_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR0_TRRD_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR0_TWTR_OFFSET |
-		      3 << ATMEL_MPDDRC_TPR0_TMRD_OFFSET);
-
-	ddr2->tpr1 = (2 << ATMEL_MPDDRC_TPR1_TXP_OFFSET |
-		      18 << ATMEL_MPDDRC_TPR1_TXSNR_OFFSET |
-		      17 << ATMEL_MPDDRC_TPR1_TRFC_OFFSET);
-
-	ddr2->tpr2 = (8 << ATMEL_MPDDRC_TPR2_TFAW_OFFSET |
-		      2 << ATMEL_MPDDRC_TPR2_TRTP_OFFSET |
-		      3 << ATMEL_MPDDRC_TPR2_TRPA_OFFSET |
-		      1 << ATMEL_MPDDRC_TPR2_TXARDS_OFFSET |
-		      1 << ATMEL_MPDDRC_TPR2_TXARD_OFFSET);
-}
-
-void mem_init(void)
-{
-	struct atmel_mpddrc_config ddr2;
-
-	ddr2_conf(&ddr2);
-
-	/* Enable MPDDR clock */
-	at91_periph_clk_enable(ATMEL_ID_MPDDRC);
-	at91_system_clk_enable(AT91_PMC_DDR);
-
-	/* DDRAM2 Controller initialize */
-	lpddr2_init(ATMEL_BASE_MPDDRC, ATMEL_BASE_DDRCS, &ddr2);
-}
-
-void at91_pmc_init(void)
-{
-	u32 tmp;
-
-	tmp = AT91_PMC_PLLAR_29 |
-	      AT91_PMC_PLLXR_PLLCOUNT(0x3f) |
-	      AT91_PMC_PLLXR_MUL(43) |
-	      AT91_PMC_PLLXR_DIV(1);
-	at91_plla_init(tmp);
-
-	at91_pllicpr_init(AT91_PMC_IPLL_PLLA(0x3));
-
-	tmp = AT91_PMC_MCKR_MDIV_4 |
-	      AT91_PMC_MCKR_CSS_PLLA;
-	at91_mck_init(tmp);
+	// eth_init();
+	return 0;
 }
 #endif

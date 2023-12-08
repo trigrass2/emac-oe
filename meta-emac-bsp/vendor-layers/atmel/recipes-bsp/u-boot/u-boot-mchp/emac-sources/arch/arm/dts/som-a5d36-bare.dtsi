@@ -1,12 +1,11 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
- * som-a5d36-bare.dtsi - Device Tree include file for the SOM-A5D36.
+ * som-a5d36-bare.dtsi - Device Tree Include file for the SOM-A5D36.
  *
  * Copyright (C) 2023 EMAC Inc.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
  */
+ 
 #include "sama5d36.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 
@@ -178,21 +177,16 @@
 	};
 };
 
+
+
 &macb0 {
+	phy-handle = <&ethphy1>;
 	phy-mode = "rgmii";
 	status = "disabled";
-	phy-handle = <&ethphy0>;
-	mdio {		
-		#address-cells = <1>;
-		#size-cells = <0>;
-		ethphy0: ethernet-phy@1 {
-			reg = <0x1>;
-			micrel-led-mode = <1>;
-			clocks = <&eth_phy_clk>;
-			clock-names = "rmii-ref";
-			interrupt-parent = <&pioD>;
-			interrupts = <19 IRQ_TYPE_LEVEL_LOW 3>;
-		};
+	#address-cells = <1>;
+	#size-cells = <0>;
+	ethphy1: ethernet-phy@1 {
+		reg = <1>;
 	};
 };
 
@@ -204,6 +198,7 @@
 		reg = <0>;
 		bus-width = <4>;
 		non-removable;
+		no-1-8-v;
 	};
 };
 
@@ -220,11 +215,11 @@
 
 &spi0 {
 	num-cs = <1>;
-	pinctrl-0 = <&pinctrl_spi0>;
-	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS GPIO_ACTIVE_LOW>;
+	pinctrl-0 = <&pinctrl_spi0 &pinctrl_spi0_cs0>;
+	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS 0>;
 	status = "okay";
 	boot_flash: m25p80@0 {
-		compatible = "atmel,n25q128a13";
+		compatible = "jedec,spi-nor";
 		spi-max-frequency = <50000000>;
 		reg = <0>;
 	};
@@ -449,31 +444,4 @@
 			bootph-all;
 		};
 	};
-};
-
-&ssc0 {
-	#sound-dai-cells = <0>;
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_ssc0_txrx>;
-	status = "disabled";
-};
-
-&adc0 {
-	pinctrl-names = "default";
-	pinctrl-0 = <
-		&pinctrl_adc0_ad0
-		&pinctrl_adc0_ad1
-		&pinctrl_adc0_ad2
-		&pinctrl_adc0_ad3
-		&pinctrl_adc0_ad4
-		&pinctrl_adc0_ad5
-		&pinctrl_adc0_ad6
-		&pinctrl_adc0_ad7
-		>;
-
-	atmel,adc-vref = <2500>;
-	atmel,adc-channels-used = <0xff>;
-	atmel,adc-ts-wires = <4>;
-	atmel,adc-ts-pressure-threshold = <10000>;
-	status = "disabled";
 };

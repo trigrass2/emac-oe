@@ -16,50 +16,56 @@
 	model = "EMAC SOM-A5D36 with SOM-250GS";
 	
 	regulators {
-		power_main_vin: power_main_vin {
+		power_main_vin: power_main_vin@10 {
 			compatible = "regulator-fixed";
+			reg = <10>;
 			regulator-name = "POWER";
 			regulator-min-microvolt = <12000000>;
 			regulator-max-microvolt = <28000000>;
 			regulator-always-on;
 		};
-		ldo_5v_vcc: ldo_5v_vcc {
+		ldo_5v_vcc: ldo_5v_vcc@11 {
 			compatible = "regulator-fixed";
+			reg = <11>;
 			regulator-name = "5V_LDO";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 			regulator-always-on;
 			vin-supply = <&power_main_vin>;
 		};
-		ldo_3v3_vcc {
+		ldo_3v3_vcc@8 {
 			vin-supply = <&power_main_vin>;
 		};
-		ldo_1v5_vcc: ldo_1v5_vcc {
+		ldo_1v5_vcc: ldo_1v5_vcc@12 {
 			compatible = "regulator-fixed";
+			reg = <12>;
 			regulator-name = "1V5_LDO";
 			regulator-min-microvolt = <1500000>;
 			regulator-max-microvolt = <1500000>;
 			regulator-always-on;
 			vin-supply = <&ldo_5v_vcc>;
 		};
-		ldo_1v8_vcc: ldo_1v8_vcc {
+		ldo_1v8_vcc: ldo_1v8_vcc@13 {
 			compatible = "regulator-fixed";
+			reg = <13>;
 			regulator-name = "1V8_LDO";
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <1800000>;
 			regulator-always-on;
 			vin-supply = <&ldo_5v_vcc>;
 		};
-		lvds_3v3: lvds_3v3 {
+		lvds_3v3: lvds_3v3@14 {
 			compatible = "regulator-fixed";
+			reg = <14>;
 			regulator-name = "LVDS_3V3";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			gpio = <&pioC 25 GPIO_ACTIVE_HIGH>;
 			vin-supply = <&ldo_3v3_vcc>;
 		};
-		lvds_5v: lvds_5v {
+		lvds_5v: lvds_5v@15 {
 			compatible = "regulator-fixed";
+			reg = <15>;
 			regulator-name = "LVDS_5V";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
@@ -109,15 +115,12 @@
 		 AT91_PIOA 23 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* LCDD23 pin */
 };
 
-// configured for the 7in
-// remove the enable gpio and user the lvds_5v for the 10in
 &lcd_backlight {
 	power-supply = <&lvds_3v3>;
 	enable-gpios = <&pioD 5 GPIO_ACTIVE_HIGH>;
 };
 
 &panel {
-	// 7in LCD
 	compatible = "innolux,at070tn92", "simple-panel";
 };
 
@@ -144,14 +147,31 @@
 	/delete-property/ cts-gpios;
 };
 
+&audio_center {
+    status = "okay";
+	simple-audio-card,name = "sgtl5000";
+    simple-audio-card,bitclock-master = <&codec_master>;
+	simple-audio-card,frame-master = <&codec_master>;
+    codec_master: simple-audio-card,codec {
+        sound-dai = <&sgtl5000>;
+        clocks = <&audio_mclk>;
+        frame-master;
+		bitclock-master;
+    };
+};
+
+&ssc0 {
+	#sound-dai-cells = <0x00>;
+    status = "okay";
+};
+
 &i2c0 {
-	codec: sgtl5000@0a {
+	sgtl5000: sgtl5000@0a {
 		#sound-dai-cells = <0>;
 		compatible = "fsl,sgtl5000";
 		reg = <0x0a>;
 		VDDA-supply = <&ldo_3v3_vcc>;
 		VDDIO-supply = <&ldo_3v3_vcc>;
-		clocks = <&audio_mclk>;
 	};
 
 	eeprom@51 {
@@ -160,13 +180,4 @@
 		pagesize = <32>;
 	};
 
-};
-
-&audio_center {
-	sound_master: simple-audio-card,codec {
-		sound-dai = <&codec>;
-		clocks = <&audio_mclk>;
-		frame-master;
-		bitclock-master;
-	};
 };

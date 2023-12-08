@@ -8,49 +8,55 @@
 
 /dts-v1/;
 #include "som-a5d36.dtsi"
+#include <dt-bindings/gpio/gpio.h>
 
 / {
 	model = "EMAC SOM-A5D36 with SOM-2xx";
 	compatible = "emac,soma5d36", "atmel,sama5d36", "atmel,sama5d3", "atmel,sama5";
 	
 	regulators {
-		power_12v_accy: power_12v_accy {
+		power_12v_accy: power_12v_accy@6 {
 			compatible = "regulator-fixed";
+			reg = <6>;
 			regulator-name = "POWER-HIGH-DRIVE-SUPPLY";
 			regulator-min-microvolt = <12000000>;
 			regulator-max-microvolt = <12000000>;
 			regulator-always-on;
 			// Controlled via a jumper
 		};
-		power_5v_vcc: power_5v_vcc {
+		power_5v_vcc: power_5v_vcc@7 {
 			compatible = "regulator-fixed";
+			reg = <7>;
 			regulator-name = "POWER";
 			regulator-min-microvolt = <5000000>;
 			regulator-max-microvolt = <5000000>;
 			regulator-always-on;
 		};
-		ldo_3v3_vcc: ldo_3v3_vcc {
+		ldo_3v3_vcc: ldo_3v3_vcc@8 {
 			compatible = "regulator-fixed";
+			reg = <8>;
 			regulator-name = "3V3_LDO";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			regulator-always-on;
 			vin-supply = <&power_5v_vcc>;
 		};
-		battery_3v3_stby: battery_3v3_stby {
+		battery_3v3_stby: battery_3v3_stby@9 {
 			compatible = "regulator-fixed";
+			reg = <9>;
 			regulator-name = "BATTERY";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			regulator-always-on;
 		};
-		rail_3v3_vcc {
+		rail_3v3_vcc@3 {
 			vin-supply = <&ldo_3v3_vcc>;
 		};
-		rail_3v3_stby {
+		rail_3v3_stby@4 {
 			vin-supply = <&battery_3v3_stby>;
 		};
 	};
+
 	panel: panel {
 		compatible = "innolux,at043tn24", "simple-panel";
 		backlight = <&lcd_backlight>;
@@ -68,23 +74,20 @@
 			};
 		};
 	};
+
 	audio_center: sound {
 		compatible = "simple-audio-card";
-		simple-audio-card,format = "i2s";
+		status = "disabled";
 		simple-audio-card,name = "sgtl5000";
+		simple-audio-card,format = "i2s";
 		simple-audio-card,widgets =
-			"Microphone", "Microphone Jack",
-			"Headphone", "Headphone Jack",
-			"Speaker", "Speaker Ext",
-			"Line", "Line In Jack";
+			"Line", "Line In",
+			"Line", "Line Out";
 		simple-audio-card,routing =
-			"MIC_IN", "Microphone Jack",
-			"Microphone Jack", "Mic Bias",
-			"LINE_IN", "Line In Jack",
-			"Headphone Jack", "HP_OUT",
-			"Speaker Ext", "LINE_OUT";
+			"Line In", "Capture",
+			"Line Out", "Playback";
 
-		simple-audio-card,cpu {
+		cpu_master: simple-audio-card,cpu {
 			sound-dai = <&ssc0>;
 		};
 	};

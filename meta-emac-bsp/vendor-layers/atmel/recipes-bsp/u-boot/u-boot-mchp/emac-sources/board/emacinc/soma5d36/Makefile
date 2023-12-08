@@ -9,5 +9,8 @@
 #
 # (C) Copyright 2013
 # Bo Shen <voice.shen@atmel.com>
+#
+# (C) Copyright 2023
+# Brenden Tisler <support@emacinc.com>
 
 obj-y += soma5d36.o

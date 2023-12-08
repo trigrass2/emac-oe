@@ -63,46 +63,52 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		reg_1v8_vdd_ddr1: reg_1v8_vdd_ddr1 {
+		reg_1v8_vdd_ddr1: reg_1v8_vdd_ddr1@0 {
 			compatible = "regulator-fixed";
+			reg = <0>;
 			regulator-name = "1V8_VDD_DDR1";
 			regulator-min-microvolt = <1800000>;
 			regulator-max-microvolt = <1800000>;
 			regulator-always-on;
 			vin-supply = <&rail_3v3_vcc>;
 		};
-		reg_1v2_vcc: reg_1v2_vcc {
+		reg_1v2_vcc: reg_1v2_vcc@1 {
 			compatible = "regulator-fixed";
+			reg = <1>;
 			regulator-name = "1V2_VCC";
 			regulator-min-microvolt = <1200000>;
 			regulator-max-microvolt = <1200000>;
 			regulator-always-on;
 			vin-supply = <&rail_3v3_vcc>;
 		};
-		reg_1v2_eth: reg_1v2_eth {
+		reg_1v2_eth: reg_1v2_eth@2 {
 			compatible = "regulator-fixed";
+			reg = <2>;
 			regulator-name = "1V2_ETH";
 			regulator-min-microvolt = <1200000>;
 			regulator-max-microvolt = <1200000>;
 			gpio = <&pioD 29 GPIO_ACTIVE_HIGH>;
 			vin-supply = <&rail_3v3_vcc>;
 		};
-		rail_3v3_vcc: rail_3v3_vcc {
+		rail_3v3_vcc: rail_3v3_vcc@3 {
 			compatible = "regulator-fixed";
+			reg = <3>;
 			regulator-name = "3V3_VCC";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			regulator-always-on;
 		};
-		rail_3v3_stby: rail_3v3_stby {
+		rail_3v3_stby: rail_3v3_stby@4 {
 			compatible = "regulator-fixed";
+			reg = <4>;
 			regulator-name = "3V3_STBY";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			regulator-always-on;
 		};
-		adc_vref: adc_vref {
+		adc_vref: adc_vref@5 {
 			compatible = "regulator-fixed";
+			reg = <5>;
 			regulator-name = "ADC_VREF";
 			regulator-min-microvolt = <2500000>;
 			regulator-max-microvolt = <2500000>;
@@ -182,21 +188,26 @@
 	};
 };
 
+&tcb1 {
+	timer@0 {
+		compatible = "atmel,tcb-timer";
+		reg = <0>;
+	};
+};
+
 &macb0 {
 	phy-mode = "rgmii";
 	status = "disabled";
-	phy-handle = <&ethphy0>;
-	mdio {		
-		#address-cells = <1>;
-		#size-cells = <0>;
-		ethphy0: ethernet-phy@1 {
-			reg = <0x1>;
-			micrel-led-mode = <1>;
-			clocks = <&eth_refclk>;
-			clock-names = "rmii-ref";
-			interrupt-parent = <&pioD>;
-			interrupts = <19 IRQ_TYPE_LEVEL_LOW 3>;
-		};
+	phy-handle = <&ethphy1>;
+	#address-cells = <1>;
+	#size-cells = <0>;
+	ethphy1: ethernet-phy@1 {
+		reg = <0x1>;
+		micrel-led-mode = <1>;
+		clocks = <&eth_phy_clk>;
+		clock-names = "rmii-ref";
+		interrupt-parent = <&pioD>;
+		interrupts = <19 IRQ_TYPE_LEVEL_LOW>;
 	};
 };
 
@@ -216,27 +227,21 @@
 	clock-frequency = <400000>;
 	
 	eeprom: atmel@50 {
-		compatible = "atmel,24c08";
+		compatible = "atmel,24c02";
 		reg = <0x50>;
 		status = "disabled";
 	};
 };
 
 &spi0 {
-	num-cs = <2>;
+	num-cs = <1>;
 	pinctrl-0 = <&pinctrl_spi0>;
 	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS GPIO_ACTIVE_LOW>;
 	status = "okay";
 	recovery_flash: flash@0 {
 		compatible = "n25q128a13", "jedec,spi-nor";
 		/* 8MB Serial Flash*/
-		#address-cells = <1>;
-		#size-cells = <1>;
 		reg = <0x0>;
-		spi-rx-bus-width = <1>;
-		spi-tx-bus-width = <1>;
-		spi-cpol;
-		spi-cpha;
 		spi-max-frequency = <10000000>;
 		status = "okay";
 		partitions {
@@ -245,19 +250,23 @@
 			#size-cells = <1>;
 			partition@0 {
 				label = "bootstrap";
-				reg = <0x00000000 0x00008000>;
+				reg = <0x00000000 0x00010000>;
 			};
-			partition@8000 {
+			partition@10000 {
 				label = "uboot";
-				reg = <0x00008000 0x000a0000>;
+				reg = <0x00010000 0x000b0000>;
 			};
-			partition@a0000 {
+			partition@c0000 {
 				label = "bootenv";
-				reg = <0x000a0000 0x000c0000>;
+				reg = <0x000c0000 0x00040000>;
 			};
 			partition@100000 {
 				label = "kernel";
-				reg = <0x00100000 0x00800000>;
+				reg = <0x00100000 0x00700000>;
+			};
+			partition@800000 {
+				label = "dtb";
+				reg = <0x00800000 0x00100000>;
 			};
 		};
 	};
