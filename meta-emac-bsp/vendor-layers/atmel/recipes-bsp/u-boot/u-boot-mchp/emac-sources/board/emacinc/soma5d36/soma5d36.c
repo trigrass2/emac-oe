@@ -132,7 +132,6 @@ int board_init(void)
 
 #ifdef CONFIG_GENERIC_ATMEL_MCI
 	at91_mci_hw_init();
-	at91_mci1_hw_init();
 #endif
 #ifdef CONFIG_MACB
 #ifdef CONFIG_MII

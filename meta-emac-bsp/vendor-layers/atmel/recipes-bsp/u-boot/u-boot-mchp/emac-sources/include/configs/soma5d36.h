@@ -14,7 +14,7 @@
 /* Working interfaces:
  * 1. 10/100/1000 RGMII ethernet
  * 2. USB storage
- * 3. MMC 0 storage / MMC 1 storage
+ * 3. MMC 0 storage
  * 4. Serial Debug
 */
 

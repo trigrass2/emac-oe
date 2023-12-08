@@ -5,7 +5,7 @@
  * Copyright (C) 2023 EMAC Inc.
  *
  */
- 
+
 #include "sama5d36.dtsi"
 #include <dt-bindings/gpio/gpio.h>
 
@@ -84,14 +84,6 @@
 			regulator-always-on;
 			vin-supply = <&rail_3v3_vcc>;
 		};
-		reg_1v2_eth: reg_1v2_eth {
-			compatible = "regulator-fixed";
-			regulator-name = "1V2_ETH";
-			regulator-min-microvolt = <1200000>;
-			regulator-max-microvolt = <1200000>;
-			gpio = <&pioD 29 GPIO_ACTIVE_HIGH>;
-			vin-supply = <&rail_3v3_vcc>;
-		};
 		rail_3v3_vcc: rail_3v3_vcc {
 			compatible = "regulator-fixed";
 			regulator-name = "3V3_VCC";
@@ -105,14 +97,6 @@
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			regulator-always-on;
-		};
-		adc_vref: adc_vref {
-			compatible = "regulator-fixed";
-			regulator-name = "ADC_VREF";
-			regulator-min-microvolt = <2500000>;
-			regulator-max-microvolt = <2500000>;
-			gpio = <&pioB 25 GPIO_ACTIVE_LOW>;
-			vin-supply = <&rail_3v3_vcc>;
 		};
 	};
 
@@ -141,23 +125,38 @@
 				<AT91_PIOC 27 AT91_PERIPH_GPIO AT91_PINCTRL_DEGLITCH>;
 		};
 	};
-	ebi{ /* pins renamed due to upstream bug */
-		pinctrl_ebi_cs0: ebi-cs0-0 {
+	spi0 {
+		pinctrl_spi0_cs0: spi0-cs0-0 {
 			atmel,pins =
-				<AT91_PIOE 26 AT91_PERIPH_A AT91_PINCTRL_NONE>;
-		};
-
-		pinctrl_ebi_cs1: ebi-cs1-0 {
-			atmel,pins =
-				<AT91_PIOE 27 AT91_PERIPH_A AT91_PINCTRL_NONE>;
-		};
-
-		pinctrl_ebi_cs2: ebi-cs2-0 {
-			atmel,pins =
-				<AT91_PIOE 28 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+				<AT91_PIOD LEGACY_SPI_FLASH_CS AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
 		};
 	};
-
+	macb0 {
+		pinctrl_macb0_data_mii: macb0_data_mii {
+			atmel,pins =
+				<AT91_PIOB 0 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB0 periph A GTX0, conflicts with PWMH0 */
+				AT91_PIOB 1 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB1 periph A GTX1, conflicts with PWML0 */
+				AT91_PIOB 2 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB2 periph A GTX2, conflicts with TK1 */
+				AT91_PIOB 3 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB3 periph A GTX3, conflicts with TF1 */
+				AT91_PIOB 4 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB4 periph A GRX0, conflicts with PWMH1 */
+				AT91_PIOB 5 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB5 periph A GRX1, conflicts with PWML1 */
+				AT91_PIOB 6 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB6 periph A GRX2, conflicts with TD1 */
+				AT91_PIOB 7 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PB7 periph A GRX3, conflicts with RK1 */
+		};
+		pinctrl_macb0_signal_mii: macb0_signal_mii {
+			atmel,pins =
+				<AT91_PIOB 8 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB8 periph A GTXCK, conflicts with PWMH2 */
+				AT91_PIOB 9 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB9 periph A GTXEN, conflicts with PWML2 */
+				AT91_PIOB 10 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB10 periph A GTXER, conflicts with RF1 */
+				AT91_PIOB 11 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB11 periph A GRXCK, conflicts with RD1 */
+				AT91_PIOB 12 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB12 periph A GRXDV, conflicts with PWMH3 */
+				AT91_PIOB 13 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB13 periph A GRXER, conflicts with PWML3 */
+				AT91_PIOB 14 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB14 periph A GCRS, conflicts with CANRX1 */
+				AT91_PIOB 15 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB15 periph A GCOL, conflicts with CANTX1 */
+				AT91_PIOB 16 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB16 periph A GMDC */
+				AT91_PIOB 17 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PB17 periph A GMDIO */
+		};
+	};
 };
 
 &pioD {
@@ -168,16 +167,13 @@
 		/* LOW - enabled , HIGH - disabled */
 		line-name = "watchdog-enable";
 	};
-};
-
-&tcb0 {
-	timer@0 {
-		compatible = "atmel,tcb-timer";
-		reg = <0>;
+	gpio_macb0_en: macb0-enable {
+		gpio-hog;
+		gpios = <29 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "macb0-enable";
 	};
 };
-
-
 
 &macb0 {
 	phy-handle = <&ethphy1>;
@@ -214,6 +210,7 @@
 };
 
 &spi0 {
+	dmas = <0>, <0>;	/*  Do not use DMA for spi0 */
 	num-cs = <1>;
 	pinctrl-0 = <&pinctrl_spi0 &pinctrl_spi0_cs0>;
 	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS 0>;
@@ -246,178 +243,11 @@
 	/* LOW - enabled , HIGH - disabled */
 };
 
-&spi0 {
-	num-cs = <5>;
-	pinctrl-0 = < &pinctrl_spi0
-				  &pinctrl_spi0_cs0
-				  &pinctrl_spi0_cs1
-				  &pinctrl_spi0_cs2
-				  &pinctrl_spi0_cs3
-				  &pinctrl_spi0_cs4
-				>;
-	cs-gpios = <&pioD LEGACY_SPI_FLASH_CS GPIO_ACTIVE_LOW>,
-				<&pioD CURRENT_SPI_FLASH_CS GPIO_ACTIVE_LOW>,
-				<&pioD 15 GPIO_ACTIVE_LOW>,
-				<&pioD 16 GPIO_ACTIVE_LOW>,
-				<&pioC 28 GPIO_ACTIVE_LOW>;
-};
-
-&spi1 {
-	// DO NOT USE WITH DMA
-};
-
-// COM D
-&usart0 {
-	dmas = <0>, <0>;	/*  Do not use DMA for usart0 */
-	rts-gpios = <&pioC 29 GPIO_ACTIVE_HIGH>;
-	cts-gpios = <&pioC 30 GPIO_ACTIVE_HIGH>;
-	status = "disabled";
-};
-
-// COM A
-&usart1 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_usart1 &pinctrl_usart1_rts_cts &pinctrl_usart1_8pin_ctrl>;
-	atmel,use-dma-tx;
-	atmel,use-dma-rx;
-	// No dcd-gpio
-	dtr-gpios = <&pioC 0 GPIO_ACTIVE_HIGH>;
-	dsr-gpios = <&pioC 1 GPIO_ACTIVE_HIGH>;
-	rng-gpios = <&pioC 2 GPIO_ACTIVE_HIGH>;
-	status = "disabled";
-};
-
-// COM C
-&usart2 {
-	pinctrl-names = "default";
-	pinctrl-0 = <&pinctrl_usart2 &pinctrl_usart2_rts_cts>;
-	atmel,use-dma-tx;
-	atmel,use-dma-rx;
-	status = "disabled";
-};
 
 // COM B
 &dbgu {
 	dmas = <0>, <0>;	/*  Do not use DMA for dbgu */
-	rts-gpios = <&pioC 3 GPIO_ACTIVE_HIGH>;
-	cts-gpios = <&pioC 4 GPIO_ACTIVE_HIGH>;
 	status = "okay";
-};
-
-&{/ahb/apb/pinctrl@fffff200} {
-
-	gpio-spi1 {
-		pinctrl_gpio_spi1: gpio_spi1-0 {
-			atmel,pins =
-				<AT91_PIOC 22 AT91_PERIPH_GPIO AT91_PINCTRL_NONE
-				 AT91_PIOC 23 AT91_PERIPH_GPIO AT91_PINCTRL_NONE
-				 AT91_PIOC 24 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-		pinctrl_spi1_cs0: spi1-cs0-0 {
-			atmel,pins =
-				<AT91_PIOC 25 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-	};
-
-	fiq {
-		pinctrl_fiq: pinctrl_fiq {
-			atmel,pins =
-				<AT91_PIOC 31 AT91_PERIPH_A AT91_PINCTRL_NONE>;
-		};
-	};
-	irq {
-		pinctrl_irq: pinctrl_irq {
-			atmel,pins =
-				<AT91_PIOE 31 AT91_PERIPH_A AT91_PINCTRL_NONE>;
-		};
-	};
-	irqb {
-		pinctrl_irqb: pinctrl_irqb {
-			atmel,pins =
-				<AT91_PIOE 29 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-	};
-	pck0 {
-		pinctrl_pck0: pinctrl_pck0 {
-			atmel,pins =
-				<AT91_PIOD 30 AT91_PERIPH_B AT91_PINCTRL_NONE>;
-		};
-	};
-	pck1 {
-		pinctrl_pck1: pinctrl_pck1 {
-			atmel,pins =
-				<AT91_PIOD 31 AT91_PERIPH_B AT91_PINCTRL_NONE>;
-		};
-	};
-
-	ssc0 {
-		pinctrl_ssc0_txrx: pinctrl_ssc0_txrx {
-			atmel,pins =
-				<AT91_PIOC 16 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC16 periph A TK0 */
-					AT91_PIOC 17 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC17 periph A TF0 */
-					AT91_PIOC 18 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC18 periph A TD0 */
-					AT91_PIOC 20 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC20 periph A RF0 */
-					AT91_PIOC 21 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PC21 periph A RD0 */
-		};
-	};
-	spi0 {
-		pinctrl_spi0_cs0: spi0-cs0-0 {
-			atmel,pins =
-				<AT91_PIOD LEGACY_SPI_FLASH_CS AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-
-		pinctrl_spi0_cs1: spi0-cs1-0 {
-			atmel,pins =
-				<AT91_PIOD CURRENT_SPI_FLASH_CS AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-
-		pinctrl_spi0_cs2: spi0-cs2-0 {
-			atmel,pins =
-				<AT91_PIOD 15 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-
-		pinctrl_spi0_cs3: spi0-cs3-0 {
-			atmel,pins =
-				<AT91_PIOD 16 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-
-		pinctrl_spi0_cs4: spi0-cs4-0 {
-			atmel,pins =
-				<AT91_PIOC 28 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-	};
-	usart1 {
-		pinctrl_usart1_8pin_ctrl: usart1_8pin_ctrl-0 {
-			atmel,pins =
-				<AT91_PIOC 0 AT91_PERIPH_GPIO AT91_PINCTRL_NONE
-				 AT91_PIOC 1 AT91_PERIPH_GPIO AT91_PINCTRL_NONE
-				 AT91_PIOC 2 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
-		};
-	};
-	pinctrl_macb0_data_mii: macb0_data_mii {
-		atmel,pins =
-			<AT91_PIOB 0 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB0 periph A GTX0, conflicts with PWMH0 */
-			 AT91_PIOB 1 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB1 periph A GTX1, conflicts with PWML0 */
-			 AT91_PIOB 2 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB2 periph A GTX2, conflicts with TK1 */
-			 AT91_PIOB 3 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB3 periph A GTX3, conflicts with TF1 */
-			 AT91_PIOB 4 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB4 periph A GRX0, conflicts with PWMH1 */
-			 AT91_PIOB 5 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB5 periph A GRX1, conflicts with PWML1 */
-			 AT91_PIOB 6 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB6 periph A GRX2, conflicts with TD1 */
-			 AT91_PIOB 7 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PB7 periph A GRX3, conflicts with RK1 */
-	};
-	pinctrl_macb0_signal_mii: macb0_signal_mii {
-		atmel,pins =
-			<AT91_PIOB 8 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB8 periph A GTXCK, conflicts with PWMH2 */
-			 AT91_PIOB 9 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB9 periph A GTXEN, conflicts with PWML2 */
-			 AT91_PIOB 10 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB10 periph A GTXER, conflicts with RF1 */
-			 AT91_PIOB 11 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB11 periph A GRXCK, conflicts with RD1 */
-			 AT91_PIOB 12 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB12 periph A GRXDV, conflicts with PWMH3 */
-			 AT91_PIOB 13 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB13 periph A GRXER, conflicts with PWML3 */
-			 AT91_PIOB 14 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB14 periph A GCRS, conflicts with CANRX1 */
-			 AT91_PIOB 15 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB15 periph A GCOL, conflicts with CANTX1 */
-			 AT91_PIOB 16 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PB16 periph A GMDC */
-			 AT91_PIOB 17 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PB17 periph A GMDIO */
-	};
 };
 
 &hlcdc {

@@ -81,15 +81,6 @@
 			regulator-always-on;
 			vin-supply = <&rail_3v3_vcc>;
 		};
-		reg_1v2_eth: reg_1v2_eth@2 {
-			compatible = "regulator-fixed";
-			reg = <2>;
-			regulator-name = "1V2_ETH";
-			regulator-min-microvolt = <1200000>;
-			regulator-max-microvolt = <1200000>;
-			gpio = <&pioD 29 GPIO_ACTIVE_HIGH>;
-			vin-supply = <&rail_3v3_vcc>;
-		};
 		rail_3v3_vcc: rail_3v3_vcc@3 {
 			compatible = "regulator-fixed";
 			reg = <3>;
@@ -168,6 +159,16 @@
 				<AT91_PIOE 29 AT91_PERIPH_A AT91_PINCTRL_NONE>;
 		};
 	};
+	macb0 {
+		pinctrl_ethernet_reg_on: ethernet-regulator-on {
+			atmel,pins =
+				<AT91_PIOD 29 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+		};
+		pinctrl_ethernet_reg_off: ethernet-regulator-off {
+			atmel,pins =
+				<AT91_PIOD 29 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_DOWN>;
+		};
+	};
 
 };
 
@@ -178,6 +179,12 @@
 		output-high;
 		/* LOW - enabled , HIGH - disabled */
 		line-name = "watchdog-enable";
+	};
+	gpio_macb0_en: macb0-enable {
+		gpio-hog;
+		gpios = <29 GPIO_ACTIVE_HIGH>;
+		output-high;
+		line-name = "macb0-enable";
 	};
 };
 
@@ -204,8 +211,6 @@
 	ethphy1: ethernet-phy@1 {
 		reg = <0x1>;
 		micrel-led-mode = <1>;
-		clocks = <&eth_phy_clk>;
-		clock-names = "rmii-ref";
 		interrupt-parent = <&pioD>;
 		interrupts = <19 IRQ_TYPE_LEVEL_LOW>;
 	};

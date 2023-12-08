@@ -60,11 +60,9 @@
 	panel: panel {
 		compatible = "innolux,at043tn24", "simple-panel";
 		backlight = <&lcd_backlight>;
-		#address-cells = <1>;
-		#size-cells = <0>;
 		status = "okay";
 
-		port@0 {
+		port {
 			#address-cells = <1>;
 			#size-cells = <0>;
 
@@ -134,14 +132,6 @@
 		bus-width = <4>;
 		cd-gpios = <&pioC 5 GPIO_ACTIVE_LOW>;
 	};
-};
-
-&ssc0 {
-	status = "okay";
-};
-
-&adc0 {
-	status = "okay";
 };
 
 &usb0 {
