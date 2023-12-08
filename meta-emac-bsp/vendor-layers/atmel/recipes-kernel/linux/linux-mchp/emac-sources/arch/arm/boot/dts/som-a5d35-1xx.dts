@@ -79,24 +79,31 @@
 &macb1 {
     status = "okay";
 };
+
 &can1 {
     status = "okay";
 };
+
 &i2c0 {
 	status = "okay";
 };
+
 &usart0 {
     status = "okay";
 };
+
 &usart1 {
     status = "okay";
 };
+
 &usart2 {
     status = "okay";
 };
+
 &usart3 {
     status = "okay";
 };
+
 &mmc1 {
     pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3>;
@@ -111,9 +118,11 @@
 &usb0 {
     status = "okay";
 };
+
 &usb1 {
     status = "okay";
 };
+
 &usb2 {
     status = "okay";
 };
