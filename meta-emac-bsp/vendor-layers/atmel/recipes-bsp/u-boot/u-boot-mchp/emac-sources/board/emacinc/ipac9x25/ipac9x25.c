@@ -15,6 +15,7 @@
 #include <asm/arch/gpio.h>
 #include <debug_uart.h>
 #include <asm/mach-types.h>
+#include <env.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -23,13 +24,7 @@ DECLARE_GLOBAL_DATA_PTR;
  * Miscelaneous platform dependent initialisations
  */
 
-static void at91_prepare_cpu_var(void);
-void at91_serial4_hw_init(void);
-
-void at91_prepare_cpu_var(void)
-{
-        env_set("cpu", get_cpu_name());
-}
+void at91_prepare_cpu_var(void);
 
 #ifdef CONFIG_BOARD_LATE_INIT
 int board_late_init(void)
@@ -38,24 +33,29 @@ int board_late_init(void)
 	return 0;
 }
 #endif
+void at91_prepare_cpu_var(void)
+{
+	env_set("cpu", get_cpu_name());
+}
 
 #ifdef CONFIG_DEBUG_UART_BOARD_INIT
+void at91_serial4_hw_init(void);
 void board_debug_uart_init(void)
 {
 	at91_seriald_hw_init();
     at91_serial4_hw_init();
 }
-#endif
 
 void at91_serial4_hw_init(void)
 {
 	at91_pmc_t *pmc = (at91_pmc_t *) ATMEL_BASE_PMC;
 
-	at91_set_c_periph(AT91_PIO_PORTC, 8, 1);        /* TXD */
-	at91_set_c_periph(AT91_PIO_PORTC, 9, 0);        /* RXD */
+	at91_pio3_set_c_periph(AT91_PIO_PORTC, 8, 1);        /* TXD */
+	at91_pio3_set_c_periph(AT91_PIO_PORTC, 9, 0);        /* RXD */
 
 	writel(1 << ATMEL_ID_UART0, &pmc->pcer);
 }
+#endif
 
 
 #ifdef CONFIG_BOARD_EARLY_INIT_F
@@ -71,9 +71,9 @@ int board_init(void)
 	gd->bd->bi_arch_number = MACH_TYPE_AT91SAM9X5EK;
 
 	/* adress of boot parameters */
-	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
+	gd->bd->bi_boot_params = CFG_SYS_SDRAM_BASE + 0x100;
 
-#if defined(CONFIG_USB_OHCI_NEW) || defined(CONFIG_USB_EHCI_HCD)
+#if defined(CFG_USB_OHCI_NEW) || defined(CFG_USB_EHCI_HCD)
 	at91_uhp_hw_init();
 #endif
 	return 0;
@@ -81,8 +81,8 @@ int board_init(void)
 
 int dram_init(void)
 {
-	gd->ram_size = get_ram_size((void *) CONFIG_SYS_SDRAM_BASE,
-					CONFIG_SYS_SDRAM_SIZE);
+	gd->ram_size = get_ram_size((void *) CFG_SYS_SDRAM_BASE,
+					CFG_SYS_SDRAM_SIZE);
 	return 0;
 }
 
@@ -91,7 +91,7 @@ int dram_init(void)
 
 void at91_spl_board_init(void)
 {
-#ifdef CONFIG_SD_BOOT
+#ifdef CFG_SD_BOOT
 	at91_mci_hw_init();
 #endif
 }
