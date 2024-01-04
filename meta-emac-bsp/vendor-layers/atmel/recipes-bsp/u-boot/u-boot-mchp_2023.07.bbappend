@@ -22,6 +22,11 @@ do_compile:append(){
         cp ${S}/spl/${SPL_BINARY} ${S}/
     fi
 }
+do_deploy:append() {
+        install -D ${B}/u-boot.map ${DEPLOYDIR}/u-boot.map
+        install -D ${B}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
+        install -D ${B}/u-boot-nodtb.bin ${DEPLOYDIR}/u-boot-nodtb.bin
+}
 
 EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \

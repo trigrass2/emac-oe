@@ -9,7 +9,7 @@
 #include "at91sam9x25.dtsi"
 
 / {
-	model = "EMAC IPAC-9X25";
+	model = "EMAC SoM-9X25";
 	compatible = "atmel,at91sam9x25ek", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
 
 	aliases {
@@ -128,7 +128,7 @@
 				led_gpio {
 					pinctrl_led: led-board {
 						atmel,pins =
-							<AT91_PIOD 20 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_DOWN>;
+							<AT91_PIOD 20 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
 					};
 				};
 			};
@@ -189,7 +189,7 @@
 
 &spi0 {
 	status = "okay";
-	cs-gpios = <&pioA 14 0>, <&pioA 7 0>, <0>, <0>;
+	cs-gpios = <&pioA 14 0>, <0>, <0>, <0>;
 	spi_flash@0 {
 		compatible = "jedec,spi-nor";
 		spi-max-frequency = <50000000>;
