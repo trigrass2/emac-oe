@@ -1,0 +1,15 @@
+if TARGET_IPAC9X25
+
+config SYS_BOARD
+	default "ipac9x25"
+
+config SYS_VENDOR
+	default "emacinc"
+
+config SYS_CONFIG_NAME
+	default "ipac9x25"
+
+config DEFAULT_DEVICE_TREE
+	default "ipac-9x25"
+
+endif

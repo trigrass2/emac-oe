@@ -1,0 +1,15 @@
+if TARGET_SOM9X25M
+
+config SYS_BOARD
+	default "som9x25m"
+
+config SYS_VENDOR
+	default "emacinc"
+
+config SYS_CONFIG_NAME
+	default "som9x25m"
+
+config DEFAULT_DEVICE_TREE
+	default "som-9x25m"
+
+endif

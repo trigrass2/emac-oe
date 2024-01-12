@@ -1,0 +1,285 @@
+/*
+ * ipac-9x25.dts - Device Tree file for the iPac-9x25.
+ *
+ *  Copyright (C) 2014 EMAC Inc.
+ *
+ * Licensed under GPLv2 or later.
+ */
+/dts-v1/;
+#include "at91sam9x25.dtsi"
+
+/ {
+	model = "EMAC SoM-9X25";
+	compatible = "atmel,at91sam9x25ek", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
+
+	aliases {
+		serial0 = &usart3;
+		serial1 = &usart0;
+		serial3 = &uart0;
+		serial5 = &dbgu;
+		spi0 = &spi0;
+		spi1 = &spi1;
+	};
+
+	chosen {
+		bootargs = "root=/dev/mmcblk0p1 rootfstype=ext4 rw rootwait";
+		stdout-path = "serial5:115200n8";
+	};
+
+	memory@20000000 {
+		reg = <0x20000000 0x8000000>;
+	};
+
+	clocks {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		slow_xtal {
+			clock-frequency = <32768>;
+		};
+
+		main_xtal {
+			clock-frequency = <12000000>;
+		};
+	};
+	
+	wdog: watchdog {
+		/* MAX6747 */
+		compatible = "linux,wdt-gpio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_wdt>;
+		gpios = <&pioC 6 GPIO_ACTIVE_LOW>;
+		hw_algo = "toggle";
+		always-running;
+		hw_margin_ms = <1000>;
+	};
+
+	ahb {
+		apb {
+			pinctrl@fffff400 {
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_board_gpio>;
+				adc0 {
+					pinctrl_adc0: adc0-board {
+						atmel,pins =
+							<AT91_PIOB 11 AT91_PERIPH_A AT91_PINCTRL_NONE
+							 AT91_PIOB 12 AT91_PERIPH_A AT91_PINCTRL_NONE
+							 AT91_PIOB 13 AT91_PERIPH_A AT91_PINCTRL_NONE
+							 AT91_PIOB 14 AT91_PERIPH_A AT91_PINCTRL_NONE
+							 AT91_PIOB 15 AT91_PERIPH_A AT91_PINCTRL_NONE
+							 AT91_PIOB 16 AT91_PERIPH_A AT91_PINCTRL_NONE
+							 AT91_PIOB 17 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+					};
+				};
+
+				gpio {
+					pinctrl_board_gpio: gpio0-board {
+						atmel,pins =
+							<AT91_PIOD 0 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 1 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 2 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 3 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 4 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 5 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 6 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 7 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 8 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 9 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 10 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 11 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 12 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 13 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 14 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 15 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 16 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 17 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 18 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 19 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 20 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOD 21 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+
+				spi0 {
+					pinctrl_spi0_cs: spi0-board {
+						atmel,pins =
+							<AT91_PIOA 7 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOA 14 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+
+				spi1 {
+					pinctrl_spi1_cs: spi1-board {
+						atmel,pins =
+							<AT91_PIOA 30 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOA 31 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+
+				wdt_gpio {
+					pinctrl_wdt: wdt-board {
+						atmel,pins =
+							<AT91_PIOC 6 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOC 7 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+
+				led_gpio {
+					pinctrl_led: led-board {
+						atmel,pins =
+							<AT91_PIOD 20 AT91_PERIPH_GPIO AT91_PINCTRL_NONE>;
+					};
+				};
+			};
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_led>;
+		led-stat {
+			label = "status";
+			gpios = <&pioD 20 1>;
+			default-state = "on";
+			linux,default-trigger = "none";
+		};
+	};
+};
+
+&mmc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <
+		&pinctrl_mmc0_slot0_clk_cmd_dat0
+		&pinctrl_mmc0_slot0_dat1_3>;
+	status = "okay";
+	slot@0 {
+		reg = <0>;
+		bus-width = <4>;
+	};
+};
+
+&macb0 {
+	phy-mode = "rmii";
+	status = "okay";
+};
+
+&macb1 {
+	phy-mode = "rmii";
+	status = "okay";
+};
+
+&usb0 {
+	num-ports = <3>;
+	status = "okay";
+};
+
+&usb1 {
+	status = "okay";
+};
+
+&usb2 {
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+	cs-gpios = <&pioA 14 0>, <0>, <0>, <0>;
+	spi_flash@0 {
+		compatible = "jedec,spi-nor";
+		spi-max-frequency = <50000000>;
+		reg = <0>;
+	};
+
+	mcp23s08: mcp23s08@1 {
+		compatible = "microchip,mcp23s08";
+		gpio-controller;
+		#gpio-cells = <0x2>;
+		reg = <1>;
+		microchip,spi-present-mask = <0x07>;
+		spi-max-frequency = <1000000>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&gpio21pullups>;
+
+		gpio21pullups: pinmux {
+			pins =	"gpio0", "gpio1", "gpio2", "gpio3",
+				"gpio4", "gpio5", "gpio6", "gpio7";
+			bias-pull-up;
+		};
+	};
+};
+
+&spi1 {
+	pinctrl-name = "default";
+	pinctrl-0 = <&pinctrl_spi1 &pinctrl_spi1_cs>;
+	cs-gpios = <&pioA 31 GPIO_ACTIVE_LOW
+			&pioA 30 GPIO_ACTIVE_LOW>;
+	status = "okay";
+
+	spidev0: spidev@0 {
+		compatible = "semtech,sx1301";
+		spi-max-frequency = <40000000>;
+		reg = <0>;
+	};
+
+	spidev1: spidev@1 {
+		compatible = "semtech,sx1301";
+		spi-max-frequency = <40000000>;
+		reg = <1>;
+	};
+};
+
+&can1 {
+	status = "okay";
+};
+
+&adc0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_adc0>;
+	status = "okay";
+	atmel,adc-channels-used = <0x7f>;
+};
+
+&ssc0 {
+	status = "okay";
+};
+
+&dbgu {
+	status = "okay";
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&usart0 {
+	pinctrl-0 = <&pinctrl_usart0 &pinctrl_usart0_rts &pinctrl_usart0_cts>;
+	atmel,use-dma-rx;
+	atmel,use-dma-tx;
+	status = "okay";
+};
+
+&usart3 {
+	pinctrl-0 = < &pinctrl_usart3 &pinctrl_usart3_rts &pinctrl_usart3_cts>;
+	atmel,use-dma-rx;
+	atmel,use-dma-tx;
+	status = "okay";
+};
+
+&pwm0 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm0_pwm0_1 &pinctrl_pwm0_pwm1_1>;
+	status = "okay";
+};
+
+&tcb0 {
+	timer@0 {
+		compatible = "atmel,tcb-timer";
+		reg = <0>;
+	};
+};

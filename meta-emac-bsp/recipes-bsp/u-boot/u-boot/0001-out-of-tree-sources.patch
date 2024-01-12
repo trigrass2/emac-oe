@@ -1,0 +1,84 @@
+From 13e08f765466edfd176a18250216d244fa857432 Mon Sep 17 00:00:00 2001
+From: OpenEmbedded <oe.patch@oe>
+Date: Thu, 30 Nov 2023 18:37:40 +0000
+Subject: [PATCH] 0001-out-of-tree-sources.patch
+
+---
+ arch/arm/dts/Makefile      | 13 +++++++++++++
+ arch/arm/mach-at91/Kconfig | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index 1c79fd0952..046baa5094 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -1191,6 +1191,19 @@ dtb-$(CONFIG_TARGET_SAMA5D4_XPLAINED) += \
+ dtb-$(CONFIG_TARGET_VINCO) += \
+ 	at91-vinco.dtb
+ 
++dtb-$(CONFIG_TARGET_IPAC9X25) += \
++	ipac-9x25.dtb
++
++dtb-$(CONFIG_TARGET_SOM9X25M) += \
++	som-9x25m.dtb
++
++dtb-$(CONFIG_TARGET_SOMA5D36) += \
++	som-a5d36.dtb \
++	som-a536mp.dtb 
++
++dtb-$(CONFIG_TARGET_SOMA5D35) += \
++	som-a5d35.dtb
++
+ dtb-$(CONFIG_ARCH_BCM283X) += \
+ 	bcm2835-rpi-a.dtb \
+ 	bcm2835-rpi-a-plus.dtb \
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index c3599315ec..32de59b947 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -322,6 +322,34 @@ config TARGET_VINCO
+ 	select SUPPORT_SPL
+ 	imply CMD_DM
+ 
++config TARGET_IPAC9X25
++	bool "EMAC Inc. iPac-9x25 board."
++	select AT91SAM9X5
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SUPPORT_SPL
++
++config TARGET_SOM9X25M
++	bool "EMAC Inc. SoM-9x25M System on Module"
++	select AT91SAM9X5
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SUPPORT_SPL
++
++config TARGET_SOMA5D35
++	bool "EMAC Inc. SoM-A5D35 System on Module"
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SAMA5D3
++	select SUPPORT_SPL
++
++config TARGET_SOMA5D36
++	bool "EMAC Inc. SoM-A5D36 System on Module"
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SAMA5D3
++	select SUPPORT_SPL
++
+ endchoice
+ 
+ config ATMEL_SFR
+@@ -383,6 +404,10 @@ source "board/atmel/sama5d4ek/Kconfig"
+ source "board/bluewater/gurnard/Kconfig"
+ source "board/calao/usb_a9263/Kconfig"
+ source "board/egnite/ethernut5/Kconfig"
++source "board/emacinc/ipac9x25/Kconfig"
++source "board/emacinc/som9x25m/Kconfig"
++source "board/emacinc/soma5d35/Kconfig"
++source "board/emacinc/soma5d36/Kconfig"
+ source "board/esd/meesc/Kconfig"
+ source "board/gardena/smart-gateway-at91sam/Kconfig"
+ source "board/l+g/vinco/Kconfig"

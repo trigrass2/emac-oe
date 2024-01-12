@@ -1,0 +1,15 @@
+if TARGET_SOMA5D35
+
+config SYS_BOARD
+	default "soma5d35"
+
+config SYS_VENDOR
+	default "emacinc"
+
+config SYS_CONFIG_NAME
+	default "soma5d35"
+
+config DEFAULT_DEVICE_TREE
+	default "som-a5d35"
+
+endif
