@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:${THISDIR}/${BPN}/drivers:" 
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:${THISDIR}/${BPN}/drivers:"
 
 SRC_URI:append = " \
     file://0001-add-emac-as-a-user-of-gpio-aggregator.patch \
@@ -10,6 +10,7 @@ SRC_URI:append = " \
 SRC_URI:append:somimx6ul = " \
     file://0002-add-emac-dtb-targets.patch \
     file://0003-add-emac-dtb-sources.patch \
+    file://0004-fix-somimx6ul-audio.patch \
     file://standard.cfg \
 "
 
