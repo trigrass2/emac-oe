@@ -7,9 +7,6 @@ SRC_URI:append = " \
 
 UBOOT_MACHINE:ipac9x25 ?= "emac-ipac9x25_defconfig"
 UBOOT_MACHINE:som9x25 ?= "emac-som9x25m_defconfig"
-#UBOOT_MACHINE:soma5d35 ?= "emac-soma5d35_defconfig"
-#UBOOT_MACHINE:soma5d36 ?= "emac-soma5d36_defconfig"
-#UBOOT_MACHINE:soma536mp ?= "emac-soma536mp_defconfig"
 
 COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25)"
 
@@ -43,22 +40,4 @@ EMAC_SRC_FILES = " \
     file://emac-sources/board/emacinc/som9x25m/Makefile \
     file://emac-sources/include/configs/som9x25m.h \
     file://emac-sources/board/emacinc/som9x25m/som9x25m.c \
-    \
-    file://emac-sources/configs/emac-soma5d36_defconfig \
-    file://emac-sources/configs/emac-soma536mp_defconfig \
-    file://emac-sources/arch/arm/dts/som-a5d36-bare.dtsi \
-    file://emac-sources/arch/arm/dts/som-a5d36.dts \
-    file://emac-sources/arch/arm/dts/som-a536mp.dts \
-    file://emac-sources/board/emacinc/soma5d36/Kconfig \
-    file://emac-sources/board/emacinc/soma5d36/Makefile \
-    file://emac-sources/include/configs/soma5d36.h \
-    file://emac-sources/board/emacinc/soma5d36/soma5d36.c \
-    \
-    file://emac-sources/configs/emac-soma5d35_defconfig \
-    file://emac-sources/arch/arm/dts/som-a5d35-bare.dtsi \
-    file://emac-sources/arch/arm/dts/som-a5d35.dts \
-    file://emac-sources/board/emacinc/soma5d35/Kconfig \
-    file://emac-sources/board/emacinc/soma5d35/Makefile \
-    file://emac-sources/include/configs/soma5d35.h \
-    file://emac-sources/board/emacinc/soma5d35/soma5d35.c \
 "
