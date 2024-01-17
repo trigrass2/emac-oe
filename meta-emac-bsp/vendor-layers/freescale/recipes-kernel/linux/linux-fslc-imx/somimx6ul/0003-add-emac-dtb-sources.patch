@@ -740,7 +740,7 @@ index 000000000000..cb80024640b3
 +&gpio3 {
 +	usb-port-select {
 +		gpio-hog;
-+		gpios = <2 GPIO_ACTIVE_LOW>;
++		gpios = <2 GPIO_ACTIVE_HIGH>;
 +		output-low;
 +		/* LOW - USB-B , HIGH - USB-C/OTG */
 +		line-name = "usb-port-select";
