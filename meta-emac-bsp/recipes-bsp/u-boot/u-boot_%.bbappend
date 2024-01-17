@@ -7,11 +7,11 @@ SRC_URI:append = " \
 
 UBOOT_MACHINE:ipac9x25 ?= "emac-ipac9x25_defconfig"
 UBOOT_MACHINE:som9x25 ?= "emac-som9x25m_defconfig"
-UBOOT_MACHINE:soma5d35 ?= "emac-soma5d35_defconfig"
-UBOOT_MACHINE:soma5d36 ?= "emac-soma5d36_defconfig"
-UBOOT_MACHINE:soma536mp ?= "emac-soma536mp_defconfig"
+#UBOOT_MACHINE:soma5d35 ?= "emac-soma5d35_defconfig"
+#UBOOT_MACHINE:soma5d36 ?= "emac-soma5d36_defconfig"
+#UBOOT_MACHINE:soma536mp ?= "emac-soma536mp_defconfig"
 
-COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25|soma5d35|soma5d36|soma536mp)"
+COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25)"
 
 do_configure:prepend(){
     cp -r ${WORKDIR}/emac-sources/* ${S}/

@@ -189,7 +189,8 @@
 
 &spi0 {
 	status = "okay";
-	cs-gpios = <&pioA 14 0>, <&pioA 7 0>, <0>, <0>;
+	num-cs = <2>;
+	cs-gpios = <&pioA 14 0>, <&pioA 7 0>;
 	spi_flash@0 {
 		compatible = "jedec,spi-nor";
 		spi-max-frequency = <50000000>;
