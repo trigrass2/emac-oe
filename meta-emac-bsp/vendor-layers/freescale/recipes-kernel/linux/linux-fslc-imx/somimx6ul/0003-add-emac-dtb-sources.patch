@@ -750,7 +750,7 @@ index 000000000000..cb80024640b3
 +&gpio4 {
 +	gpio_watchdog_en: watchdog-enable {
 +		gpio-hog;
-+		gpios = <20 GPIO_ACTIVE_LOW>;
++		gpios = <20 GPIO_ACTIVE_HIGH>;
 +		output-high;
 +		/* LOW - enabled , HIGH - disabled */
 +		line-name = "watchdog-enable";
@@ -994,7 +994,7 @@ index 000000000000..c125bf22cd68
 +	status = "okay";
 +};
 +&gpio_watchdog_en {
-+	output-low;
++	output-high;
 +	/* LOW - enabled , HIGH - disabled */
 +};
 +
