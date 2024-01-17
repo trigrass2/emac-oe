@@ -11,6 +11,7 @@ SRC_URI:append:somimx6ul = " \
     file://0002-add-emac-dtb-targets.patch \
     file://0003-add-emac-dtb-sources.patch \
     file://0004-fix-somimx6ul-audio.patch \
+    file://0005-fix-wifi-dts.patch \
     file://standard.cfg \
 "
 

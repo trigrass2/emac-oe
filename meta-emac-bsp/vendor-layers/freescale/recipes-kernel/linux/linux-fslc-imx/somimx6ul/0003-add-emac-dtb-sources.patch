@@ -20,7 +20,7 @@ new file mode 100644
 index 000000000000..774a5f0dca82
 --- /dev/null
 +++ b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
-@@ -0,0 +1,262 @@
+@@ -0,0 +1,264 @@
 +/*
 + * Copyright (C) 2016 EMAC Inc.
 + *
@@ -219,6 +219,8 @@ index 000000000000..774a5f0dca82
 +};
 +
 +&usdhc2 {
++	#address-cells = <1>;
++	#size-cells = <0>;
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pinctrl_usdhc2>;
 +	keep-power-in-suspend;
