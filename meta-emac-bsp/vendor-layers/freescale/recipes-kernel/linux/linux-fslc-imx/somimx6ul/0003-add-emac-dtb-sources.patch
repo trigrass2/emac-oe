@@ -20,7 +20,7 @@ new file mode 100644
 index 000000000000..774a5f0dca82
 --- /dev/null
 +++ b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
-@@ -0,0 +1,262 @@
+@@ -0,0 +1,264 @@
 +/*
 + * Copyright (C) 2016 EMAC Inc.
 + *
@@ -219,6 +219,8 @@ index 000000000000..774a5f0dca82
 +};
 +
 +&usdhc2 {
++	#address-cells = <1>;
++	#size-cells = <0>;
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&pinctrl_usdhc2>;
 +	keep-power-in-suspend;
@@ -738,7 +740,7 @@ index 000000000000..cb80024640b3
 +&gpio3 {
 +	usb-port-select {
 +		gpio-hog;
-+		gpios = <2 GPIO_ACTIVE_LOW>;
++		gpios = <2 GPIO_ACTIVE_HIGH>;
 +		output-low;
 +		/* LOW - USB-B , HIGH - USB-C/OTG */
 +		line-name = "usb-port-select";
@@ -748,7 +750,7 @@ index 000000000000..cb80024640b3
 +&gpio4 {
 +	gpio_watchdog_en: watchdog-enable {
 +		gpio-hog;
-+		gpios = <20 GPIO_ACTIVE_LOW>;
++		gpios = <20 GPIO_ACTIVE_HIGH>;
 +		output-high;
 +		/* LOW - enabled , HIGH - disabled */
 +		line-name = "watchdog-enable";
@@ -992,7 +994,7 @@ index 000000000000..c125bf22cd68
 +	status = "okay";
 +};
 +&gpio_watchdog_en {
-+	output-low;
++	output-high;
 +	/* LOW - enabled , HIGH - disabled */
 +};
 +
