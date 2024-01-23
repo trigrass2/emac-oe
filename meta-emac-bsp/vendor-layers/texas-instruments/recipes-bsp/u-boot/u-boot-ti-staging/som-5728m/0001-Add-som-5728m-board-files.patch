@@ -821,15 +821,15 @@ index 0000000000..d074b368d6
 +&dra7_pmx_core {
 +	dcan1_pins_default: dcan1_pins_default {  
 +		pinctrl-single,pins = <
-+			DRA7XX_CORE_IOPAD(0x37d4, PIN_INPUT | MUX_MODE15) 	/* (Errata i893) dcan1_rx.dcan1_rx */
-+			DRA7XX_CORE_IOPAD(0x37d0, PIN_OUTPUT | MUX_MODE0) 	/* dcan1_tx.dcan1_tx */
++			DRA7XX_CORE_IOPAD(0x37d4, PIN_INPUT_PULLUP | MUX_MODE0) 	/* (Errata i893) dcan1_rx.dcan1_rx */
++			DRA7XX_CORE_IOPAD(0x37d0, PIN_OUTPUT_PULLUP | MUX_MODE0) 	/* dcan1_tx.dcan1_tx */
 +		>;
 +	};
 +
 +	dcan2_pins_default: dcan2_pins_default {
 +		pinctrl-single,pins = <
-+			DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT | MUX_MODE15) 	/* (Errata i893) gpio6_15.dcan2_rx */
-+			DRA7XX_CORE_IOPAD(0x3688, PIN_OUTPUT | MUX_MODE2) 	/* gpio6_14.dcan2_tx */
++			DRA7XX_CORE_IOPAD(0x368c, PIN_INPUT_PULLUP | MUX_MODE2) 	/* (Errata i893) gpio6_15.dcan2_rx */
++			DRA7XX_CORE_IOPAD(0x3688, PIN_OUTPUT_PULLUP | MUX_MODE2) 	/* gpio6_14.dcan2_tx */
 +		>;
 +	};
 +};
