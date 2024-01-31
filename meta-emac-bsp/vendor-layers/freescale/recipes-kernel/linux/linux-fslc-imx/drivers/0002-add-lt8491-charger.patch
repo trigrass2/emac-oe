@@ -1109,9 +1109,9 @@ index 000000000000..f0db131ff380
 +	return 0;
 +}
 +
-+static void lt8491_remove(struct i2c_client *client)
++static int lt8491_remove(struct i2c_client *client)
 +{
-+	return;
++	return 0;
 +}
 +
 +static const struct of_device_id lt8491_i2c_of_match[] = {
@@ -1813,3 +1813,54 @@ index 000000000000..363cabfe1501
 +	[F_BOOT_TC2] 					= REG_FIELD(LT8491_BOOT_TC2, 0, 32),
 +	[F_BOOT_TC1] 					= REG_FIELD(LT8491_BOOT_TC1, 0, 32),
 +};
+diff --git a/drivers/power/supply/lt8491-charger.c b/drivers/power/supply/lt8491-charger.c
+index 886c11accde0..99598e841924 100644
+--- a/drivers/power/supply/lt8491-charger.c
++++ b/drivers/power/supply/lt8491-charger.c
+@@ -747,6 +747,7 @@ static int lt8491_hw_init(struct lt8491_device *ltdev)
+ 	// read boot_success
+ 	unsigned int uval;
+ 	int ret, i;
++	ret = -EBUSY;
+ 
+ 	if (lt8491_field_read(ltdev, LT8491_STAT_REGMAP_B, F_STAT_BOOT_SUCCESS, &uval) < 0){
+ 		ret = -ENODEV;
+@@ -767,6 +768,7 @@ static int lt8491_hw_init(struct lt8491_device *ltdev)
+ 			ret = 0;
+ 			break;
+ 		}
++		msleep(1);
+ 	}
+ init_done:
+ 	return ret;
+diff --git a/drivers/power/supply/lt8491-charger.c b/drivers/power/supply/lt8491-charger.c
+index 99598e841924..9c2eba056aff 100644
+--- a/drivers/power/supply/lt8491-charger.c
++++ b/drivers/power/supply/lt8491-charger.c
+@@ -451,7 +451,7 @@ static ssize_t lt8491_sysfs_charger_set_attr(struct device *dev,
+ 	else if (strcmp(attr->attr.name, "enable") == 0){
+ 		if ((bool)val){
+ 			lt8491_set_enable_gpio(ltdev, 1);
+-			msleep(10);
++			msleep(500);
+ 			if (lt8491_hw_init(ltdev) < 0){
+ 				return -ENODEV;
+ 			}
+@@ -768,7 +768,7 @@ static int lt8491_hw_init(struct lt8491_device *ltdev)
+ 			ret = 0;
+ 			break;
+ 		}
+-		msleep(1);
++		msleep(100);
+ 	}
+ init_done:
+ 	return ret;
+@@ -918,7 +918,7 @@ static int lt8491_probe(struct i2c_client *client,
+ 	//handle any init writes here
+ 	enabled_at_boot = ltdev->enabled_state;
+ 	lt8491_set_enable_gpio(ltdev, 1);
+-	msleep(10);
++	msleep(500);
+ 	ret = lt8491_hw_init(ltdev);
+ 	if (ret < 0) {
+ 		dev_err(dev, "Cannot initialize the chip. (%d)\n", ret);

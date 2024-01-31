@@ -1,0 +1,35 @@
+From 5608391001cef2ed1cd48207916a844801bc91cc Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Mon, 15 Jan 2024 14:48:50 -0600
+Subject: [PATCH] use the generic asoc card bindings, conform address
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ arch/arm/boot/dts/emac-som-imx6ul-112es.dts | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/arch/arm/boot/dts/emac-som-imx6ul-112es.dts b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
+index 774a5f0dca82..0a99266ba4fc 100644
+--- a/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
++++ b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
+@@ -71,7 +71,7 @@ audio_osc: audio_osc {
+ 	sound {
+ 		compatible = "fsl,imx-audio-sgtl5000";
+ 		model = "imx6ul-sgtl5000";
+-		ssi-controller = <&sai2>;
++		audio-cpu = <&sai2>;
+ 		audio-codec = <&codec>;
+ 		audio-routing =
+ 			"LINE_IN", "Line In Jack",
+@@ -151,7 +151,7 @@ channel@7 {
+ 
+ 	};
+ 
+-	codec: sgtl5000@0a {
++	codec: sgtl5000@a {
+ 		#sound-dai-cells = <0>;
+ 		reg = <0x0a>;
+ 		compatible = "fsl,sgtl5000";
+-- 
+2.34.1
+
