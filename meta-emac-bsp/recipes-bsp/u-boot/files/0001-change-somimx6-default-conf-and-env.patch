@@ -1,0 +1,55 @@
+From c37d8e8fe0bb0037e770ba606c1777829a27814c Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Tue, 30 Jan 2024 21:29:09 +0000
+Subject: [PATCH] change somimx6 default conf and env
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ configs/somimx6dq_defconfig | 3 ++-
+ include/configs/somimx6.h   | 9 +++++++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/configs/somimx6dq_defconfig b/configs/somimx6dq_defconfig
+index 9a4195257b..e0f9edf502 100644
+--- a/configs/somimx6dq_defconfig
++++ b/configs/somimx6dq_defconfig
+@@ -17,7 +17,7 @@ CONFIG_NR_DRAM_BANKS=1
+ CONFIG_MX6_DDRCAL=y
+ CONFIG_SYS_EXTRA_OPTIONS="IMX_CONFIG=arch/arm/mach-imx/spl_sd.cfg"
+ CONFIG_USE_BOOTCOMMAND=y
+-CONFIG_BOOTCOMMAND="led status off;sf probe; sf read ${loadaddr} 0x100000 ${kernelsize};bootz ${loadaddr}"
++CONFIG_BOOTCOMMAND="led status off;load mmc 1:1 ${kernel_addr_r} ${bootfile};load mmc 1:1 ${fdt_addr_r} ${fdtfile};bootz ${kernel_addr_r} - ${fdt_addr_r}"
+ CONFIG_USE_PREBOOT=y
+ CONFIG_PREBOOT="if hdmidet; then usb start; setenv stdin serial,usbkbd; setenv stdout serial,vga; setenv stderr serial,vga; else setenv stdin serial; setenv stdout serial; setenv stderr serial; fi;"
+ CONFIG_BOOTDELAY=3
+@@ -122,6 +122,7 @@ CONFIG_VERSION_VARIABLE=y
+ CONFIG_CMD_EXT2=y
+ CONFIG_CMD_EXT4=y
+ CONFIG_CMD_FAT=y
++CONFIG_CMD_FS_GENERIC=y
+ CONFIG_CMD_SNTP=y
+ CONFIG_CMD_DATE=y
+ CONFIG_DM_RTC=y
+diff --git a/include/configs/somimx6.h b/include/configs/somimx6.h
+index d10456d220..7b7c605c34 100644
+--- a/include/configs/somimx6.h
++++ b/include/configs/somimx6.h
+@@ -94,8 +94,13 @@
+ 
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 	"bootargs=console=ttymxc1,115200 " \
+-	"root=/dev/mmcblk1p1 " \
+-	"rootfstype=ext4 rootwait rw\0" \
++	"root=/dev/mmcblk2p2 " \
++	"rootfstype=ext4 rootwait rw " \
++	"video=mxcfb0:dev=hdmi,192x1080M@60,if=RGB24,bpp=32 video=mxcfb1:dev=ldb,LDB-XGA,if=RGB666\0" \
++	"bootfile=zImage\0" \
++	"fdt_addr_r=0x11000000\0" \
++	"fdtfile=emac-som-imx6m-350es.dtb\0" \
++	"kernel_addr_r=0x12000000\0" \
+ 
+ #define CONFIG_PWM_IMX
+ #define CONFIG_IMX6_PWM_PER_CLK	66000000
+-- 
+2.34.1
+
