@@ -1,4 +1,4 @@
-From af55d11a5827fde56cfc83c17d9c8cb110acec1c Mon Sep 17 00:00:00 2001
+From ee6980fee38d34eb688d54d750fb861ffcbd311b Mon Sep 17 00:00:00 2001
 From: Brenden Tisler <btisler@emacinc.com>
 Date: Thu, 17 Aug 2023 10:29:43 -0500
 Subject: [PATCH] add emc2102 fan sensor
@@ -12,12 +12,12 @@ Signed-off-by: Brenden Tisler <btisler@emacinc.com>
  create mode 100644 drivers/hwmon/emc2101.c
 
 diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index a5143d01b95f..c727b3070d8a 100644
+index e9b1c1cce8ef..02fbdb0e3f6e 100644
 --- a/drivers/hwmon/Kconfig
 +++ b/drivers/hwmon/Kconfig
-@@ -1813,6 +1813,16 @@ config SENSORS_EMC2305
- 	  This driver can also be built as a module.  If so, the module
- 	  will be called emc2305.
+@@ -1704,6 +1704,16 @@ config SENSORS_EMC2103
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called emc2103.
  
 +config SENSORS_EMC2101
 +	tristate "SMSC EMC2101"
@@ -33,13 +33,13 @@ index a5143d01b95f..c727b3070d8a 100644
  	tristate "SMSC EMC6W201"
  	depends on I2C
 diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index 11d076cad8a2..7831e533283a 100644
+index 91e1c51add53..cb5953319cd8 100644
 --- a/drivers/hwmon/Makefile
 +++ b/drivers/hwmon/Makefile
-@@ -70,6 +70,7 @@ obj-$(CONFIG_SENSORS_DS1621)	+= ds1621.o
+@@ -67,6 +67,7 @@ obj-$(CONFIG_SENSORS_DS620)	+= ds620.o
+ obj-$(CONFIG_SENSORS_DS1621)	+= ds1621.o
  obj-$(CONFIG_SENSORS_EMC1403)	+= emc1403.o
  obj-$(CONFIG_SENSORS_EMC2103)	+= emc2103.o
- obj-$(CONFIG_SENSORS_EMC2305)	+= emc2305.o
 +obj-$(CONFIG_SENSORS_EMC2101)	+= emc2101.o
  obj-$(CONFIG_SENSORS_EMC6W201)	+= emc6w201.o
  obj-$(CONFIG_SENSORS_F71805F)	+= f71805f.o
