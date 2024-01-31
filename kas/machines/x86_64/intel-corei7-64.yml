@@ -2,6 +2,5 @@ header:
   version: 12
   includes:
     - kas/repos/upstream/meta-intel.yml
-    - kas/layers/meta-emac-bsp.yml
 
 machine: intel-corei7-64
