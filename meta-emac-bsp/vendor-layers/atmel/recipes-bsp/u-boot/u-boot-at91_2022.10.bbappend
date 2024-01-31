@@ -34,7 +34,6 @@ EMAC_SRC_FILES = " \
     file://emac-sources/arch/arm/dts/emac-a5d36.dtsi \
     file://emac-sources/arch/arm/dts/som-a5d36.dts \
     file://emac-sources/arch/arm/dts/som-a536mp.dts \
-    file://emac-sources/arch/arm/dts/ipac-9x25.dts \
     file://emac-sources/board/emacinc/som9x25m/Kconfig \
     file://emac-sources/board/emacinc/som9x25m/Makefile \
     file://emac-sources/board/emacinc/som9x25m/som9x25m.c \
