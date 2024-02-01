@@ -13,17 +13,6 @@ COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25)"
 do_configure:prepend(){
     cp -r ${WORKDIR}/emac-sources/* ${S}/
 }
-do_compile:append(){
-    if [ "x${SPL_BINARY}" != "x" ]
-    then
-        cp ${S}/spl/${SPL_BINARY} ${S}/
-    fi
-}
-do_deploy:append() {
-        install -D ${B}/u-boot.map ${DEPLOYDIR}/u-boot.map
-        install -D ${B}/u-boot.dtb ${DEPLOYDIR}/u-boot.dtb
-        install -D ${B}/u-boot-nodtb.bin ${DEPLOYDIR}/u-boot-nodtb.bin
-}
 
 EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \
@@ -36,6 +25,7 @@ EMAC_SRC_FILES = " \
     file://emac-sources/board/emacinc/ipac9x25/ipac9x25.c \
     \
     file://emac-sources/configs/emac-som9x25m_defconfig \
+    file://emac-sources/arch/arm/dts/som-9x25m.dts \
     file://emac-sources/board/emacinc/som9x25m/Kconfig \
     file://emac-sources/board/emacinc/som9x25m/Makefile \
     file://emac-sources/include/configs/som9x25m.h \
