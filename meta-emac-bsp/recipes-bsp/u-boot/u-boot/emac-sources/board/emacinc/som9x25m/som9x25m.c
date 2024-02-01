@@ -61,6 +61,9 @@ void at91_serial4_hw_init(void)
 #ifdef CONFIG_BOARD_EARLY_INIT_F
 int board_early_init_f(void)
 {
+#ifdef CONFIG_DEBUG_UART
+	debug_uart_init();
+#endif
 	return 0;
 }
 #endif
@@ -91,7 +94,7 @@ int dram_init(void)
 
 void at91_spl_board_init(void)
 {
-#ifdef CFG_SD_BOOT
+#ifdef CONFIG_SD_BOOT
 	at91_mci_hw_init();
 #endif
 }
