@@ -16,6 +16,7 @@ do_configure:prepend(){
 
 EMAC_SRC_FILES = " \
     file://0001-out-of-tree-sources.patch \
+    file://0001-atmel-usba-fix-transfer-of-queued-requests.patch \
     \
     file://emac-sources/configs/emac-ipac9x25_defconfig \
     file://emac-sources/arch/arm/dts/ipac-9x25.dts \
