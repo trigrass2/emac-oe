@@ -17,6 +17,10 @@
 #include <asm/mach-types.h>
 #include <env.h>
 
+#ifdef CONFIG_USB_GADGET_ATMEL_USBA
+#include <asm/arch/atmel_usba_udc.h>
+#endif
+
 DECLARE_GLOBAL_DATA_PTR;
 
 /* ------------------------------------------------------------------------- */
@@ -68,6 +72,18 @@ int board_early_init_f(void)
 }
 #endif
 
+#ifdef CONFIG_USB_GADGET_ATMEL_USBA
+/* from ./arch/arm/mach-at91/armv7/sama5d3_devices.c */
+void at91_udp_hw_init(void)
+{
+	/* Enable UPLL clock */
+	at91_upll_clk_enable();
+
+	/* Enable UDPHS clock */
+	at91_periph_clk_enable(ATMEL_ID_UDPHS);
+}
+#endif
+
 int board_init(void)
 {
 	/* arch number of AT91SAM9X5EK-Board */
@@ -78,6 +94,10 @@ int board_init(void)
 
 #if defined(CFG_USB_OHCI_NEW) || defined(CFG_USB_EHCI_HCD)
 	at91_uhp_hw_init();
+#endif
+#ifdef CONFIG_USB_GADGET_ATMEL_USBA
+	at91_udp_hw_init();
+	usba_udc_probe(&pdata);
 #endif
 	return 0;
 }
