@@ -1,0 +1,55 @@
+From f1a1b3609fc2e3ac22bc1f37465fb7daf02e44ad Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Tue, 10 Oct 2023 15:38:23 -0500
+Subject: [PATCH] atmel spi constraints fix
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ drivers/spi/spi-atmel.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/spi/spi-atmel.c b/drivers/spi/spi-atmel.c
+index c4f22d50dba5..d41d778749b3 100644
+--- a/drivers/spi/spi-atmel.c
++++ b/drivers/spi/spi-atmel.c
+@@ -233,7 +233,7 @@
+  */
+ #define DMA_MIN_BYTES	16
+ 
+-#define SPI_DMA_TIMEOUT		(msecs_to_jiffies(1000))
++#define SPI_DMA_TIMEOUT		(msecs_to_jiffies(2000))
+ 
+ #define AUTOSUSPEND_TIMEOUT	2000
+ 
+@@ -1434,6 +1434,11 @@ static void atmel_spi_init(struct atmel_spi *as)
+ 	spi_writel(as, CR, SPI_BIT(SPIEN));
+ }
+ 
++static size_t atmel_spi_max_transfer_size(struct spi_device *spi)
++{
++	return 0xffff;
++}
++
+ static int atmel_spi_probe(struct platform_device *pdev)
+ {
+ 	struct resource		*regs;
+@@ -1466,7 +1471,7 @@ static int atmel_spi_probe(struct platform_device *pdev)
+ 	/* the spi->mode bits understood by this driver: */
+ 	master->use_gpio_descriptors = true;
+ 	master->mode_bits = SPI_CPOL | SPI_CPHA | SPI_CS_HIGH;
+-	master->bits_per_word_mask = SPI_BPW_RANGE_MASK(8, 16);
++	master->bits_per_word_mask = SPI_BPW_MASK(8);
+ 	master->dev.of_node = pdev->dev.of_node;
+ 	master->bus_num = pdev->id;
+ 	master->num_chipselect = 4;
+@@ -1479,6 +1484,7 @@ static int atmel_spi_probe(struct platform_device *pdev)
+ 	master->auto_runtime_pm = true;
+ 	master->max_dma_len = SPI_MAX_DMA_XFER;
+ 	master->can_dma = atmel_spi_can_dma;
++	master->max_transfer_size = atmel_spi_max_transfer_size;
+ 	platform_set_drvdata(pdev, master);
+ 
+ 	as = spi_master_get_devdata(master);
+-- 
+2.34.1
+

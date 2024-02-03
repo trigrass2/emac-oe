@@ -7,6 +7,8 @@ SRC_URI:append:at91sam9 = " file://defconfig"
 
 SRC_URI:append = " \
     ${EMAC_SRC_FILES} \
+    file://0001-add-emac-as-a-user-of-gpio-aggregator.patch \
+    file://0002-atmel-spi-constraints-fix.patch  \
 "
 
 COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25|soma5d35|soma5d36)"
