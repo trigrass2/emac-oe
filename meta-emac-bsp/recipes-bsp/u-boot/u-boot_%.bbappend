@@ -12,6 +12,7 @@ COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25)"
 
 do_configure:prepend(){
     cp -r ${WORKDIR}/emac-sources/* ${S}/
+    cp ${WORKDIR}/envs/${MACHINE}.txt ${S}/u-boot-default-env.txt
 }
 
 EMAC_SRC_FILES = " \
