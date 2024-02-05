@@ -14,6 +14,14 @@ build-som9x25:
   rules:
     - if: $GIT_MACHINE == "som9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
 
+build-soma5d35:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/arm/soma5d35.yml:"
+  rules:
+    - if: $GIT_MACHINE == "soma5d35" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+
 build-soma5d36:
   extends: .kas-build
   variables:
