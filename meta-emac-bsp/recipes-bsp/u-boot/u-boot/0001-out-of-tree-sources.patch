@@ -1,0 +1,63 @@
+From e74d3ee656fff8883bf95489bef18f0e4cbc1e90 Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Wed, 10 May 2023 19:07:24 +0000
+Subject: [PATCH] 0001-out-of-tree-sources.patch
+
+From: OpenEmbedded <oe.patch@oe>
+
+---
+ arch/arm/dts/Makefile      |  6 ++++++
+ arch/arm/mach-at91/Kconfig | 16 ++++++++++++++++
+ 2 files changed, 22 insertions(+)
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index b3e2a9c9d7..ef347cd786 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -1065,6 +1065,12 @@ dtb-$(CONFIG_TARGET_SAMA5D4_XPLAINED) += \
+ dtb-$(CONFIG_TARGET_VINCO) += \
+ 	at91-vinco.dtb
+ 
++dtb-$(CONFIG_TARGET_IPAC9X25) += \
++	ipac-9x25.dtb
++
++dtb-$(CONFIG_TARGET_SOM9X25M) += \
++	som-9x25m.dtb
++
+ dtb-$(CONFIG_ARCH_BCM283X) += \
+ 	bcm2835-rpi-a.dtb \
+ 	bcm2835-rpi-a-plus.dtb \
+diff --git a/arch/arm/mach-at91/Kconfig b/arch/arm/mach-at91/Kconfig
+index 4448ca1592..6b8d0247ea 100644
+--- a/arch/arm/mach-at91/Kconfig
++++ b/arch/arm/mach-at91/Kconfig
+@@ -294,6 +294,20 @@ config TARGET_VINCO
+ 	select SUPPORT_SPL
+ 	imply CMD_DM
+ 
++config TARGET_IPAC9X25
++	bool "EMAC Inc. iPac-9x25 board."
++	select AT91SAM9X5
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SUPPORT_SPL
++
++config TARGET_SOM9X25M
++	bool "EMAC Inc. SoM-9x25M System on Module"
++	select AT91SAM9X5
++	select BOARD_EARLY_INIT_F
++	select BOARD_LATE_INIT
++	select SUPPORT_SPL
++
+ endchoice
+ 
+ config ATMEL_SFR
+@@ -324,6 +338,8 @@ source "board/bluewater/gurnard/Kconfig"
+ source "board/bluewater/snapper9260/Kconfig"
+ source "board/calao/usb_a9263/Kconfig"
+ source "board/egnite/ethernut5/Kconfig"
++source "board/emacinc/ipac9x25/Kconfig"
++source "board/emacinc/som9x25m/Kconfig"
+ source "board/esd/meesc/Kconfig"
+ source "board/gardena/smart-gateway-at91sam/Kconfig"
+ source "board/l+g/vinco/Kconfig"
