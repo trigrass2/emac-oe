@@ -5,6 +5,10 @@ SRC_URI:append = " \
     ${EMAC_SRC_FILES} \
 "
 
+DEPENDS += " \
+    xxd-native \
+"
+
 UBOOT_MACHINE:ipac9x25 ?= "emac-ipac9x25_defconfig"
 UBOOT_MACHINE:som9x25 ?= "emac-som9x25m_defconfig"
 
