@@ -1,4 +1,4 @@
-FILESEXTRAPATHS:prepend := "${THISDIR}/files:" 
+FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:" 
 
 DESCRIPTION = "USB & UART loader for i.MX5/6/7/8 series"
 AUTHOR = "Boundary Devices"
