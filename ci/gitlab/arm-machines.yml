@@ -4,7 +4,7 @@ build-ipac9x25:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/ipac9x25.yml:"
   rules:
-    - if: $GIT_MACHINE == "ipac9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "ipac9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-som9x25:
   extends: .kas-build
@@ -12,7 +12,7 @@ build-som9x25:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/som9x25.yml:"
   rules:
-    - if: $GIT_MACHINE == "som9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "som9x25" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-soma5d35:
   extends: .kas-build
@@ -20,7 +20,7 @@ build-soma5d35:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/soma5d35.yml:"
   rules:
-    - if: $GIT_MACHINE == "soma5d35" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "soma5d35" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-soma5d36:
   extends: .kas-build
@@ -28,7 +28,7 @@ build-soma5d36:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/soma5d36.yml:"
   rules:
-    - if: $GIT_MACHINE == "soma5d36" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "soma5d36" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-soma536mp:
   extends: .kas-build
@@ -36,7 +36,7 @@ build-soma536mp:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/soma536mp.yml:"
   rules:
-    - if: $GIT_MACHINE == "soma536mp" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "soma536mp" || $GIT_MACHINE == "atmel" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-somimx6:
   extends: .kas-build
@@ -45,7 +45,7 @@ build-somimx6:
     KAS_MACHINES_FILE: "kas/machines/arm/somimx6.yml:"
     ACCEPT_FSL_EULA: "1"
   rules:
-    - if: $GIT_MACHINE == "somimx6" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "somimx6" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-somimx6ul:
   extends: .kas-build
@@ -54,7 +54,7 @@ build-somimx6ul:
     KAS_MACHINES_FILE: "kas/machines/arm/somimx6ul.yml:"
     ACCEPT_FSL_EULA: "1"
   rules:
-    - if: $GIT_MACHINE == "somimx6ul" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "somimx6ul" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-som3354:
   extends: .kas-build
@@ -62,7 +62,7 @@ build-som3354:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/som3354.yml:"
   rules:
-    - if: $GIT_MACHINE == "som3354" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "som3354" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"
 
 build-som-5728m:
   extends: .kas-build
@@ -70,4 +70,4 @@ build-som-5728m:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/som-5728m.yml:"
   rules:
-    - if: $GIT_MACHINE == "som-5728m" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "som-5728m" || $GIT_MACHINE == "ti" || $GIT_MACHINE == "arm" || $GIT_MACHINE == "all"

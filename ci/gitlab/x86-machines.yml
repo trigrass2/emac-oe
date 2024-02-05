@@ -20,7 +20,7 @@ build-intel-core2-32:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/x86/intel-core2-32.yml:"
   rules:
-    - if: $GIT_MACHINE == "intel-core2-32" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "intel-core2-32" || $GIT_MACHINE == "intel" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
 
 build-pcm-9375:
   extends: .kas-build
@@ -29,4 +29,4 @@ build-pcm-9375:
     KAS_MACHINES_FILE: "kas/machines/x86/pcm-9375.yml:"
     ACCEPT_ADVANTECHSUSI_EULA: "1"
   rules:
-    - if: $GIT_MACHINE == "pcm-9375" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "pcm-9375" || $GIT_MACHINE == "advantech" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"

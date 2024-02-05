@@ -5,7 +5,7 @@ build-adv-imx8mm-ppc:
     KAS_MACHINES_FILE: "kas/machines/arm64/adv-imx8mm-ppc.yml:"
     ACCEPT_FSL_EULA: "1"
   rules:
-    - if: $GIT_MACHINE == "adv-imx8mm-ppc" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "adv-imx8mm-ppc" || $GIT_MACHINE == "advantech" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
 
 build-pn8m-090t-ppc:
   extends: .kas-build
@@ -14,7 +14,7 @@ build-pn8m-090t-ppc:
     KAS_MACHINES_FILE: "kas/machines/arm64/pn8m-090t-ppc.yml:"
     ACCEPT_FSL_EULA: "1"
   rules:
-    - if: $GIT_MACHINE == "pn8m-090t-ppc" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "pn8m-090t-ppc" || $GIT_MACHINE == "icop" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
 
 build-eb-8mm:
   extends: .kas-build
@@ -23,5 +23,5 @@ build-eb-8mm:
     KAS_MACHINES_FILE: "kas/machines/arm64/eb-8mm.yml:"
     ACCEPT_FSL_EULA: "1"
   rules:
-    - if: $GIT_MACHINE == "eb-8mm" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
+    - if: $GIT_MACHINE == "eb-8mm" || $GIT_MACHINE == "icop" || $GIT_MACHINE == "arm64" || $GIT_MACHINE == "all"
 
