@@ -1,0 +1,25 @@
+build-genericx86-64:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/x86_64/genericx86-64.yml:"
+  rules:
+    - if: $GIT_MACHINE == "genericx86-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-intel-corei7-64:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/x86_64/intel-corei7-64.yml:"
+  rules:
+    - if: $GIT_MACHINE == "intel-corei7-64" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
+build-som-2569:
+  extends: .kas-build
+  variables:
+    KAS_DISTROS_FILE: "kas/distros/emac.yml:"
+    KAS_MACHINES_FILE: "kas/machines/x86_64/som-2569.yml:"
+    ACCEPT_ADVANTECHSUSI_EULA: "1"
+  rules:
+    - if: $GIT_MACHINE == "som-2569" || $GIT_MACHINE == "x86" || $GIT_MACHINE == "all"
+
