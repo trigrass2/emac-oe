@@ -13,6 +13,7 @@ UBRANCH = "emac-2020.04"
 SRC_URI = "\
     git://git.emacinc.com/bootloader/u-boot-emac.git;branch=${UBRANCH};protocol=https \
     file://somimx6ul-conf.patch \
+    file://0001-change-somimx6-default-conf-and-env.patch \
 "
 
 S = "${WORKDIR}/git"
@@ -21,7 +22,10 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit uboot-config deploy
 
-DEPENDS += "flex-native bison-native"
+DEPENDS += " \
+    flex-native \
+    bison-native \
+"
 
 EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
 EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
