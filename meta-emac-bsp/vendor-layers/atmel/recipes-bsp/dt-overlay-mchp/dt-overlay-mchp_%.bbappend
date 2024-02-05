@@ -1,1 +1,1 @@
-COMPATIBLE_MACHINE:append = '|(ipac9x25|som9x25|soma5d36)'
+COMPATIBLE_MACHINE:append = '|(ipac9x25|som9x25|soma5d35|soma5d36)'

@@ -1,0 +1,157 @@
+/*
+ * SoM-9x25m.dts - Device Tree file for the SoM-9x25m.
+ *
+ *  Copyright (C) 2014 EMAC Inc.
+ *
+ * Licensed under GPLv2 or later.
+ */
+/dts-v1/;
+#include "at91sam9x25.dtsi"
+
+/ {
+	model = "EMAC SOM-9X25M";
+	compatible = "atmel,at91sam9x25ek", "atmel,at91sam9x5ek", "atmel,at91sam9x5", "atmel,at91sam9";
+
+	aliases {
+		serial0 = &usart3;
+		serial1 = &usart0;
+		serial3 = &uart0;
+		serial5 = &dbgu;
+		spi0 = &spi0;
+		spi1 = &spi1;
+	};
+
+	chosen {
+		bootargs = "root=/dev/sda1 rootfstype=ext4 rw rootwait";
+		stdout-path = "serial5:115200n8";
+		u-boot,dm-pre-reloc;
+	};
+
+	memory@20000000 {
+		reg = <0x20000000 0x8000000>;
+	};
+
+	clocks {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		slow_xtal {
+			clock-frequency = <32768>;
+		};
+
+		main_xtal {
+			clock-frequency = <12000000>;
+		};
+	};
+	
+	gpio_watchdog: gpio-watchdog {
+		/* MAX6747 */
+		compatible = "linux,wdt-gpio";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_wdt>;
+		gpios = <&pioC 7 GPIO_ACTIVE_LOW>;
+		hw_algo = "toggle";
+		always-running;
+		hw_margin_ms = <1000>;
+	};
+
+	ahb {
+		apb {
+			pinctrl@fffff400 {
+				pinctrl-names = "default";
+				pinctrl-0 = <
+					&pinctrl_phy_clk_en_gpio
+					&pinctrl_usb_hub_en
+				>;
+
+				spi0 {
+					pinctrl_spi0_cs: spi0-board {
+						atmel,pins =
+							<AT91_PIOA 14 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+
+				wdt_gpio {
+					pinctrl_wdt: wdt-board {
+						atmel,pins =
+							<AT91_PIOC 6 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							 AT91_PIOC 7 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+
+				led_gpio {
+					pinctrl_led: led-board {
+						atmel,pins =
+							<AT91_PIOD 20 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_DOWN>;
+					};
+				};
+				phy_clk_en_gpio {
+					pinctrl_phy_clk_en_gpio: phy-clk-board {
+						atmel,pins =
+							<AT91_PIOB 17 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+				usb {
+					pinctrl_usb_hub_en: usb-hub-en-0 {
+						atmel,pins =
+							<AT91_PIOB 7 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP
+							AT91_PIOB 6 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>;
+					};
+				};
+			};
+
+			rtc@fffffeb0 {
+				status = "okay";
+			};
+		};
+	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_led>;
+		led-stat {
+			label = "status";
+			gpios = <&pioC 10 1>;
+			default-state = "on";
+			linux,default-trigger = "none";
+		};
+	};
+};
+
+&macb1 {
+	phy-mode = "rmii";
+	status = "okay";
+};
+
+&usb0 {
+	num-ports = <3>;
+	status = "okay";
+};
+
+&usb1 {
+	status = "okay";
+};
+
+&usb2 {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_spi0 &pinctrl_spi0_cs>;
+	num-cs = <1>;
+	cs-gpios = <&pioA 14 0>;
+	spi_flash: spi_flash@0 {
+		compatible = "jedec,spi-nor";
+		spi-max-frequency = <10000000>;
+		reg = <0>;
+	};
+};
+
+&dbgu {
+	u-boot,dm-pre-reloc;
+	status = "okay";
+};
