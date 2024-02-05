@@ -12,8 +12,8 @@ PV = "v2020.04+git${SRCPV}"
 UBRANCH = "emac-2020.04"
 SRC_URI = "\
     git://git.emacinc.com/bootloader/u-boot-emac.git;branch=${UBRANCH};protocol=https \
-    file://somimx6ul-conf.patch \
     file://0001-change-somimx6-default-conf-and-env.patch \
+    file://0001-change-somimx6ul-default-conf.patch \
 "
 
 S = "${WORKDIR}/git"
