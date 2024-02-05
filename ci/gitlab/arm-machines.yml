@@ -35,6 +35,7 @@ build-somimx6:
   variables:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/somimx6.yml:"
+    ACCEPT_FSL_EULA: "1"
   rules:
     - if: $GIT_MACHINE == "somimx6" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"
 
@@ -43,6 +44,7 @@ build-somimx6ul:
   variables:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
     KAS_MACHINES_FILE: "kas/machines/arm/somimx6ul.yml:"
+    ACCEPT_FSL_EULA: "1"
   rules:
     - if: $GIT_MACHINE == "somimx6ul" || $GIT_MACHINE == "nxp" || $GIT_MACHINE == "all"
 

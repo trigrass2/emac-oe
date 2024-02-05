@@ -2,7 +2,7 @@ header:
   version: 12
 
 env:
-  ACCEPT_FSL_EULA: "1"
+  ACCEPT_FSL_EULA: "0"
 
 repos:
   meta-freescale:

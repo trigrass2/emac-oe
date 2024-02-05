@@ -2,7 +2,7 @@
 header:
   version: 12
   includes:
-    - kas/base.yml
+    - kas/poky-base.yml
 
 distro: poky
 
