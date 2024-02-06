@@ -90,7 +90,7 @@ int board_init(void)
 	gd->bd->bi_arch_number = MACH_TYPE_AT91SAM9X5EK;
 
 	/* adress of boot parameters */
-	gd->bd->bi_boot_params = CFG_SYS_SDRAM_BASE + 0x100;
+	gd->bd->bi_boot_params = CONFIG_SYS_SDRAM_BASE + 0x100;
 
 #if defined(CFG_USB_OHCI_NEW) || defined(CFG_USB_EHCI_HCD)
 	at91_uhp_hw_init();
@@ -104,8 +104,8 @@ int board_init(void)
 
 int dram_init(void)
 {
-	gd->ram_size = get_ram_size((void *) CFG_SYS_SDRAM_BASE,
-					CFG_SYS_SDRAM_SIZE);
+	gd->ram_size = get_ram_size((void *) CONFIG_SYS_SDRAM_BASE,
+					CONFIG_SYS_SDRAM_SIZE);
 	return 0;
 }
 
