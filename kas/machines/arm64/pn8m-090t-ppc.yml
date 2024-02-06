@@ -1,0 +1,6 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/meta-icop.yml
+    - repo: meta-icop
+      file: kas/machines/pn8m-090t-ppc.yml

@@ -1,0 +1,23 @@
+header:
+  version: 12
+
+env:
+  CI_BUILDS_DIR: None
+  CI_PROJECT_ROOT_NAMESPACE: None
+  CI_PROJECT_ID: None
+  CI_COMMIT_SHORT_SHA: None
+  CI_JOB_TOKEN: None
+  CI_API_V4_URL: None
+  INCLUDE_SDK: "false"
+
+local_conf_header:
+  archive_path: |
+    PACKAGE_ARCHIVE_PATH ??="nightly"
+    ARCHIVE_PATH ?= "${DISTRO_CODENAME}-${DISTRO_VERSION}/${PACKAGE_ARCHIVE_PATH}/${MACHINE}"
+  prserver_host: PRSERV_HOST = "localhost:0"
+  downloads: |
+    DL_DIR ?= "/srv/yocto/downloads"
+    BB_GENERATE_MIRROR_TARBALLS ?= "1"
+  sstate_cache: SSTATE_DIR ?= "/srv/yocto/persist/${ARCHIVE_PATH}/sstate-cache/"
+  buildhistory_dir: BUILDHISTORY_DIR = "/srv/yocto/persist/${ARCHIVE_PATH}/buildhistory"
+  persist_dir: PERSISTENT_DIR = "/srv/yocto/persist/${ARCHIVE_PATH}/cache"

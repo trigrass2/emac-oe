@@ -1,0 +1,6 @@
+header:
+  version: 12
+  includes:
+    - kas/repos/upstream/meta-intel.yml
+
+machine: intel-core2-32

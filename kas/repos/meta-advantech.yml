@@ -1,0 +1,14 @@
+header:
+  version: 12
+
+env:
+  ACCEPT_ADVANTECHSUSI_EULA: "0"
+  ACCEPT_FSL_EULA: "0"
+
+repos:
+  meta-advantech:
+    url: http://git.emacinc.com/OE/layers/meta-advantech.git
+    path: build/layers/meta-advantech
+    refspec: kirkstone
+    layers:
+      .: excluded

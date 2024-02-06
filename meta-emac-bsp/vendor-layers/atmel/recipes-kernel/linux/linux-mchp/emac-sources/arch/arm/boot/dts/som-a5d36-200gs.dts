@@ -1,0 +1,74 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+/*
+ * som-a5d36-200gs.dts - Device Tree file for the SOM-A5D36 w/ a 200gs EMAC Carrier.
+ *
+ * Copyright (C) 2023 EMAC Inc.
+ *
+ */
+
+/dts-v1/;
+#include "som-a5d36-2xx.dts"
+
+/ {
+	model = "EMAC SOM-A5D36 with SOM-200GS";
+	
+	beeper {
+		compatible = "gpio-beeper";
+		gpios = <&pioC 24 GPIO_ACTIVE_HIGH>;
+		status = "okay";
+	};
+	leds {
+		red-led {
+			label = "red-led";
+			gpios = <&pioC 22 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		green-led {
+			label = "green-led";
+			gpios = <&pioC 23 GPIO_ACTIVE_HIGH>;
+			default-state = "on";
+		};
+		sd-led {
+			label = "sd-led";
+			gpios = <&pioC 12 GPIO_ACTIVE_HIGH>;
+			default-state = "disk-activity";
+			trigger-sources = <&mmc1>;
+		};
+	};
+};
+
+&lcd_backlight {
+	power-supply = <&ldo_3v3_vcc>;
+	enable-gpios = <&pioD 5 GPIO_ACTIVE_HIGH>;
+};
+
+&audio_center {
+    status = "okay";
+	simple-audio-card,name = "cs4271";
+    simple-audio-card,bitclock-master = <&codec_master>;
+	simple-audio-card,frame-master = <&codec_master>;
+    codec_master: simple-audio-card,codec {
+        sound-dai = <&cs4271>;
+        clocks = <&audio_mclk>;
+        frame-master;
+		bitclock-master;
+    };
+};
+
+&ssc0 {
+    status = "okay";
+};
+
+&adc0 {
+	status = "okay";
+};
+
+&spi0 {
+	cs4271: cs4271@3 {
+        #sound-dai-cells = <0>;
+		compatible = "cirrus,cs4271";
+		reg = <0x3>;
+		spi-max-frequency = <6000000>;
+        status = "okay";
+	};
+};

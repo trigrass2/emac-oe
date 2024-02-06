@@ -1,0 +1,14 @@
+header:
+  version: 12
+
+env:
+  ACCEPT_ADVANTECHSUSI_EULA: "0"
+  ACCEPT_FSL_EULA: "0"
+
+repos:
+  meta-advantech-upstream:
+    url: git@github.com:Advantech-IIoT/meta-advantech.git
+    path: build/layers/meta-advantech-upstream
+    refspec: kirkstone
+    layers:
+      .: excluded

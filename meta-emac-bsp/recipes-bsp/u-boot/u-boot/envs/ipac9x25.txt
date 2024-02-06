@@ -1,0 +1,14 @@
+baudrate=115200
+bootargs=mem=128M console=ttyS5,115200 root=/dev/mmcblk0p2 rw rootfstype=ext4 rootwait
+bootcmd=mmc rescan; load mmc 0:1 ${loadaddr} ${bootfile}; load mmc 0:1 ${fdt_addr_r} ${fdtfile}; bootz ${kernel_addr_r} - ${fdt_addr_r}
+bootdelay=3
+bootfile=zImage
+cpu=AT91SAM9X25
+ethact=ethernet@f8030000
+fdt_addr_r=0x21000000
+fdtcontroladdr=27f03e20
+fdtfile=ipac9x25.dtb
+fileaddr=21000000
+filesize=4d5828
+kernel_addr_r=0x22000000
+loadaddr=0x22000000

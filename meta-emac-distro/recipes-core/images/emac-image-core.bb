@@ -7,6 +7,7 @@ IMAGE_FEATURES += "splash ssh-server-openssh"
 
 IMAGE_INSTALL = "\
     packagegroup-core-boot \
+    packagegroup-base-extended \
     packagegroup-core-full-cmdline \
     packagegroup-base-zeroconf \
     bash-completion \

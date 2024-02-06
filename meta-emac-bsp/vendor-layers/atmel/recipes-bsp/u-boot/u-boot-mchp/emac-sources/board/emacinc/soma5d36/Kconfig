@@ -1,0 +1,32 @@
+if TARGET_SOMA5D36
+
+config SYS_BOARD
+	default "soma5d36"
+
+config SYS_VENDOR
+	default "emacinc"
+
+config SYS_CONFIG_NAME
+	default "soma5d36"
+
+choice
+	prompt "SoM-A5D36 Flavor"
+	default SOMA5D36_DTB
+
+config SOMA5D36_DTB
+	bool "SoM-A5D36"
+	help
+	  Base EMAC SoM-A5D36 w/ 1 Gig Ethernet
+
+config SOMA536MP_DTB
+	bool "SoM-A536P"
+	help
+	  Features a 10/100 Ethernet Phy in comparison to the SoM-A5D36
+
+endchoice
+
+config DEFAULT_DEVICE_TREE
+	default "som-a5d36" if SOMA5D36_DTB
+	default "som-a536mp" if SOMA536MP_DTB
+
+endif

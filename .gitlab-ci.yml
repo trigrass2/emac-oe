@@ -4,11 +4,11 @@ variables:
   INCLUDE_SDK: "false"
 
 include:
-  - local: "kas/gitlab-ci/basic.yml"
-  - local: "kas/gitlab-ci/atmel-machines.yml"
-  - local: "kas/gitlab-ci/nxp-machines.yml"
-  - local: "kas/gitlab-ci/ti-machines.yml"
-  - local: "kas/gitlab-ci/x86-machines.yml"
+  - local: "ci/gitlab/build.yml"
+  - local: "ci/gitlab/arm-machines.yml"
+  - local: "ci/gitlab/arm64-machines.yml"
+  - local: "ci/gitlab/x86-machines.yml"
+  - local: "ci/gitlab/x86_64-machines.yml"
 
 stages:
   - build
@@ -17,7 +17,7 @@ emac-image-manual: # allow this if to be skipped
   extends: .kas-build
   variables:
     KAS_DISTROS_FILE: "kas/distros/emac.yml:"
-    KAS_MACHINES_FILE: "kas/machines/ipac9x25.yml:"
+    KAS_MACHINES_FILE: "kas/machines/arm/ipac9x25.yml:"
   rules:
     - if: $GIT_MACHINE == "none"
   when: manual

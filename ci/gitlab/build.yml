@@ -1,0 +1,53 @@
+.kas-build:
+  stage: build
+  dependencies: []
+  variables:
+    KAS_DISTROS_FILE: ""
+    KAS_MACHINES_FILE: ""
+    KAS_CONFIG_BUILD_FILE: ""
+    KAS_SOFTWARE_STACK: ""
+    KAS_CI_FILES: "ci/kas/persist_downloads_sstate.yml:ci/kas/current-branch.yml"
+    KASFILES: "${KAS_DISTROS_FILE}${KAS_MACHINES_FILE}${KAS_CONFIG_BUILD_FILE}${KAS_SOFTWARE_STACK}${KAS_CI_FILES}"
+  tags:
+    - oe-builder
+  script:
+    - echo $KASFILES
+    - |
+      if [ -n "$CI_COMMIT_BRANCH" ]; then
+        echo "KAS: $CI_COMMIT_BRANCH"
+        sed -i "s|CURRENTREF|$CI_COMMIT_BRANCH|g" ci/kas/current-branch.yml
+      else
+        if [ -n "$CI_COMMIT_TAG" ]; then
+          echo "KAS: $CI_COMMIT_TAG"
+          sed -i "s|CURRENTREF|$CI_COMMIT_TAG|g" ci/kas/current-branch.yml
+        else
+          echo "KAS: $CI_COMMIT_SHA"
+          sed -i "s|CURRENTREF|$CI_COMMIT_SHA|g" ci/kas/current-branch.yml
+        fi;
+      fi
+    - kas checkout --update --force-checkout $KASFILES
+    - kas build $KASFILES
+    - tail --pid=$(cat build/bitbake.lock) -f /dev/null || true
+    - |
+      if test "$INCLUDE_SDK" == "true"; then
+        export KAS_TASK=do_populate_sdk;
+        kas build $KASFILES;
+        tail --pid=$(cat build/bitbake.lock) -f /dev/null || true
+        unset KAS_TASK;
+      fi
+    - |
+      if [ "$OE_DEPLOYMENT" == "true" ]; then
+        kas shell $KASFILES -c "bitbake package-index"; 
+        tail --pid=$(cat build/bitbake.lock) -f /dev/null || true
+        kas shell $KASFILES -c "../ci/scripts/emac-deployment.sh";
+      fi
+    - kas shell $KASFILES -c "../ci/scripts/emac-sstate-management.sh"
+    - kas dump $KASFILES > build/conf/kas-dump.yml
+
+  after_script:
+    - git restore .
+    - rm -rf build/tmp*; sync
+  artifacts:
+    paths:
+      - build/conf
+

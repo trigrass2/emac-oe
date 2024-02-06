@@ -1,0 +1,11 @@
+header:
+  version: 12
+
+repos:
+  meta-icop:
+    url: http://git.emacinc.com/OE/layers/meta-icop.git 
+    path: build/layers/meta-icop
+    refspec: kirkstone
+    layers:
+      .: excluded
+        

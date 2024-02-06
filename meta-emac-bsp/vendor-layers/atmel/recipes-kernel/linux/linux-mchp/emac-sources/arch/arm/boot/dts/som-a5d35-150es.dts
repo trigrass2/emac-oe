@@ -1,40 +1,25 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 /*
- * som-a5d35-150es.dtsi - Device Tree file for the SoM-A5D35 with SoM-150ES.
+ * som-a5d35-150es.dts - Device Tree file for the SOM-A5D35 w/ a 150es EMAC Carrier.
  *
- *  Copyright (C) 2022 EMAC Inc.
+ * Copyright (C) 2023 EMAC Inc.
  *
- * Licensed under GPLv2 or later.
  */
+
 /dts-v1/;
-#include "som-a5d35.dts"
-#include <dt-bindings/gpio/gpio.h>
+#include "som-a5d35-1xx.dts"
 
 /{
     model = "EMAC SoM-A5D35 within SoM-150ES";
-	compatible = "emac,som150es", "emac,soma5d35", "atmel,sama5d3", "atmel,sama5";
-
-    chosen {
-        stdout-path = &dbgu;
-    };
-
-    aliases {
-        comA = &usart0;
-        comC = &usart1;
-        comB = &usart2;
-        comD = &usart3;
-        comE = &dbgu;
-        sdcard = &mmc1;
-		spi0 = &spi0;
-	};
 
     clocks {
-        audio_clk: oscillator@1 { // always on, fed into cpld and turned into prescale-a
+        audio_clk: oscillator-cpld-in { // always on, fed into cpld and turned into prescale-a
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
 			clock-output-names = "osc-a";
 			clock-frequency = <24576000>;
 		};
-        audio_clk_prescale: oscillator@2 { // always on...
+        audio_clk_prescale: oscillator-cpld-out { // always on...
 			compatible = "fixed-clock";
 			#clock-cells = <0>;
 			clock-output-names = "prescale-a";
@@ -46,7 +31,7 @@
             clock-frequency = <200000>;
             pwms = <&tcb0_pwm0 1 5000 0>; /* 200 kHz */
         };
-        clk-8mhz: clk-8mhz {
+        clk_8mhz: clk-8mhz {
             compatible = "pwm-clock";
             #clock-cells = <0>;
             clock-frequency = <8000000>;
@@ -54,51 +39,15 @@
         };
     };
     regulators {
-        carrier_12v_acc: carrier-12v-acc {
+        power_12v_acc: carrier-12v-acc@9 {
 			compatible = "regulator-fixed";
+            reg = <9>;
 			regulator-name = "12V_ACC";
 			regulator-min-microvolt = <12000000>;
 			regulator-max-microvolt = <12000000>;
 		};
-        carrier_5v_vcc: som-5v-vcc {
-			compatible = "regulator-fixed";
-			regulator-name = "5V_VCC";
-			regulator-min-microvolt = <5000000>;
-			regulator-max-microvolt = <5000000>;
-		};
-        carrier_3v3_vcc: som-3v3-vcc {
-			compatible = "regulator-fixed";
-			regulator-name = "3P3_VCC";
-			regulator-min-microvolt = <3300000>;
-			regulator-max-microvolt = <3300000>;
-            vin-supply = <&carrier_5v_vcc>;
-		};
-        som_3v3_vcc: som-3v3-vcc {
-            vin-supply = <&carrier_3v3_vcc>;
-        };
     };
-    sound {
-		compatible = "simple-audio-card";
-		simple-audio-card,name = "cs4271";
-		simple-audio-card,format = "i2s";
-		simple-audio-card,bitclock-master = <&codec_master>;
-		simple-audio-card,frame-master = <&codec_master>;
-		simple-audio-card,widgets =
-			"Line", "Line In",
-			"Line", "Line Out";
-		simple-audio-card,routing =
-			"Line In", "Capture",
-			"Line Out", "Playback";
 
-		cpu_master: simple-audio-card,cpu {
-			sound-dai = <&ssc1>;
-		};
-
-		codec_master: simple-audio-card,codec {
-			sound-dai = <&cs4271>;
-		};
-        status = "okay";
-	};
     auxdisplay {
         compatible = "hit,hd44780";
 
@@ -152,31 +101,28 @@
                 >;
     };
 };
-&can1 {
+&audio_center {
+    status = "okay";
+	simple-audio-card,name = "cs4271";
+    simple-audio-card,bitclock-master = <&codec_master>;
+	simple-audio-card,frame-master = <&codec_master>;
+    codec_master: simple-audio-card,codec {
+        sound-dai = <&cs4271>;
+    };
+};
+
+&ssc1 {
     status = "okay";
 };
+
 &mmc1 {
-    pinctrl-0 = <&pinctrl_mmc1_clk_cmd_dat0 &pinctrl_mmc1_dat1_3 &pinctrl_mmc1_cd>;
-    status = "okay";
     slot@0 {
-        reg = <0>;
-        bus-width = <4>;
         cd-gpios = <&pioC 13 GPIO_ACTIVE_LOW>;
     };
 };
 &spi0 {
-    pinctrl-0 = <&pinctrl_spi0
-                    &pinctrl_spi0_cs0
-                    &pinctrl_spi0_cs1
-                    &pinctrl_spi0_cs2
-                    &pinctrl_spi0_cs3>;
-    cs-gpios = <&pioD 13 GPIO_ACTIVE_LOW
-                &pioD 14 GPIO_ACTIVE_LOW
-                &pioD 15 GPIO_ACTIVE_LOW
-                &pioD 16 GPIO_ACTIVE_LOW>;
-
     mcp3208: mcp320x@1 {
-        compatible = "mcp3208";
+        compatible = "microchip,mcp3208";
         spi-max-frequency = <1000000>;
         spi-cpol;
         spi-cpha;
@@ -190,7 +136,7 @@
         spi-cpol;
         spi-cpha;
         reg = <2>;
-        vref = <&vref>;
+        vref = <&adc_vref>;
         status = "okay";
     };
 
@@ -205,75 +151,24 @@
         status = "okay";
     };
 };
-&macb1 {
-    status = "okay";
-};
-&ssc1 {
-    #sound-dai-cells = <0>;
-    status = "okay";
-};
-&usart0 {
-    atmel,use-dma-tx;
-    atmel,use-dma-rx;
-    status = "okay";
-};
 
-&usart1 {
-    pinctrl-0 = <&pinctrl_usart1
-        &pinctrl_usart1_rts_cts
-        &pinctrl_usart1_dsr_dtr_dcd_ri>;
-    atmel,use-dma-tx;
-    atmel,use-dma-rx;
-    status = "okay";
-
-    rts-gpios = <&pioB 27 GPIO_ACTIVE_LOW>;
-    cts-gpios = <&pioB 26 GPIO_ACTIVE_LOW>;
-    dtr-gpios = <&pioB 8 GPIO_ACTIVE_LOW>;
-    dsr-gpios = <&pioA 22 GPIO_ACTIVE_LOW>;
-    dcd-gpios = <&pioA 20 GPIO_ACTIVE_LOW>;
-    rng-gpios = <&pioB 12 GPIO_ACTIVE_LOW>;
-};
-
-&usart2 {
-    pinctrl-names = "default";
-    pinctrl-0 = <&pinctrl_usart2 &pinctrl_usart2_rts_cts>;
-    atmel,use-dma-tx;
-    atmel,use-dma-rx;
-    status = "okay";
-
-    rts-gpios = <&pioE 24 GPIO_ACTIVE_LOW>;
-    cts-gpios = <&pioE 23 GPIO_ACTIVE_LOW>;
-};
 &usart3 {
-    atmel,use-dma-tx;
-    atmel,use-dma-rx;
-    status = "okay";
-    rts-gpios = <&pldioD 0 GPIO_ACTIVE_LOW>;
-    cts-gpios = <&pldioD 1 GPIO_ACTIVE_LOW>;
-};
-&usb0 {
-    atmel,vbus-gpio = <&pioD 30 GPIO_ACTIVE_HIGH>;
-    status = "okay";
-};
-&usb1 {
-    status = "okay";
-};
-&usb2 {
-    status = "okay";
+    // CPLD isnt working
+    // rts-gpios = <&pldioD 0 GPIO_ACTIVE_LOW>;
+    // cts-gpios = <&pldioD 1 GPIO_ACTIVE_LOW>;
 };
 
 &tcb0 {
     status = "okay";
-    tcb0_pwm0: pwm@0 {
+    tcb0_pwm0: pwm@1 {
         compatible = "atmel,tcb-pwm";
         #pwm-cells = <3>;
         reg = <0>;
         pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_tcb0_tiob0>;
         status = "okay";
-        /* pwms = <&tcb0_pwm0 (0=A,1=B) period 0>;
     };
-    tcb0_pwm1: pwm@1 {
+    tcb0_pwm1: pwm@2 {
         compatible = "atmel,tcb-pwm";
         #pwm-cells = <3>;
         reg = <1>;
@@ -300,16 +195,17 @@
         atmel,smc-read-mode = "nrd";
         atmel,smc-write-mode = "nwe";
         atmel,smc-bus-width = <8>;
+
         atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
         atmel,smc-ncs-wr-setup-ns = <8>;
         atmel,smc-nwe-setup-ns = <16>;
-        atmel,smc-nrd-setup-ns = <16>;
         atmel,smc-ncs-rd-pulse-ns = <40>;
-        atmel,smc-ncs-wr-pulse-ns = <40>;
         atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
         atmel,smc-nwe-pulse-ns = <24>;
-        atmel,smc-nrd-cycle-ns = <64>;
         atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
         atmel,smc-tdf-ns = <16>;
     };
 
@@ -323,6 +219,22 @@
         #size-cells = <1>;
         #gpio-cells = <2>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioC: cpld@3,6 {
@@ -333,8 +245,24 @@
         no-input;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
 
@@ -346,8 +274,24 @@
         no-input;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioE: cpld@3,10 {
@@ -359,6 +303,22 @@
         #size-cells = <1>;
         #gpio-cells = <2>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioF: cpld@3,7 {
@@ -368,9 +328,24 @@
         gpio-controller;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
-        
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;        
     };
 
     cpld_id: cpld@3,0xf {
@@ -381,8 +356,24 @@
         no-input;
         #address-cells = <1>;
         #size-cells = <1>;
-        #gpio-cells = <1>;
+        #gpio-cells = <2>;
         bank-width = <1>;
+
+        atmel,smc-read-mode = "nrd";
+        atmel,smc-write-mode = "nwe";
+        atmel,smc-bus-width = <8>;
+
+        atmel,smc-ncs-rd-setup-ns = <8>;
+        atmel,smc-nrd-setup-ns = <16>;
+        atmel,smc-ncs-wr-setup-ns = <8>;
+        atmel,smc-nwe-setup-ns = <16>;
+        atmel,smc-ncs-rd-pulse-ns = <40>;
+        atmel,smc-nrd-pulse-ns = <24>;
+        atmel,smc-ncs-wr-pulse-ns = <40>;
+        atmel,smc-nwe-pulse-ns = <24>;
+        atmel,smc-nwe-cycle-ns = <64>;
+        atmel,smc-nrd-cycle-ns = <64>;
+        atmel,smc-tdf-ns = <16>;
     };
 
     pldioLCD: cpld@3,0 {
@@ -399,15 +390,15 @@
         atmel,smc-write-mode = "nwe";
         atmel,smc-bus-width = <8>;
         atmel,smc-ncs-rd-setup-ns = <8>;
-        atmel,smc-ncs-wr-setup-ns = <16>;
         atmel,smc-nwe-setup-ns = <27>;
+        atmel,smc-ncs-wr-setup-ns = <16>;
         atmel,smc-nrd-setup-ns = <6>;
         atmel,smc-ncs-rd-pulse-ns = <6>;
-        atmel,smc-ncs-wr-pulse-ns = <81>;
         atmel,smc-nrd-pulse-ns = <6>;
+        atmel,smc-ncs-wr-pulse-ns = <81>;
         atmel,smc-nwe-pulse-ns = <94>;
-        atmel,smc-nrd-cycle-ns = <14>;
         atmel,smc-nwe-cycle-ns = <128>;
+        atmel,smc-nrd-cycle-ns = <14>;
         atmel,smc-tdf-ns = <15>;
     };
 };
@@ -428,220 +419,14 @@
 				<AT91_PIOE 31 AT91_PERIPH_GPIO AT91_PINCTRL_DEBOUNCE>;
 		};
     };
-    spi0 {
-        pinctrl_spi0_cs1: spi0_cs1 {
-            atmel,pins =
-                <AT91_PIOD 14 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>;
-        };
-        pinctrl_spi0_cs2: spi0_cs2 {
-            atmel,pins =
-                <AT91_PIOD 15 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>;
-        };
-        pinctrl_spi0_cs3: spi0_cs3 {
-            atmel,pins =
-                <AT91_PIOD 16 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>;
-        };
-    };
-    ssc1 {
-        pinctrl_ssc1_rx: ssc1_rx {
-            atmel,pins =
-                <AT91_PIOB 11 AT91_PERIPH_B AT91_PINCTRL_NONE>;	/* PB11 periph B RD1, conflicts with GRXCK */
-        };
-    };
-
-    usart1 {
-        pinctrl_usart1_dsr_dtr_dcd_ri: usart1_dsr_dtr_dcd_ri-0 {
-            atmel,pins =
-                <AT91_PIOA 20 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP 	// DCD
-                    AT91_PIOA 22 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP 	// DSR
-                    AT91_PIOB 8 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP 		// DTR
-                    AT91_PIOB 12 AT91_PERIPH_GPIO AT91_PINCTRL_PULL_UP>; 	// RI
-        };
-    };
     tcb0 {
         pinctrl_tcb0_tiob0: tcb0_tiob0 {
             atmel,pins =
-                <AT91_PIOD 6 AT91_PERIPH_B AT91_PINCTRL_PULL_NONE>;
+                <AT91_PIOD 6 AT91_PERIPH_B AT91_PINCTRL_NONE>;
         };
         pinctrl_tcb0_tioa1: tcb0_tioa1 {
             atmel,pins =
-                <AT91_PIOC 12 AT91_PERIPH_B AT91_PINCTRL_PULL_NONE>;
+                <AT91_PIOC 12 AT91_PERIPH_B AT91_PINCTRL_NONE>;
         };
     };
-};
-
-&pioA {
-	gpio-line-names = 
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"COM-C DCD1",	// PA20 / PMWH0
-		"",
-		"COM-C DSR1",	// PA22 / PWMH1
-		"WDT_PULSE", 	//PA23
-		"WDT_EN#", 		//PA24
-		"ADREF_EN", 	//PA25
-		"STATUS", 		//PA26
-		"",
-		"",
-		"",
-		"HDR4-23",	// PA30 / TWD0 / URXD1
-		"HDR4-21";	// PA31 / TWCK0 / UTXD1
-};
-&pioB {
-	gpio-line-names = 
-		"",
-		"",
-		"I2S_SCK",	// PB2 / TK1
-		"I2S_LRCLK",	// PB3 / TF1
-		"",
-		"",
-		"I2C_DOUT",	// PB6 / TD1
-		"HDR4-35",	// PB7 / RK1
-		"COM-C DTR1",	// PB8 / PWMH2
-		"",
-		"",	// PB10 / RF1 //  no rfsync of ssc
-		"I2S_DIN",	// PB11 / RD1
-		"COM-C RI1",	// PB12 / PWMH3
-		"",
-		"CANRX1",	// PB14 / CANRX1
-		"CANTX1",	// PB15 / CANTX1
-		"",
-		"",
-		"",
-		"MCI1_CDA",	// PB19 / MCI1_CDA
-		"MCI1_DA0",	// PB20 / MCI1_DA0
-		"MCI1_DA1",	// PB21 / MCI1_DA1
-		"MCI1_DA2",	// PB22 / MCI1_DA2
-		"MCI1_DA3",	// PB23 / MCI1_DA3
-		"MCI1_CK",	// PB24 / MCI1_CK
-		"",
-		"COM-C CTS1",	// PB26 / CTS1
-		"COM-C RTS1",	// PB27 / RTS1
-		"COM-C RXD1",	// PB28 / RXD1
-		"COM-C TXD1",	// PB29 / TXD1
-		"COM-E DBG UART RX",	// PB30 / DRXD
-		"COM-E DBG UART TX";	// PB31 / DTXD
-};
-&pioC {
-	gpio-line-names = 
-		"ETX0", 	//PC0
-		"ETX1", 	//PC1
-		"ERX0", 	//PC2
-		"ERX1", 	//PC3
-		"ETXEN", 	//PC4
-		"ECRSDV", 	//PC5
-		"ERXER", 	//PC6
-		"EREFCK", 	//PC7
-		"EMDC", 	//PC8
-		"EMDIO", 	//PC9
-		"ETH_OSC_EN", 	//PC10
-		"",
-		"8MHz CLK",	// PC12 / TIOA1
-		"MCI1_DET",	// PC13 / TIOB1
-		"HDR4-5",	// PC14 / TCLK1
-		"HDR4-29",	// PC15 / PCK2
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"HDR4-37",	// PC22 / SPI1_MISO
-		"HDR4-43",	// PC23 / SPI1_MOSI
-		"HDR4-39",	// PC24 / SPI1_SPCK
-		"",
-		"MCLK-3 cs4271",	// PC26 / SPI1_NPCS1 / TWD1
-		"HDR4-11", 	// PC27 / SPI1_NPCS2 / TWCK1
-		"",
-		"",
-		"",
-		"HDR4-19";	// PC31 / FIQ / PWMFI1
-};
-&pioD {
-	gpio-line-names = 
-		"MCI0_CDA", 	//PD0
-		"MCI0_DA0", 	//PD1
-		"MCI0_DA1", 	//PD2
-		"MCI0_DA2", 	//PD3
-		"MCI0_DA3", 	//PD4
-		"",
-		"200KHz CLK",	// PD6 / TIOB0 / PWML2
-		"",
-		"",
-		"MCI0_CK", 	//PD9
-		"SPI0_MISO pin-122",	// SPI0_MISO
-		"SPI0_MOSI pin-121",	// SPI0_MOSI
-		"SPI0_SPCK pin-120",	// SPI0_SPCK
-		"SPI0_CS0", 	//PD13
-		"SPI0_CS1",	// PD14 / mcp3208
-		"SPI0_CS2",	// PD15 / mcp4922
-		"SPI0_CS3",	// PD16 / cs4271
-		"COM-A RXD0",	// PD17 / RXD0
-		"COM-A TXD0",	// PD18 / TXD0
-		"ETH_INT", 	//PD19
-		"HDR8-11",	// PD20 / AD0
-		"HDR8-12",	// PD21 / AD1
-		"HDR8-13",	// PD22 / AD2
-		"HDR8-14",	// PD23 / AD3
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"USB_VBUS",	// PD30 / AD10 / PCK0
-		"";
-};
-&pioE {
-	gpio-line-names = 
-		"CPLD A0",	// EBI_A0
-		"CPLD A1",	// EBI_A1
-		"CPLD A2",	// EBI_A2
-		"CPLD A3",	// EBI_A3
-		"CPLD A4",	// EBI_A4
-		"CPLD A5",	// EBI_A5
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"",
-		"COM-D RXD3",	// PE18 / EBI_A18 / RXD3
-		"COM-D TXD3",	// PE19 / EBI_A19 / TXD3
-		"",
-		"",
-		"",
-		"COM-B CTS2",	// PE23 / CTS2
-		"COM-B RTS2",	// PE24 / RTS2
-		"COM-B RXD2",	// PE25 / RXD2
-		"COM-B TXD2",	// PE26 / EBI_NCS0 / TXD2
-		"",
-		"",
-		"",
-		"",
-		"CPLD IRQ";	// PE31 / IRQ / PWML1
 };

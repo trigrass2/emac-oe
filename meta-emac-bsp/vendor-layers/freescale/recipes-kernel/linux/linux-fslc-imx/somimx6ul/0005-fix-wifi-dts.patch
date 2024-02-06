@@ -1,0 +1,78 @@
+From 6ea5e378f77237c7111f92809c31e8e353f8b1aa Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Tue, 16 Jan 2024 15:31:12 -0600
+Subject: [PATCH] fix wifi dts
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ arch/arm/boot/dts/emac-som-imx6ul-112es.dts | 34 ++++++++++++++++-----
+ 1 file changed, 27 insertions(+), 7 deletions(-)
+
+diff --git a/arch/arm/boot/dts/emac-som-imx6ul-112es.dts b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
+index 0c1e39f18391..eddea6d40464 100644
+--- a/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
++++ b/arch/arm/boot/dts/emac-som-imx6ul-112es.dts
+@@ -79,6 +79,11 @@ sound {
+ 		mux-int-port = <1>;
+ 		mux-ext-port = <3>;
+ 	};
++
++	wifi_pwrseq: wifi-pwrseq {
++		compatible = "mmc-pwrseq-simple";
++		reset-gpios = <&gpio1 4 GPIO_ACTIVE_HIGH>;
++	};
+ };
+ 
+ &uart1 {
+@@ -196,22 +201,22 @@ bluetooth {
+ };
+ 
+ &usdhc2 {
+-	#address-cells = <1>;
+-	#size-cells = <0>;
+ 	pinctrl-names = "default";
+ 	pinctrl-0 = <&pinctrl_usdhc2>;
+-	keep-power-in-suspend;
+-	cap-power-off-card;
++	no-1-8-v;
+ 	non-removable;
+-	wakeup-source;
++	mmc-pwrseq = <&wifi_pwrseq>;
+ 	status = "okay";
+-	brcmf: bcrmf@1 {
++	
++	#address-cells = <1>;
++	#size-cells = <0>;
++
++	brcmf: wifi@1 {
+ 		compatible = "brcm,bcm43430a0-fmac", "brcm,bcm4329-fmac";
+ 		reg = <1>;
+ 		interrupt-parent = <&gpio3>;
+ 		interrupts = <4 IRQ_TYPE_EDGE_FALLING>;
+ 		interrupt-names = "host-wake";
+-		reset-gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
+ 		brcm,ccode-map = "JP-JP-78", "US-Q2-86";
+ 	};
+ };
+@@ -262,3 +267,18 @@ MX6UL_PAD_LCD_DATA00__GPIO3_IO05	0xb0b1
+ 		MX6UL_PAD_LCD_DATA01__GPIO3_IO06	0xb0b1
+ 	>;
+ };
++
++&pinctrl_usdhc2 {
++	fsl,pins = <
++		MX6UL_PAD_NAND_RE_B__USDHC2_CLK     0x1b0b0
++		MX6UL_PAD_NAND_WE_B__USDHC2_CMD     0x100b0
++		MX6UL_PAD_NAND_DATA00__USDHC2_DATA0 0x1b0b0
++		MX6UL_PAD_NAND_DATA01__USDHC2_DATA1 0x1b0b0
++		MX6UL_PAD_NAND_DATA02__USDHC2_DATA2 0x1b0b0
++		MX6UL_PAD_NAND_DATA03__USDHC2_DATA3 0x1b0b0
++		/* WL_REG_ON */
++		MX6UL_PAD_GPIO1_IO04__GPIO1_IO04	0x130b0
++		/* WL_IRQ */
++		MX6UL_PAD_LCD_RESET__GPIO3_IO04	0x1b0b0
++	>;
++};
+-- 
+2.34.1
+

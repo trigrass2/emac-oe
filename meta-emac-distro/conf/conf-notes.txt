@@ -1,4 +1,4 @@
 Common targets are:
-    core-image-base (Poky Image)
-    core-image-emac (EMAC Standard Headless Image)
-
+    core-image-base  (Base Poky Image)
+    emac-image-full  (EMAC Standard Headless Image)
+    emac-image-debug (EMAC Standard Headless Image with Debug Tools pre-installed)

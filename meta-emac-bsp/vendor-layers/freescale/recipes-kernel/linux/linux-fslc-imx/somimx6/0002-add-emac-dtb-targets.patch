@@ -1,0 +1,27 @@
+From 9d7eab89d1d867c17339cde4e16b6ad3bb350bc7 Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Fri, 26 Jan 2024 18:49:32 -0600
+Subject: [PATCH] update makefile
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ arch/arm/boot/dts/Makefile | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index 12ce9965f55b..ec6e28e40b7f 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -661,7 +661,8 @@ dtb-$(CONFIG_SOC_IMX6Q) += \
+ 	imx6qp-vicutp.dtb \
+ 	imx6qp-wandboard-revd1.dtb \
+ 	imx6qp-zii-rdu2.dtb \
+-	imx6s-dhcom-drc02.dtb
++	imx6s-dhcom-drc02.dtb \
++	emac-som-imx6m-350es.dtb
+ dtb-$(CONFIG_SOC_IMX6SL) += \
+ 	imx6sl-evk.dtb \
+ 	imx6sl-evk-ldo.dtb \
+-- 
+2.34.1
+
