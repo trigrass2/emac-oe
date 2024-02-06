@@ -1,4 +1,4 @@
-## OpenEmbedded/Yocto BSP layer for EMAC Inc.
+## OpenEmbedded/Yocto BSP layer for EMAC Inc v6.0.2.
 
 - This collection of layers provide support for standard EMAC Inc. Products for use with [OpenEmbedded/Yocto](https://docs.yoctoproject.org/).
 
