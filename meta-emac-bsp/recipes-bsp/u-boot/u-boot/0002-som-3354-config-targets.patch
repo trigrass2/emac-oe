@@ -1,0 +1,67 @@
+From 8e7674a38ffbc71771a7bf0d86b7faa66b17f545 Mon Sep 17 00:00:00 2001
+From: Brenden Tisler <btisler@emacinc.com>
+Date: Wed, 7 Feb 2024 17:26:21 -0600
+Subject: [PATCH] som-3354-config-targets
+
+Signed-off-by: Brenden Tisler <btisler@emacinc.com>
+---
+ arch/arm/dts/Makefile              |  3 ++-
+ arch/arm/mach-omap2/Kconfig        |  1 +
+ arch/arm/mach-omap2/am33xx/Kconfig | 15 +++++++++++++++
+ 3 files changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/dts/Makefile b/arch/arm/dts/Makefile
+index ef347cd786..aa35a117d5 100644
+--- a/arch/arm/dts/Makefile
++++ b/arch/arm/dts/Makefile
+@@ -389,7 +389,8 @@ dtb-$(CONFIG_AM33XX) += \
+ 	am335x-base0033.dtb \
+ 	am335x-guardian.dtb \
+ 	am335x-wega-rdk.dtb \
+-	am335x-regor-rdk.dtb
++	am335x-regor-rdk.dtb \
++	som-3354.dtb
+ dtb-$(CONFIG_AM43XX) += am437x-gp-evm.dtb am437x-sk-evm.dtb	\
+ 	am43x-epos-evm.dtb \
+ 	am437x-idk-evm.dtb \
+diff --git a/arch/arm/mach-omap2/Kconfig b/arch/arm/mach-omap2/Kconfig
+index 263142683b..52194d2e7b 100644
+--- a/arch/arm/mach-omap2/Kconfig
++++ b/arch/arm/mach-omap2/Kconfig
+@@ -185,6 +185,7 @@ source "board/siemens/rut/Kconfig"
+ source "board/ti/ti816x/Kconfig"
+ source "board/ti/am43xx/Kconfig"
+ source "board/ti/am335x/Kconfig"
++source "board/emacinc/som3354/Kconfig"
+ source "board/compulab/cm_t335/Kconfig"
+ source "board/compulab/cm_t43/Kconfig"
+ source "board/phytec/phycore_am335x_r2/Kconfig"
+diff --git a/arch/arm/mach-omap2/am33xx/Kconfig b/arch/arm/mach-omap2/am33xx/Kconfig
+index 1402376915..ad0f14cb1c 100644
+--- a/arch/arm/mach-omap2/am33xx/Kconfig
++++ b/arch/arm/mach-omap2/am33xx/Kconfig
+@@ -186,6 +186,21 @@ config TARGET_RUT
+ 	select DM_SERIAL
+ 	imply CMD_DM
+ 
++config TARGET_SOM3354
++	bool "Support SOM3354"
++	select BOARD_LATE_INIT
++	select DM
++	select DM_GPIO
++	select DM_SERIAL
++	imply CMD_DM
++	imply SPL_SEPARATE_BSS
++	imply SPL_SERIAL_SUPPORT
++	imply SPL_SYS_MALLOC_SIMPLE
++	imply SPL_OF_LIBFDT
++	imply SPL_POWER_SUPPORT
++	imply SPL_WATCHDOG_SUPPORT
++	imply SPL_YMODEM_SUPPORT
++
+ config TARGET_THUBAN
+ 	bool "Support thuban"
+ 	select BOARD_LATE_INIT
+-- 
+2.34.1
+

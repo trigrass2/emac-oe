@@ -1,0 +1,6 @@
+SOM-3354 BOARD
+M:	Michael Welling <mwelling@ieee.org>
+S:	Maintained
+F:	board/emac/som3354/
+F:	include/configs/som3354.h
+F:	configs/som3354_spiboot_defconfig

@@ -1,0 +1,15 @@
+if TARGET_SOM3354
+
+config SYS_BOARD
+	default "som3354"
+
+config SYS_VENDOR
+	default "emacinc"
+
+config SYS_SOC
+	default "am33xx"
+
+config SYS_CONFIG_NAME
+	default "som3354"
+
+endif

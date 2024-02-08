@@ -1,0 +1,62 @@
+From fd8a1508565ccd421905e00b51894dc94dfaa5ee Mon Sep 17 00:00:00 2001
+From: Michael Welling <mwelling@ieee.org>
+Date: Wed, 7 Feb 2024 17:27:04 -0600
+Subject: [PATCH] Support for enabling the TPS65910 boost regulator
+
+This adds support to turn on the 5V rail on the TPS65910.
+This allows the USB host to work on the SOM-3354 on first power up.
+
+Signed-off-by: Michael Welling <mwelling@ieee.org>
+---
+ drivers/power/pmic/pmic_tps65910.c | 19 +++++++++++++++++++
+ include/power/tps65910.h           |  2 ++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/drivers/power/pmic/pmic_tps65910.c b/drivers/power/pmic/pmic_tps65910.c
+index e3de730821..fbb1abe39b 100644
+--- a/drivers/power/pmic/pmic_tps65910.c
++++ b/drivers/power/pmic/pmic_tps65910.c
+@@ -119,3 +119,22 @@ int tps65910_voltage_update(unsigned int module, unsigned char vddx_op_vol_sel)
+ 
+ 	return 0;
+ }
++
++int tps65910_boost_enable(void)
++{
++	int ret;
++	unsigned int reg_offset = TPS65910_VDD3_REG;
++	uchar buf;
++
++	ret = i2c_read(TPS65910_CTRL_I2C_ADDR, reg_offset, 1, &buf, 1);
++	if (ret)
++		return ret;
++
++	buf |= TPS65910_REG_ST_ON_HI_POW;
++
++	ret = i2c_write(TPS65910_CTRL_I2C_ADDR, reg_offset, 1, &buf, 1);
++	if (ret)
++		return ret;
++
++	return 0;
++}
+diff --git a/include/power/tps65910.h b/include/power/tps65910.h
+index 21b2a21ee0..cb5fd7cd28 100644
+--- a/include/power/tps65910.h
++++ b/include/power/tps65910.h
+@@ -20,6 +20,7 @@ enum {
+ 	TPS65910_VDD1_OP_REG				= 0x22,
+ 	TPS65910_VDD2_REG				= 0x24,
+ 	TPS65910_VDD2_OP_REG				= 0x25,
++	TPS65910_VDD3_REG				= 0x27,
+ 	TPS65910_DEVCTRL_REG				= 0x3F,
+ };
+ 
+@@ -75,4 +76,5 @@ enum {
+ int power_tps65910_init(unsigned char bus);
+ int tps65910_set_i2c_control(void);
+ int tps65910_voltage_update(unsigned int module, unsigned char vddx_op_vol_sel);
++int tps65910_boost_enable(void);
+ #endif	/* __POWER_TPS65910_H__ */
+-- 
+2.34.1
+
