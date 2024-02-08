@@ -27,13 +27,13 @@ index e3de730821..fbb1abe39b 100644
 +	unsigned int reg_offset = TPS65910_VDD3_REG;
 +	uchar buf;
 +
-+	ret = i2c_read(TPS65910_CTRL_I2C_ADDR, reg_offset, 1, &buf, 1);
++	ret = tps65910_read_reg(reg_offset, &buf);
 +	if (ret)
 +		return ret;
 +
 +	buf |= TPS65910_REG_ST_ON_HI_POW;
 +
-+	ret = i2c_write(TPS65910_CTRL_I2C_ADDR, reg_offset, 1, &buf, 1);
++	ret = tps65910_write_reg(reg_offset, &buf);
 +	if (ret)
 +		return ret;
 +
