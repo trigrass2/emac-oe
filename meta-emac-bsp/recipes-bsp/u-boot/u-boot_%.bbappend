@@ -13,11 +13,78 @@ UBOOT_MACHINE:ipac9x25 ?= "emac-ipac9x25_defconfig"
 UBOOT_MACHINE:som9x25 ?= "emac-som9x25m_defconfig"
 UBOOT_MACHINE:som3354 ?= "emac-som3354_defconfig"
 
+# SPL (Second Program Loader) to be loaded over UART
+SPL_UART_BINARY = ""
+SPL_UART_BINARY:ti33x = "u-boot-spl.bin"
+SPL_UART_IMAGE ?= "${SPL_UART_BINARY}-${MACHINE}-${PV}-${PR}"
+SPL_UART_SYMLINK ?= "${SPL_UART_BINARY}-${MACHINE}"
+
 COMPATIBLE_MACHINE:append = "|(ipac9x25|som9x25|som3354)"
 
 do_configure:prepend(){
     cp -r ${WORKDIR}/emac-sources/* ${S}/
     cp ${WORKDIR}/envs/${MACHINE}.txt ${S}/u-boot-default-env.txt
+}
+
+do_install:append () {
+	if [ -n "${UBOOT_CONFIG}" ]
+	then
+		for config in ${UBOOT_MACHINE}; do
+			i=$(expr $i + 1);
+			for type in ${UBOOT_CONFIG}; do
+				j=$(expr $j + 1);
+				if [ $j -eq $i ]
+				then
+					if [ "x${SPL_UART_BINARY}" != "x" ]; then
+						install ${B}/${config}/spl/${SPL_UART_BINARY} ${D}/boot/${SPL_UART_IMAGE}-${type}
+						ln -sf ${SPL_UART_IMAGE}-${type} ${D}/boot/${SPL_UART_BINARY}-${type}
+						ln -sf ${SPL_UART_IMAGE}-${type} ${D}/boot/${SPL_UART_BINARY}
+					fi
+				fi
+			done
+			unset  j
+		done
+		unset  i
+	else
+		if [ "x${SPL_UART_BINARY}" != "x" ]; then
+			install ${B}/spl/${SPL_UART_BINARY} ${D}/boot/${SPL_UART_IMAGE}
+			ln -sf ${SPL_UART_IMAGE} ${D}/boot/${SPL_UART_BINARY}
+		fi
+	fi
+}
+
+do_deploy:append () {
+	if [ -n "${UBOOT_CONFIG}" ]
+	then
+		for config in ${UBOOT_MACHINE}; do
+			i=$(expr $i + 1);
+			for type in ${UBOOT_CONFIG}; do
+				j=$(expr $j + 1);
+				if [ $j -eq $i ]
+				then
+					cd ${DEPLOYDIR}
+					if [ "x${SPL_UART_BINARY}" != "x" ]; then
+						install ${B}/${config}/spl/${SPL_UART_BINARY} ${SPL_UART_IMAGE}-${type}
+						rm -f ${SPL_UART_BINARY} ${SPL_UART_SYMLINK}
+						ln -sf ${SPL_UART_IMAGE}-${type} ${SPL_UART_BINARY}-${type}
+						ln -sf ${SPL_UART_IMAGE}-${type} ${SPL_UART_BINARY}
+						ln -sf ${SPL_UART_IMAGE}-${type} ${SPL_UART_SYMLINK}-${type}
+						ln -sf ${SPL_UART_IMAGE}-${type} ${SPL_UART_SYMLINK}
+					fi
+				fi
+			done
+			unset  j
+		done
+		unset  i
+	else
+		cd ${DEPLOYDIR}
+		if [ "x${SPL_UART_BINARY}" != "x" ]; then
+			install ${B}/spl/${SPL_UART_BINARY} ${SPL_UART_IMAGE}
+			rm -f ${SPL_UART_BINARY} ${SPL_UART_SYMLINK}
+			ln -sf ${SPL_UART_IMAGE} ${SPL_UART_BINARY}
+			ln -sf ${SPL_UART_IMAGE} ${SPL_UART_SYMLINK}
+		fi
+	fi
 }
 
 EMAC_SRC_FILES = " \
