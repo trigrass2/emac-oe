@@ -1,6 +1,6 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/${BPN}:"
 
-SRC_URI:append = " \
+SRC_URI:append:som-5728m = " \
     file://0001-Add-som-5728m-board-files.patch \
     file://0002-Add-som-5728m-defconfig.patch \
     file://0003-Fix-ethernet-to-use-the-correct-phy-mode.patch \
