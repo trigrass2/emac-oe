@@ -15,17 +15,17 @@
 
 / {
 	model = "EMAC SOM-3354M";
-	
 	compatible = "emac,som3354", "ti,am33xx";
+	
+	chosen {
+		stdout-path = &uart0;
+		tick-timer = &timer2;
+	};
 
 	cpus {
 		cpu@0 {
 			cpu0-supply = <&vdd1_reg>;
 		};
-	};
-	
-	chosen {
-		stdout-path = &uart0;
 	};
 
 	memory {

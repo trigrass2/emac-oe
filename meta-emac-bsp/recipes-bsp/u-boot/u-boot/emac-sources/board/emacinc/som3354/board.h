@@ -11,6 +11,8 @@
 #ifndef _BOARD_H_
 #define _BOARD_H_
 
+#define EMIF_OCP_CONFIG_BEAGLEBONE_BLACK       0x00141414
+
 /*
  * We have three pin mux functions that must exist.  We must be able to enable
  * uart0, for initial output and i2c0 to read the main EEPROM.  We then have a
